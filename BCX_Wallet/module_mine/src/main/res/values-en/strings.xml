@@ -1,0 +1,96 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
+    <string name="fragment_mine_title" tools:ignore="ResourceName">Me</string>
+    <string name="fragment_mine_asset_overview" tools:ignore="ResourceName">Assets Overview</string>
+    <string name="fragment_mine_about_us" tools:ignore="ResourceName">About</string>
+    <string name="fragment_mine_contact" tools:ignore="ResourceName">Contacts</string>
+    <string name="fragment_mine_wallet_manage" tools:ignore="ResourceName">Wallet Management</string>
+    <string name="asset_text" tools:ignore="ResourceName">Total Assets(¥) </string>
+    <string name="fragment_mine_account_manage_modify_password" tools:ignore="ResourceName">Change Passcode</string>
+    <string name="fragment_mine_account_manage_export_privatekey" tools:ignore="ResourceName">Export Private Key</string>
+    <string name="module_mine_btn_login_out" tools:ignore="ResourceName">Log Out</string>
+    <string name="module_mine_modify_password_done_btn" tools:ignore="ResourceName">Done</string>
+    <string name="fragment_mine_multi_language" tools:ignore="ResourceName">Language</string>
+    <string name="module_mine_cancel_text">Cancel</string>
+    <string name="module_mine_account_manage_asset_public_key">Asset Public Key</string>
+    <string name="module_mine_account_manage_account_public_key">Account Public Key</string>
+    <string name="module_mine_export_key_title">Export Private Key</string>
+    <string name="asset_private_key_text" tools:ignore="ResourceName">Asset Private Key</string>
+    <string name="copy_asset_private_key" tools:ignore="ResourceName">Copy Asset Private Key</string>
+    <string name="copy_account_private_key" tools:ignore="ResourceName">Copy Account Private Key</string>
+    <string name="account_private_key_text" tools:ignore="ResourceName">Account Private Key</string>
+
+
+    <!--about us-->
+    <string name="fragment_mine_about_us_title" tools:ignore="ResourceName">About COCOS Wallet</string>
+    <string name="fragment_mine_about_us_use_protocol" tools:ignore="ResourceName">Terms of Service</string>
+    <string name="fragment_mine_about_us_privacy_protocol" tools:ignore="ResourceName">Privacy</string>
+    <string name="fragment_mine_about_us_version_log" tools:ignore="ResourceName">Version Logs</string>
+    <string name="fragment_mine_about_us_join_community" tools:ignore="ResourceName">Join Community</string>
+    <string name="module_mine_current_version">Version  V</string>
+    <string name="fragment_mine_about_us_join_community_title" tools:ignore="ResourceName">Join Community</string>
+    <string name="module_mine_asset_overview_digital_assets">Digital Assets</string>
+    <string name="module_mine_asset_overview_prop_assets">Prop Assets</string>
+    <string name="fragment_mine_official_wechat" tools:ignore="ResourceName">WeChat Community</string>
+    <string name="fragment_mine_official_wechat_account" tools:ignore="ResourceName">WeChat Account</string>
+    <string name="fragment_mine_about_us_join_community_waiting_join" tools:ignore="ResourceName">Wait For You～</string>
+    <string name="fragment_mine_about_us_privacy_policy_url">file:///android_asset/PRIVACY POLICY.html</string>
+    <string name="fragment_mine_about_us_terms_of_service_url">file:///android_asset/Terms of Service.html</string>
+
+
+    <string name="module_mine_modify_password_new">Reset</string>
+    <string name="module_mine_modify_password_confirm">Repeat</string>
+    <string name="module_mine_modify_password_new_hint">Enter new passcode</string>
+    <string name="module_mine_modify_password_current_hint">Enter current passcode</string>
+    <string name="module_mine_modify_password_current">Old One</string>
+    <string name="module_mine_modify_password_confirm_hint">Enter new passcode again</string>
+    <string name="module_mine_contact_title" tools:ignore="ExtraTranslation,ResourceName">Contacts</string>
+    <string name="module_mine_complish" tools:ignore="ExtraTranslation,ResourceName">Done</string>
+    <string name="module_mine_contact_name" tools:ignore="ExtraTranslation,ResourceName">Name</string>
+    <string name="module_mine_contact_memo" tools:ignore="ExtraTranslation,ResourceName">Note</string>
+    <string name="module_mine_contact_account_name" tools:ignore="ExtraTranslation,ResourceName">Account Name</string>
+    <string name="module_mine_contact_delete" tools:ignore="ExtraTranslation,ResourceName">Delete</string>
+    <string name="module_mine_contact_delete_success" tools:ignore="ExtraTranslation,ResourceName">Deleted</string>
+    <string name="module_mine_modify_password_illegal">Passcode do not meet setting requirements, please enter again</string>
+    <string name="module_mine_modify_password_confirm_failure">Passwords do not match, please enter again</string>
+    <string name="module_mine_modify_passcode_success">Passcode changed</string>
+    <string name="module_mine_no_contact_data">No contact</string>
+    <string name="fragment_mine_about_us_recommend_friends" tools:ignore="ResourceName">Share to friends</string>
+    <string name="fragment_mine_develop_account" tools:ignore="ResourceName">WeChat Official Account</string>
+    <string name="module_mine_modify_password_empty">Please input a password</string>
+    <string name="module_mine_response_error">data error!</string>
+    <string name="module_mine_contact_add_manully">Manual addition</string>
+    <string name="module_mine_contact_scan_add" tools:ignore="MissingTranslation">Scan</string>
+    <string name="fragment_mine_net_setting">Network Setting</string>
+    <string name="module_mine_net_test_text">Test Net</string>
+    <string name="module_mine_system_setting">System Setting</string>
+    <string name="module_mine_account_name_empty">Please enter wallet address</string>
+    <string name="module_mine_contact_address">Please enter wallet address</string>
+    <string name="module_mine_contact_wallet_address">Address</string>
+    <string name="module_mine_contact_memo_hint">Enter note</string>
+    <string name="module_mine_contact_name_hint">Enter contact name</string>
+    <string name="current_account">Current wallet</string>
+    <string name="fragment_mine_account_manage_title">Manage wallet</string>
+    <string name="module_mine_prop_asset_id">NH资产ID</string>
+    <string name="module_mine_prop_asset_word_view">世界观</string>
+    <string name="module_mine_prop_asset_asset_qualifier">通行资产</string>
+
+
+    <string name="custom">Custom</string>
+    <string name="module_mine_net_main_text">Main Net</string>
+    <string name="module_mine_custom_node">Custom Node</string>
+
+    <string name="module_mine_custom_node_name">Node:</string>
+    <string name="module_mine_custom_chain_id">ChainId:</string>
+    <string name="module_mine_custom_faucet_url">FaucetUrl:</string>
+    <string name="module_mine_custom_asset">CoreAsset:</string>
+    <string name="module_mine_custom_name">Name:</string>
+    <string name="module_mine_custom_type">Type:</string>
+
+    <string name="module_mine_node_url_hint" tools:ignore="ExtraTranslation">Enter Node</string>
+    <string name="module_mine_custom_chain_id_hint">Enter ChainId</string>
+    <string name="module_mine_custom_faucet_url_hint">Enter FaucetUrl</string>
+    <string name="module_mine_custom_core_asset_hint">Enter CoreAsset</string>
+    <string name="module_mine_custom_node_name_hint">Enter Name</string>
+
+
+</resources>

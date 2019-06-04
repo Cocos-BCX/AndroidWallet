@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:binding="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.cocos.module_asset.ui.coin_type_select.CoinSelectItemViewModel" />
+
+        <variable
+            name="viewModel"
+            type="CoinSelectItemViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_74"
+        android:layout_marginTop="@dimen/dp_12"
+        android:background="@drawable/fragment_assets_item_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        binding:onClickCommand="@{viewModel.itemClick}">
+
+        <ImageView
+            android:id="@+id/asset_nav_image"
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            android:src="@{viewModel.drawableImg}" />
+
+        <TextView
+            android:id="@+id/asset_nav_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:text="@{viewModel.entity.symbol}"
+            android:textColor="@color/color_282828"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_3"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:text="@{viewModel.symbolType}"
+            android:textColor="@color/color_4868DC"
+            android:textSize="@dimen/sp_13" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/token_balance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.amount}"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_22"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+
+            <TextView
+                android:id="@+id/token_total_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.totalValue}"
+                android:textColor="@color/color_7B8190"
+                android:textSize="@dimen/sp_15" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

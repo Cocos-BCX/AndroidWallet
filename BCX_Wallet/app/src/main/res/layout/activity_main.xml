@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.cocos.library_base.base.BaseViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.cocos.bcx_wallet.view.CustomViewPager
+            android:id="@+id/vp_main"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F0F0F0" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/dp_8">
+
+            <RadioButton
+                android:id="@+id/asset_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:drawableTop="@drawable/main_tab_asset_selector"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="@string/main_tab_asset"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/bottom_rb_text_color" />
+
+            <RadioButton
+                android:id="@+id/found_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="false"
+                android:drawableTop="@drawable/main_tab_found_selector"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="@string/main_tab_found"
+                android:textColor="@color/bottom_rb_text_color"
+                android:textSize="@dimen/sp_12"/>
+
+            <RadioButton
+                android:id="@+id/mine_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="false"
+                android:drawableTop="@drawable/main_tab_mine_selector"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="@string/main_tab_mine"
+                android:textColor="@color/bottom_rb_text_color"
+                android:textSize="@dimen/sp_12"/>
+
+        </RadioGroup>
+    </LinearLayout>
+</layout>

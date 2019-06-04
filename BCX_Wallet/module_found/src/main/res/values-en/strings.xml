@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
+    <string name="module_found_officel_net">Website</string>
+    <string name="module_found_block_browser">Browser</string>
+    <string name="module_found_ecology">Ecology</string>
+    <string name="module_found_dapp_cooperation">Cooperation</string>
+    <string name="fragment_found_title">Discover</string>
+    <string name="super_hot">Super Popular</string>
+    <string name="module_found_fruit_machine">Dice</string>
+    <string name="module_found_lady_luck">Lucky goddess</string>
+    <string name="module_found_shooting">Shooting</string>
+    <string name="module_found_lady_luck_desc">A classic dice-type of Baccarat game that supports multi-player online gaming. This game uses the on-chain random numbers of Cocos-BCX chain to guarantee fairness. </string>
+    <string name="module_found_dice_game_desc">Classic dice rolling game Demo</string>
+    <string name="module_found_shooting_desc">A flying shooting game. In Cocos Shooting, players can manipulate their aircraft and gain resources by constantly shooting down enemy aircraft to enhance the aircraft and defeat every BOSS. The game has implemented the props-crossing feature unique to the Cocos-BCX chain, and players can use props from other games.</string>
+    <!--banner / list -->
+    <string name="module_found_dice_game_url">http://dice.yezi.one/</string>
+    <string name="module_found_lady_luck_url">http://tyche.yezi.one/</string>
+    <string name="module_found_shooting_url">http://shooter.cocosbcx.net/</string>
+    <!--nav-->
+    <string name="module_found_cocosbcx_url">https://www.cocosbcx.io/</string>
+    <string name="module_found_explorer_cocosbcx_url">https://explorer.cocosbcx.io/</string>
+    <string name="module_found_community_cocosbcx_url">http://community.cocosbcx.io/</string>
+
+    <string name="module_found_to_be_expected">To Be Expected</string>
+    <string name="module_found_found_dapp_dialog_text">This is a third party DApp, Please go through the User Agreement and Private Policy of the third party DApp, which resume full responsibility for all actions and usage on the DApp.</string>
+</resources>

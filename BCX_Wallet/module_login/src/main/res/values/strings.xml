@@ -1,0 +1,48 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="module_login_username_hint" tools:ignore="MissingTranslation">4-64位小写字母开头+数字</string>
+    <string name="module_login_password_hint" tools:ignore="MissingTranslation">8-12位，数字、字母、和特殊符号任两种</string>
+    <string name="module_login_confirm_password_hint" tools:ignore="MissingTranslation">请再次输入密码</string>
+    <string name="module_login_btn_register" tools:ignore="MissingTranslation">注册</string>
+    <string name="module_login_btn_login" tools:ignore="ExtraTranslation,MissingTranslation">登录钱包</string>
+    <string name="module_login_btn_key_login" tools:ignore="MissingTranslation">开始导入</string>
+    <string name="module_login_private_key_hint">请输入明文私钥</string>
+    <string name="module_login_import_wallet">导入钱包</string>
+    <string name="module_login_private_key_empty">请输入私钥</string>
+    <string name="module_login_password_empty">请输入密码</string>
+    <string name="module_login_password_confirm_empty">请确认设置密码</string>
+    <string name="module_login_password_confirm_failure">前后密码设置不一致，请重新设置</string>
+    <string name="module_login_password_illegal" tools:ignore="MissingTranslation">密码设置不符合规则</string>
+    <string name="module_login_register_title">注册</string>
+    <string name="module_login_account_name">账户名称</string>
+    <string name="module_login_set_password">设置密码</string>
+    <string name="module_login_password">密码</string>
+    <string name="module_login_confirm_password">确认密码</string>
+    <string name="module_login_illegal_username">账号名称不符合设置规则</string>
+    <string name="module_login_to_import_wallet">已有钱包 , 去导入</string>
+    <string name="module_login_login_title">登录</string>
+    <string name="module_login_private_key_title">私钥</string>
+    <string name="module_login_temporary_password_hint">请设置临时密码</string>
+    <string name="module_login_account_name_hint">请输入账户名称</string>
+    <string name="module_login_account_info">请输入账户信息</string>
+    <string name="module_login_password_hint_login" tools:ignore="DuplicateDefinition">请输入密码</string>
+    <string name="module_login_account_password">账户密码</string>
+    <string name="module_login_register_success">注册成功</string>
+    <string name="module_login_temporary_password_empty">请设置临时密码</string>
+    <string name="module_login_key_login_success">导入成功</string>
+    <string name="btn_password_login" tools:ignore="ResourceName">账户模式登录</string>
+    <string name="module_login_wallet_title">钱包模式</string>
+    <string name="module_login_account_title">账户模式</string>
+    <string name="module_login_wallet_model_tips">钱包模式下注册，仅支持私钥登录，请务必备份好私钥，确保您的钱包安全。</string>
+    <string name="module_login_account_model_tips">账户模式下注册，可支持账号及私钥两种登录方式，请务必保管好账户信息及私钥，保护您的钱包安全</string>
+    <string name="module_login_account_name_error_tip">4-64位小写字母开头+数字</string>
+    <string name="module_login_backup_private_key_title">备份私钥</string>
+    <string name="module_login_backup_wallet_title">备份钱包</string>
+    <string name="module_login_no_shotcut_screen">请勿截图</string>
+    <string name="module_login_no_shotcut_screen_tips">如果有人获得了您的私钥将直接获取您的资产请抄写下您的私钥并存放在安全的地方</string>
+    <string name="confirm" tools:ignore="ResourceName">确认</string>
+    <string name="module_login_export_key_title">备份私钥</string>
+    <string name="private_key_function_tips" tools:ignore="ResourceName">私钥用于恢复钱包或重置钱包密码，长按复制，并将它存放在只有您知道的安全地方</string>
+    <string name="asset_private_key_text" tools:ignore="ResourceName">资产私钥</string>
+    <string name="account_private_key_text" tools:ignore="ResourceName">账户私钥</string>
+    <string name="module_mine_btn_next" tools:ignore="ResourceName">下一步</string>
+</resources>

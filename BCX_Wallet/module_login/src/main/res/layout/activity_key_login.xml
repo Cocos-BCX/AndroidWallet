@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:br="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cocos.module_login.key_login.KeyLoginViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:src="@drawable/arrow_left_black"
+                binding:onClickCommand="@{viewModel.backOnClickCommand}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/module_login_import_wallet"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_18"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                android:text="@string/module_login_login_title"
+                android:textColor="@color/color_262A33"
+                android:textSize="16sp"
+                binding:onClickCommand="@{viewModel.loginClickCommand}" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_48"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/shape_key_login_bg"
+            android:orientation="vertical">
+
+            <com.cocos.library_base.widget.LinearLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_112"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:gravity="top"
+                android:orientation="horizontal"
+                br:borderColor="@color/color_D8DBE1"
+                br:borderStrokeWidth="6"
+                br:needLeftAndRigtBorder="false"
+                br:needTopBorder="false">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingTop="@dimen/dp_24"
+                    android:singleLine="true"
+                    android:text="@string/module_login_private_key_title"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_15" />
+
+                <EditText
+
+                    android:id="@+id/et_confirm_password"
+                    style="@style/editText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:hint="@string/module_login_private_key_hint"
+                    android:paddingLeft="@dimen/dp_14"
+                    android:paddingTop="@dimen/dp_24"
+                    android:text="@={viewModel.privateKey}" />
+
+            </com.cocos.library_base.widget.LinearLinearLayout>
+
+            <com.cocos.library_base.widget.LinearLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
+                android:orientation="horizontal"
+                br:borderColor="@color/color_D8DBE1"
+                br:borderStrokeWidth="6"
+                br:needLeftAndRigtBorder="false"
+                br:needTopBorder="false">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="@string/module_login_password"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_15" />
+
+                <EditText
+                    android:id="@+id/et_information_tips"
+                    style="@style/editText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="@string/module_login_temporary_password_hint"
+                    android:inputType="textPassword"
+                    android:maxLength="63"
+                    android:paddingLeft="@dimen/dp_14"
+                    android:paddingTop="@dimen/dp_22"
+                    android:paddingBottom="@dimen/dp_22"
+                    android:text="@={viewModel.password}" />
+
+            </com.cocos.library_base.widget.LinearLinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_66"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15"
+                android:background="@drawable/shape_create_wallet_bg"
+                android:gravity="center"
+                android:text="@string/module_login_btn_key_login"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                binding:onClickCommand="@{viewModel.keyLoginOnClickCommand}" />
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

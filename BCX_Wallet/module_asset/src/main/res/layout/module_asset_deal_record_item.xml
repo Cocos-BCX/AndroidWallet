@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:binding="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.cocos.module_asset.ui.deal_record.DealRecordItemViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.cocos.module_asset.ui.deal_record.DealRecordItemViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_82"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@drawable/fragment_assets_item_bg"
+        android:orientation="horizontal"
+        binding:onClickCommand="@{viewModel.itemClick}">
+
+        <ImageView
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_20"
+            android:src="@{viewModel.drawableImg}" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingRight="@dimen/dp_12">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.account}"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@{viewModel.operationAmount}"
+                    android:textColor="@{viewModel.operationAmountColor}"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_3"
+                    android:text="@{viewModel.symbolType}"
+                    android:textColor="@{viewModel.operationAmountColor}"
+                    android:textSize="@dimen/sp_13" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_4"
+                android:text="@{viewModel.operationDate}"
+                android:textColor="@color/color_A5A9B1"
+                android:textSize="@dimen/sp_13" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

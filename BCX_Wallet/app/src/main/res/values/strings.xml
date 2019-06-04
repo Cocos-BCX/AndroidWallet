@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CocosWallet</string>
+    <string name="main_tab_asset">钱包</string>
+    <string name="main_tab_found">发现</string>
+    <string name="main_tab_mine">我的</string>
+    <string name="system_exit">再按一次退出</string>
+</resources>

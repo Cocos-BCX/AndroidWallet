@@ -1,0 +1,37 @@
+apply from: "../module.build.gradle"
+
+android {
+
+    defaultConfig {
+        //如果是独立模块，则使用当前组件的包名
+        if (isBuildModule.toBoolean()) {
+            applicationId 'com.cocos.module_zxing'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //统一资源前缀，规范资源引用
+    resourcePrefix "module_zxing_"
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':library_base')
+    //lombok
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    //ARouter
+    annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
+    // zxing
+    implementation 'com.google.zxing:core:3.3.3'
+}

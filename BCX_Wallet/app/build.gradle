@@ -1,0 +1,103 @@
+import java.security.InvalidKeyException
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        applicationId "com.cocos.bcx_wallet"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        flavorDimensions 'default'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file(DEBUG_STORE_FILE)
+            storePassword DEBUG_STORE_PASSWORD
+            keyAlias DEBUG_KEY_ALIAS
+            keyPassword DEBUG_KEY_PASSWORD
+        }
+
+        release {
+            try {
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+            } catch (ex) {
+                throw new InvalidKeyException("You should define RELEASE_STORE_PASSWORD and RELEASE_KEY_PASSWORD in gradle.properties.")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            buildConfigField 'boolean', 'IS_TEST_ENV', 'false'
+            buildConfigField 'String', 'API_BASE', '"http://backend.test.cjfan.net"'
+            buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            buildConfigField 'boolean', 'IS_TEST_ENV', 'true'
+            buildConfigField 'String', 'API_BASE', '"http://backend.test.cjfan.net"'
+            buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    packagingOptions {
+        exclude 'lib/x86_64/darwin/libscrypt.dylib'
+        exclude 'lib/x86_64/freebsd/libscrypt.so'
+        exclude 'lib/x86_64/linux/libscrypt.so'
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    //开启DataBinding
+    dataBinding {
+        enabled true
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // implenment websocket
+    implementation 'com.neovisionaries:nv-websocket-client:1.30'
+    // implenment bitcoinj
+    implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    implementation group: "org.tukaani", name: "xz", version: "1.6"
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    // spongycastle
+    implementation 'com.madgag.spongycastle:core:1.58.0.0'
+    implementation 'com.madgag.spongycastle:prov:1.58.0.0'
+    implementation 'com.madgag.spongycastle:pkix:1.54.0.0'
+    implementation 'com.madgag.spongycastle:pg:1.54.0.0'
+    // fasterxml
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+
+    //noinspection GradleCompatible
+    annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
+    implementation project(':module_asset')
+    implementation project(':module_found')
+    implementation project(':module_login')
+    implementation project(':module_mine')
+    implementation project(':library_base')
+    implementation project(':cocos_bcx_sdk')
+}

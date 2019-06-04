@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="sp_38" tools:ignore="ResourceName">38sp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_27">27dp</dimen>
+    <dimen name="dp_21">21dp</dimen>
+    <dimen name="dp_44">44dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_36">36dp</dimen>
+    <dimen name="dp_88">88dp</dimen>
+    <dimen name="dp_38">38dp</dimen>
+    <dimen name="dp_35">35dp</dimen>
+    <dimen name="sp_32">32sp</dimen>
+    <dimen name="dp_17">17dp</dimen>
+    <dimen name="dp_34">34dp</dimen>
+    <dimen name="sp_26">26sp</dimen>
+    <dimen name="dp_48">48dp</dimen>
+    <dimen name="dp_82">82dp</dimen>
+    <dimen name="dp_74">74dp</dimen>
+    <dimen name="dp_90">90dp</dimen>
+</resources>

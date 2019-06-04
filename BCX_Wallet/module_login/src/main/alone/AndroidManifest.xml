@@ -1,0 +1,34 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cocos.module_login">
+
+    <application
+        android:name="com.cocos.library_base.DebugApplication"
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <activity
+            android:name=".password_login.PasswordLoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".key_login.KeyLoginActivity" />
+        <activity android:name=".register.RegisterActivity" />
+        <activity android:name=".backup.ScreenshotWarningActivity" />
+        <activity android:name=".backup.BackupWalletActivity" />
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375" />
+
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667" />
+    </application>
+</manifest>

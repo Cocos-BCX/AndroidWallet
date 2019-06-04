@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cocos.module_asset.ui.receivables.ReceivablesViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/activity_receivables_bg"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:src="@drawable/arrow_left_white"
+                binding:onClickCommand="@{viewModel.backOnClickCommand}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/module_asset_receivables_title"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_38"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/activity_receivables_small_bg"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_50">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dp_30"
+                    android:text="@={viewModel.receivablesTokenName}"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/dp_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_3"
+                    android:text="@{viewModel.symbolType}"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_13" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/iv_qrCode"
+                android:layout_width="199dp"
+                android:layout_height="199dp"
+                android:layout_marginTop="@dimen/dp_22"
+                android:src="@{viewModel.qrCodeDrawable}" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="@dimen/dp_25"
+                android:layout_marginTop="@dimen/dp_35"
+                android:layout_marginRight="@dimen/dp_25"
+                android:background="@drawable/fragment_assets_item_bg"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dp_14"
+                android:paddingRight="@dimen/dp_14">
+
+                <EditText
+                    android:id="@+id/et_confirm_password"
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/module_asset_receivable_amount_input_hint"
+                    android:inputType="numberDecimal"
+                    android:text="@={viewModel.receivableAmount}"
+                    binding:textChanged="@{viewModel.onReceivableAmountChanged}" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.receivablesTokenName}"
+                        android:textColor="@color/color_262A33"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_3"
+                        android:text="@{viewModel.symbolType}"
+                        android:textColor="@color/color_262A33"
+                        android:textSize="@dimen/sp_13" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginLeft="@dimen/dp_25"
+                android:layout_marginTop="@dimen/dp_22"
+                android:layout_marginRight="@dimen/dp_25"
+                android:orientation="horizontal">
+
+                <EditText
+                    style="@style/editText_style"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/activity_receivables_accountname_bg"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:paddingLeft="@dimen/dp_14"
+                    android:text="@={viewModel.receivableAccountName}"
+                    android:textColor="@color/color_626670"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/receivables_gradient_button_bg"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10"
+                    android:text="@string/module_asset_receivable_copy_account_name"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_15"
+                    binding:onClickCommand="@{viewModel.copyAccountNameOnClickCommand}" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

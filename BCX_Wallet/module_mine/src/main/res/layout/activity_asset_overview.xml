@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <import type="com.cocos.module_mine.asset_overview.AssetOverviewViewModel" />
+
+        <variable
+            name="viewModel"
+            type="AssetOverviewViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/activity_asset_overview_top_bg"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:background="@drawable/arrow_left_black"
+                android:paddingStart="@dimen/dp_11"
+                android:paddingEnd="@dimen/dp_20"
+                binding:onClickCommand="@{viewModel.backOnClickCommand}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/fragment_mine_asset_overview"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_18"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_130"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/asset_overview_borad_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_20">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/asset_text"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_14" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12"
+                    binding:onClickCommand="@{viewModel.assetVisibleOnClickCommand}">
+
+                    <ImageView
+                        android:id="@+id/iv_asset_visible"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@drawable/asset_overview_visible_icon" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_13"
+                android:text="@={viewModel.totalAsset}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_32"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_weight="1"
+            android:background="@drawable/activity_asset_overview_list_bg"
+            android:orientation="vertical">
+
+            <com.flyco.tablayout.CommonTabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                binding:tl_indicator_corner_radius="@dimen/dp_3"
+                binding:tl_indicator_width="@dimen/dp_32"
+                tl:tl_iconVisible="false"
+                tl:tl_indicator_color="@color/color_262A33"
+                tl:tl_indicator_height="@dimen/dp_2"
+                tl:tl_textSelectColor="@color/color_262A33"
+                tl:tl_textUnselectColor="@color/color_626670"
+                tl:tl_textsize="@dimen/sp_16" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

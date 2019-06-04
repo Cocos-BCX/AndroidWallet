@@ -1,0 +1,26 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cocos.module_login">
+
+    <application>
+
+        <activity
+            android:name=".key_login.KeyLoginActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".password_login.PasswordLoginActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".backup.ScreenshotWarningActivity" />
+        <activity android:name=".backup.BackupWalletActivity" />
+        <activity
+            android:name=".register.RegisterActivity"
+            android:launchMode="singleTask" />
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375" />
+
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667" />
+    </application>
+</manifest>

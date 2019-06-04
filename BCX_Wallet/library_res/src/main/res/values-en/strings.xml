@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="TOTAL_ASSET">fonts/TOTAL_ASSET.ttf</string>
+    <string name="FUTURAMEDIUMBT">fonts/FUTURAMEDIUMBT.ttf</string>
+    <string name="CENTURY_GOTHIC_BOLD">fonts/CENTURY_GOTHIC_BOLD.ttf</string>
+    <string name="copy_success">Copied</string>
+    <string name="copy">Copy</string>
+    <string name="logout_warning_text">Please make sure to have saved your private key before logging out</string>
+    <string name="title_warning_text" tools:ignore="ResourceName">Take Attention</string>
+    <string name="confirm_text" tools:ignore="MissingTranslation">Confirm</string>
+    <string name="cancel_text" tools:ignore="MissingTranslation">Cancel</string>
+    <string name="asset_private_key_detail" tools:ignore="ResourceName,StringEscaping">The “active” authority is used to set the account name or public key that has the right to spend money of the account.</string>
+    <string name="account_private_key_detail" tools:ignore="ResourceName,StringEscaping">The “owner” authority is used to set controller of the account. The controller(account or public key) has the right to change issues related to the account, including authorization.</string>
+    <string name="private_key_function_tips">Private key is for recover wallet or reset wallet password, long press to copy, keep your private key safe</string>
+    <string name="unknown_error">unknown error</string>
+    <string name="module_asset_coin_type_test">(TEST)</string>
+</resources>

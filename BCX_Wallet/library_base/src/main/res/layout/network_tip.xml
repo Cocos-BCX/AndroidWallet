@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_D8DBE1"
+        android:gravity="center"
+        android:padding="@dimen/dp_10"
+        android:text="@string/net_work_failed"
+        android:textColor="@color/color_EF5E4B"
+        android:textSize="@dimen/sp_14" />
+</LinearLayout>

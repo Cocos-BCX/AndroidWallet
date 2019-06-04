@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="editText_style">
+        <item name="android:textColor">@color/color_262A33</item>
+        <item name="android:textColorHint">@color/color_A5A9B1</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:textCursorDrawable">@drawable/edit_cursor_drawable</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <!--List的共同属性 -->
+    <style name="CommonList">
+        <item name="android:cacheColorHint">#00000000</item>
+        <item name="android:divider">@color/white</item>
+        <item name="android:dividerHeight">12dp</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:listSelector">@null</item>
+        <item name="android:scrollbars">none</item>
+    </style>
+</resources>

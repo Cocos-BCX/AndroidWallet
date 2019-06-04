@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
+        <import type="android.support.v7.widget.LinearLayoutManager" />
+
+        <import type="com.cocos.library_base.binding.viewadapter.recyclerview.LineManagers" />
+
+        <import type="com.cocos.module_found.fragment.FoundViewModel" />
+
+        <variable
+            name="viewModel"
+            type="FoundViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/found_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/fragment_found_title"
+            android:textColor="@color/color_262A33"
+            android:textSize="@dimen/sp_18"
+            android:typeface="@{@string/TOTAL_ASSET}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.cocos.library_base.widget.image_slide.ImageSlideshow
+                    android:id="@+id/vp_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_154"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_15" />
+
+                <android.support.v7.widget.RecyclerView
+                    style="@style/CommonList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fastScrollEnabled="false"
+                    android:overScrollMode="never"
+                    android:paddingTop="@dimen/dp_26"
+                    binding:adapter="@{viewModel.navAdapter}"
+                    binding:itemBinding="@{viewModel.navItemBinding}"
+                    binding:items="@{viewModel.navObservableList}"
+                    binding:layoutManager="@{LayoutManagers.grid(4)}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_40"
+                    android:paddingLeft="@dimen/dp_18"
+                    android:text="@string/super_hot"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_22"
+                    android:typeface="@{@string/TOTAL_ASSET}" />
+
+                <android.support.v7.widget.RecyclerView
+                    style="@style/CommonList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:fastScrollEnabled="false"
+                    android:overScrollMode="never"
+                    binding:adapter="@{viewModel.listAdapter}"
+                    binding:itemBinding="@{viewModel.listItemBinding}"
+                    binding:items="@{viewModel.listObservableList}"
+                    binding:layoutManager="@{LayoutManagers.linear(LinearLayoutManager.VERTICAL,Boolean.FALSE)}" />
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+</layout>

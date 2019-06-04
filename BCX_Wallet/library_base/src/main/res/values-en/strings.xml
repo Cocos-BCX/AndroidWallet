@@ -1,0 +1,31 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="customactivityoncrash_error_activity_error_occurred_explanation" tools:ignore="MissingTranslation">An unexpected error occurred.\n Sorry for the inconvenience.</string>
+    <string name="customactivityoncrash_error_activity_restart_app" tools:ignore="MissingTranslation">Restart</string>
+    <string name="customactivityoncrash_error_activity_close_app" tools:ignore="MissingTranslation">Close</string>
+    <string name="customactivityoncrash_error_activity_error_details" tools:ignore="MissingTranslation">Error Logs</string>
+    <string name="customactivityoncrash_error_activity_error_details_title" tools:ignore="MissingTranslation">Error Detail</string>
+    <string name="customactivityoncrash_error_activity_error_details_close" tools:ignore="MissingTranslation">Close</string>
+    <string name="customactivityoncrash_error_activity_error_details_copy" tools:ignore="MissingTranslation">Copy</string>
+    <string name="customactivityoncrash_error_activity_error_details_copied" tools:ignore="MissingTranslation">Copy</string>
+    <string name="customactivityoncrash_error_activity_error_details_clipboard_label" tools:ignore="MissingTranslation">Error Info</string>
+
+    <string name="language_cn">Chinese</string>
+    <string name="language_en">English</string>
+    <string name="net_work_failed">Network connection is unavailable. Check network settings!</string>
+    <string name="title_verify_password_text">Verify Key</string>
+    <string name="verify_password_hint">Account key/temporary key</string>
+    <string name="web_load_failed">The page was taken away by aliens!</string>
+    <string name="web_reload">Refresh</string>
+    <string name="loading">Loading</string>
+    <string name="no_data">No data</string>
+    <string name="update_btn_text">Update Now</string>
+    <string name="cancel_update_btn_text">Cancel</string>
+    <string name="update_title">New Version</string>
+    <string name="package_not_exist">Installation package does not exist</string>
+    <string name="requests_permissions_title">Requests for permissions</string>
+    <string name="unknown_source_request_tips">Installation applications need to open the installation of unknown source application permissions, please go to the settings to open permissions!</string>
+    <string name="to_setting">Setting</string>
+    <string name="module_asset_downloading">Download…</string>
+    <string name="module_asset_download_failed">download failed!</string>
+</resources>

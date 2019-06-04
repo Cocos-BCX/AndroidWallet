@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:br="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cocos.module_mine.contact.EditContactViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:background="@drawable/arrow_left_black"
+                android:paddingStart="@dimen/dp_11"
+                android:paddingEnd="@dimen/dp_20"
+                binding:onClickCommand="@{viewModel.backOnClickCommand}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/module_mine_contact_title"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_18"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_13"
+                android:text="@string/module_mine_contact_delete"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15"
+                android:visibility="@{viewModel.delete}"
+                binding:onClickCommand="@{viewModel.deleteContactOnClickCommand}" />
+        </RelativeLayout>
+
+        <com.cocos.library_base.widget.LinearRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_88"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_24"
+            br:borderColor="@color/color_D8DBE1"
+            br:borderStrokeWidth="6"
+            br:needLeftAndRigtBorder="false"
+            br:needTopBorder="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/module_mine_contact_name"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+
+            <EditText
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:focusable="true"
+                android:hint="@string/module_mine_contact_name_hint"
+                android:inputType="text"
+                android:maxLength="12"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@={viewModel.contactName}" />
+
+        </com.cocos.library_base.widget.LinearRelativeLayout>
+
+
+        <com.cocos.library_base.widget.LinearRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_88"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_26"
+            br:borderColor="@color/color_D8DBE1"
+            br:borderStrokeWidth="6"
+            br:needLeftAndRigtBorder="false"
+            br:needTopBorder="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/module_mine_contact_memo"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <EditText
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:hint="@string/module_mine_contact_memo_hint"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@={viewModel.contactMemo}" />
+
+
+        </com.cocos.library_base.widget.LinearRelativeLayout>
+
+
+        <com.cocos.library_base.widget.LinearRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_88"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_26"
+            br:borderColor="@color/color_D8DBE1"
+            br:borderStrokeWidth="6"
+            br:needLeftAndRigtBorder="false"
+            br:needTopBorder="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/module_mine_contact_wallet_address"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/fragment_mine_gradient_button_bg"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_7"
+                android:paddingTop="@dimen/dp_2"
+                android:paddingRight="@dimen/dp_7"
+                android:paddingBottom="@dimen/dp_2"
+                android:text="@string/copy"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:visibility="@{viewModel.copy}"
+                binding:onClickCommand="@{viewModel.copyOnClickCommand}" />
+
+            <EditText
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:hint="@string/module_mine_contact_address"
+                android:inputType="text"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@={viewModel.contactAccountName}" />
+
+        </com.cocos.library_base.widget.LinearRelativeLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_60"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@drawable/shape_create_wallet_bg"
+            android:gravity="center"
+            android:text="@string/module_mine_complish"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            binding:onClickCommand="@{viewModel.complishOnClickCommand}" />
+
+    </LinearLayout>
+</layout>

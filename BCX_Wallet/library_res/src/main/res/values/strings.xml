@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="TOTAL_ASSET">fonts/TOTAL_ASSET.ttf</string>
+    <string name="FUTURAMEDIUMBT">fonts/FUTURAMEDIUMBT.ttf</string>
+    <string name="CENTURY_GOTHIC_BOLD">fonts/CENTURY_GOTHIC_BOLD.ttf</string>
+
+    <string name="copy_success">复制成功</string>
+    <string name="copy">复制</string>
+    <string name="title_warning_text" tools:ignore="MissingTranslation">注意</string>
+    <string name="confirm_text" tools:ignore="MissingTranslation">确认</string>
+    <string name="cancel_text" tools:ignore="MissingTranslation">取消</string>
+    <string name="logout_warning_text" tools:ignore="MissingTranslation">退出账号前，请确保您已保存私钥</string>
+    <string name="asset_private_key_detail" tools:ignore="ResourceName">资金权限(active) 活跃权限用来设定拥有花费本账户资金权限的账户名或公钥</string>
+    <string name="account_private_key_detail" tools:ignore="ResourceName">账户权限(owner) 账户权限设定谁可以控制本账户。控制人（账户名或公钥）可修改账户相关的各种设置，包括权限设置。</string>
+    <string name="private_key_function_tips">私钥用于恢复钱包或重置钱包密码，长按复制，并将它存放在只有您知道的安全地方</string>
+    <string name="unknown_error">未知错误</string>
+    <string name="module_asset_coin_type_test">(测试)</string>
+</resources>

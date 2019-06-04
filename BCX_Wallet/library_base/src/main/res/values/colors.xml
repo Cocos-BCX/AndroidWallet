@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="DuplicateDefinition">
+    <color name="white">#ffffffff</color>
+    <color name="color_F56151">#F56151</color>
+    <color name="color_D8DBE1">#D8DBE1</color>
+    <color name="color_626670">#626670</color>
+    <color name="color_ffdbdbdb">#ffdbdbdb</color>
+    <color name="color_ff343434">#ff343434</color>
+    <color name="color_EF5E4B">#EF5E4B</color>
+    <color name="color_6642466D">#6642466D</color>
+    <color name="color_63D0AB">#63D0AB</color>
+    <color name="z_transparent">#00000000</color>
+</resources>

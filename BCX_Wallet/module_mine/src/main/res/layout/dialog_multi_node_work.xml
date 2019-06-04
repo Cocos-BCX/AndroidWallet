@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <import type="com.cocos.module_mine.multi_node_work.NodeWorkViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.cocos.module_mine.multi_node_work.NodeWorkViewModel" />
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
+        <import type="android.support.v7.widget.LinearLayoutManager" />
+
+        <import type="com.cocos.library_base.binding.viewadapter.recyclerview.LineManagers" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16">
+
+            <android.support.v7.widget.RecyclerView
+                style="@style/CommonList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fastScrollEnabled="false"
+                android:overScrollMode="never"
+                binding:adapter="@{viewModel.nodeWorkAdapter}"
+                binding:itemBinding="@{viewModel.nodeWorkItemBinding}"
+                binding:items="@{viewModel.nodeWorkObservableList}"
+                binding:layoutManager="@{LayoutManagers.linear(LinearLayoutManager.VERTICAL,Boolean.FALSE)}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/color_E0E0E0" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                binding:onClickCommand="@{viewModel.custom_node}">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:src="@drawable/add_account" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_64"
+                    android:gravity="center"
+                    android:paddingStart="4dp"
+                    android:text="@string/custom"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

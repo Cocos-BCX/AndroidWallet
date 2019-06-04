@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/z_loading"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/z_transparent"
+    android:gravity="center"
+    android:minWidth="200dp"
+    android:orientation="vertical">
+
+    <com.cocos.library_base.widget.zloading.ZLoadingView
+        android:id="@+id/z_loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter" />
+
+    <com.cocos.library_base.widget.zloading.ZLoadingTextView
+        android:id="@+id/z_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/z_custom_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:visibility="gone" />
+
+</LinearLayout>

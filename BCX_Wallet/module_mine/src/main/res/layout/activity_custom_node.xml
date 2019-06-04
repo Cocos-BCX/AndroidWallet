@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:br="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cocos.module_mine.custom_node.CustomNodeWorkViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_centerVertical="true"
+                android:background="@drawable/arrow_left_black"
+                binding:onClickCommand="@{viewModel.backOnClickCommand}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/module_mine_custom_node"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_18"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_30"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center_vertical"
+                android:text="@string/module_mine_custom_node_name"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <com.cocos.library_base.widget.LinearLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4.5"
+                android:gravity="center_vertical"
+                br:borderColor="@color/color_D8DBE1"
+                br:borderStrokeWidth="6"
+                br:needLeftAndRigtBorder="false"
+                br:needTopBorder="false">
+
+                <EditText
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:focusable="true"
+                    android:hint="@string/module_mine_node_url_hint"
+                    android:text="@={viewModel.nodeUrl}" />
+
+            </com.cocos.library_base.widget.LinearLinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_15"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center_vertical"
+                android:text="@string/module_mine_custom_chain_id"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <com.cocos.library_base.widget.LinearLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4.5"
+                android:gravity="center_vertical"
+                br:borderColor="@color/color_D8DBE1"
+                br:borderStrokeWidth="6"
+                br:needLeftAndRigtBorder="false"
+                br:needTopBorder="false">
+
+                <EditText
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:focusable="true"
+                    android:hint="@string/module_mine_custom_chain_id_hint"
+                    android:text="@={viewModel.chainId}" />
+
+            </com.cocos.library_base.widget.LinearLinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_15"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center_vertical"
+                android:text="@string/module_mine_custom_faucet_url"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <com.cocos.library_base.widget.LinearLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4.5"
+                android:gravity="center_vertical"
+                br:borderColor="@color/color_D8DBE1"
+                br:borderStrokeWidth="6"
+                br:needLeftAndRigtBorder="false"
+                br:needTopBorder="false">
+
+                <EditText
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:focusable="true"
+                    android:hint="@string/module_mine_custom_faucet_url_hint"
+                    android:text="@={viewModel.faucetUrl}" />
+
+            </com.cocos.library_base.widget.LinearLinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_15"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center_vertical"
+                android:text="@string/module_mine_custom_asset"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <com.cocos.library_base.widget.LinearLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4.5"
+                android:gravity="center_vertical"
+                br:borderColor="@color/color_D8DBE1"
+                br:borderStrokeWidth="6"
+                br:needLeftAndRigtBorder="false"
+                br:needTopBorder="false">
+
+                <EditText
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:focusable="true"
+                    android:hint="@string/module_mine_custom_core_asset_hint"
+                    android:text="@={viewModel.coreAsset}" />
+
+            </com.cocos.library_base.widget.LinearLinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_15"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center_vertical"
+                android:text="@string/module_mine_custom_name"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <com.cocos.library_base.widget.LinearLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4.5"
+                android:gravity="center_vertical"
+                br:borderColor="@color/color_D8DBE1"
+                br:borderStrokeWidth="6"
+                br:needLeftAndRigtBorder="false"
+                br:needTopBorder="false">
+
+                <EditText
+                    style="@style/editText_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:focusable="true"
+                    android:hint="@string/module_mine_custom_node_name_hint"
+                    android:text="@={viewModel.nodeName}" />
+
+            </com.cocos.library_base.widget.LinearLinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_15"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/module_mine_custom_type"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    binding:onClickCommand="@{viewModel.testNodeCheckCommand}">
+
+                    <CheckBox
+                        style="@style/checkBoxStyle"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:checked="@={viewModel.testNodeCheck}"
+                        binding:onClickCommand="@{viewModel.testNodeCheckCommand}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_6"
+                        android:text="@string/module_mine_net_test_text"
+                        android:textColor="@color/color_4868DC"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    binding:onClickCommand="@{viewModel.mainNodeCheckCommand}">
+
+                    <CheckBox
+                        style="@style/checkBoxStyle"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:checked="@={viewModel.mainNodeCheck}"
+                        binding:onClickCommand="@{viewModel.mainNodeCheckCommand}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_6"
+                        android:text="@string/module_mine_net_main_text"
+                        android:textColor="@color/color_4868DC"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_60"
+            android:background="@drawable/shape_create_wallet_bg"
+            android:gravity="center"
+            android:text="@string/module_mine_complish"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            binding:onClickCommand="@{viewModel.complishOnClickCommand}" />
+
+    </LinearLayout>
+</layout>
