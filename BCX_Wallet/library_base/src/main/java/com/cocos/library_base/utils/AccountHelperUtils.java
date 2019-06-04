@@ -1,6 +1,8 @@
 package com.cocos.library_base.utils;
 
 
+import android.text.TextUtils;
+
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
 import com.cocos.bcx_sdk.bcx_wallet.chain.types;
@@ -45,6 +47,9 @@ public class AccountHelperUtils {
      */
     private static void setCurrentAccountId(String accountName) {
         String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name(accountName);
+        if (TextUtils.isEmpty(accountId)) {
+            return;
+        }
         SPUtils.putString(Utils.getContext(), ACCOUNT_ID, accountId);
     }
 
@@ -66,14 +71,7 @@ public class AccountHelperUtils {
      * getCurrentActivePublicKey
      */
     public static String getCurrentActivePublicKey() {
-        account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object(getCurrentAccountName());
-        if (null == account_object) {
-            return "";
-        }
-        for (Map.Entry<types.public_key_type, Integer> entry : account_object.active.key_auths.entrySet()) {
-            return entry.getKey().toString();
-        }
-        return "";
+        return getActivePublicKey(getCurrentAccountName());
     }
 
     /**
@@ -94,14 +92,7 @@ public class AccountHelperUtils {
      * getCurrentOwnerPublicKey
      */
     public static String getCurrentOwnerPublicKey() {
-        account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object(getCurrentAccountName());
-        if (null == account_object) {
-            return "";
-        }
-        for (Map.Entry<types.public_key_type, Integer> entry : account_object.owner.key_auths.entrySet()) {
-            return entry.getKey().toString();
-        }
-        return "";
+        return getOwnerPublicKey(getCurrentAccountName());
     }
 
     /**

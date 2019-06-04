@@ -93,7 +93,12 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
                 NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
                 if (!resultEntity.isSuccess()) {
-                    init(selectedNodeModel);
+                    init(selectedNodeModel, new IBcxCallBack() {
+                        @Override
+                        public void onReceiveValue(String s) {
+
+                        }
+                    });
                     nodeNetDialog.dismiss();
                     return;
                 }
@@ -114,30 +119,16 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
     /**
      * 切换节点
      */
-    private void init(final NodeInfoModel.DataBean dataBean) {
+    private void init(final NodeInfoModel.DataBean dataBean, IBcxCallBack iBcxCallBack) {
+        if (dataBean == null) {
+            return;
+        }
         // 初始化bcx节点连接
         List<String> nodeUrls = new ArrayList<>();
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
-        CocosBcxApiWrapper.getBcxInstance().init(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, new IBcxCallBack() {
-            @Override
-            public void onReceiveValue(String value) {
-                BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
-                if (!resultEntity.isSuccess()) {
-                    return;
-                }
-                nodeNetDialog.dismiss();
-                SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
-                List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-                if (accountNames.size() <= 0) {
-                    ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
-                    ActivityContainer.finishAllActivity();
-                } else {
-                    AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
-                }
-            }
-        });
+        CocosBcxApiWrapper.getBcxInstance().init(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
     }
 
     @Override
