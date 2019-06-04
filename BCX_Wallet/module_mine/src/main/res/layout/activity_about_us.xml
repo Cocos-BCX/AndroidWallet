@@ -142,7 +142,6 @@
                     android:layout_height="@dimen/dp_50"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="gone"
                     binding:onClickCommand="@{viewModel.versionLogOnClickCommand}">
 
                     <TextView

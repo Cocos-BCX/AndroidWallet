@@ -63,7 +63,12 @@ public class AboutUsViewModel extends BaseViewModel {
     public BindingCommand versionLogOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            finish();
+            WebViewModel webViewModel = new WebViewModel();
+            webViewModel.setTitle(Utils.getString(R.string.fragment_mine_about_us_version_log));
+            webViewModel.setUrl(Utils.getString(R.string.fragment_mine_about_us_version_log_url));
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_HTML_WEB).with(bundle).navigation();
         }
     });
 

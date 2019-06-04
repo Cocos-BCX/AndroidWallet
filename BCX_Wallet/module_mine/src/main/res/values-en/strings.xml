@@ -35,6 +35,7 @@
     <string name="fragment_mine_about_us_join_community_waiting_join" tools:ignore="ResourceName">Wait For You～</string>
     <string name="fragment_mine_about_us_privacy_policy_url">file:///android_asset/PRIVACY POLICY.html</string>
     <string name="fragment_mine_about_us_terms_of_service_url">file:///android_asset/Terms of Service.html</string>
+    <string name="fragment_mine_about_us_version_log_url">file:///android_asset/VersionLog.html</string>
 
 
     <string name="module_mine_modify_password_new">Reset</string>
