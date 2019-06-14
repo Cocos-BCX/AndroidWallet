@@ -4,8 +4,11 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +20,6 @@ import com.cocos.library_base.bus.Messenger;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.receiver.NetStateChangeObserver;
 import com.cocos.library_base.receiver.NetStateChangeReceiver;
-import com.cocos.library_base.receiver.NetworkType;
 import com.cocos.library_base.utils.LoadingDialogUtils;
 import com.cocos.library_base.widget.zloading.ZLoadingDialog;
 import com.cocos.library_base.widget.zloading.Z_TYPE;
@@ -30,7 +32,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.cocos.library_base.base.BaseViewModel.ParameterField;
 
@@ -38,34 +39,25 @@ import static com.cocos.library_base.base.BaseViewModel.ParameterField;
 /**
  * Created by guoningkang on 2017/6/15.
  */
-public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends RxFragment implements IBaseActivity, NetStateChangeObserver {
+public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends RxFragment implements IBaseActivity {
     protected V binding;
     protected VM viewModel;
     private int viewModelId;
     private ZLoadingDialog dialog;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NetStateChangeReceiver.registerReceiver(Objects.requireNonNull(getActivity()));
         EventBus.getDefault().register(this);
         initParam();
     }
 
-    @Override
-    public void onNetDisconnected() {
-        // do sth
-    }
 
-    @Override
-    public void onNetConnected(NetworkType networkType) {
-        // do sth
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        NetStateChangeReceiver.unRegisterReceiver(Objects.requireNonNull(getActivity()));
         //解除eventBus注册
         EventBus.getDefault().unregister(this);
         //解除Messenger注册
@@ -204,13 +196,11 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onResume() {
         super.onResume();
-        NetStateChangeReceiver.registerObserver(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        NetStateChangeReceiver.unRegisterObserver(this);
     }
 
     /**

@@ -1,5 +1,8 @@
 package com.cocos.module_found.fragment;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -16,7 +19,8 @@ import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.http.api.BaseUrlApi;
 import com.cocos.library_base.http.callback.BaseObserver;
 import com.cocos.library_base.http.http.HttpMethods;
-import com.cocos.library_base.receiver.NetworkType;
+import com.cocos.library_base.receiver.NetStateChangeObserver;
+import com.cocos.library_base.receiver.NetStateChangeReceiver;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.SPUtil;
@@ -37,8 +41,10 @@ import io.reactivex.Observable;
  * Created by guoningkang on 2019/2/12.
  */
 
-public class FoundFragment extends BaseFragment<FragmentFoundBinding, FoundViewModel> {
+public class FoundFragment extends BaseFragment<FragmentFoundBinding, FoundViewModel> implements NetStateChangeObserver {
 
+    private boolean isRegistered = false;
+    private NetStateChangeReceiver changeReceiver;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,6 +58,16 @@ public class FoundFragment extends BaseFragment<FragmentFoundBinding, FoundViewM
 
     @Override
     public void initData() {
+        changeReceiver = new NetStateChangeReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        if (null != getActivity()) {
+            getActivity().registerReceiver(changeReceiver, filter);
+            isRegistered = true;
+            changeReceiver.setNetStateChangeObserver(this);
+        }
         int statusHeight = StatusBarUtils.getStatusBarHeight(getActivity());
         binding.foundTitle.setPadding(0, statusHeight, 0, 0);
         int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
@@ -59,11 +75,14 @@ public class FoundFragment extends BaseFragment<FragmentFoundBinding, FoundViewM
     }
 
     @Override
-    public void onNetConnected(NetworkType networkType) {
-        if (networkType != NetworkType.NETWORK_NO) {
-            int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
-            loadData(selectLanguage);
-        }
+    public void onNetDisconnected() {
+
+    }
+
+    @Override
+    public void onNetConnected() {
+        int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
+        loadData(selectLanguage);
     }
 
     private void loadData(final int selectLanguage) {
@@ -115,6 +134,9 @@ public class FoundFragment extends BaseFragment<FragmentFoundBinding, FoundViewM
 
     @Override
     public void onDestroy() {
+        if (isRegistered && null != getActivity()) {
+            getActivity().unregisterReceiver(changeReceiver);
+        }
         // 释放资源
         binding.vpFound.releaseResource();
         super.onDestroy();

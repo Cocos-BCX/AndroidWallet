@@ -135,13 +135,15 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/color_ffe6e6e6" />
+                    android:background="@color/color_ffe6e6e6"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_50"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     binding:onClickCommand="@{viewModel.versionLogOnClickCommand}">
 
                     <TextView

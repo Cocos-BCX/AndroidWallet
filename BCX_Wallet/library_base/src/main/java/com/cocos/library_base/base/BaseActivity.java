@@ -5,10 +5,13 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.PixelFormat;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +29,6 @@ import com.cocos.library_base.bus.Messenger;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.receiver.NetStateChangeObserver;
 import com.cocos.library_base.receiver.NetStateChangeReceiver;
-import com.cocos.library_base.receiver.NetworkType;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.IntentUtils;
 import com.cocos.library_base.utils.LoadingDialogUtils;
@@ -52,7 +54,7 @@ import java.util.Map;
  * 一个拥有DataBinding框架的基Activity
  * 这里根据项目业务可以换成你自己熟悉的BaseActivity, 但是需要继承RxAppCompatActivity,方便LifecycleProvider管理生命周期
  */
-public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements NetStateChangeObserver, IBaseActivity {
+public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements IBaseActivity {
     protected V binding;
     protected VM viewModel;
     private int viewModelId;
@@ -61,6 +63,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     WindowManager mWindowManager;
     WindowManager.LayoutParams mLayoutParams;
     private ZLoadingDialog dialog;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -89,7 +92,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         initViewObservable();
         //注册RxBus
         viewModel.registerRxBus();
-        NetStateChangeReceiver.registerReceiver(this);
     }
 
     protected void addToContainer() {
@@ -107,22 +109,9 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
             StatusBarUtil.setStatusBarLightMode(getWindow());
         }
     }
-
-
-    @Override
-    public void onNetDisconnected() {
-        // do sth
-    }
-
-    @Override
-    public void onNetConnected(NetworkType networkType) {
-        // do sth
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetStateChangeReceiver.unRegisterReceiver(this);
         //解除eventBus注册
         EventBus.getDefault().unregister(this);
         //解除Messenger注册
@@ -271,7 +260,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     @Override
     protected void onResume() {
         super.onResume();
-        NetStateChangeReceiver.registerObserver(this);
         MobclickAgent.onResume(this);
     }
 
@@ -279,7 +267,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        NetStateChangeReceiver.unRegisterObserver(this);
     }
 
     public void showDialog() {
