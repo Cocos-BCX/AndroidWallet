@@ -16,7 +16,7 @@ public class FoundNavModel extends BaseResult {
 
     private String navTitle;
 
-    private int navIconId;
+    private String navIconUrl;
 
     private int navTitleColor;
 

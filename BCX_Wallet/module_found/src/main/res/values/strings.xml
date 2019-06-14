@@ -1,25 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
-    <string name="module_found_officel_net">官网</string>
-    <string name="module_found_block_browser">区块链浏览器</string>
-    <string name="module_found_ecology">生态</string>
-    <string name="module_found_dapp_cooperation">DApp合作</string>
-    <string name="fragment_found_title">发现</string>
-    <string name="super_hot">超级热门</string>
-    <string name="module_found_fruit_machine">Dice</string>
-    <string name="module_found_lady_luck">幸运女神</string>
-    <string name="module_found_shooting">Shooting</string>
-    <string name="module_found_dice_game_desc">经典掷骰子类游戏Demo</string>
-    <string name="module_found_lady_luck_desc">经典摇骰子类百家乐游戏，可在线多人对局。该游戏使用Cocos-BCX链的链内源随机数，使得公平性得以体现。</string>
-    <string name="module_found_shooting_desc">一款飞行射击类游戏。在 Cocos Shooting 中，玩家可以操纵自己的飞机，通过不断击落敌机来获取资源，以此来强化飞机，战胜每一个BOSS。该游戏已经实现了Cocos-BCX链特有的道具穿越功能，玩家可以使用来自其他游戏的道具角色哦。</string>
-    <!--banner / list -->
-    <string name="module_found_shooting_url">http://shooter.cocosbcx.net/</string>
-    <string name="module_found_lady_luck_url">http://tyche.yezi.one/</string>
-    <string name="module_found_dice_game_url">http://dice.yezi.one/</string>
-    <!--nav-->
-    <string name="module_found_cocosbcx_url">https://www.cocosbcx.io/</string>
-    <string name="module_found_explorer_cocosbcx_url">https://explorer.cocosbcx.io/</string>
-    <string name="module_found_community_cocosbcx_url">http://community.cocosbcx.io/</string>
 
+    <string name="fragment_found_title">发现</string>
     <string name="module_found_to_be_expected">敬请期待</string>
     <string name="module_found_found_dapp_dialog_text">您正在跳转至第三方dapp，确认即同意第三方dapp的用户协议与隐私政策，由其直接并单独向您承担责任</string>
+    <string name="fragment_found_search_title">搜索Dapp</string>
+    <string name="module_found_search_hint">请输入DApp网址</string>
+    <string name="module_found_search_tips">在地址栏输入你想玩的DApp网址  进入即可试玩</string>
+    <string name="module_found_illegal_dapp_link_url">无效链接</string>
 </resources>

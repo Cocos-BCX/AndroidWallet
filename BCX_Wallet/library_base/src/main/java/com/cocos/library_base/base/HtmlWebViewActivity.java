@@ -1,5 +1,6 @@
 package com.cocos.library_base.base;
 
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -12,6 +13,8 @@ import com.cocos.library_base.databinding.ActivityHtmlWebviewBindingImpl;
 import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.multi_language.LocalManageUtil;
+import com.cocos.library_base.utils.multi_language.SPUtil;
 
 import me.tatarka.bindingcollectionadapter2.BR;
 
@@ -36,6 +39,16 @@ public class HtmlWebViewActivity extends BaseActivity<ActivityHtmlWebviewBinding
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initLangeuage();
+    }
+
+    private void initLangeuage() {
+        LocalManageUtil.saveSelectLanguage(this, SPUtil.getInstance(this).getSelectLanguage());
+    }
+
+    @Override
     public void initParam() {
         try {
             Bundle bundle = getIntent().getExtras();
@@ -50,7 +63,20 @@ public class HtmlWebViewActivity extends BaseActivity<ActivityHtmlWebviewBinding
         if (!TextUtils.isEmpty(webViewModel.getUrl())) {
             binding.htmlWebView.loadUrl(webViewModel.getUrl());
         }
+    }
 
+    @Override
+    public void initViewObservable() {
+        viewModel.uc.backObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if (binding.htmlWebView.canGoBack()) {
+                    binding.htmlWebView.goBack();
+                    return;
+                }
+                finish();
+            }
+        });
     }
 
     @Override

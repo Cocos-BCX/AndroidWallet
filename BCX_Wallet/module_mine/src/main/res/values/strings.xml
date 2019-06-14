@@ -40,7 +40,8 @@
     <string name="fragment_mine_about_us_join_community_title" tools:ignore="ResourceName">加入社群</string>
     <string name="fragment_mine_official_wechat" tools:ignore="ResourceName">官方微信号</string>
     <string name="fragment_mine_official_wechat_account" tools:ignore="ResourceName">微信公众号</string>
-    <string name="fragment_mine_develop_account" tools:ignore="ResourceName">开发技术公众号</string>
+    <string name="fragment_mine_discord" tools:ignore="ResourceName">Discord</string>
+    <string name="fragment_mine_telegram" tools:ignore="ResourceName">Telegram</string>
     <string name="fragment_mine_about_us_join_community_waiting_join">等你来撩～</string>
     <string name="fragment_mine_about_us_privacy_policy_url">file:///android_asset/PRIVACY POLICY.html</string>
     <string name="fragment_mine_about_us_terms_of_service_url">file:///android_asset/Terms of Service.html</string>
@@ -92,5 +93,7 @@
     <string name="module_mine_custom_faucet_url_hint">请输入FaucetUrl</string>
     <string name="module_mine_custom_core_asset_hint">请输入CoreAsset</string>
     <string name="module_mine_custom_node_name_hint">请输入Name</string>
+    <string name="module_mine_discord_ling_url">https://discordapp.com/invite/jdJMNtC</string>
+    <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
 
 </resources>

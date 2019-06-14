@@ -21,7 +21,6 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author ningkang.guo
@@ -35,7 +34,6 @@ public class AssetOverviewActivity extends BaseActivity<ActivityAssetOverviewBin
     private ArrayList<Fragment> mFragments;
 
     private int[] mTitles = {R.string.module_mine_asset_overview_digital_assets, R.string.module_mine_asset_overview_prop_assets,};
-    private String accountName;
     private int tabPosition = 0;
 
     @Override

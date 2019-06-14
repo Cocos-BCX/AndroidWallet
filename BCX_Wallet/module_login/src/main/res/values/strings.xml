@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="module_login_username_hint" tools:ignore="MissingTranslation">4-64位小写字母开头+数字</string>
+    <string name="module_login_username_hint" tools:ignore="MissingTranslation">5-64位小写字母开头+数字</string>
     <string name="module_login_password_hint" tools:ignore="MissingTranslation">8-12位，数字、字母、和特殊符号任两种</string>
     <string name="module_login_confirm_password_hint" tools:ignore="MissingTranslation">请再次输入密码</string>
     <string name="module_login_btn_register" tools:ignore="MissingTranslation">注册</string>
@@ -34,7 +34,7 @@
     <string name="module_login_account_title">账户模式</string>
     <string name="module_login_wallet_model_tips">钱包模式下注册，仅支持私钥登录，请务必备份好私钥，确保您的钱包安全。</string>
     <string name="module_login_account_model_tips">账户模式下注册，可支持账号及私钥两种登录方式，请务必保管好账户信息及私钥，保护您的钱包安全</string>
-    <string name="module_login_account_name_error_tip">4-64位小写字母开头+数字</string>
+    <string name="module_login_account_name_error_tip">5-64位小写字母开头+数字</string>
     <string name="module_login_backup_private_key_title">备份私钥</string>
     <string name="module_login_backup_wallet_title">备份钱包</string>
     <string name="module_login_no_shotcut_screen">请勿截图</string>

@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="module_login_username_hint" tools:ignore="MissingTranslation">Begin with 4-64 lowercase letters+numbers</string>
+    <string name="module_login_username_hint" tools:ignore="MissingTranslation">Begin with 5-64 lowercase letters+numbers</string>
     <string name="module_login_password_hint" tools:ignore="MissingTranslation">8-12 digits composed of two among numbers, letters and special characters</string>
 
 
@@ -30,7 +30,6 @@
     <string name="module_login_temporary_password_empty">Please set temporary passcode</string>
     <string name="module_login_private_key_empty">Please enter private key</string>
     <string name="module_login_key_login_success">Imported</string>
-
 
     <string name="module_login_password_confirm_empty">Please confirm the password</string>
     <string name="btn_password_login" tools:ignore="ResourceName">Account mode login</string>

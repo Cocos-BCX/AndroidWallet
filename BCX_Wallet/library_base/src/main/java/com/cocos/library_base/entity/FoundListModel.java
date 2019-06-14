@@ -1,7 +1,5 @@
 package com.cocos.library_base.entity;
 
-import com.cocos.library_base.entity.BaseResult;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +12,12 @@ import lombok.Setter;
 @Getter
 public class FoundListModel extends BaseResult {
 
-    private int listIcon;
+    private String imageUrl;
 
     private String listDesc;
 
     private String listTitle;
 
-    private String listUrl;
+    private String linkUrl;
 
 }

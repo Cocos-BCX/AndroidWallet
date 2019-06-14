@@ -1,6 +1,7 @@
 package com.cocos.library_base.base;
 
 import android.annotation.SuppressLint;
+import android.databinding.Observable;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +47,8 @@ import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.JSTools;
+import com.cocos.library_base.utils.multi_language.LocalManageUtil;
+import com.cocos.library_base.utils.multi_language.SPUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.library_base.widget.BaseVerifyPasswordDialog;
@@ -83,6 +86,17 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     public int initVariableId() {
         return BR.viewModel;
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initLangeuage();
+    }
+
+    private void initLangeuage() {
+        LocalManageUtil.saveSelectLanguage(this, SPUtil.getInstance(this).getSelectLanguage());
+    }
+
 
     @Override
     public void initParam() {
@@ -292,7 +306,9 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         public void onReceiveValue(String s) {
                             Log.i("invoking_contract", s);
                             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
-                            setTransactionCallBack(baseResult, params, passwordDialog);
+                            //   setTransactionCallBack(baseResult, params, passwordDialog);
+                            onJSCallback(params.serialNumber, baseResult.getData());
+                            passwordDialog.dismiss();
                         }
                     });
                 }
@@ -590,6 +606,20 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     binding.jsWebView.evaluateJavascript(sb.toString().replace("\\", "\\\\"), null);
                     Log.i("javascript", sb.toString().replace("\\", "\\\\"));
                 }
+            }
+        });
+    }
+
+    @Override
+    public void initViewObservable() {
+        viewModel.uc.backObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if (binding.jsWebView.canGoBack()) {
+                    binding.jsWebView.goBack();
+                    return;
+                }
+                finish();
             }
         });
     }

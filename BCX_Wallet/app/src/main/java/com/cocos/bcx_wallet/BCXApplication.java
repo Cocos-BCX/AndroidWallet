@@ -94,19 +94,7 @@ public class BCXApplication extends BaseApplication {
                 protected void onBaseNext(NodeInfoModel data) {
                     NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
                     if (data.status != 200) {
-                        List<NodeInfoModel.DataBean> dataBeans = SPUtils.getNodeInfo(SPKeyGlobal.CUSTOM_NODE_MODEL_LIST);
-                        if (null == dataBeans || dataBeans.size() <= 0) {
-                            return;
-                        }
-                        for (NodeInfoModel.DataBean dataBean : dataBeans) {
-                            if (null != selectedNodeModel && TextUtils.equals(selectedNodeModel.toString(), dataBean.toString())) {
-                                init(dataBean, s -> {
-                                    BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
-                                    resultEntity.isSuccess();
-                                });
-                                return;
-                            }
-                        }
+                        onErrorInit(selectedNodeModel);
                         return;
                     }
                     for (NodeInfoModel.DataBean dataBean : data.data) {
@@ -129,20 +117,41 @@ public class BCXApplication extends BaseApplication {
                             return;
                         }
                         //之前选中的节点不为空并且不等于请求到的节点
-                        init(dataBean, new IBcxCallBack() {
-                            @Override
-                            public void onReceiveValue(String s) {
-                                BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
-                                resultEntity.isSuccess();
-                            }
+                        init(dataBean, s -> {
+                            BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
+                            resultEntity.isSuccess();
                         });
                         return;
                     }
                 }
-            });
 
+                @Override
+                protected void onBaseError(Throwable t) {
+                    NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+                    onErrorInit(selectedNodeModel);
+                }
+            });
         } catch (Exception e) {
+            NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+            onErrorInit(selectedNodeModel);
         }
+    }
+
+    /**
+     * 连接错误/失败/出现异常时的初始化方法
+     */
+    private void onErrorInit(NodeInfoModel.DataBean selectedNodeModel) {
+        if (null == selectedNodeModel) {
+            init(new NodeInfoModel.DataBean(), s -> {
+                BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
+                resultEntity.isSuccess();
+            });
+            return;
+        }
+        init(selectedNodeModel, s -> {
+            BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
+            resultEntity.isSuccess();
+        });
     }
 
 

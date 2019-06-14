@@ -1,5 +1,6 @@
 package com.cocos.library_base.http.apiserver;
 
+import com.cocos.library_base.entity.FoundModel;
 import com.cocos.library_base.entity.NodeInfoModel;
 import com.cocos.library_base.entity.UpdateInfo;
 
@@ -33,5 +34,12 @@ public interface ApiServer {
      */
     @GET("/getParams")
     Observable<NodeInfoModel> getNodeInfo();
+
+
+    /**
+     * 获取节点信息
+     */
+    @GET("/getBanInfo")
+    Observable<FoundModel> getFoundInfo();
 
 }

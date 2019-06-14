@@ -11,11 +11,11 @@ import com.cocos.library_base.config.IModuleInit;
 public class FoundModuleInit implements IModuleInit {
     @Override
     public boolean onInitAhead(Application application) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean onInitLow(Application application) {
-        return false;
+        return true;
     }
 }

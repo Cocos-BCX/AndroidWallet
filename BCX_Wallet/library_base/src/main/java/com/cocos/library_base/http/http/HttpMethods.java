@@ -33,11 +33,6 @@ public class HttpMethods {
      * 订阅请求
      */
     public static <T> void toSubscribe(Observable<T> observable, BaseObserver<T> observer) {
-
-        if (!AppNetworkMgr.isNetworkConnected(Utils.getContext())) {
-            ToastUtils.showShortCenter(R.string.network_error);
-            return;
-        }
         // 指定subscribe()发生在IO线程
         observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())

@@ -9,4 +9,5 @@
     <dimen name="dp_94">94dp</dimen>
     <dimen name="dp_220">220dp</dimen>
     <dimen name="dp_154">154dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
 </resources>

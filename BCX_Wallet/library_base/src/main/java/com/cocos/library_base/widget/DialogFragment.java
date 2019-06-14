@@ -46,7 +46,7 @@ public class DialogFragment extends BaseDialogFragment {
                     if (type == 2 && null != foundListModel) {
                         WebViewModel webViewModel = new WebViewModel();
                         webViewModel.setTitle(foundListModel.getListTitle());
-                        webViewModel.setUrl(foundListModel.getListUrl());
+                        webViewModel.setUrl(foundListModel.getLinkUrl());
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
                         ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();

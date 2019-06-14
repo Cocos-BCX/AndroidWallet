@@ -10,7 +10,6 @@ public final class RouterActivityPath {
 
     //app
     public static final String ACTIVITY_MAIN_PATH = "/app/MainActivity";
-
     //login
     public static final String ACTIVITY_KEYLOGIN = "/module_login/KeyLoginActivity";
     public static final String ACTIVITY_REGISTER = "/module_login/RegisterActivity";
@@ -42,9 +41,11 @@ public final class RouterActivityPath {
     //zxing
     public static final String ACTIVITY_CAPTURE = "/module_zxing/CaptureActivity";
 
+    //base
+    public static final String ACTIVITY_HTML_WEB = "/library_base/HtmlWebViewActivity";
+    public static final String ACTIVITY_JS_WEB = "/library_base/JsWebViewActivity";
     //found
-    public static final String ACTIVITY_HTML_WEB = "/module_found/HtmlWebViewActivity";
-    public static final String ACTIVITY_JS_WEB = "/module_found/JsWebViewActivity";
+    public static final String ACTIVITY_SEARCH = "/module_found/SearchActivity";
 
 
 }

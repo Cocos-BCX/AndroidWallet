@@ -126,6 +126,10 @@ public class RegisterViewModel extends BaseViewModel {
             ToastUtils.showShort(R.string.module_login_account_name_hint);
             return;
         }
+        if (!RegexUtils.isAccountName(accountName.get())) {
+            accountNameErrorTipVisible.set(View.VISIBLE);
+            return;
+        }
         if (TextUtils.isEmpty(password.get())) {
             ToastUtils.showShort(R.string.module_login_password_empty);
             return;
@@ -144,7 +148,6 @@ public class RegisterViewModel extends BaseViewModel {
         }
 
         showDialog();
-
 
         CocosBcxApiWrapper.getBcxInstance().create_account(accountName.get(), password.get(), accountType, true, new IBcxCallBack() {
             @Override

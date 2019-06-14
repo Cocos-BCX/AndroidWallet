@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cocos.library_base.R;
 import com.cocos.library_base.utils.Utils;
 
@@ -109,6 +109,9 @@ public class ImageSlideshow extends FrameLayout {
         imageTitleBeanList.add(imageTitleBean);
     }
 
+    public void clear() {
+        imageTitleBeanList.clear();
+    }
 
     // 添加图片
     public void addImageUrl(String imageUrl) {
@@ -321,33 +324,20 @@ public class ImageSlideshow extends FrameLayout {
      */
     private void setViewList(List<ImageTitleBean> imageTitleBeanList) {
         viewList = new ArrayList<>();
-        for (int i = 0; i < count + 2; i++) {
+        for (int i = 0; i < imageTitleBeanList.size() + 2; i++) {
             View view = LayoutInflater.from(context).inflate(R.layout.is_image_title_layout, null);
             ImageView ivImage = (ImageView) view.findViewById(R.id.iv_image);
-            TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
             if (i == 0) {// 将最前面一页设置成本来最后的那页
-                if (TextUtils.isEmpty(imageTitleBeanList.get(count - 1).getImageUrl())) {
-                    ivImage.setImageResource(imageTitleBeanList.get(count - 1).getImageId());
-                } else {
-                     /*   Glide.with(context).
-                        load(imageTitleBeanList.get(count - 1).getImageUrl()).into(ivImage);
-                tvTitle.setText(imageTitleBeanList.get(count - 1).getTitle());*/
+                if (!TextUtils.isEmpty(imageTitleBeanList.get(imageTitleBeanList.size() - 1).getImageUrl())) {
+                    Glide.with(context).load(imageTitleBeanList.get(imageTitleBeanList.size() - 1).getImageUrl()).into(ivImage);
                 }
-            } else if (i == count + 1) {// 将最后面一页设置成本来最前的那页
-                if (TextUtils.isEmpty(imageTitleBeanList.get(0).getImageUrl())) {
-                    ivImage.setImageResource(imageTitleBeanList.get(0).getImageId());
-                } else {
-                 /* Glide.with(context).
-                        load(imageTitleBeanList.get(0).getImageUrl()).into(ivImage);
-                tvTitle.setText(imageTitleBeanList.get(0).getTitle());*/
+            } else if (i == imageTitleBeanList.size() + 1) {// 将最后面一页设置成本来最前的那页
+                if (!TextUtils.isEmpty(imageTitleBeanList.get(0).getImageUrl())) {
+                    Glide.with(context).load(imageTitleBeanList.get(0).getImageUrl()).into(ivImage);
                 }
             } else {
-                if (TextUtils.isEmpty(imageTitleBeanList.get(i - 1).getImageUrl())) {
-                    ivImage.setImageResource(imageTitleBeanList.get(i - 1).getImageId());
-                } else {
-                      /* Glide.with(context).
-                        load(imageTitleBeanList.get(i - 1).getImageUrl()).into(ivImage);
-                tvTitle.setText(imageTitleBeanList.get(i - 1).getTitle());*/
+                if (!TextUtils.isEmpty(imageTitleBeanList.get(i - 1).getImageUrl())) {
+                    Glide.with(context).load(imageTitleBeanList.get(i - 1).getImageUrl()).into(ivImage);
                 }
             }
             // 将设置好的View添加到View列表中

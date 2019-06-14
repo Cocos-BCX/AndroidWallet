@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application>
         <activity
@@ -16,6 +16,13 @@
         <activity android:name=".base.HtmlWebViewActivity" />
         <activity android:name=".base.JsWebViewActivity" />
 
+        <receiver android:name=".receiver.NetStateChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+        </receiver>
         <provider
             android:name=".crash.CaocInitProvider"
             android:authorities="${applicationId}.customactivityoncrashinitprovider"

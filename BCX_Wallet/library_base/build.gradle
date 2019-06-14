@@ -25,6 +25,7 @@ android {
             minifyEnabled true
             buildConfigField 'String', 'API_BASE', '"http://backend.test.cjfan.net"'
             buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
+            buildConfigField 'boolean', 'IS_TEST_ENV', 'false'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -32,6 +33,7 @@ android {
             minifyEnabled false
             buildConfigField 'String', 'API_BASE', '"http://backend.test.cjfan.net"'
             buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
+            buildConfigField 'boolean', 'IS_TEST_ENV', 'true'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -100,4 +102,12 @@ dependencies {
     implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
+
+    // 友盟统计
+    implementation 'com.umeng.sdk:common:1.5.3'
+    implementation 'com.umeng.sdk:analytics:7.5.3'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }

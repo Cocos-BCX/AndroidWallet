@@ -1,9 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cocos.module_found" >
+    package="com.cocos.module_found">
+
     <application
         android:name="com.cocos.library_base.DebugApplication"
         android:allowBackup="true"
         android:supportsRtl="true">
-
+        <activity android:name=".search.SearchActivity" />
     </application>
 </manifest>

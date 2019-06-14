@@ -1,6 +1,7 @@
 package com.cocos.library_base.base;
 
 import android.app.Application;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -22,11 +23,16 @@ public class HtmlWebViewViewModel extends BaseViewModel {
 
     public ObservableField<String> webTitle = new ObservableField<>();
 
+    public UIChangeObservable uc = new UIChangeObservable();
+
+    public class UIChangeObservable {
+        public ObservableBoolean backObservable = new ObservableBoolean(false);
+    }
 
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            finish();
+            uc.backObservable.set(!uc.backObservable.get());
         }
     });
 
@@ -36,7 +42,6 @@ public class HtmlWebViewViewModel extends BaseViewModel {
 
         }
     });
-
 
     public void setWebData(WebViewModel webViewModel) {
         if (!TextUtils.isEmpty(webViewModel.getTitle())) {

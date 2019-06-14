@@ -39,6 +39,19 @@ android {
         }
     }
 
+    /*配置渠道*/
+    productFlavors {
+        yingyongbao {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "yingyongbao"]
+        }
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+        }
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+        }
+    }
+
     buildTypes {
         release {
             buildConfigField 'boolean', 'IS_TEST_ENV', 'false'
@@ -100,4 +113,6 @@ dependencies {
     implementation project(':module_mine')
     implementation project(':library_base')
     implementation project(':cocos_bcx_sdk')
+
+
 }

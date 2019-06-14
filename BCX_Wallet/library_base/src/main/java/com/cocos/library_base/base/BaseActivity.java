@@ -24,6 +24,9 @@ import android.view.inputmethod.InputMethodManager;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.Messenger;
 import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.receiver.NetStateChangeObserver;
+import com.cocos.library_base.receiver.NetStateChangeReceiver;
+import com.cocos.library_base.receiver.NetworkType;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.IntentUtils;
 import com.cocos.library_base.utils.LoadingDialogUtils;
@@ -33,6 +36,7 @@ import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.widget.zloading.ZLoadingDialog;
 import com.cocos.library_base.widget.zloading.Z_TYPE;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,7 +52,7 @@ import java.util.Map;
  * 一个拥有DataBinding框架的基Activity
  * 这里根据项目业务可以换成你自己熟悉的BaseActivity, 但是需要继承RxAppCompatActivity,方便LifecycleProvider管理生命周期
  */
-public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements IBaseActivity {
+public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends RxAppCompatActivity implements NetStateChangeObserver, IBaseActivity {
     protected V binding;
     protected VM viewModel;
     private int viewModelId;
@@ -85,6 +89,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         initViewObservable();
         //注册RxBus
         viewModel.registerRxBus();
+        NetStateChangeReceiver.registerReceiver(this);
     }
 
     protected void addToContainer() {
@@ -105,8 +110,19 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
 
     @Override
+    public void onNetDisconnected() {
+        // do sth
+    }
+
+    @Override
+    public void onNetConnected(NetworkType networkType) {
+        // do sth
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        NetStateChangeReceiver.unRegisterReceiver(this);
         //解除eventBus注册
         EventBus.getDefault().unregister(this);
         //解除Messenger注册
@@ -255,8 +271,16 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     @Override
     protected void onResume() {
         super.onResume();
+        NetStateChangeReceiver.registerObserver(this);
+        MobclickAgent.onResume(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        NetStateChangeReceiver.unRegisterObserver(this);
+    }
 
     public void showDialog() {
         if (dialog == null) {

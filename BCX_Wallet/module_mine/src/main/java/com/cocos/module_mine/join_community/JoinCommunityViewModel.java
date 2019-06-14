@@ -10,6 +10,7 @@ import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.utils.ToastUtils;
+import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
 import com.cocos.module_mine.R;
 
@@ -26,7 +27,8 @@ public class JoinCommunityViewModel extends BaseViewModel {
 
     public ObservableField<String> officialWechat = new ObservableField<>("Cocos-BCX");
     public ObservableField<String> officialWechatAccount = new ObservableField<>("CocosBCX");
-    /* public ObservableField<String> developAccount = new ObservableField<>();*/
+    public ObservableField<String> discord = new ObservableField<>("Cocos-BCX");
+    public ObservableField<String> telegram = new ObservableField<>("Cocos-BCX Official (EN)");
 
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
@@ -59,13 +61,22 @@ public class JoinCommunityViewModel extends BaseViewModel {
         }
     });
 
-   /* public BindingCommand copyDevelopAccountOnClickCommand = new BindingCommand(new BindingAction() {
+    public BindingCommand copyDiscordOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ClipData mClipData = ClipData.newPlainText("Label", developAccount.get());
+            ClipData mClipData = ClipData.newPlainText("Label", Utils.getString(R.string.module_mine_discord_ling_url));
             ClipboardManagerInstance.getClipboardManager().setPrimaryClip(mClipData);
             ToastUtils.showShort(R.string.copy_success);
         }
-    });*/
+    });
+
+    public BindingCommand copyTelegramOnClickCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            ClipData mClipData = ClipData.newPlainText("Label", Utils.getString(R.string.module_mine_telegram_link_url));
+            ClipboardManagerInstance.getClipboardManager().setPrimaryClip(mClipData);
+            ToastUtils.showShort(R.string.copy_success);
+        }
+    });
 
 }

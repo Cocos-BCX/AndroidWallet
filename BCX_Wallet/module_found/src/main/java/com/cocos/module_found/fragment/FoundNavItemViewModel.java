@@ -2,10 +2,8 @@ package com.cocos.module_found.fragment;
 
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -29,15 +27,15 @@ public class FoundNavItemViewModel extends ItemViewModel {
 
     public ObservableField<String> navTitle = new ObservableField<>();
     public ObservableInt navTitleColor = new ObservableInt(Utils.getColor(R.color.color_262A33));
-    public Drawable navIcon;
-    FoundNavModel foundNavModel;
+    public ObservableField<FoundNavModel> entity = new ObservableField<>();
+    public FoundNavModel foundNavModel;
 
     public FoundNavItemViewModel(@NonNull BaseViewModel viewModel, FoundNavModel foundNavModel) {
         super(viewModel);
+        entity.set(foundNavModel);
         this.foundNavModel = foundNavModel;
         navTitle.set(foundNavModel.getNavTitle());
         navTitleColor.set(Utils.getColor(foundNavModel.getNavTitleColor()));
-        navIcon = ContextCompat.getDrawable(viewModel.getApplication(), foundNavModel.getNavIconId());
     }
 
     public BindingCommand onItemClick = new BindingCommand(new BindingAction() {
@@ -52,7 +50,7 @@ public class FoundNavItemViewModel extends ItemViewModel {
             webViewModel.setUrl(foundNavModel.getNavUrl());
             Bundle bundle = new Bundle();
             bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_HTML_WEB).with(bundle).navigation();
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
         }
     });
 

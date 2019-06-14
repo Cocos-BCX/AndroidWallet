@@ -3,8 +3,10 @@ package com.cocos.library_base;
 import android.app.Application;
 
 import com.cocos.library_base.config.IModuleInit;
-import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.Utils;
+import com.cocos.library_base.utils.multi_language.LocalManageUtil;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -18,9 +20,13 @@ public class BaseModuleInit implements IModuleInit {
     @Override
     public boolean onInitAhead(Application application) {
         Utils.init(application);
+        // 友盟统计
+        UMConfigure.init(application, UMConfigure.DEVICE_TYPE_PHONE, "");
+        MobclickAgent.setCatchUncaughtExceptions(true);
+        UMConfigure.setLogEnabled(BuildConfig.IS_TEST_ENV);
+        UMConfigure.setEncryptEnabled(true);
         //  需要在Sp初始化完成后调用
         LocalManageUtil.setApplicationLanguage(application);
-
         closeAndroidPDialog();
         return true;
     }

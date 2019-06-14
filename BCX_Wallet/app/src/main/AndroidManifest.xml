@@ -44,6 +44,14 @@
             android:launchMode="singleTask" />
 
         <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5d00ea860cafb258a10004d2" />
+
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
+        <meta-data
             android:name="design_width_in_dp"
             android:value="375" />
 

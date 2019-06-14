@@ -15,7 +15,6 @@ import android.view.View;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
-import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.bcx_sdk.bcx_wallet.chain.global_config_object;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
@@ -124,10 +123,9 @@ public class DealRecordViewModel extends BaseViewModel {
 
     public void requestDealRecordList() {
         showDialog();
-        CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 20, new IBcxCallBack() {
+        CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 100, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String value) {
-                LogUtils.d("get_account_history", value);
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {

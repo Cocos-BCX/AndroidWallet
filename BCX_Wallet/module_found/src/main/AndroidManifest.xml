@@ -1,4 +1,17 @@
-<manifest package="com.cocos.module_found">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cocos.module_found">
 
-<application></application>
+    <application>
+        <activity
+            android:name=".search.SearchActivity"
+            android:launchMode="singleTask" />
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="375" />
+
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="667" />
+    </application>
 </manifest>

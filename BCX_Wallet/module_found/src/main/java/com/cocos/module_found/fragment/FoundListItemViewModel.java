@@ -1,9 +1,7 @@
 package com.cocos.module_found.fragment;
 
 import android.databinding.ObservableField;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import com.cocos.library_base.base.BaseViewModel;
@@ -27,7 +25,7 @@ public class FoundListItemViewModel extends ItemViewModel {
 
     public FoundListModel foundlistModel;
 
-    public Drawable listIcon;
+    public ObservableField<FoundListModel> entity = new ObservableField<>();
 
     public ObservableField<String> listTitle = new ObservableField<>("");
 
@@ -35,16 +33,16 @@ public class FoundListItemViewModel extends ItemViewModel {
 
     public FoundListItemViewModel(@NonNull BaseViewModel viewModel, FoundListModel foundlistModel) {
         super(viewModel);
+        entity.set(foundlistModel);
         this.foundlistModel = foundlistModel;
         listTitle.set(foundlistModel.getListTitle());
         listDesc.set(foundlistModel.getListDesc());
-        listIcon = ContextCompat.getDrawable(viewModel.getApplication(), foundlistModel.getListIcon());
     }
 
     public BindingCommand onItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            if (TextUtils.isEmpty(foundlistModel.getListUrl())) {
+            if (TextUtils.isEmpty(foundlistModel.getLinkUrl())) {
                 ToastUtils.showShort(R.string.module_found_to_be_expected);
                 return;
             }

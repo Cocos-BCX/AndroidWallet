@@ -79,11 +79,5 @@ public class AboutUsViewModel extends BaseViewModel {
         }
     });
 
-    public BindingCommand recommendFriendsCommand = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            finish();
-        }
-    });
 
 }

@@ -27,7 +27,7 @@
             android:layout_width="@dimen/dp_64"
             android:layout_height="@dimen/dp_64"
             android:layout_gravity="center"
-            android:src="@{viewModel.listIcon}" />
+            binding:url="@{viewModel.entity.imageUrl}" />
 
         <RelativeLayout
             android:layout_width="match_parent"

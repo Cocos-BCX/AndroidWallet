@@ -32,7 +32,7 @@
     <string name="module_mine_asset_overview_prop_assets">Prop Assets</string>
     <string name="fragment_mine_official_wechat" tools:ignore="ResourceName">WeChat Community</string>
     <string name="fragment_mine_official_wechat_account" tools:ignore="ResourceName">WeChat Account</string>
-    <string name="fragment_mine_about_us_join_community_waiting_join" tools:ignore="ResourceName">Wait For You～</string>
+    <string name="fragment_mine_about_us_join_community_waiting_join" tools:ignore="ResourceName">Waiting For You～</string>
     <string name="fragment_mine_about_us_privacy_policy_url">file:///android_asset/PRIVACY POLICY.html</string>
     <string name="fragment_mine_about_us_terms_of_service_url">file:///android_asset/Terms of Service.html</string>
     <string name="fragment_mine_about_us_version_log_url">file:///android_asset/VersionLog.html</string>
@@ -56,7 +56,8 @@
     <string name="module_mine_modify_passcode_success">Passcode changed</string>
     <string name="module_mine_no_contact_data">No contact</string>
     <string name="fragment_mine_about_us_recommend_friends" tools:ignore="ResourceName">Share to friends</string>
-    <string name="fragment_mine_develop_account" tools:ignore="ResourceName">WeChat Official Account</string>
+    <string name="fragment_mine_discord" tools:ignore="ResourceName">Discord</string>
+    <string name="fragment_mine_telegram" tools:ignore="ResourceName">Telegram</string>
     <string name="module_mine_modify_password_empty">Please input a password</string>
     <string name="module_mine_response_error">data error!</string>
     <string name="module_mine_contact_add_manully">Manual addition</string>
@@ -92,6 +93,8 @@
     <string name="module_mine_custom_faucet_url_hint">Enter FaucetUrl</string>
     <string name="module_mine_custom_core_asset_hint">Enter CoreAsset</string>
     <string name="module_mine_custom_node_name_hint">Enter Name</string>
+    <string name="module_mine_discord_ling_url">https://discordapp.com/invite/jdJMNtC</string>
+    <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
 
 
 </resources>
