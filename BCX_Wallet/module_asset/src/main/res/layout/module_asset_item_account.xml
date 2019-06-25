@@ -28,6 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_8"
+            android:maxWidth="@dimen/dp_200"
+            android:singleLine="true"
             android:text="@{viewModel.accountNameBind}"
             android:textColor="@color/color_282828"
             android:textSize="@dimen/sp_16" />

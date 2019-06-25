@@ -65,15 +65,14 @@
     <string name="fragment_mine_net_setting">Network Setting</string>
     <string name="module_mine_net_test_text">Test Net</string>
     <string name="module_mine_system_setting">System Setting</string>
-    <string name="module_mine_account_name_empty">Please enter wallet address</string>
     <string name="module_mine_contact_address">Please enter wallet address</string>
     <string name="module_mine_contact_wallet_address">Address</string>
     <string name="module_mine_contact_memo_hint">Enter note</string>
     <string name="module_mine_contact_name_hint">Enter contact name</string>
     <string name="current_account">Current wallet</string>
     <string name="fragment_mine_account_manage_title">Manage wallet</string>
-    <string name="module_mine_prop_asset_id">NH资产ID</string>
-    <string name="module_mine_prop_asset_word_view">世界观</string>
+    <string name="module_mine_prop_asset_id">NH Asset ID</string>
+    <string name="module_mine_prop_asset_word_view">world View</string>
     <string name="module_mine_prop_asset_asset_qualifier">通行资产</string>
 
 
@@ -95,6 +94,11 @@
     <string name="module_mine_custom_node_name_hint">Enter Name</string>
     <string name="module_mine_discord_ling_url">https://discordapp.com/invite/jdJMNtC</string>
     <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
+    <string name="no_asset_data">No Data</string>
+    <string name="module_mine_name_empty">Name cannot be empty</string>
+    <string name="module_mine_wrong_password">Wrong password</string>
+    <string name="module_mine_node_connect_failed">Connect failed</string>
+    <string name="module_mine_node_connect_success">Connect success</string>
 
 
 </resources>

@@ -11,6 +11,7 @@ import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.library_base.widget.BaseVerifyPasswordDialog;
@@ -72,10 +73,13 @@ public class RecordDetailActivity extends BaseActivity<ActivityRecordDetailBindi
                                     @Override
                                     public void run() {
                                         final MemoData memoData = GsonSingleInstance.getGsonInstance().fromJson(memo, MemoData.class);
+                                        if (memoData.code == 105) {
+                                            ToastUtils.showShort(R.string.module_asset_wrong_password);
+                                            return;
+                                        }
                                         if (!memoData.isSuccess()) {
                                             return;
                                         }
-                                        passwordVerifyDialog.dismiss();
                                         viewModel.dealMemo.set(memoData.data);
                                     }
                                 });

@@ -4,7 +4,7 @@
     <string name="module_found_found_dapp_dialog_text">This is a third party Dapp, Please go through the User Agreement and Private Policy of the third party DApp, which resume full responsibility for all actions and usage on the DApp.</string>
     <string name="fragment_found_search_title">Search Dapp</string>
     <string name="module_found_search_hint">Please input DApp address </string>
-    <string name="module_found_search_tips">Input the address and the DApp will be available right away</string>
+    <string name="module_found_search_tips">Input the address and the DApp will\n be available right away</string>
     <string name="module_found_illegal_dapp_link_url">invalid link</string>
 
 </resources>

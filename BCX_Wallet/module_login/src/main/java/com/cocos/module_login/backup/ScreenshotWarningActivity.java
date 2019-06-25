@@ -1,6 +1,7 @@
 package com.cocos.module_login.backup;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.library_base.base.BaseActivity;
@@ -36,6 +37,14 @@ public class ScreenshotWarningActivity extends BaseActivity<ActivityScreenshotWa
             password = getIntent().getExtras().getString(IntentKeyGlobal.ACCOUNT_PASSWORD);
         } catch (Exception e) {
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return false;
     }
 
     @Override

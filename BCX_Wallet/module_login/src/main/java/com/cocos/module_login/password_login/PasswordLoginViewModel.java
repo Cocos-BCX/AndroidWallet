@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
-import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -72,13 +71,19 @@ public class PasswordLoginViewModel extends BaseViewModel {
                     MainHandler.getInstance().post(new Runnable() {
                         @Override
                         public void run() {
-                            LogUtils.d("password_login", s);
                             LoginModel loginModel = GsonSingleInstance.getGsonInstance().fromJson(s, LoginModel.class);
-                            if (loginModel.isSuccess()) {
-                                AccountHelperUtils.setCurrentAccountName(loginModel.getData().getName());
-                                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
-                                finish();
+                            if (loginModel.code == 105) {
+                                ToastUtils.showShort(R.string.module_login_password_error);
+                                dismissDialog();
+                                return;
                             }
+                            if (!loginModel.isSuccess()) {
+                                dismissDialog();
+                                return;
+                            }
+                            AccountHelperUtils.setCurrentAccountName(loginModel.getData().getName());
+                            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
+                            finish();
                             dismissDialog();
                         }
                     });

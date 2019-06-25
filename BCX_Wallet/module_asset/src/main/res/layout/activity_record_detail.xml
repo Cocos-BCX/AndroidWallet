@@ -119,9 +119,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="middle"
-                                android:singleLine="true"
                                 android:text="@={viewModel.senderAccount}"
                                 android:textColor="@color/color_262A33"
+                                android:maxWidth="@dimen/dp_140"
+                                android:singleLine="true"
                                 android:textSize="@dimen/sp_14" />
 
                             <ImageView
@@ -143,7 +144,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
-                            android:singleLine="true"
                             android:text="@string/module_asset_record_detail_account_to"
                             android:textColor="@color/color_626670"
                             android:textSize="@dimen/sp_14" />
@@ -158,6 +158,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="middle"
+                                android:maxWidth="@dimen/dp_140"
                                 android:singleLine="true"
                                 android:text="@={viewModel.receiablesAccount}"
                                 android:textColor="@color/color_262A33"
@@ -254,7 +255,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_15"
-                        android:visibility="gone"
                         android:weightSum="5">
 
                         <TextView
@@ -274,8 +274,7 @@
                             android:singleLine="true"
                             android:text="@={viewModel.dealHash}"
                             android:textColor="@color/color_262A33"
-                            android:textSize="@dimen/sp_14"
-                            binding:onClickCommand="@{viewModel.onDealHashClick}" />
+                            android:textSize="@dimen/sp_14" />
 
                     </LinearLayout>
 
@@ -290,7 +289,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1.8"
                             android:singleLine="true"
-                            android:text="@string/module_asset_record_detail_quare_height"
+                            android:text="@string/module_asset_record_detail_square_height"
                             android:textColor="@color/color_626670"
                             android:textSize="@dimen/sp_14" />
 

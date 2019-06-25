@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.cocos.library_base.base.ItemViewModel;
 import com.cocos.library_base.entity.AssetsModel;
+import com.cocos.library_base.utils.NumberUtil;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_mine.R;
 
@@ -29,17 +30,9 @@ public class NumberAssetItemViewModel extends ItemViewModel {
         super(viewModel);
         this.entity.set(entity);
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_number_asset_bcx_icon);
-        totalValue.set("≈ ￥" + String.valueOf(entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP)));
-        amount.set(String.valueOf(entity.amount.add(BigDecimal.ZERO)));
+        totalValue.set("≈ ￥" + entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
+        amount.set(NumberUtil.doubleTrans1(entity.amount.add(BigDecimal.ZERO).setScale(5, RoundingMode.HALF_UP).doubleValue()));
     }
-/*
-    //条目的点击事件
-    public BindingCommand itemClick = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_DEAL_RECORD).navigation();
-        }
-    });*/
 }
 
 

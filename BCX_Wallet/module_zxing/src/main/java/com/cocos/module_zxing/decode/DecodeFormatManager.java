@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.renny.zxing.decode;
+package com.cocos.module_zxing.decode;
 
 import com.google.zxing.BarcodeFormat;
 

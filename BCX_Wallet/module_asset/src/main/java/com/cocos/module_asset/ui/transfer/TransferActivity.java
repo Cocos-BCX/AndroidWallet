@@ -19,6 +19,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.entity.AssetBalanceModel;
@@ -29,6 +30,7 @@ import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.DecimalDigitsInputFilter;
+import com.cocos.library_base.utils.NumberUtil;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
@@ -86,7 +88,9 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
         viewModel.setTransferAssetModel(assetModel);
         viewModel.setAccountBalance(accountId);
         binding.edtAmount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(assetModel.precision)});
+        NumberUtil.setPricePoint1(binding.edtAmount);
     }
+
 
     @Override
     public void onHandleEvent(EventBusCarrier busCarrier) {
@@ -147,10 +151,22 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                     return;
                 }
 
+                if (TextUtils.isEmpty(viewModel.transferAmount.get())) {
+                    ToastUtils.showShort(R.string.module_asset_transfer_amount_empty);
+                    return;
+                }
+
                 if (TextUtils.equals(accountName, viewModel.receivablesAccountName.get())) {
                     ToastUtils.showShort(R.string.module_asset_transfer_account_can_not_yourself);
                     return;
                 }
+
+                account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object(viewModel.receivablesAccountName.get());
+                if (null == account_object) {
+                    ToastUtils.showShort(R.string.module_asset_account_not_found);
+                    return;
+                }
+
                 final BaseVerifyPasswordDialog passwordVerifyDialog = new BaseVerifyPasswordDialog();
                 passwordVerifyDialog.show(getSupportFragmentManager(), "passwordVerifyDialog");
                 passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
@@ -163,6 +179,10 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                     @Override
                                     public void onReceiveValue(final String fee) {
                                         final TransferFeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(fee, TransferFeeModel.class);
+                                        if (feeModel.code == 105) {
+                                            ToastUtils.showShort(R.string.module_asset_wrong_password);
+                                            return;
+                                        }
                                         if (!feeModel.isSuccess()) {
                                             return;
                                         }
@@ -185,7 +205,6 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                                             MainHandler.getInstance().post(new Runnable() {
                                                                 @Override
                                                                 public void run() {
-                                                                    passwordVerifyDialog.dismiss();
                                                                     final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
                                                                     final BigDecimal fee = feeModel.data.amount;
                                                                     final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
@@ -225,7 +244,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                                         }
                                                     });
                                                 } catch (Exception e) {
-                                                    ToastUtils.showLong(Utils.getString(R.string.unknown_error));
+                                                    ToastUtils.showLong(Utils.getString(R.string.net_work_failed));
                                                 }
                                             }
                                         });

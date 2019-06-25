@@ -18,4 +18,7 @@
     <dimen name="dp_82">82dp</dimen>
     <dimen name="dp_74">74dp</dimen>
     <dimen name="dp_90">90dp</dimen>
+    <dimen name="dp_240">240dp</dimen>
+    <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_140">140dp</dimen>
 </resources>

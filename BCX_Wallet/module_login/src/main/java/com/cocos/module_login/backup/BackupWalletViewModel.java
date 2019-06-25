@@ -2,12 +2,9 @@ package com.cocos.module_login.backup;
 
 import android.app.Application;
 import android.content.ClipData;
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseViewModel;
@@ -39,10 +36,10 @@ public class BackupWalletViewModel extends BaseViewModel {
     //账户私钥的绑定
     public ObservableField<String> accountPrivateKey = new ObservableField<>("");
 
-    //复制按钮的点击事件
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
             finish();
         }
     });
@@ -65,6 +62,7 @@ public class BackupWalletViewModel extends BaseViewModel {
         @Override
         public void call() {
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
+            finish();
         }
     });
 

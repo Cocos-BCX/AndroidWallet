@@ -1,4 +1,4 @@
-package com.renny.zxing.utils;
+package com.cocos.module_zxing.utils;
 
 import android.graphics.Bitmap;
 

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
@@ -44,6 +45,13 @@ public class BackupWalletActivity extends BaseActivity<ActivityBackupWalletBindi
             password = getIntent().getExtras().getString(IntentKeyGlobal.ACCOUNT_PASSWORD);
         } catch (Exception e) {
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
+        finish();
     }
 
     @Override

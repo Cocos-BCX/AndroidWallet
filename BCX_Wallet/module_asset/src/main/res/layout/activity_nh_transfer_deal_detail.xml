@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cocos.module_asset.ui.nh_transfer_detail.NHTransferDealDetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/activity_asset_deal_detail_bg"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:src="@drawable/arrow_left_black"
+                binding:onClickCommand="@{viewModel.backOnClickCommand}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/module_asset_record_detail_title"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_18"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="56dp"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:background="@drawable/activity_record_detail_borad"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingTop="@dimen/dp_34"
+                        android:text="@={viewModel.dealType}"
+                        android:textColor="@color/color_4868DC"
+                        android:textSize="@dimen/sp_16"
+                        android:typeface="@{@string/TOTAL_ASSET}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_44"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/module_asset_record_detail_account_send"
+                            android:textColor="@color/color_626670"
+
+                            android:textSize="@dimen/sp_14" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            binding:onClickCommand="@{viewModel.onTransferCopyClick}">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="middle"
+                                android:maxWidth="@dimen/dp_100"
+                                android:singleLine="true"
+                                android:text="@={viewModel.senderAccount}"
+                                android:textColor="@color/color_262A33"
+                                android:textSize="@dimen/sp_14" />
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_20"
+                                android:layout_height="@dimen/dp_20"
+                                android:layout_marginLeft="@dimen/dp_6"
+                                android:src="@drawable/copy_black_icon" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+
+                            android:text="@string/module_asset_record_detail_account_to"
+                            android:textColor="@color/color_626670"
+                            android:textSize="@dimen/sp_14" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            binding:onClickCommand="@{viewModel.onReceiableCopyClick}">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="middle"
+                                android:maxWidth="@dimen/dp_100"
+                                android:singleLine="true"
+                                android:text="@={viewModel.receiablesAccount}"
+                                android:textColor="@color/color_262A33"
+                                android:textSize="@dimen/sp_14" />
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_20"
+                                android:layout_height="@dimen/dp_20"
+                                android:layout_marginLeft="@dimen/dp_6"
+                                android:src="@drawable/copy_black_icon" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:singleLine="true"
+                            android:text="@string/module_asset_nh_asset_id"
+                            android:textColor="@color/color_626670"
+                            android:textSize="@dimen/sp_14" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:text="@={viewModel.nhAssetId}"
+                                android:textColor="@color/color_262A33"
+                                android:textSize="@dimen/sp_14" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="@dimen/dp_26"
+                        android:background="@color/color_ffe8ebf1" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_26"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.8"
+                            android:singleLine="true"
+                            android:text="@string/module_asset_record_detail_miner_fee"
+                            android:textColor="@color/color_626670"
+                            android:textSize="@dimen/sp_14" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.2">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="middle"
+                                android:singleLine="true"
+                                android:text="@={viewModel.minerFee}"
+                                android:textColor="@color/color_262A33"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_3"
+                                android:text="@{viewModel.symbolType}"
+                                android:textColor="@color/color_262A33"
+                                android:textSize="@dimen/sp_13" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.8"
+                            android:singleLine="true"
+                            android:text="@string/module_asset_record_detail_deal_hash"
+                            android:textColor="@color/color_626670"
+                            android:textSize="@dimen/sp_14" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.2"
+                            android:ellipsize="middle"
+                            android:singleLine="true"
+                            android:text="@={viewModel.dealHash}"
+                            android:textColor="@color/color_262A33"
+                            android:textSize="@dimen/sp_14" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.8"
+                            android:singleLine="true"
+                            android:text="@string/module_asset_record_detail_square_height"
+                            android:textColor="@color/color_626670"
+                            android:textSize="@dimen/sp_14" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.2"
+                            android:singleLine="true"
+                            android:text="@={viewModel.squareHeight}"
+                            android:textColor="@color/color_262A33"
+                            android:textSize="@dimen/sp_14" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:paddingBottom="@dimen/dp_48"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.8"
+                            android:singleLine="true"
+                            android:text="@string/module_asset_record_detail_deal_time"
+                            android:textColor="@color/color_626670"
+                            android:textSize="@dimen/sp_14" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.2"
+                            android:ellipsize="middle"
+                            android:singleLine="true"
+                            android:text="@={viewModel.dealTime}"
+                            android:textColor="@color/color_262A33"
+                            android:textSize="@dimen/sp_14" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_48"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:src="@drawable/transfer_success_icon" />
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</layout>

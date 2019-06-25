@@ -64,7 +64,6 @@
     <string name="module_mine_system_setting">系统设置</string>
     <string name="fragment_mine_net_setting" tools:ignore="MissingTranslation,ResourceName">网络设置</string>
     <string name="module_mine_net_test_text">测试网</string>
-    <string name="module_mine_account_name_empty">请输入钱包地址</string>
     <string name="module_mine_modify_passcode_success">密码修改成功</string>
     <string name="module_mine_contact_address">请输入钱包地址</string>
     <string name="module_mine_contact_wallet_address">钱包地址</string>
@@ -95,5 +94,10 @@
     <string name="module_mine_custom_node_name_hint">请输入Name</string>
     <string name="module_mine_discord_ling_url">https://discordapp.com/invite/jdJMNtC</string>
     <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
+    <string name="no_asset_data">暂无资产</string>
+    <string name="module_mine_name_empty">联系人名称不能为空</string>
+    <string name="module_mine_wrong_password">密码不正确</string>
+    <string name="module_mine_node_connect_failed">节点连接失败</string>
+    <string name="module_mine_node_connect_success">切换成功</string>
 
 </resources>

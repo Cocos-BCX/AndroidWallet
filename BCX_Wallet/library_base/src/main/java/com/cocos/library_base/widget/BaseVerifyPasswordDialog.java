@@ -38,6 +38,7 @@ public class BaseVerifyPasswordDialog extends BaseDialogFragment {
             @Override
             public void onClick(View v) {
                 iPasswordListener.onFinish(editText.getText().toString());
+                dismiss();
             }
         });
     }

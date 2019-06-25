@@ -130,13 +130,6 @@ public class AssetViewModel extends BaseViewModel {
         }
     });
 
-    // 添加资产按钮的点击事件
-//    public BindingCommand addAssetsClick = new BindingCommand(new BindingAction() {
-//        @Override
-//        public void call() {
-//
-//        }
-//    });
 
     public ObservableList<AssetItemViewModel> observableList = new ObservableArrayList<>();
     public ItemBinding<AssetItemViewModel> itemBinding = ItemBinding.of(BR.viewModel, R.layout.module_asset_item_assets);
@@ -144,7 +137,6 @@ public class AssetViewModel extends BaseViewModel {
 
     public void requestAssetsListData() {
         final String accountId = AccountHelperUtils.getCurrentAccountId();
-        LogUtils.d("getAccountIdByName", accountId);
         // 如果不是同一个账号则清除数据
         if (!TextUtils.equals(preAccountId, accountId)) {
             assetModels.clear();
@@ -157,12 +149,11 @@ public class AssetViewModel extends BaseViewModel {
 
             @Override
             public void onReceiveValue(final String s) {
-                LogUtils.d("get_all_account_balances", s);
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
                         AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
-                        if (!balanceEntity.isSuccess() || balanceEntity.getData().size() <= 0) {
+                        if (balanceEntity.code != 1 || balanceEntity.getData().size() <= 0) {
                             dismissDialog();
                             emptyViewVisible.set(View.VISIBLE);
                             recyclerViewVisible.set(View.GONE);
@@ -180,7 +171,7 @@ public class AssetViewModel extends BaseViewModel {
                                 public void onReceiveValue(final String s) {
                                     LogUtils.d("lookup_asset_symbols", s);
                                     final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
-                                    if (!assetModel.isSuccess()) {
+                                    if (assetModel.code != 1) {
                                         return;
                                     }
                                     MainHandler.getInstance().post(new Runnable() {

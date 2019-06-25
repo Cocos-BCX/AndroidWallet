@@ -9,6 +9,7 @@ import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -60,16 +61,22 @@ public class EditContactViewModel extends BaseViewModel {
     public BindingCommand complishOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            if (!TextUtils.isEmpty(contactAccountName.get())) {
-                ContactDaoInstance.getContactDaoInstance().insertContact(contactName.get(), contactAccountName.get(), contactMemo.get());
-                EventBusCarrier eventBusCarrier = new EventBusCarrier();
-                eventBusCarrier.setEventType(EventTypeGlobal.CONTACT_CHANGED_TYPE);
-                eventBusCarrier.setObject(null);
-                EventBus.getDefault().post(eventBusCarrier);
-                finish();
-            }else {
-                ToastUtils.showShort(R.string.module_mine_account_name_empty);
+
+            if (TextUtils.isEmpty(contactName.get())) {
+                ToastUtils.showShort(R.string.module_mine_name_empty);
+                return;
             }
+
+            if (TextUtils.isEmpty(contactAccountName.get())) {
+                ToastUtils.showShort(R.string.module_mine_contact_address);
+                return;
+            }
+            ContactDaoInstance.getContactDaoInstance().insertContact(contactName.get(), contactAccountName.get(), contactMemo.get());
+            EventBusCarrier eventBusCarrier = new EventBusCarrier();
+            eventBusCarrier.setEventType(EventTypeGlobal.CONTACT_CHANGED_TYPE);
+            eventBusCarrier.setObject(null);
+            EventBus.getDefault().post(eventBusCarrier);
+            finish();
         }
     });
 

@@ -15,5 +15,6 @@ public class UpdateInfo {
         public boolean is_force;
         public String download_url;
         public String info;
+        public String en_info;
     }
 }

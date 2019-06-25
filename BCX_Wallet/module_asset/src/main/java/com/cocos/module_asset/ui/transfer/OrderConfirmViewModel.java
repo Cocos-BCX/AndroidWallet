@@ -3,11 +3,9 @@ package com.cocos.module_asset.ui.transfer;
 import android.app.Application;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
-import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -58,8 +56,6 @@ public class OrderConfirmViewModel extends BaseViewModel {
     public BindingCommand payConfirmOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            Log.i("getTransferAmount", transferParamsModel.getTransferAmount());
-            Log.i("getPassword", transferParamsModel.getPassword());
             CocosBcxApiWrapper.getBcxInstance().transfer(transferParamsModel.getPassword(), transferParamsModel.getAccountName(), transferParamsModel.getReceivablesAccountName(),
                     transferParamsModel.getTransferAmount(), transferParamsModel.getTransferSymbol(), transferParamsModel.getFeeSymbol(), transferParamsModel.getTransferMemo(), new IBcxCallBack() {
                         @Override
@@ -69,17 +65,27 @@ public class OrderConfirmViewModel extends BaseViewModel {
                                 public void run() {
                                     try {
                                         TransferModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, TransferModel.class);
-                                        if (!baseResult.isSuccess()) {
+                                        if (baseResult.code == 104) {
+                                            ToastUtils.showShort(R.string.module_asset_account_not_found);
                                             return;
                                         }
-                                        LogUtils.d("transfer", baseResult.data);
+
+                                        if (baseResult.code == 112) {
+                                            ToastUtils.showShort(R.string.module_asset_private_key_author_failed);
+                                            return;
+                                        }
+
+                                        if (!baseResult.isSuccess()) {
+                                            ToastUtils.showShort(R.string.net_work_failed);
+                                            return;
+                                        }
                                         ToastUtils.showShort(R.string.module_asset_transfer_success);
                                         EventBusCarrier eventBusCarrier = new EventBusCarrier();
                                         eventBusCarrier.setEventType(EventTypeGlobal.TRANSFER_SUCCESS);
                                         eventBusCarrier.setObject(null);
                                         EventBus.getDefault().post(eventBusCarrier);
                                     } catch (Exception e) {
-                                        LogUtils.d("transferhandleException", e.getMessage());
+                                        ToastUtils.showShort(R.string.net_work_failed);
                                     }
                                 }
                             });

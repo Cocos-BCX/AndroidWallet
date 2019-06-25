@@ -32,7 +32,6 @@ public class AccountManagerListViewModel extends BaseViewModel {
         super(application);
     }
 
-
     public ObservableList<AccountManagerListItemViewModel> observableList = new ObservableArrayList<>();
 
     public ItemBinding<AccountManagerListItemViewModel> itemBinding = ItemBinding.of(BR.viewModel, R.layout.module_mine_item_account_manage);
@@ -57,43 +56,36 @@ public class AccountManagerListViewModel extends BaseViewModel {
         if (null == accountNames && accountNames.size() <= 0) {
             return;
         }
+        observableList.clear();
         for (final String accountName : accountNames) {
             String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name(accountName);
             CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, "1.3.0", new IBcxCallBack() {
                 @Override
                 public void onReceiveValue(final String s) {
                     AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
-                    if (null == balanceEntity) {
+                    if (null == balanceEntity || !balanceEntity.isSuccess()) {
                         return;
                     }
-                    if (!balanceEntity.isSuccess()) {
-                        return;
-                    }
-                    observableList.clear();
                     final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
                     CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.asset_id, new IBcxCallBack() {
                         @Override
                         public void onReceiveValue(final String s) {
+                            final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
+                            if (!assetModel.isSuccess()) {
+                                return;
+                            }
                             MainHandler.getInstance().post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
-                                    if (!assetModel.isSuccess()) {
-                                        return;
-                                    }
-                                    MainHandler.getInstance().post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            AssetsModel.AssetModel assetModel1 = assetModel.getData();
-                                            assetModel1.amount = dataBean.amount;
-                                            AccountManagerListItemViewModel itemViewModel = new AccountManagerListItemViewModel(AccountManagerListViewModel.this, assetModel1, accountName);
-                                            observableList.add(itemViewModel);
-                                        }
-                                    });
+                                    AssetsModel.AssetModel assetModel1 = assetModel.getData();
+                                    assetModel1.amount = dataBean.amount;
+                                    AccountManagerListItemViewModel itemViewModel = new AccountManagerListItemViewModel(AccountManagerListViewModel.this, assetModel1, accountName);
+                                    observableList.add(itemViewModel);
                                 }
                             });
                         }
                     });
+
                 }
             });
         }

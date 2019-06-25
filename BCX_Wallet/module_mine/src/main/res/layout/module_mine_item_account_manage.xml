@@ -38,6 +38,8 @@
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/copy_black_icon"
                 android:drawablePadding="@dimen/dp_5"
+                android:maxWidth="220dp"
+                android:singleLine="true"
                 android:text="@{viewModel.account}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_16"

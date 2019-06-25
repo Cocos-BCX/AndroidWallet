@@ -13,6 +13,7 @@ import com.cocos.library_base.entity.PrivateKeyModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.StatusBarUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -91,10 +92,13 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
                                     @Override
                                     public void run() {
                                         final PrivateKeyModel keyModel = GsonSingleInstance.getGsonInstance().fromJson(private_key, PrivateKeyModel.class);
+                                        if (keyModel.code == 105) {
+                                            ToastUtils.showShort(R.string.module_mine_wrong_password);
+                                            return;
+                                        }
                                         if (!keyModel.isSuccess()) {
                                             return;
                                         }
-                                        passwordVerifyDialog.dismiss();
                                         Bundle bundle = new Bundle();
                                         bundle.putSerializable(IntentKeyGlobal.KEY_MODEL, keyModel);
                                         ARouter.getInstance().build(RouterActivityPath.ACTIVITY_KEY_EXPORT).with(bundle).navigation();

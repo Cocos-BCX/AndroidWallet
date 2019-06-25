@@ -22,6 +22,7 @@ import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.SPUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
@@ -99,9 +100,11 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
 
                         }
                     });
+                    ToastUtils.showShort(R.string.module_mine_node_connect_failed);
                     nodeNetDialog.dismiss();
                     return;
                 }
+                ToastUtils.showShort(R.string.module_mine_node_connect_success);
                 nodeNetDialog.dismiss();
                 SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
                 List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();

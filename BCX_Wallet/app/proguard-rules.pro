@@ -1,56 +1,16 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+-dontusemixedcaseclassnames          #混淆时不使用大小写混合类名
+-dontskipnonpubliclibraryclasses     #不跳过library中的非public的类
+-verbose                             #打印混淆的详细信息
+-dontoptimize                        #不进行优化，建议使用此选项，
+-dontpreverify                       #不进行预校验,Android不需要,可加快混淆速度。
+-ignorewarnings                      #忽略警告
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in D:\AndroidSDK/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# Add any project specific keep options here:
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-
-#------------------------------------------主项目混淆规则----------------------------------------------
-#实体类不参与混淆
+#entity
 -keep class com.cocos.bcx_wallet.entity.** { *; }
 -keep class com.cocos.library_base.entity.** { *; }
 -keep class com.cocos.library_base.entity.js_params.** { *; }
--keep class com.cocos.library_res.entity.js_response.** { *; }
+-keep class com.cocos.library_base.entity.js_response.** { *; }
 -keep class com.cocos.module_asset.entity.** { *; }
 -keep class com.cocos.module_found.entity.** { *; }
 -keep class com.cocos.module_login.entity.** { *; }
@@ -60,9 +20,6 @@
 -keep class com.lcodecore.tkrefreshlayout.** { *; }
 -dontwarn com.lcodecore.tkrefreshlayout.**
 
-#-------------------------------------------------------------------------
-
-#--------------------------------2.第三方包-------------------------------
 #support
 -keep class android.support.** { *; }
 -keep interface android.support.** { *; }
@@ -79,32 +36,11 @@
 #retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
--keepattributes Signature
 -keepattributes Exceptions
 
-#gson
--keepattributes Signature
--keepattributes *Annotation*
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
--keep class com.sunloto.shandong.bean.** { *; }
-#-keep class com.google.**
--dontwarn com.google.**
-
-#okhttp
--keepattributes Signature
--keepattributes *Annotation*
--keep class com.squareup.okhttp.** { *; }
--keep interface com.squareup.okhttp.** { *; }
--keep class okhttp3.** { *; }
--keep interface okhttp3.** { *; }
--dontwarn com.squareup.okhttp.**
--dontwarn okhttp3.**
--dontwarn okio.**
-
-#RxJava RxAndroid
--dontwarn rx.*
--dontwarn sun.misc.**
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
 
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
    long producerIndex;
@@ -140,14 +76,9 @@
 -keep public class * implements com.cocos.library_base.config.IModuleInit{ *; }
 -keep class com.cocos.library_base.config.** { *; }
 
-#----------------------------------------------------------------------------
-
 #---------------------------------5.自定义控件------------------------------
-
 -keep class com.cocos.library_base.widget.** { *; }
 
-
-#----------------------------------------------------------------------------
 #---------------------------------6.其他定制区-------------------------------
 #native方法不被混淆
 -keepclasseswithmembernames class * {
@@ -198,56 +129,18 @@
     private <methods>;
 }
 
-#----------------------------------------------------------------------------
-
-#---------------------------------基本指令区---------------------------------
-# 抑制警告
--ignorewarnings
-#指定代码的压缩级别
--optimizationpasses 5
-#包明不混合大小写
--dontusemixedcaseclassnames
-#不去忽略非公共的库类
--dontskipnonpubliclibraryclasses
- #优化  不优化输入的类文件
--dontoptimize
- #预校验
--dontpreverify
- #混淆时是否记录日志
--verbose
- # 混淆时所采用的算法
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
-
-#混淆包路径
--repackageclasses ''
--flattenpackagehierarchy ''
-
 #保护注解
 -keepattributes *Annotation*
 
-#避免混淆泛型 如果混淆报错建议关掉
--keepattributes Signature
-
 #保留SourceFile和LineNumber属性
 -keepattributes SourceFile,LineNumberTable
-
-#忽略警告
-#-ignorewarning
-#----------记录生成的日志数据,gradle build时在本项目根目录输出---------
-#apk 包内所有 class 的内部结构
--dump class_files.txt
-#未混淆的类和成员
--printseeds seeds.txt
-#列出从 apk 中删除的代码
--printusage unused.txt
-#混淆前后的映射
--printmapping mapping.txt
-#----------------------------------------------------------------------------
 
 #---------------------------------默认保留区---------------------------------
 -keepclassmembers class * extends android.app.Activity {
    public void *(android.view.View);
 }
+#保护注解
+-keepattributes *Annotation*
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
@@ -270,19 +163,25 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
+
+-keepattributes Signature
+
 -keepclassmembers class * extends android.content.Context {
    public void *(android.view.View);
    public void *(android.view.MenuItem);
 }
 
+#-keepnames class * implements java.io.Serializable
+-keep public class * implements java.io.Serializable {
+        public *;
+}
 -keepclassmembers class * implements java.io.Serializable {
-   static final long serialVersionUID;
-   private static final java.io.ObjectStreamField[] serialPersistentFields;
-   !static !transient <fields>;
-   private void writeObject(java.io.ObjectOutputStream);
-   private void readObject(java.io.ObjectInputStream);
-   java.lang.Object writeReplace();
-   java.lang.Object readResolve();
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
 }
 
 -keep class **.R$* {
@@ -308,7 +207,6 @@
  -keep interface me.jessyan.autosize.** { *; }
 
 
- -keepattributes *Annotation*
  -keepattributes RuntimeVisibleAnnotations
  -keepattributes RuntimeInvisibleAnnotations
  -keepattributes RuntimeVisibleParameterAnnotations
@@ -358,10 +256,6 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -dontnote com.android.vending.licensing.ILicensingService
 
-
-# Keep setters in Views so that animations can still work.
-# Setters for listeners can still be removed.
-# see http://proguard.sourceforge.net/manual/examples.html#beans
 -keepclassmembers public class * extends android.view.View {
     void set*(%);
     void set*(%, %);
@@ -406,10 +300,10 @@
 
 -keep class LibcoreWrapper.os {*;}
 -keep class android.support.v4.app.** {*;}
--keep interface android.support.v4.app.** { *; }
--keep class android.support.v7.widget.** { *; }
--keep class android.support.v7.internal.widget.** { *; }
--keep class android.support.v7.internal.view.menu.** { *; }
+-keep interface android.support.v4.app.** { *;}
+-keep class android.support.v7.widget.** { *;}
+-keep class android.support.v7.internal.widget.** { *;}
+-keep class android.support.v7.internal.view.menu.** { *;}
 -keep class com.android.volley.toolbox.Volley {*;}
 
 
@@ -418,11 +312,22 @@
 -dontwarn com.google.analytics.tracking.**
 
 -keepattributes *JavascriptInterface*
--keep class android.webkit.WebSettings { *; }
+-keep class android.webkit.WebSettings {*;}
 -dontwarn android.webkit.WebSettings
 
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.**{*;}
+# 保留常量类
+-keep class com.cocos.library_base.sql.contract.**{*;}
+-keep class com.cocos.library_base.utils.constant.**{*;}
+-keep class com.cocos.library_base.router.**{*;}
+-keep class com.cocos.library_base.global.**{*;}
+
+
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
 
 # ARouter
 -keep public class com.alibaba.android.arouter.routes.**{*;}
@@ -430,32 +335,29 @@
 -keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
 
 #okhttp
--dontwarn com.squareup.okhttp3.**
--keep class com.squareup.okhttp3.** { *;}
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.* { *;}
+-keep interface com.squareup.okhttp.** { *;}
+-dontwarn com.squareup.okhttp.**
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *;}
+-keep interface okhttp3.** { *;}
+-dontwarn okhttp3.**
+-dontwarn com.squareup.**
 -dontwarn okio.**
-
-# Retrofit
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
--keepattributes Exceptions
+-keep public class org.codehaus.* { *;}
+-keep public class java.nio.* { *; }
 
 # Retrolambda
 -dontwarn java.lang.invoke.*
 
-# RxJava RxAndroid
--dontwarn sun.misc.**
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
-    long producerIndex;
-    long consumerIndex;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode producerNode;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
-    rx.internal.util.atomic.LinkedQueueNode consumerNode;
-}
-###rxandroid-1.2.1
+#rxandroid-1.2.1
 -keepclassmembers class rx.android.**{*;}
+-dontwarn rx.**
+-keep class rx.**{*;}
+-dontwarn sun.misc.**
 
 # Gson
 -keep class com.google.gson.stream.** { *; }
@@ -466,4 +368,5 @@
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
-
+-keep class com.sunloto.shandong.bean.** { *; }
+-dontwarn com.google.**

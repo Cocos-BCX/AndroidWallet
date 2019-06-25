@@ -9,7 +9,6 @@ import android.databinding.ObservableList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -23,6 +22,7 @@ import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.NumberUtil;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
@@ -109,7 +109,7 @@ public class DealRecordViewModel extends BaseViewModel {
     public void setAssetModel(AssetsModel.AssetModel assetModel) {
         this.assetModel = assetModel;
         tokenSymbol.set(assetModel.symbol);
-        totalAsset.set(String.valueOf(assetModel.amount.add(BigDecimal.ZERO)));
+        totalAsset.set(NumberUtil.doubleTrans1(assetModel.amount.add(BigDecimal.ZERO).setScale(5, RoundingMode.HALF_UP).doubleValue()));
         //todo need prices
         totalAssetValue.set("≈ ￥" + assetModel.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
         accountName.set(String.valueOf(AccountHelperUtils.getCurrentAccountName()));
@@ -135,9 +135,8 @@ public class DealRecordViewModel extends BaseViewModel {
                             return;
                         }
                         for (DealRecordModel.DealRecordItemModel recordItemModel : dealRecordModel.getData()) {
-                            Log.i("option", String.valueOf(recordItemModel.op.get(0)));
                             double option = (double) recordItemModel.op.get(0);
-                            if (option == 0) {
+                            if (option == 0 || option == 44 || option == 51) {
                                 DealRecordItemViewModel itemViewModel = new DealRecordItemViewModel(DealRecordViewModel.this, recordItemModel);
                                 observableList.add(itemViewModel);
                             }

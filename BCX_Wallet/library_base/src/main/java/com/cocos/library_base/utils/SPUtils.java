@@ -203,15 +203,15 @@ public class SPUtils {
      * @param datalist
      */
     public static <T> void setDataList(String tag, List<T> datalist) {
-        if (null == datalist || datalist.size() <= 0)
-            return;
+        try {
+            Gson gson = new Gson();
+            //转换成json数据，再保存
+            String strJson = gson.toJson(datalist);
+            editor.putString(tag, strJson);
+            editor.commit();
+        } catch (Exception e) {
 
-        Gson gson = new Gson();
-        //转换成json数据，再保存
-        String strJson = gson.toJson(datalist);
-        editor.putString(tag, strJson);
-        editor.commit();
-
+        }
     }
 
     /**
@@ -232,17 +232,26 @@ public class SPUtils {
         return datalist;
     }
 
+    /**
+     * 获取List
+     *
+     * @param tag
+     * @return
+     */
     public static List<NodeInfoModel.DataBean> getNodeInfo(String tag) {
-        List<NodeInfoModel.DataBean> datalist = new ArrayList<>();
-        String strJson = sp.getString(tag, null);
-        if (null == strJson) {
+        try {
+            List<NodeInfoModel.DataBean> datalist = new ArrayList<>();
+            String strJson = sp.getString(tag, null);
+            if (null == strJson) {
+                return datalist;
+            }
+            Gson gson = new Gson();
+            datalist = gson.fromJson(strJson, new TypeToken<List<NodeInfoModel.DataBean>>() {
+            }.getType());
             return datalist;
+        } catch (Exception e) {
+            return new ArrayList<>();
         }
-        Gson gson = new Gson();
-        datalist = gson.fromJson(strJson, new TypeToken<List<NodeInfoModel.DataBean>>() {
-        }.getType());
-        return datalist;
-
     }
 
 
@@ -284,8 +293,7 @@ public class SPUtils {
     /**
      * 存储对象
      */
-    private static void put(Context context, String key, Object obj)
-            throws IOException {
+    private static void put(Context context, String key, Object obj) throws IOException {
         if (obj == null) {//判断对象是否为空
             return;
         }

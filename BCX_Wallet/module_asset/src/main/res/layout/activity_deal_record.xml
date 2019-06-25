@@ -122,6 +122,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:maxWidth="@dimen/dp_200"
+                            android:singleLine="true"
                             android:text="@={viewModel.accountName}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_13" />

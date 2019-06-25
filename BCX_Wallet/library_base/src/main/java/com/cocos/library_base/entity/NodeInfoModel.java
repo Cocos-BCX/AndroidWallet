@@ -13,13 +13,14 @@ public class NodeInfoModel implements Serializable {
     public String msg;
     public List<DataBean> data;
 
-    public static class DataBean implements Serializable{
+    public static class DataBean implements Serializable {
         public String name;
         public String ws;
         public String faucetUrl;
         public String chainId;
         public String coreAsset;
         public String type;
+        public boolean isNative;
 
         @Override
         public String toString() {

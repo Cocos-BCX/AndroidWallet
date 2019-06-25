@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CocosWallet</string>
     <string name="main_tab_asset">Wallet</string>
-    <string name="main_tab_found">Discover</string>
+    <string name="main_tab_found">Space</string>
     <string name="main_tab_mine">Me</string>
     <string name="system_exit">back twice to exist</string>
 </resources>

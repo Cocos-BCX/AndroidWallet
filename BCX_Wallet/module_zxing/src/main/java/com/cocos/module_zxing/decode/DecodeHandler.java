@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.renny.zxing.decode;
+package com.cocos.module_zxing.decode;
+
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.hardware.Camera.Size;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.cocos.module_zxing.Activity.CaptureActivity;
+import com.cocos.module_zxing.R;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
@@ -31,12 +34,9 @@ import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.renny.zxing.Activity.CaptureActivity;
-import com.renny.zxing.R;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
-
 
 public class DecodeHandler extends Handler {
 
@@ -75,7 +75,7 @@ public class DecodeHandler extends Handler {
 	 *            The height of the preview frame.
 	 */
 	private void decode(byte[] data, int width, int height) {
-		Size size = activity.getCameraManager().getPreviewSize();
+		Camera.Size size = activity.getCameraManager().getPreviewSize();
 
 		// 这里需要将获取的data翻转一下，因为相机默认拿的的横屏的数据
 		byte[] rotatedData = new byte[data.length];

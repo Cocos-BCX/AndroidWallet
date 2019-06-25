@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.renny.zxing.utils;
+package com.cocos.module_zxing.utils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 
+import com.cocos.module_zxing.Activity.CaptureActivity;
+import com.cocos.module_zxing.R;
+import com.cocos.module_zxing.camera.CameraManager;
+import com.cocos.module_zxing.decode.DecodeThread;
 import com.google.zxing.Result;
-import com.renny.zxing.Activity.CaptureActivity;
-import com.renny.zxing.R;
-import com.renny.zxing.camera.CameraManager;
-import com.renny.zxing.decode.DecodeThread;
+
 
 
 /**

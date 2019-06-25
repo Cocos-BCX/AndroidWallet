@@ -12,13 +12,13 @@
 
     <string name="language_cn">Chinese</string>
     <string name="language_en">English</string>
-    <string name="net_work_failed">Network connection is unavailable. Check network settings!</string>
+    <string name="net_work_failed">Network busy,  please check your network connection!</string>
     <string name="title_verify_password_text">Verify Key</string>
     <string name="verify_password_hint">Account key/temporary key</string>
     <string name="web_load_failed">The page was taken away by aliens!</string>
     <string name="web_reload">Refresh</string>
     <string name="loading">Loading</string>
-    <string name="no_data">No data</string>
+    <string name="no_data">No prop asset</string>
     <string name="update_btn_text">Update Now</string>
     <string name="cancel_update_btn_text">Cancel</string>
     <string name="update_title">New Version</string>
@@ -28,4 +28,5 @@
     <string name="to_setting">Setting</string>
     <string name="module_asset_downloading">Download…</string>
     <string name="module_asset_download_failed">download failed!</string>
+    <string name="operate_failed">operate failed</string>
 </resources>

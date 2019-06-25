@@ -78,6 +78,7 @@
                 android:layout_marginStart="@dimen/dp_8"
                 android:background="@drawable/shape_create_wallet_bg"
                 android:text="@string/confirm_text"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_16"
                 binding:onClickCommand="@{viewModel.confirmOnClickCommand}" />
@@ -88,8 +89,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/dp_44"
-           >
+            android:paddingBottom="@dimen/dp_44">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -100,6 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_24"
+                android:gravity="center"
                 android:text="@string/module_found_search_tips" />
 
         </LinearLayout>

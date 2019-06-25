@@ -8,6 +8,8 @@
         <activity android:name=".ui.deal_record.RecordDetailActivity" />
         <activity android:name=".create.CreateAccountActivity" />
         <activity android:name=".ui.coin_type_select.CoinSelectActivity" />
+        <activity android:name=".ui.contract_detail.ContractRecordDetailActivity" />
+        <activity android:name=".ui.nh_transfer_detail.NHTransferDealDetailActivity" />
 
         <meta-data
             android:name="design_width_in_dp"

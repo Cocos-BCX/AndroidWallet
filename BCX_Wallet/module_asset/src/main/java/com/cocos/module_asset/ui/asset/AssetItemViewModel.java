@@ -13,6 +13,7 @@ import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.NumberUtil;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_asset.R;
 
@@ -38,8 +39,8 @@ public class AssetItemViewModel extends ItemViewModel<AssetViewModel> {
         this.assetModel = entity;
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_asset_bcx_icon);
         // todo amount
-        totalValue.set("≈ ￥" + String.valueOf(entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP)));
-        amount.set(String.valueOf(entity.amount.add(BigDecimal.ZERO)));
+        totalValue.set("≈ ￥" + entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
+        amount.set(NumberUtil.doubleTrans1(entity.amount.add(BigDecimal.ZERO).setScale(5, RoundingMode.HALF_UP).doubleValue()));
     }
 
     //条目的点击事件

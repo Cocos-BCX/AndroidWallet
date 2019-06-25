@@ -1,14 +1,12 @@
-package com.renny.zxing.Activity;
+package com.cocos.module_zxing.Activity;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
@@ -43,11 +41,17 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.ToastUtils;
+import com.cocos.module_zxing.R;
+import com.cocos.module_zxing.camera.CameraManager;
+import com.cocos.module_zxing.decode.DecodeThread;
+import com.cocos.module_zxing.utils.BeepManager;
+import com.cocos.module_zxing.utils.CaptureActivityHandler;
+import com.cocos.module_zxing.utils.InactivityTimer;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
 import com.google.zxing.DecodeHintType;
@@ -57,12 +61,6 @@ import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Reader;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.renny.zxing.R;
-import com.renny.zxing.camera.CameraManager;
-import com.renny.zxing.decode.DecodeThread;
-import com.renny.zxing.utils.BeepManager;
-import com.renny.zxing.utils.CaptureActivityHandler;
-import com.renny.zxing.utils.InactivityTimer;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -81,7 +79,6 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
     private RelativeLayout scanContainer;
     private RelativeLayout scanCropView;
 
-    private static final int REQUEST_ALBUM = 0;
     private boolean isPause = false;
     private Camera camera;
     private CaptureActivityHandler handler;
@@ -213,9 +210,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
         inactivityTimer.onResume();
     }
 
-    /**
-     * 暂停扫码
-     */
+
     @SuppressLint("NewApi")
     private void pauseScan() {
         if (handler != null) {
@@ -344,25 +339,26 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
      */
     private void displayFrameworkBugMessageAndExit() {
         // camera error
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.app_name));
-        builder.setMessage("相机打开出错，请稍后重试");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-
-        });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
-        builder.show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(getString(R.string.app_name));
+//        builder.setMessage("相机打开出错，请稍后重试");
+//        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                finish();
+//            }
+//
+//        });
+//        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//
+//            @Override
+//            public void onCancel(DialogInterface dialog) {
+//                finish();
+//            }
+//        });
+//        builder.show();
+        ToastUtils.showShort(R.string.unknown_error);
     }
 
     public void restartPreviewAfterDelay(long delayMS) {
@@ -503,7 +499,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openAlbum();
                 } else {
-                    Toast.makeText(context, "权限申请失败", Toast.LENGTH_LONG).show();
+                    ToastUtils.showShort(R.string.module_zxing_failure_of_permission_application);
                 }
             default:
                 break;
@@ -531,7 +527,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
             String path = getPath(context, uri);
             Result result = scanningImage(path);
             if (result == null) {
-                Toast.makeText(context, "未发现二维码/条形码", Toast.LENGTH_LONG).show();
+                ToastUtils.showShort(R.string.module_zxing_barcode_not_found);
             } else {
                 handleDecode(result);
             }
@@ -543,7 +539,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
             String path = getPath(context, uri);
             Result result = scanningImage(path);
             if (result == null) {
-                Toast.makeText(context, "未发现二维码/条形码", Toast.LENGTH_LONG).show();
+                ToastUtils.showShort(R.string.module_zxing_barcode_not_found);
             } else {
                 handleDecode(result);
             }

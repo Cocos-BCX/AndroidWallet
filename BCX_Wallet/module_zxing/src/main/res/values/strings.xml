@@ -1,2 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
+    <string name="scan_title">扫一扫</string>
+    <string name="scan_desc">将二维码放入框内，即可自动扫描</string>
+    <string name="module_zxing_failure_of_permission_application">权限申请失败</string>
+    <string name="module_zxing_barcode_not_found">未发现二维码</string>
 </resources>

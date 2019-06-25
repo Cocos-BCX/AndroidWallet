@@ -12,7 +12,6 @@ import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.VersionUtil;
 import com.cocos.module_login.R;
 import com.cocos.module_login.databinding.ActivityPasswordLoginBinding;
-import com.cocos.module_login.register.RegisterActivity;
 
 /**
  * @author ningkang.guo

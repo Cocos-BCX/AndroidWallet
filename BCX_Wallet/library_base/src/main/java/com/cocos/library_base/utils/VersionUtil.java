@@ -24,6 +24,7 @@ import com.cocos.library_base.http.download.CheckApkExistUtil;
 import com.cocos.library_base.http.download.DownLoadManager;
 import com.cocos.library_base.http.download.ProgressCallBack;
 import com.cocos.library_base.http.http.HttpMethods;
+import com.cocos.library_base.utils.multi_language.SPUtil;
 
 import java.io.File;
 import java.util.Locale;
@@ -59,10 +60,11 @@ public class VersionUtil {
     }
 
     private static void update(UpdateInfo data, BaseViewModel baseViewModel, Activity activity) {
+        int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
         final AlertDialog.Builder normalDialog = new AlertDialog.Builder(activity);
         normalDialog.setTitle(R.string.update_title);
         normalDialog.setCancelable(false);
-        normalDialog.setMessage(data.data.info);
+        normalDialog.setMessage(selectLanguage == 0 ? data.data.info : data.data.en_info);
         normalDialog.setPositiveButton(R.string.update_btn_text, (dialog, which) -> {
             baseViewModel.loadUrlEvent.observe((LifecycleOwner) activity, url -> downFile(url, activity));
             baseViewModel.loadUrlEvent.setValue(data.data.download_url);

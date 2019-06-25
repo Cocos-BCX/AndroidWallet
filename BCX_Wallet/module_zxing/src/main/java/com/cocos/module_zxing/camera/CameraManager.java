@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.renny.zxing.camera;
+package com.cocos.module_zxing.camera;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -24,9 +24,7 @@ import android.hardware.Camera.Size;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
-
-import com.renny.zxing.camera.open.OpenCameraInterface;
-
+import com.cocos.module_zxing.camera.open.OpenCameraInterface;
 import java.io.IOException;
 
 

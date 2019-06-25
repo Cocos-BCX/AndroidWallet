@@ -158,15 +158,32 @@ public class RegisterViewModel extends BaseViewModel {
                     public void run() {
                         try {
                             RegisterModel registerModel = GsonSingleInstance.getGsonInstance().fromJson(s, RegisterModel.class);
-                            if (registerModel.isSuccess()) {
-                                AccountHelperUtils.setCurrentAccountName(registerModel.getData().getAccount().getName());
-                                Bundle bundle = new Bundle();
-                                bundle.putString(IntentKeyGlobal.ACCOUNT_PASSWORD, password.get());
-                                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_SCREENSHOT_WARNING).with(bundle).navigation();
-                                finish();
+
+                            if (registerModel.code == 0) {
+                                ToastUtils.showShort(com.cocos.library_base.R.string.operate_failed);
+                                return;
                             }
+
+                            if (registerModel.code == 159) {
+                                ToastUtils.showShort(R.string.module_login_account_exist);
+                                dismissDialog();
+                                return;
+                            }
+
+                            if (!registerModel.isSuccess()) {
+                                dismissDialog();
+                                return;
+                            }
+                            AccountHelperUtils.setCurrentAccountName(registerModel.getData().getAccount().getName());
+                            Bundle bundle = new Bundle();
+                            bundle.putString(IntentKeyGlobal.ACCOUNT_PASSWORD, password.get());
+                            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_SCREENSHOT_WARNING).with(bundle).navigation();
+                            finish();
                             dismissDialog();
+                            ToastUtils.showShort(R.string.module_login_register_success);
                         } catch (Exception e) {
+                            dismissDialog();
+                            ToastUtils.showShort(R.string.net_work_failed);
                         }
                     }
                 });

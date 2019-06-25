@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package com.renny.zxing.decode;
+package com.cocos.module_zxing.decode;
 
 import android.os.Handler;
 import android.os.Looper;
 
+import com.cocos.module_zxing.Activity.CaptureActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
-import com.renny.zxing.Activity.CaptureActivity;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;

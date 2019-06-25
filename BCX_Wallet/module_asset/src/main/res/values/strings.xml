@@ -24,8 +24,8 @@
     <string name="module_asset_record_detail_account_to">接收方：</string>
     <string name="module_asset_record_detail_account_memo">备注：</string>
     <string name="module_asset_record_detail_miner_fee">矿工费用：</string>
-    <string name="module_asset_record_detail_deal_hash">交易哈希值：</string>
-    <string name="module_asset_record_detail_quare_height">区块高度：</string>
+    <string name="module_asset_record_detail_deal_hash">交易ID：</string>
+    <string name="module_asset_record_detail_square_height">区块高度：</string>
     <string name="module_asset_record_detail_deal_time">交易时间：</string>
     <string name="module_asset_transfer_deal_detail">交易详情</string>
     <string name="module_asset_transfer_order_info">订单信息</string>
@@ -51,4 +51,16 @@
     <string name="module_asset_coin_select_receivables_title">选择收款币种</string>
     <string name="module_asset_balance_short">转出数量超过账户余额!手续费：</string>
     <string name="unlock_memo_tips" tools:ignore="ResourceName">点此解锁来查看备注</string>
+    <string name="module_asset_contract_author">授权人：</string>
+    <string name="module_asset_contract_type">合约调用</string>
+    <string name="module_asset_contract_name">合约名称：</string>
+    <string name="module_asset_contract_action">动作：</string>
+    <string name="module_asset_contract_params">数据：</string>
+    <string name="module_asset_transfer_nh_title">NH资产转移</string>
+    <string name="module_asset_nh_asset_id">NH资产ID:</string>
+    <string name="no_asset_data">暂无资产</string>
+    <string name="module_asset_transfer_amount_empty">请输入转账数量</string>
+    <string name="module_asset_account_not_found">收款账户不存在</string>
+    <string name="module_asset_wrong_password">密码不正确</string>
+    <string name="module_asset_private_key_author_failed">owner key不能进行转账，请导入active key</string>
 </resources>

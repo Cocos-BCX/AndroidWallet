@@ -1,6 +1,7 @@
 package com.cocos.module_asset.ui.receivables;
 
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -10,6 +11,8 @@ import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.DecimalDigitsInputFilter;
+import com.cocos.library_base.utils.NumberUtil;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
@@ -46,6 +49,8 @@ public class ReceivablesActivity extends BaseActivity<ActivityReceivablesBinding
     @Override
     public void initData() {
         viewModel.setAssetModel(assetModel);
+        binding.etAmount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(assetModel.precision)});
+        NumberUtil.setPricePoint1(binding.etAmount);
     }
 
     @Override

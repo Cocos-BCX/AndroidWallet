@@ -14,7 +14,6 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.KLog;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -82,7 +81,7 @@ public class KeyLoginViewModel extends BaseViewModel {
             return;
         }
         if (TextUtils.isEmpty(password.get())) {
-            ToastUtils.showShort(R.string.module_login_password_empty);
+            ToastUtils.showShort(R.string.module_login_temp_password_empty);
             return;
         }
         showDialog();
@@ -93,13 +92,21 @@ public class KeyLoginViewModel extends BaseViewModel {
                         MainHandler.getInstance().post(new Runnable() {
                             @Override
                             public void run() {
-                                KLog.i("privateKeyLogin", s);
                                 KeyLoginModel keyLoginModel = GsonSingleInstance.getGsonInstance().fromJson(s, KeyLoginModel.class);
-                                if (keyLoginModel.isSuccess()) {
-                                    AccountHelperUtils.setCurrentAccountName(keyLoginModel.data.get(0));
-                                    ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
-                                    finish();
+                                if (keyLoginModel.code == 109) {
+                                    ToastUtils.showShort(R.string.module_login_key_format_error);
+                                    dismissDialog();
+                                    return;
                                 }
+                                if (!keyLoginModel.isSuccess()) {
+                                    ToastUtils.showShort(R.string.net_work_failed);
+                                    dismissDialog();
+                                    return;
+                                }
+                                AccountHelperUtils.setCurrentAccountName(keyLoginModel.data.get(0));
+                                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
+                                ToastUtils.showShort(R.string.module_login_key_login_success);
+                                finish();
                                 dismissDialog();
                             }
                         });

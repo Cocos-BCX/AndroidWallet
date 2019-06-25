@@ -23,7 +23,7 @@ public class DealRecordModel extends BaseResult {
     public List<DealRecordItemModel> data;
 
     public static class DealRecordItemModel implements Serializable {
-        public int block_num;
+        public double block_num;
         public String id;
         public int op_in_trx;
         public int trx_in_block;
@@ -37,13 +37,9 @@ public class DealRecordModel extends BaseResult {
         public FeeBean fee;
         public String from;
         public String to;
+        public String nh_asset;
         public AmountBean amount;
         public MemoBean memo;
-
-        public static class FeeBean implements Serializable {
-            public BigDecimal amount;
-            public String asset_id;
-        }
 
         public static class AmountBean implements Serializable {
             public BigDecimal amount;
@@ -56,5 +52,18 @@ public class DealRecordModel extends BaseResult {
             public String nonce;
             public String message;
         }
+    }
+
+    public static class ContractOp implements Serializable {
+        public FeeBean fee;
+        public String caller;
+        public String contract_id;
+        public String function_name;
+        public List<List<Object>> value_list;
+    }
+
+    public static class FeeBean {
+        public BigDecimal amount;
+        public String asset_id;
     }
 }

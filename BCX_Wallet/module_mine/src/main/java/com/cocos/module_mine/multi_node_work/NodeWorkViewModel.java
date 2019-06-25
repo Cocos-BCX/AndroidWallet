@@ -89,6 +89,7 @@ public class NodeWorkViewModel extends BaseViewModel {
                     }
 
                     for (NodeInfoModel.DataBean dataBean : dataBeans) {
+                        dataBean.isNative = true;
                         NodeWorkItemViewModel itemViewModel = new NodeWorkItemViewModel(NodeWorkViewModel.this, dataBean);
                         nodeWorkObservableList.add(itemViewModel);
                     }
@@ -100,6 +101,7 @@ public class NodeWorkViewModel extends BaseViewModel {
                 return;
             }
             for (NodeInfoModel.DataBean dataBean : dataBeans) {
+                dataBean.isNative = true;
                 NodeWorkItemViewModel itemViewModel = new NodeWorkItemViewModel(NodeWorkViewModel.this, dataBean);
                 nodeWorkObservableList.add(itemViewModel);
             }

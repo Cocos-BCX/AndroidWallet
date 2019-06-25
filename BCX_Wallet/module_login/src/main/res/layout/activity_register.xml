@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_20"
-            android:text="@string/module_login_account_name_error_tip"
+            android:text="@string/module_login_username_hint"
             android:textColor="@color/color_F56151"
             android:textSize="@dimen/sp_12"
             android:visibility="@{viewModel.accountNameErrorTipVisible}" />

@@ -22,8 +22,10 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_DEAL_RECORD = "/module_asset/DealRecordActivity";
     public static final String ACTIVITY_RECEIVABLES = "/module_asset/ReceivablesActivity";
     public static final String ACTIVITY_RECORD_DETAIL = "/module_asset/RecordDetailActivity";
+    public static final String ACTIVITY_CONTRACT_RECORD_DETAIL = "/module_asset/ContractRecordDetailActivity";
     public static final String ACTIVITY_CREATE_ACCOUNT = "/module_asset/CreateAccountActivity";
     public static final String ACTIVITY_COIN_SELECT = "/module_asset/CoinSelectActivity";
+    public static final String ACTIVITY_NH_TRANSFER_RECORD_DETAIL = "/module_asset/NhTransferRecordDetailActivity";
 
     //mine
     public static final String ACTIVITY_CONTACT = "/module_mine/ContactActivity";

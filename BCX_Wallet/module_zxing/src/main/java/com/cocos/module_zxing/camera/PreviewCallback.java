@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.renny.zxing.camera;
+package com.cocos.module_zxing.camera;
 
 import android.graphics.Point;
 import android.hardware.Camera;

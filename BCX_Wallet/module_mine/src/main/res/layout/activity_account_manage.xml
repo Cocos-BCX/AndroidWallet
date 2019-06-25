@@ -230,7 +230,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_14"
+                    android:layout_marginStart="@dimen/dp_14"
+                    android:maxWidth="@dimen/dp_150"
+                    android:singleLine="true"
                     android:text="@={viewModel.accountName}"
                     android:textColor="@color/color_262A33"
                     android:textSize="@dimen/sp_18" />
@@ -255,7 +257,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_marginStart="@dimen/dp_6"
                     android:layout_weight="1">
 
                     <TextView

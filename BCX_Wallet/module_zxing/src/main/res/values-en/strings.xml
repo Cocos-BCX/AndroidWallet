@@ -1,0 +1,6 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
+    <string name="scan_title">Scan</string>
+    <string name="scan_desc">Barcode within frame to scan</string>
+    <string name="module_zxing_failure_of_permission_application">Failure of permission application</string>
+    <string name="module_zxing_barcode_not_found">Barcode not found</string>
+</resources>

@@ -90,6 +90,7 @@ public class CustomNodeWorkViewModel extends BaseViewModel {
             dataBean.ws = nodeUrl.get();
             dataBean.chainId = chainId.get();
             dataBean.faucetUrl = faucetUrl.get();
+            dataBean.isNative = true;
             List<NodeInfoModel.DataBean> dataBeans = SPUtils.getNodeInfo(SPKeyGlobal.CUSTOM_NODE_MODEL_LIST);
             if (null == dataBeans) {
                 dataBeans = new ArrayList<>();

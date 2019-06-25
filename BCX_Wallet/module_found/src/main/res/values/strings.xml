@@ -5,6 +5,6 @@
     <string name="module_found_found_dapp_dialog_text">您正在跳转至第三方dapp，确认即同意第三方dapp的用户协议与隐私政策，由其直接并单独向您承担责任</string>
     <string name="fragment_found_search_title">搜索Dapp</string>
     <string name="module_found_search_hint">请输入DApp网址</string>
-    <string name="module_found_search_tips">在地址栏输入你想玩的DApp网址  进入即可试玩</string>
+    <string name="module_found_search_tips">在地址栏输入你想玩的DApp网址\n进入即可试玩</string>
     <string name="module_found_illegal_dapp_link_url">无效链接</string>
 </resources>

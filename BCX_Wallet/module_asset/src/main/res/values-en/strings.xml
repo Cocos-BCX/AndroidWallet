@@ -23,8 +23,8 @@
     <string name="module_asset_record_detail_account_to">To：</string>
     <string name="module_asset_record_detail_account_memo">Note：</string>
     <string name="module_asset_record_detail_miner_fee">Gas：</string>
-    <string name="module_asset_record_detail_deal_hash">Txid：</string>
-    <string name="module_asset_record_detail_quare_height">Height：</string>
+    <string name="module_asset_record_detail_deal_hash">Tx_id：</string>
+    <string name="module_asset_record_detail_square_height">Height：</string>
     <string name="module_asset_record_detail_deal_time">Date：</string>
     <string name="module_asset_transfer_deal_detail">Transaction Details</string>
     <string name="module_asset_transfer_order_info">Order Information</string>
@@ -36,13 +36,13 @@
     <string name="module_asset_total_assets">Total Assets(¥)</string>
     <string name="module_asset_developing">To Be Expected</string>
     <string name="module_asset_transfer_account_can_not_yourself">transfer account can not be self</string>
-    <string name="module_asset_receivablesAccountName_empty">to address empty!</string>
+    <string name="module_asset_receivablesAccountName_empty">Address empty!</string>
     <string name="module_asset_response_error">data error</string>
-    <string name="module_asset_transfer_success">transfer success</string>
+    <string name="module_asset_transfer_success">Transfer completed</string>
     <string name="module_asset_account_balance_text">Balance:</string>
     <string name="module_asset_transfer_fee_info">fee</string>
     <string name="module_asset_balance_short_error">balance is not enough! fee：</string>
-    <string name="module_asset_no_deal_record_data" tools:ignore="MissingTranslation">No records</string>
+    <string name="module_asset_no_deal_record_data" tools:ignore="MissingTranslation">No transaction history</string>
     <string name="create_account_title" tools:ignore="ResourceName">Create account</string>
     <string name="module_login_import_wallet" tools:ignore="ResourceName">Import account</string>
     <string name="module_login_import_wallet_detail" tools:ignore="ResourceName">Import account with private key</string>
@@ -52,4 +52,16 @@
     <string name="module_asset_coin_select_receivables_title">Select currency</string>
     <string name="module_asset_balance_short">Transfer amount exceeds account balance!Transfer fee：</string>
     <string name="unlock_memo_tips" tools:ignore="ResourceName">Click to unlock memo</string>
+    <string name="module_asset_contract_author">Author：</string>
+    <string name="module_asset_contract_type">Contract call</string>
+    <string name="module_asset_contract_name">Name：</string>
+    <string name="module_asset_contract_action">Action：</string>
+    <string name="module_asset_contract_params">Data：</string>
+    <string name="module_asset_transfer_nh_title">NH Asset Transfer</string>
+    <string name="module_asset_nh_asset_id">NHAsset ID:</string>
+    <string name="no_asset_data">No Data</string>
+    <string name="module_asset_transfer_amount_empty">Please enter the amount to be transferred</string>
+    <string name="module_asset_account_not_found">Account does not exist</string>
+    <string name="module_asset_wrong_password">Wrong password</string>
+    <string name="module_asset_private_key_author_failed">Owner key cannot transfer,Please import active key</string>
 </resources>

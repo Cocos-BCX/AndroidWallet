@@ -85,17 +85,10 @@ public class RecordDetailViewModel extends BaseViewModel {
         }
     });
 
-    //交易哈希的点击事件
-    public BindingCommand onDealHashClick = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            //  finish();
-        }
-    });
-
     public void setDealDetailData(DealDetailModel dealDetailModel) {
         this.dealDetailModel = dealDetailModel;
         dealType.set(dealDetailModel.deal_type);
+        dealHash.set(dealDetailModel.tx_id);
         dealAmount.set(dealDetailModel.amount + dealDetailModel.amountAssetSymbol);
         senderAccount.set(dealDetailModel.from);
         receiablesAccount.set(dealDetailModel.to);
@@ -103,6 +96,5 @@ public class RecordDetailViewModel extends BaseViewModel {
         squareHeight.set(dealDetailModel.block_header);
         dealTime.set(dealDetailModel.time);
         dealMemoVisibility.set(null != dealDetailModel.memo ? View.VISIBLE : View.GONE);
-        // dealHash.set(dealDetailModel.fee + dealDetailModel.feeAssetSymbol);
     }
 }

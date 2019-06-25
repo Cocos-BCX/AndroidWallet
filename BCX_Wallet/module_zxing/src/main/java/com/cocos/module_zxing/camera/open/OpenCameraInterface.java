@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.renny.zxing.camera.open;
+package com.cocos.module_zxing.camera.open;
 
 import android.hardware.Camera;
 import android.util.Log;

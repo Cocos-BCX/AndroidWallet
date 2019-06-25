@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="module_login_username_hint" tools:ignore="MissingTranslation">Begin with 5-64 lowercase letters+numbers</string>
+    <string name="module_login_username_hint" tools:ignore="MissingTranslation">Begin with 5-63 lowercase letters+numbers</string>
     <string name="module_login_password_hint" tools:ignore="MissingTranslation">8-12 digits composed of two among numbers, letters and special characters</string>
 
 
@@ -37,7 +37,6 @@
     <string name="module_login_account_title">Account mode</string>
     <string name="module_login_wallet_model_tips">In wallet mode, private key to login only, please backup your private key well, make sure your wallet safe.</string>
     <string name="module_login_account_model_tips">In account mode, you can login with Account name or private key, please backup your private key well, make sure your wallet safe</string>
-    <string name="module_login_account_name_error_tip">Begin with 4-64 lowercase letters+numbers</string>
     <string name="module_login_backup_private_key_title">Backup private key</string>
     <string name="module_login_backup_wallet_title">Backup Wallet</string>
     <string name="module_login_no_shotcut_screen">Please do not take screenshots</string>
@@ -48,4 +47,8 @@
     <string name="asset_private_key_text" tools:ignore="ResourceName">Asset private key</string>
     <string name="account_private_key_text" tools:ignore="ResourceName">Account private key</string>
     <string name="module_mine_btn_next" tools:ignore="ResourceName">Next</string>
+    <string name="module_login_temp_password_empty">Please set temporary passcode</string>
+    <string name="module_login_password_error">Please enter valid account name or passcode</string>
+    <string name="module_login_account_exist">Account already exists</string>
+    <string name="module_login_key_format_error">Invalid key, enter again</string>
 </resources>

@@ -57,6 +57,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.tatarka.bindingcollectionadapter2.BR;
 
@@ -153,17 +154,12 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         }
-        binding.jsWebView.setWebContentsDebuggingEnabled(true);
+        WebView.setWebContentsDebuggingEnabled(true);
         binding.jsWebView.addJavascriptInterface(new JavaScriptUtil(), "DappJsBridge");
         try {
-            if (Build.VERSION.SDK_INT >= 16) {
-                Class<?> clazz = settings.getClass();
-                Method method = clazz.getMethod(
-                        "setAllowUniversalAccessFromFileURLs", boolean.class);
-                if (method != null) {
-                    method.invoke(binding.jsWebView.getSettings(), true);
-                }
-            }
+            Class<?> clazz = settings.getClass();
+            Method method = clazz.getMethod("setAllowUniversalAccessFromFileURLs", boolean.class);
+            method.invoke(binding.jsWebView.getSettings(), true);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -228,7 +224,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
 
     @SuppressLint("ObsoleteSdkInt")
     public void onCocosJsLocal() {
-        StringBuilder builder = new StringBuilder(JSTools.getJS(this, "cocos.js"));
+        StringBuilder builder = new StringBuilder(Objects.requireNonNull(JSTools.getJS(this, "cocos.js")));
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             binding.jsWebView.loadUrl("javascript:" + builder.toString());
         } else {
@@ -259,7 +255,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
                             Log.i("transfer_calculate_fee", s);
                             FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                            setTransactionFeeCallBack(baseResult, params, passwordDialog);
+                            setTransactionFeeCallBack(baseResult, params);
                         });
                         return;
                     }
@@ -267,7 +263,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
                         Log.i("transfer", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
-                        setTransactionCallBack(baseResult, params, passwordDialog);
+                        setTransactionCallBack(baseResult, params);
                     });
                 }
 
@@ -291,11 +287,14 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 CocosBcxApiWrapper.getBcxInstance().calculate_invoking_contract_fee(AccountHelperUtils.getCurrentAccountName(), "COCOS", jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), s -> {
                     Log.i("calculate_invoking_contract_fee", s);
                     FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                    setTransactionFeeCallBack(baseResult, params, null);
+                    setTransactionFeeCallBack(baseResult, params);
                 });
                 return;
             }
-            // invoking contract method
+
+            /**
+             *  invoking contract method
+             */
             BaseVerifyPasswordDialog passwordDialog = new BaseVerifyPasswordDialog();
             passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
             passwordDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
@@ -304,11 +303,12 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     CocosBcxApiWrapper.getBcxInstance().invoking_contract(AccountHelperUtils.getCurrentAccountName(), password, "COCOS", jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), new IBcxCallBack() {
                         @Override
                         public void onReceiveValue(String s) {
-                            Log.i("invoking_contract", s);
                             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
-                            //   setTransactionCallBack(baseResult, params, passwordDialog);
-                            onJSCallback(params.serialNumber, baseResult.getData());
-                            passwordDialog.dismiss();
+                            if (baseResult.isSuccess()) {
+                                onJSCallback(params.serialNumber, baseResult.getData());
+                            } else {
+                                onJSCallback(params.serialNumber, s);
+                            }
                         }
                     });
                 }
@@ -432,7 +432,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         memoModel.code = resultModel.getCode();
                         memoModel.message = resultModel.getMessage();
                         onJSCallback(params.serialNumber, memoModel);
-                        passwordVerifyDialog.dismiss();
                     });
                 }
 
@@ -457,7 +456,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), transferNHAssetParamModel.toAccount, "COCOS", transferNHAssetParamModel.NHAssetIds.get(0), s -> {
                         Log.i("transfer_nh_asset", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
-                        setTransactionCallBack(baseResult, params, passwordDialog);
+                        setTransactionCallBack(baseResult, params);
                     });
                 }
 
@@ -478,7 +477,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     public void onReceiveValue(String s) {
                         Log.i("buy_nh_asset_fee", s);
                         FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                        setTransactionFeeCallBack(baseResult, params, null);
+                        setTransactionFeeCallBack(baseResult, params);
                     }
                 });
                 return;
@@ -492,7 +491,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     CocosBcxApiWrapper.getBcxInstance().buy_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), fillNHAssetOrderParamModel.orderId, s -> {
                         Log.i("buy_nh_asset", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
-                        setTransactionCallBack(baseResult, params, passwordDialog);
+                        setTransactionCallBack(baseResult, params);
                     });
                 }
 
@@ -541,9 +540,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      *
      * @param baseResult
      * @param params
-     * @param passwordDialog
      */
-    private void setTransactionFeeCallBack(FeeModel baseResult, JsParamsEventModel params, BaseVerifyPasswordDialog passwordDialog) {
+    private void setTransactionFeeCallBack(FeeModel baseResult, JsParamsEventModel params) {
         TransactionFeeModel transactionFeeModel = new TransactionFeeModel();
         if (baseResult.isSuccess()) {
             TransactionFeeModel.DataBean dataBean = new TransactionFeeModel.DataBean();
@@ -554,9 +552,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         transactionFeeModel.code = baseResult.getCode();
         transactionFeeModel.message = baseResult.getMessage();
         onJSCallback(params.serialNumber, transactionFeeModel);
-        if (null != passwordDialog) {
-            passwordDialog.dismiss();
-        }
     }
 
     /**
@@ -564,9 +559,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      *
      * @param baseResult
      * @param params
-     * @param passwordDialog
      */
-    private void setTransactionCallBack(BaseResultModel<String> baseResult, JsParamsEventModel params, BaseVerifyPasswordDialog passwordDialog) {
+    private void setTransactionCallBack(BaseResultModel<String> baseResult, JsParamsEventModel params) {
         TransactionModel transactionModel = new TransactionModel();
         if (baseResult.isSuccess()) {
             TransactionModel.TrxDataBean trx_data = new TransactionModel.TrxDataBean();
@@ -580,7 +574,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         transactionModel.code = baseResult.getCode();
         transactionModel.message = baseResult.getMessage();
         onJSCallback(params.serialNumber, transactionModel);
-        passwordDialog.dismiss();
     }
 
     /**
@@ -590,9 +583,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      */
     public void onJSCallback(String serialNumber, Object data) {
         MainHandler.getInstance().post(new Runnable() {
-            /**
-             *
-             */
             @Override
             public void run() {
                 StringBuilder sb = new StringBuilder("callbackResult(\'" + serialNumber + "\',\'");
