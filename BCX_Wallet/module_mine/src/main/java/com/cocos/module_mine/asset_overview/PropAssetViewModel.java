@@ -46,11 +46,9 @@ public class PropAssetViewModel extends BaseViewModel {
     public final BindingRecyclerViewAdapter<PropAssetItemViewModel> adapter = new BindingRecyclerViewAdapter<>();
 
     public void requestPropAssetsListData() {
-
         String accountName = AccountHelperUtils.getCurrentAccountName();
-
         List<String> wordView = new ArrayList<>();
-
+        observableList.clear();
         CocosBcxApiWrapper.getBcxInstance().list_account_nh_asset(accountName, wordView, 1, 10, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
@@ -64,7 +62,7 @@ public class PropAssetViewModel extends BaseViewModel {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
-                        observableList.clear();
+
                         for (PropAssetModel.PropAssetModelBean assetModelBean : propAssetModel.data) {
                             PropAssetItemViewModel itemViewModel = new PropAssetItemViewModel(PropAssetViewModel.this, assetModelBean);
                             observableList.add(itemViewModel);

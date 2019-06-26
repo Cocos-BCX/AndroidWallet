@@ -72,12 +72,13 @@ public class PasswordLoginViewModel extends BaseViewModel {
                         @Override
                         public void run() {
                             LoginModel loginModel = GsonSingleInstance.getGsonInstance().fromJson(s, LoginModel.class);
-                            if (loginModel.code == 105) {
+                            if (loginModel.code == 105 || loginModel.code == 104) {
                                 ToastUtils.showShort(R.string.module_login_password_error);
                                 dismissDialog();
                                 return;
                             }
                             if (!loginModel.isSuccess()) {
+                                ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
                                 dismissDialog();
                                 return;
                             }

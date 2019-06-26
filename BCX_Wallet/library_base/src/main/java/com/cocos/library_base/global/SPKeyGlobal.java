@@ -33,4 +33,5 @@ public final class SPKeyGlobal {
     public static final String CUSTOM_NODE_MODEL_LIST = "custom_node_model_list";
 
     public static final String NODE_WORK_MODEL_SELECTED = "node_work_model_selected";
+    public static final String WEB_CACHE_CLEAR = "web_cache_clear";
 }

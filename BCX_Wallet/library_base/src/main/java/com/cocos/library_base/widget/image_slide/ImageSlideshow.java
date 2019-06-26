@@ -59,7 +59,7 @@ public class ImageSlideshow extends FrameLayout {
 
     public ImageSlideshow(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
+        this.context = Utils.getContext();
         // 初始化View
         initView();
         // 初始化Animator
@@ -327,20 +327,22 @@ public class ImageSlideshow extends FrameLayout {
         for (int i = 0; i < imageTitleBeanList.size() + 2; i++) {
             View view = LayoutInflater.from(context).inflate(R.layout.is_image_title_layout, null);
             ImageView ivImage = (ImageView) view.findViewById(R.id.iv_image);
-            if (i == 0) {// 将最前面一页设置成本来最后的那页
-                if (!TextUtils.isEmpty(imageTitleBeanList.get(imageTitleBeanList.size() - 1).getImageUrl())) {
-                    Glide.with(context).load(imageTitleBeanList.get(imageTitleBeanList.size() - 1).getImageUrl()).into(ivImage);
+            try {
+                if (i == 0) {
+                    if (!TextUtils.isEmpty(imageTitleBeanList.get(imageTitleBeanList.size() - 1).getImageUrl())) {
+                        Glide.with(context).load(imageTitleBeanList.get(imageTitleBeanList.size() - 1).getImageUrl()).into(ivImage);
+                    }
+                } else if (i == imageTitleBeanList.size() + 1) {
+                    if (!TextUtils.isEmpty(imageTitleBeanList.get(0).getImageUrl())) {
+                        Glide.with(context).load(imageTitleBeanList.get(0).getImageUrl()).into(ivImage);
+                    }
+                } else {
+                    if (!TextUtils.isEmpty(imageTitleBeanList.get(i - 1).getImageUrl())) {
+                        Glide.with(context).load(imageTitleBeanList.get(i - 1).getImageUrl()).into(ivImage);
+                    }
                 }
-            } else if (i == imageTitleBeanList.size() + 1) {// 将最后面一页设置成本来最前的那页
-                if (!TextUtils.isEmpty(imageTitleBeanList.get(0).getImageUrl())) {
-                    Glide.with(context).load(imageTitleBeanList.get(0).getImageUrl()).into(ivImage);
-                }
-            } else {
-                if (!TextUtils.isEmpty(imageTitleBeanList.get(i - 1).getImageUrl())) {
-                    Glide.with(context).load(imageTitleBeanList.get(i - 1).getImageUrl()).into(ivImage);
-                }
+            } catch (Exception e) {
             }
-            // 将设置好的View添加到View列表中
             viewList.add(view);
         }
     }

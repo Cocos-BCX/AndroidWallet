@@ -2,6 +2,7 @@ package com.cocos.library_base.utils.multi_language;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import java.util.Locale;
 
@@ -29,7 +30,7 @@ public class SPUtil {
     }
 
     public int getSelectLanguage() {
-        return mSharedPreferences.getInt(TAG_LANGUAGE, 0);
+        return mSharedPreferences.getInt(TAG_LANGUAGE, TextUtils.equals(systemCurrentLocal.getCountry(), "CN") || TextUtils.equals(systemCurrentLocal.getCountry(), "TW") ? 0 : 1);
     }
 
 

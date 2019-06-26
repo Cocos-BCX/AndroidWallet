@@ -144,7 +144,7 @@ public class StatusBarUtils {
      *
      * @return
      */
-    public static int getStatusBarHeight(Activity activity) {
+    public static int getStatusBarHeight(Context activity) {
         int result = 0;
         //获取状态栏高度的资源id
         int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");

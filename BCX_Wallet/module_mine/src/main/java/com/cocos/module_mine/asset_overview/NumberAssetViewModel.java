@@ -47,6 +47,7 @@ public class NumberAssetViewModel extends BaseViewModel {
      */
     public void requestAssetsListData() {
         String accountId = AccountHelperUtils.getCurrentAccountId();
+        observableList.clear();
         CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
@@ -57,7 +58,6 @@ public class NumberAssetViewModel extends BaseViewModel {
                     recyclerViewVisible.set(View.GONE);
                     return;
                 }
-                observableList.clear();
                 for (final AllAssetBalanceModel.DataBean dataBean : balanceEntity.getData()) {
                     //todo 价值计算
                     CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {

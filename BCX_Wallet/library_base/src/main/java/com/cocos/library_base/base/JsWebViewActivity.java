@@ -5,11 +5,9 @@ import android.databinding.Observable;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -44,17 +42,18 @@ import com.cocos.library_base.entity.js_response.TransferNHAssetParamModel;
 import com.cocos.library_base.entity.js_response.TransferParamModel;
 import com.cocos.library_base.global.GlobalConstants;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.JSTools;
+import com.cocos.library_base.utils.SPUtils;
+import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.multi_language.SPUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.library_base.widget.BaseVerifyPasswordDialog;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -108,69 +107,16 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         }
     }
 
-    @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void initData() {
-        WebSettings settings = binding.jsWebView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setUserAgentString("Android");
-        // 设置可以访问文件
-        settings.setAllowContentAccess(true);
-        settings.setBlockNetworkLoads(false);
-        settings.setBuiltInZoomControls(false);
-        settings.setDatabaseEnabled(true);
-        settings.setDisplayZoomControls(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            settings.setMediaPlaybackRequiresUserGesture(true);
+        viewModel.setWebData(webViewModel);
+        if (!TextUtils.isEmpty(webViewModel.getUrl())) {
+            binding.jsWebView.loadUrl(webViewModel.getUrl());
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            settings.setOffscreenPreRaster(false);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            settings.setSafeBrowsingEnabled(false);
-        }
-        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        // 支持多窗口
-        settings.setSupportMultipleWindows(true);
-        // 开启 DOM storage API 功能
-        settings.setDomStorageEnabled(true);
-        // 支持通过JS弹窗
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        // 设置可以访问文件
-        settings.setAllowFileAccess(true);
-        settings.setAllowFileAccessFromFileURLs(true);
-        settings.setAllowUniversalAccessFromFileURLs(true);
-        // 将图片调整到适合WebView的大小
-        settings.setUseWideViewPort(false);
-        // 缩放至屏幕的大小
-        settings.setLoadWithOverviewMode(false);
-        // 支持自动加载图片
-        settings.setLoadsImagesAutomatically(true);
-        // 设置编码格式
-        settings.setDefaultTextEncodingName("utf-8");
-        // 使用缓存的策略
-        // 特别注意：5.1以上默认禁止了https和http混用，以下方式是开启
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
-        }
-        WebView.setWebContentsDebuggingEnabled(true);
-        binding.jsWebView.addJavascriptInterface(new JavaScriptUtil(), "DappJsBridge");
-        try {
-            Class<?> clazz = settings.getClass();
-            Method method = clazz.getMethod("setAllowUniversalAccessFromFileURLs", boolean.class);
-            method.invoke(binding.jsWebView.getSettings(), true);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
         binding.jsWebView.setWebViewClient(new WebViewClient() {
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -197,10 +143,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 }
             }
         });
-        viewModel.setWebData(webViewModel);
-        if (!TextUtils.isEmpty(webViewModel.getUrl())) {
-            binding.jsWebView.loadUrl(webViewModel.getUrl());
-        }
+
     }
 
 
@@ -214,12 +157,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             finish();
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    protected void onDestroy() {
-        binding.jsWebView.destroy();
-        super.onDestroy();
     }
 
     @SuppressLint("ObsoleteSdkInt")
@@ -240,7 +177,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         }
         JsParamsEventModel params = (JsParamsEventModel) busCarrier.getObject();
         if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.TRANSFERASSET)) {
-
             /**
              *  transferAsset
              */
@@ -253,7 +189,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     // only get transfer fee
                     if (assetModel.onlyGetFee) {
                         CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
-                            Log.i("transfer_calculate_fee", s);
                             FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
                             setTransactionFeeCallBack(baseResult, params);
                         });
@@ -261,7 +196,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     }
                     // transfer asset
                     CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
-                        Log.i("transfer", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
                     });
@@ -285,7 +219,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             }
             if (jsContractParamsModel.onlyGetFee) {
                 CocosBcxApiWrapper.getBcxInstance().calculate_invoking_contract_fee(AccountHelperUtils.getCurrentAccountName(), "COCOS", jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), s -> {
-                    Log.i("calculate_invoking_contract_fee", s);
                     FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
                     setTransactionFeeCallBack(baseResult, params);
                 });
@@ -327,7 +260,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             CocosBcxApiWrapper.getBcxInstance().get_full_accounts(accountNameModel.account, false, new IBcxCallBack() {
                 @Override
                 public void onReceiveValue(String s) {
-                    Log.i("queryAccountInfo", s);
                     onJSCallback(params.serialNumber, s);
                 }
             });
@@ -350,7 +282,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             CocosBcxApiWrapper.getBcxInstance().lookup_nh_asset(transferNHAssetParamModel.NHAssetIds, new IBcxCallBack() {
                 @Override
                 public void onReceiveValue(String s) {
-                    LogUtils.d("lookup_nh_asset", s);
                     onJSCallback(params.serialNumber, s);
                 }
             });
@@ -398,7 +329,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
 
             AccountNHAssetsModel accountNHAssetsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, AccountNHAssetsModel.class);
             CocosBcxApiWrapper.getBcxInstance().list_account_nh_asset(accountNHAssetsModel.account, accountNHAssetsModel.worldViews, accountNHAssetsModel.page, accountNHAssetsModel.pageSize, s -> {
-                LogUtils.d("list_account_nh_asset", s);
                 BaseResultModel<List<AccountNhAssetModel>> listBaseResultModel = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                 AccountNhAssetModels accountNhAssetOrderModels = new AccountNhAssetModels();
                 if (listBaseResultModel.isSuccess()) {
@@ -420,8 +350,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 @Override
                 public void onFinish(String password) {
                     CocosBcxApiWrapper.getBcxInstance().decrypt_memo_message(AccountHelperUtils.getCurrentAccountName(), password, params.param, memo -> {
-                        LogUtils.d("decrypt_memo_message", params.param);
-                        LogUtils.d("decrypt_memo_message", memo);
                         BaseResultModel<String> resultModel = GsonSingleInstance.getGsonInstance().fromJson(memo, BaseResultModel.class);
                         MemoModel memoModel = new MemoModel();
                         if (resultModel.isSuccess()) {
@@ -446,7 +374,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             /**
              * transfer nh asset
              */
-            Log.i("transfer_nh_asset", params.param);
             TransferNHAssetParamModel transferNHAssetParamModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, TransferNHAssetParamModel.class);
             BaseVerifyPasswordDialog passwordDialog = new BaseVerifyPasswordDialog();
             passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
@@ -454,7 +381,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 @Override
                 public void onFinish(String password) {
                     CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), transferNHAssetParamModel.toAccount, "COCOS", transferNHAssetParamModel.NHAssetIds.get(0), s -> {
-                        Log.i("transfer_nh_asset", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
                     });
@@ -475,7 +401,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 CocosBcxApiWrapper.getBcxInstance().buy_nh_asset_fee(AccountHelperUtils.getCurrentAccountName(), fillNHAssetOrderParamModel.orderId, new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(String s) {
-                        Log.i("buy_nh_asset_fee", s);
                         FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
                         setTransactionFeeCallBack(baseResult, params);
                     }
@@ -489,7 +414,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 @Override
                 public void onFinish(String password) {
                     CocosBcxApiWrapper.getBcxInstance().buy_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), fillNHAssetOrderParamModel.orderId, s -> {
-                        Log.i("buy_nh_asset", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
                     });
@@ -506,10 +430,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             /**
              *    get account balance
              */
-            Log.d("get_account_balances", params.param);
             JsBalanceParamsModel paramsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, JsBalanceParamsModel.class);
             CocosBcxApiWrapper.getBcxInstance().get_account_balances(paramsModel.account, paramsModel.assetId, s -> {
-                Log.d("get_account_balances---", s);
                 FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
                 BalanceInfoModel balanceInfoModel = new BalanceInfoModel();
                 BalanceInfoModel.DataInfo dataInfo = new BalanceInfoModel.DataInfo();
@@ -613,4 +535,21 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        // 缓存只清一次
+        boolean currentVersion = SPUtils.getBoolean(Utils.getContext(), SPKeyGlobal.WEB_CACHE_CLEAR, false);
+        if (!currentVersion) {
+            binding.jsWebView.clearCache(true);
+            binding.jsWebView.clearFormData();
+            SPUtils.putBoolean(Utils.getContext(), SPKeyGlobal.WEB_CACHE_CLEAR, true);
+        }
+        binding.jsWebView.setWebChromeClient(null);
+        binding.jsWebView.setWebViewClient(null);
+        binding.jsWebView.getSettings().setJavaScriptEnabled(false);
+        binding.jsWebView.destroy();
+        super.onDestroy();
+    }
+
 }

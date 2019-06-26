@@ -10,7 +10,7 @@
     <string name="customactivityoncrash_error_activity_error_details_copied" tools:ignore="MissingTranslation">Copy</string>
     <string name="customactivityoncrash_error_activity_error_details_clipboard_label" tools:ignore="MissingTranslation">Error Info</string>
 
-    <string name="language_cn">Chinese</string>
+    <string name="language_cn">中文</string>
     <string name="language_en">English</string>
     <string name="net_work_failed">Network busy,  please check your network connection!</string>
     <string name="title_verify_password_text">Verify Key</string>

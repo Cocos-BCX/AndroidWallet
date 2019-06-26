@@ -1,5 +1,6 @@
 package com.cocos.module_asset.ui.asset;
 
+import android.app.Activity;
 import android.app.Application;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
@@ -16,6 +17,7 @@ import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.utils.DensityUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.Utils;
+import com.cocos.library_base.utils.singleton.BottomDialogSingleInstance;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.DialogSwitchAccountBinding;
@@ -31,6 +33,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
 
     private BottomSheetDialog dialog;
     private boolean isFirst = true;
+    private Activity activity;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,8 +47,11 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
 
     @Override
     public void initData() {
-        int statusHeight = StatusBarUtils.getStatusBarHeight(getActivity());
-        binding.assetTitle.setPadding(0, statusHeight, DensityUtils.dip2px(getActivity(), 20), 0);
+        if (null == activity) {
+            this.activity = getActivity();
+        }
+        int statusHeight = StatusBarUtils.getStatusBarHeight(Utils.getContext());
+        binding.assetTitle.setPadding(0, statusHeight, DensityUtils.dip2px(Utils.getContext(), 20), 0);
         refreshAssetData();
     }
 
@@ -90,8 +96,8 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
         viewModel.uc.accountItemObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                dialog = new BottomSheetDialog(getActivity());
-                DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.dialog_switch_account, null, false);
+                dialog = BottomDialogSingleInstance.getInstance(activity);
+                DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_switch_account, null, false);
                 dialog.setContentView(binding.getRoot());
                 binding.setViewModel(new SwitchAccountViewModel((Application) Utils.getContext()));
                 dialog.setCanceledOnTouchOutside(true);
@@ -100,5 +106,12 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
         });
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (null != dialog && dialog.isShowing()) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
 }

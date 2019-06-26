@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.cocos.library_base.utils.Utils;
 
 /**
  * Created by goldze on 2017/6/18.
@@ -14,11 +15,14 @@ import com.bumptech.glide.request.RequestOptions;
 public final class ViewAdapter {
     @BindingAdapter(value = {"url", "placeholderRes"}, requireAll = false)
     public static void setImageUri(ImageView imageView, String url, int placeholderRes) {
-        if (!TextUtils.isEmpty(url)) {
-            Glide.with(imageView.getContext())
-                    .load(url)
-                    .apply(new RequestOptions().placeholder(placeholderRes))
-                    .into(imageView);
+        try {
+            if (!TextUtils.isEmpty(url)) {
+                Glide.with(Utils.getContext())
+                        .load(url)
+                        .apply(new RequestOptions().placeholder(placeholderRes))
+                        .into(imageView);
+            }
+        } catch (Exception e) {
         }
     }
 }

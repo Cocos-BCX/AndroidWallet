@@ -1,14 +1,6 @@
 function _sendPeRequest(serialNumber, params, methodName) {
     let userAgentVal = navigator.userAgent;
-    if (userAgentVal.indexOf('Android') > -1 || userAgentVal.indexOf('Adr') > -1) {
-        window.DappJsBridge.pushMessage(serialNumber, JSON.stringify(params), methodName)
-    } else {
-        window.webkit.messageHandlers.pushMessage.postMessage({
-            'params': params,
-            'serialNumber': serialNumber,
-            'methodName': methodName
-        })
-    }
+    window.DappJsBridge.pushMessage(serialNumber, JSON.stringify(params), methodName)
 }
 
 function serialNumberFn() {
