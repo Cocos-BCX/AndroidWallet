@@ -102,4 +102,5 @@ dependencies {
     implementation project(':module_mine')
     implementation project(':library_base')
     implementation project(':cocos_bcx_sdk')
+    implementation project(':module_zxing')
 }

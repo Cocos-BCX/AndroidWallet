@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseFragment;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.entity.FoundListModel;
 import com.cocos.library_base.entity.FoundModel;
+import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.http.api.BaseUrlApi;
@@ -22,6 +24,7 @@ import com.cocos.library_base.http.callback.BaseObserver;
 import com.cocos.library_base.http.http.HttpMethods;
 import com.cocos.library_base.receiver.NetStateChangeObserver;
 import com.cocos.library_base.receiver.NetStateChangeReceiver;
+import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.SPUtil;
@@ -102,13 +105,12 @@ public class FoundFragment extends BaseFragment<FragmentFoundBinding, FoundViewM
                     @Override
                     public void onItemClick(View view, int position) {
                         FoundModel.DataBeanX.BannerBean bannerBean = bannerBeans.get(position);
-                        FoundListModel foundListMode = new FoundListModel();
-                        foundListMode.setLinkUrl(bannerBean.getLinkUrl());
-                        foundListMode.setListTitle(selectLanguage == 0 ? bannerBean.getTitle() : bannerBean.getEnTitle());
-                        EventBusCarrier eventBusCarrier = new EventBusCarrier();
-                        eventBusCarrier.setEventType(EventTypeGlobal.SHOW_FOUND_DIALOG);
-                        eventBusCarrier.setObject(foundListMode);
-                        EventBus.getDefault().post(eventBusCarrier);
+                        WebViewModel webViewModel = new WebViewModel();
+                        webViewModel.setTitle(selectLanguage == 0 ? bannerBean.getTitle() : bannerBean.getEnTitle());
+                        webViewModel.setUrl(bannerBean.getLinkUrl());
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
                     }
                 });
                 binding.vpFound.commit();

@@ -3,7 +3,9 @@ package com.cocos.module_login.register;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.module_login.BR;
 import com.cocos.module_login.R;
@@ -18,6 +20,7 @@ import com.cocos.module_login.databinding.ActivityRegisterBinding;
 
 @Route(path = RouterActivityPath.ACTIVITY_REGISTER)
 public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, RegisterViewModel> {
+    private int from;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -29,4 +32,20 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
         return BR.viewModel;
     }
 
+    @Override
+    public void initParam() {
+        try {
+            from =  getIntent().getExtras().getInt(IntentKeyGlobal.FROM);
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (from == 3) {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+        }
+        finish();
+    }
 }

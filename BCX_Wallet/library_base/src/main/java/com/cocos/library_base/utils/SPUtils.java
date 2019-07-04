@@ -200,13 +200,13 @@ public class SPUtils {
      * 保存List
      *
      * @param tag
-     * @param datalist
+     * @param dataList
      */
-    public static <T> void setDataList(String tag, List<T> datalist) {
+    public static <T> void setDataList(String tag, List<T> dataList) {
         try {
             Gson gson = new Gson();
             //转换成json数据，再保存
-            String strJson = gson.toJson(datalist);
+            String strJson = gson.toJson(dataList);
             editor.putString(tag, strJson);
             editor.commit();
         } catch (Exception e) {
@@ -247,6 +247,22 @@ public class SPUtils {
             }
             Gson gson = new Gson();
             datalist = gson.fromJson(strJson, new TypeToken<List<NodeInfoModel.DataBean>>() {
+            }.getType());
+            return datalist;
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public static ArrayList<String> getUrlList(String tag) {
+        try {
+            ArrayList<String> datalist = new ArrayList<>();
+            String strJson = sp.getString(tag, null);
+            if (null == strJson) {
+                return datalist;
+            }
+            Gson gson = new Gson();
+            datalist = gson.fromJson(strJson, new TypeToken<List<String>>() {
             }.getType());
             return datalist;
         } catch (Exception e) {

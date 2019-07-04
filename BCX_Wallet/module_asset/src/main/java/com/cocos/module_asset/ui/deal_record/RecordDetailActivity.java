@@ -14,7 +14,7 @@ import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
-import com.cocos.library_base.widget.BaseVerifyPasswordDialog;
+import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.ActivityRecordDetailBinding;

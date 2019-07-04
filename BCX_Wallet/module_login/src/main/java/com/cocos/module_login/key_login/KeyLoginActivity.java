@@ -3,7 +3,7 @@ package com.cocos.module_login.key_login;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
@@ -44,5 +44,15 @@ public class KeyLoginActivity extends BaseActivity<ActivityKeyLoginBinding, KeyL
     @Override
     public void initData() {
         viewModel.setFrom(from);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (from == 1) {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_REGISTER).navigation();
+        } else if (from == 2) {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+        }
+        finish();
     }
 }

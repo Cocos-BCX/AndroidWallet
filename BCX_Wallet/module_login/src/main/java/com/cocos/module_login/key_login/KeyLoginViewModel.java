@@ -14,6 +14,7 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.RegexUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -82,6 +83,11 @@ public class KeyLoginViewModel extends BaseViewModel {
         }
         if (TextUtils.isEmpty(password.get())) {
             ToastUtils.showShort(R.string.module_login_temp_password_empty);
+            return;
+        }
+
+        if (!RegexUtils.isLegalKey(privateKey.get())) {
+            ToastUtils.showShort(R.string.module_login_key_format_error);
             return;
         }
         showDialog();

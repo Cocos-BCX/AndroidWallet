@@ -63,4 +63,5 @@
     <string name="module_asset_account_not_found">收款账户不存在</string>
     <string name="module_asset_wrong_password">密码不正确</string>
     <string name="module_asset_private_key_author_failed">owner key不能进行转账，请导入active key</string>
+    <string name="module_asset_contract_not_found">未查找到交易合约信息</string>
 </resources>

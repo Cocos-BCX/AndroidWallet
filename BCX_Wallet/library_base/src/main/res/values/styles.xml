@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     </style>
@@ -20,5 +20,9 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+
+    <style name="checkBoxStyle" tools:ignore="ResourceName">
+        <item name="android:button">@drawable/multi_language_check_selector</item>
+    </style>
 
 </resources>

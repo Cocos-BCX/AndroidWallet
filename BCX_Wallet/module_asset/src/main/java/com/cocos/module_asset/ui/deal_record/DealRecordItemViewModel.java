@@ -21,7 +21,6 @@ import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.NumberUtil;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
@@ -34,7 +33,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,10 +102,9 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                             }
                             // precision
                             BigDecimal ratio = new BigDecimal(Math.pow(10, assetModel.getData().precision));
-                            String dealAmount = NumberUtil.doubleTrans1(opBean.amount.amount.divide(ratio).add(BigDecimal.ZERO).setScale(5, RoundingMode.HALF_UP).doubleValue()) + assetModel.getData().symbol;
+                            String dealAmount = opBean.amount.amount.divide(ratio).add(BigDecimal.ZERO) + assetModel.getData().symbol;
                             operationAmount.set(isTransferAccount ? "-" + dealAmount : "+" + dealAmount);
-                            dealDetailModel.amount = NumberUtil.doubleTrans1(opBean.amount.amount.divide(ratio).add(BigDecimal.ZERO).setScale(5, RoundingMode.HALF_UP).doubleValue());
-                            dealDetailModel.amountAssetSymbol = assetModel.getData().symbol;
+                            dealDetailModel.amount = dealAmount;
                         }
                     });
                 }
@@ -156,9 +153,9 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                     }
                 }
             } catch (ContractNotFoundException e) {
-                ToastUtils.showShort(e.getMessage());
+                ToastUtils.showShort(R.string.module_asset_contract_not_found);
             } catch (NetworkStatusException e) {
-                ToastUtils.showShort(e.getMessage());
+                ToastUtils.showShort(R.string.net_work_failed);
             }
         } else if (51 == option) {
             symbolTypeVisible.set(View.GONE);
@@ -219,14 +216,18 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                         if (!assetModel.isSuccess()) {
                             return;
                         }
-                        String timestamp = assetModel.data.timestamp;
-                        String[] times = timestamp.split("T");
-                        //时间
-                        String[] hours = times[1].split(":", 2);
-                        int hour = Integer.parseInt(hours[0]) + 8;
-                        String time = times[0].replace("-", ".") + "  " + hour + ":" + hours[1];
-                        operationDate.set(time);
-                        dealDetailModel.time = time;
+                        try {
+                            String timestamp = assetModel.data.timestamp;
+                            String[] times = timestamp.split("T");
+                            //时间
+                            String[] hours = times[1].split(":", 2);
+                            int hour = Integer.parseInt(hours[0]) + 8;
+                            String time = times[0].replace("-", ".") + "  " + hour + ":" + hours[1];
+                            operationDate.set(time);
+                            dealDetailModel.time = time;
+                        } catch (Exception e) {
+
+                        }
                     }
                 });
             }

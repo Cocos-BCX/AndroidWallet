@@ -12,6 +12,7 @@ import com.cocos.library_base.entity.BaseResult;
 import com.cocos.library_base.entity.FoundListModel;
 import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ActivityContainer;
@@ -19,6 +20,7 @@ import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,9 +46,12 @@ public class DialogFragment extends BaseDialogFragment {
                 public void onClick(View v) {
                     dismiss();
                     if (type == 2 && null != foundListModel) {
+                        ArrayList<String> urls = SPUtils.getUrlList(SPKeyGlobal.FOUND_DIALOG_SHOWED_MARK);
                         WebViewModel webViewModel = new WebViewModel();
                         webViewModel.setTitle(foundListModel.getListTitle());
                         webViewModel.setUrl(foundListModel.getLinkUrl());
+                        urls.add(foundListModel.getLinkUrl());
+                        SPUtils.setDataList(SPKeyGlobal.FOUND_DIALOG_SHOWED_MARK, urls);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
                         ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();

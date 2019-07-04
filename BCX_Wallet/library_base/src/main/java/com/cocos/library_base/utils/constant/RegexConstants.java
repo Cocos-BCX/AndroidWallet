@@ -16,6 +16,11 @@ public final class RegexConstants {
     public static final String REGEX_BCX_ACCOUNT_NAME = "^[a-z][a-z0-9.-]{4,62}";
 
     /**
+     * 私钥输入限制
+     */
+    public static final String PRIVATE_KEY_LIMIT = "^[a-zA-Z\\d]+$";
+
+    /**
      * bcx密码设置正则
      */
     public static final String REGEX_BCX_ACCOUNT_PASSWORD = "^(?!^\\d+$)(?!^[A-Za-z]+$)(?!^[^A-Za-z0-9]+$)(?!^.*[\\u4E00-\\u9FA5].*$)^\\S{8,12}$";

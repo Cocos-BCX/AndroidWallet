@@ -17,7 +17,6 @@ import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.utils.DensityUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.Utils;
-import com.cocos.library_base.utils.singleton.BottomDialogSingleInstance;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.DialogSwitchAccountBinding;
@@ -96,7 +95,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
         viewModel.uc.accountItemObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                dialog = BottomDialogSingleInstance.getInstance(activity);
+                dialog = new BottomSheetDialog(activity);
                 DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_switch_account, null, false);
                 dialog.setContentView(binding.getRoot());
                 binding.setViewModel(new SwitchAccountViewModel((Application) Utils.getContext()));

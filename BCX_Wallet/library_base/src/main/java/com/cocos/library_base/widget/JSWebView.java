@@ -61,6 +61,7 @@ public class JSWebView extends BaseWebView {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
             settings.setMediaPlaybackRequiresUserGesture(true);
         }
+        WebView.setWebContentsDebuggingEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setAppCacheEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -80,11 +81,6 @@ public class JSWebView extends BaseWebView {
         // 特别注意：5.1以上默认禁止了https和http混用，以下方式是开启
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
-        }
-        settings.setAppCachePath(getContext().getDir("cocos_bcx_dapp_cache", 0).getPath());
-        settings.setGeolocationDatabasePath(getContext().getDir("cocos_bcx_location", 0).getPath());
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            settings.setDatabasePath(getContext().getDir("databases", 0).getPath());
         }
     }
 

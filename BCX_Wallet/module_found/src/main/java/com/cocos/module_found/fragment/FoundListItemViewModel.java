@@ -1,20 +1,29 @@
 package com.cocos.module_found.fragment;
 
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.base.ItemViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.entity.FoundListModel;
+import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.EventTypeGlobal;
+import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
+import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.module_found.R;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 
 /**
@@ -46,10 +55,31 @@ public class FoundListItemViewModel extends ItemViewModel {
                 ToastUtils.showShort(R.string.module_found_to_be_expected);
                 return;
             }
-            EventBusCarrier eventBusCarrier = new EventBusCarrier();
-            eventBusCarrier.setEventType(EventTypeGlobal.SHOW_FOUND_DIALOG);
-            eventBusCarrier.setObject(foundlistModel);
-            EventBus.getDefault().post(eventBusCarrier);
+            ArrayList<String> urls = SPUtils.getUrlList(SPKeyGlobal.FOUND_DIALOG_SHOWED_MARK);
+            if (null == urls || urls.size() <= 0) {
+                urls = new ArrayList<>();
+                SPUtils.setDataList(SPKeyGlobal.FOUND_DIALOG_SHOWED_MARK, urls);
+                EventBusCarrier eventBusCarrier = new EventBusCarrier();
+                eventBusCarrier.setEventType(EventTypeGlobal.SHOW_FOUND_DIALOG);
+                eventBusCarrier.setObject(foundlistModel);
+                EventBus.getDefault().post(eventBusCarrier);
+                return;
+            }
+            if (urls.contains(foundlistModel.getLinkUrl())) {
+                WebViewModel webViewModel = new WebViewModel();
+                webViewModel.setTitle(foundlistModel.getListTitle());
+                webViewModel.setUrl(foundlistModel.getLinkUrl());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
+            } else {
+                SPUtils.setDataList(SPKeyGlobal.FOUND_DIALOG_SHOWED_MARK, urls);
+                EventBusCarrier eventBusCarrier = new EventBusCarrier();
+                eventBusCarrier.setEventType(EventTypeGlobal.SHOW_FOUND_DIALOG);
+                eventBusCarrier.setObject(foundlistModel);
+                EventBus.getDefault().post(eventBusCarrier);
+                SPUtils.setDataList(SPKeyGlobal.FOUND_DIALOG_SHOWED_MARK, urls);
+            }
         }
     });
 }

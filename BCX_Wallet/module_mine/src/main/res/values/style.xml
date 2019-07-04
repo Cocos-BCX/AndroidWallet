@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="checkBoxStyle" tools:ignore="ResourceName">
-        <item name="android:button">@drawable/multi_language_check_selector</item>
-    </style>
-
 </resources>

@@ -5,10 +5,14 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.LocaleList;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.cocos.library_base.R;
+import com.cocos.library_base.global.SPKeyGlobal;
+import com.cocos.library_base.utils.ActivityContainer;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 
 import java.util.Locale;
@@ -116,6 +120,11 @@ public class LocalManageUtil {
         }
         Log.d(TAG, locale.getLanguage());
         SPUtil.getInstance(context).setSystemCurrentLocal(locale);
+        String systemLanguage = SPUtils.getString(context, SPKeyGlobal.SYSTEM_LANGUAGE, "");
+        if (!TextUtils.isEmpty(systemLanguage) && !TextUtils.equals(locale.getCountry(), systemLanguage)) {
+            ActivityContainer.finishAllActivity();
+        }
+        SPUtils.putString(context, SPKeyGlobal.SYSTEM_LANGUAGE, locale.getCountry());
     }
 
     public static void onConfigurationChanged(Context context) {

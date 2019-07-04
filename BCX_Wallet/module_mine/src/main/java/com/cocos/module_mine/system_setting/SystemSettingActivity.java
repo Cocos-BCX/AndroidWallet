@@ -88,7 +88,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
-        CocosBcxApiWrapper.getBcxInstance().init(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, new IBcxCallBack() {
+        CocosBcxApiWrapper.getBcxInstance().connect(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, new IBcxCallBack() {
             @Override
             public void onReceiveValue(String value) {
                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
@@ -131,7 +131,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
-        CocosBcxApiWrapper.getBcxInstance().init(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
+        CocosBcxApiWrapper.getBcxInstance().connect(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
     }
 
     @Override

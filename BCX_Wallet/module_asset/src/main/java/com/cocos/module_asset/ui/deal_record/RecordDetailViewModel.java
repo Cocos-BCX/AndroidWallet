@@ -89,7 +89,7 @@ public class RecordDetailViewModel extends BaseViewModel {
         this.dealDetailModel = dealDetailModel;
         dealType.set(dealDetailModel.deal_type);
         dealHash.set(dealDetailModel.tx_id);
-        dealAmount.set(dealDetailModel.amount + dealDetailModel.amountAssetSymbol);
+        dealAmount.set(dealDetailModel.amount);
         senderAccount.set(dealDetailModel.from);
         receiablesAccount.set(dealDetailModel.to);
         minerFee.set(dealDetailModel.fee + dealDetailModel.feeAssetSymbol);

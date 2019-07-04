@@ -30,7 +30,7 @@ public class SPUtil {
     }
 
     public int getSelectLanguage() {
-        return mSharedPreferences.getInt(TAG_LANGUAGE, TextUtils.equals(systemCurrentLocal.getCountry(), "CN") || TextUtils.equals(systemCurrentLocal.getCountry(), "TW") ? 0 : 1);
+        return mSharedPreferences.getInt(TAG_LANGUAGE, TextUtils.equals(systemCurrentLocal.getCountry(), "CN") || TextUtils.equals(systemCurrentLocal.getCountry(), "TW")|| TextUtils.equals(systemCurrentLocal.getCountry(), "HK") ? 0 : 1);
     }
 
 

@@ -69,6 +69,8 @@ public class BCXApplication extends BaseApplication {
         ARouter.init(this);
         ModuleLifecycleConfig.getInstance().initModuleAhead(this); //初始化组件(靠前)
         ModuleLifecycleConfig.getInstance().initModuleLow(this);     //初始化组件(靠后)
+        // 初始化sdk
+        CocosBcxApiWrapper.getBcxInstance().init(this);
         requestNodeListData();
         //配置全局异常崩溃操作
         CaocConfig.Builder.create()
@@ -164,7 +166,7 @@ public class BCXApplication extends BaseApplication {
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
-        CocosBcxApiWrapper.getBcxInstance().init(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
+        CocosBcxApiWrapper.getBcxInstance().connect(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
     }
 
 

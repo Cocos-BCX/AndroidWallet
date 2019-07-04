@@ -38,7 +38,10 @@ public class PasswordLoginViewModel extends BaseViewModel {
     public BindingCommand registerClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_REGISTER).navigation();
+            Bundle bundle = new Bundle();
+            bundle.putInt(IntentKeyGlobal.FROM, 3);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_REGISTER).with(bundle).navigation();
+            finish();
         }
     });
 
@@ -49,6 +52,7 @@ public class PasswordLoginViewModel extends BaseViewModel {
             Bundle bundle = new Bundle();
             bundle.putInt(IntentKeyGlobal.FROM, 2);
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_KEYLOGIN).with(bundle).navigation();
+            finish();
         }
     });
 

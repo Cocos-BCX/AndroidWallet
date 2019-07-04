@@ -45,7 +45,7 @@ public class HtmlWebViewActivity extends BaseActivity<ActivityHtmlWebviewBinding
     }
 
     private void initLangeuage() {
-        LocalManageUtil.saveSelectLanguage(this, SPUtil.getInstance(this).getSelectLanguage());
+        LocalManageUtil.setApplicationLanguage(this);
     }
 
     @Override
