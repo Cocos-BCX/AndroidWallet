@@ -139,7 +139,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
 
         // 语言切换弹窗
         languageDialog = new BottomSheetDialog(this);
-        DialogMultiLanguageSelectBinding languageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_multi_language_select, null, false);
+        DialogMultiLanguageSelectBinding languageBinding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_multi_language_select, null, false);
         languageDialog.setContentView(languageBinding.getRoot());
         languageBinding.setViewModel(new MultiLanguageViewModel((Application) Utils.getContext()));
         viewModel.uc.multiLanguageObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -151,7 +151,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
 
         // 节点切换弹窗
         nodeNetDialog = new BottomSheetDialog(this);
-        DialogMultiNodeWorkBinding nodeNetBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_multi_node_work, null, false);
+        DialogMultiNodeWorkBinding nodeNetBinding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_multi_node_work, null, false);
         nodeNetDialog.setContentView(nodeNetBinding.getRoot());
         final NodeWorkViewModel nodeWorkViewModel = new NodeWorkViewModel((Application) Utils.getContext());
         nodeNetBinding.setViewModel(nodeWorkViewModel);

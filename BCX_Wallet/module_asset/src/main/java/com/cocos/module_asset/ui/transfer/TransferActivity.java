@@ -130,7 +130,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
     @Override
     public void initViewObservable() {
         dialog = new BottomSheetDialog(this);
-        DialogTransferPayConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_transfer_pay_confirm, null, false);
+        DialogTransferPayConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_transfer_pay_confirm, null, false);
         dialog.setContentView(binding.getRoot());
         // 设置dialog 完全显示
         View parent = (View) binding.getRoot().getParent();

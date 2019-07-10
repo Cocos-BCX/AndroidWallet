@@ -20,6 +20,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.cocos.library_base.R;
+import com.cocos.library_base.utils.Utils;
 
 public class BaseWebView extends WebView {
 
@@ -60,7 +61,7 @@ public class BaseWebView extends WebView {
 
     private View createErrorView() {
         if (mErrorView == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
+            LayoutInflater inflater = LayoutInflater.from(Utils.getContext());
             mErrorView = inflater.inflate(R.layout.include_web_error, null);
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
