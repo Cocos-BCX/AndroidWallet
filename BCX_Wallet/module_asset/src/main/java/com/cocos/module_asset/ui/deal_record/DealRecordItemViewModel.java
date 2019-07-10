@@ -153,11 +153,11 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                     }
                 }
             } catch (ContractNotFoundException e) {
-                ToastUtils.showShort(R.string.module_asset_contract_not_found);
+                e.getMessage();
             } catch (NetworkStatusException e) {
                 ToastUtils.showShort(R.string.net_work_failed);
             } catch (ClassCastException e) {
-                ToastUtils.showShort(R.string.module_asset_data_cast_error);
+               e.getMessage();
             }
         } else if (51 == option) {
             symbolTypeVisible.set(View.GONE);
