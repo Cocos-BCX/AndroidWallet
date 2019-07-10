@@ -218,8 +218,8 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                         if (!assetModel.isSuccess()) {
                             return;
                         }
-                        try {
-                            String timestamp = assetModel.data.timestamp;
+                        String timestamp = assetModel.data.timestamp;
+                        if (!TextUtils.isEmpty(timestamp)) {
                             String[] times = timestamp.split("T");
                             //时间
                             String[] hours = times[1].split(":", 2);
@@ -227,8 +227,6 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                             String time = times[0].replace("-", ".") + "  " + hour + ":" + hours[1];
                             operationDate.set(time);
                             dealDetailModel.time = time;
-                        } catch (Exception e) {
-
                         }
                     }
                 });
