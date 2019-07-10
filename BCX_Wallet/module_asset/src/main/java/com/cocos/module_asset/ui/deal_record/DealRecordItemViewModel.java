@@ -143,7 +143,7 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                             if (null != args && args.size() > 0) {
                                 for (int j = 0; j < contractOp.value_list.size(); j++) {
                                     List<Object> value_list = contractOp.value_list.get(j);
-                                    LinkedTreeMap<String, String> linkedTreeMap2 = (LinkedTreeMap<String, String>) value_list.get(1);
+                                    LinkedTreeMap<Object, Object> linkedTreeMap2 = (LinkedTreeMap<Object, Object>) value_list.get(1);
                                     Object argValue = linkedTreeMap2.get("v");
                                     jsonObject.addProperty(args.get(j), argValue.toString());
                                     dealDetailModel.params = jsonObject.toString();
@@ -156,6 +156,8 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                 ToastUtils.showShort(R.string.module_asset_contract_not_found);
             } catch (NetworkStatusException e) {
                 ToastUtils.showShort(R.string.net_work_failed);
+            } catch (ClassCastException e) {
+                ToastUtils.showShort(R.string.module_asset_data_cast_error);
             }
         } else if (51 == option) {
             symbolTypeVisible.set(View.GONE);
