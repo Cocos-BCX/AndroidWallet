@@ -38,7 +38,6 @@ import com.cocos.library_base.utils.JSTools;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
-import com.cocos.library_base.utils.multi_language.SPUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.library_base.widget.JsWebVerifyPasswordDialog;
@@ -472,8 +471,11 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * 调用js链接节点方法
      */
     public void onJSConnect() {
-        NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-        binding.jsWebView.loadUrl("javascript:BcxWeb.initConnect(" + "\'" + selectedNodeModel.ws + "\'," + "\'" + selectedNodeModel.coreAsset + "\'," + "\'" + selectedNodeModel.faucetUrl + "\'," + "\'" + selectedNodeModel.chainId + "\'," + ")");
+        try {
+            NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+            binding.jsWebView.loadUrl("javascript:BcxWeb.initConnect(" + "\'" + selectedNodeModel.ws + "\'," + "\'" + selectedNodeModel.coreAsset + "\'," + "\'" + selectedNodeModel.faucetUrl + "\'," + "\'" + selectedNodeModel.chainId + "\'," + ")");
+        } catch (Exception e) {
+        }
     }
 
     @Override
