@@ -48,7 +48,6 @@
     <string name="fragment_mine_about_us_version_log_url">file:///android_asset/VersionLog.html</string>
 
 
-    <string name="module_mine_response_error">数据错误</string>
     <string name="module_mine_asset_overview_digital_assets">数字资产</string>
     <string name="module_mine_asset_overview_prop_assets">道具资产</string>
     <string name="module_mine_no_contact_data" translatable="false">暂无联系人</string>
@@ -85,7 +84,6 @@
     <string name="module_mine_custom_asset">CoreAsset:</string>
     <string name="module_mine_custom_name">Name:</string>
     <string name="module_mine_custom_type">Type:</string>
-
 
     <string name="module_mine_node_url_hint" tools:ignore="ExtraTranslation">请输入Node</string>
     <string name="module_mine_custom_chain_id_hint">请输入ChainId</string>

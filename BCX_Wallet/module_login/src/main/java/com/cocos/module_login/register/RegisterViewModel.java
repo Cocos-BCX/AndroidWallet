@@ -160,7 +160,7 @@ public class RegisterViewModel extends BaseViewModel {
                             RegisterModel registerModel = GsonSingleInstance.getGsonInstance().fromJson(s, RegisterModel.class);
 
                             if (registerModel.code == 0) {
-                                ToastUtils.showShort(com.cocos.library_base.R.string.operate_failed);
+                                ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
                                 return;
                             }
 

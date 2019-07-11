@@ -1,10 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
     <string name="module_asset_transfer_token">转账</string>
     <string name="module_asset_receivables_token">收款</string>
-    <string name="module_asset_props_assets">道具资产</string>
+    <string name="module_asset_props_assets">资产管理</string>
     <string name="module_asset_message_center">消息中心</string>
     <string name="module_asset_owner_assets_text">我的资产</string>
-    <string name="module_asset_response_error">数据错误</string>
     <string name="module_asset_developing">敬请期待</string>
     <string name="module_asset_transfer_title">转账</string>
     <string name="module_asset_receivable_account">收款人钱包账户</string>
@@ -29,8 +28,6 @@
     <string name="module_asset_record_detail_deal_time">交易时间：</string>
     <string name="module_asset_transfer_deal_detail">交易详情</string>
     <string name="module_asset_transfer_order_info">订单信息</string>
-    <string name="module_asset_transfer_account_name">转出账号</string>
-    <string name="module_asset_receivable_account_name">转入账号</string>
     <string name="module_asset_transfer_amount_info">数量</string>
     <string name="module_asset_transfer_memo_info">备注</string>
     <string name="module_asset_transfer_pay_confirm_btn">确认支付</string>
@@ -49,7 +46,7 @@
     <string name="module_login_create_wallet_detail" tools:ignore="ResourceName">通过账号密码自助创建</string>
     <string name="module_asset_coin_select_transfer_title">选择转账币种</string>
     <string name="module_asset_coin_select_receivables_title">选择收款币种</string>
-    <string name="module_asset_balance_short">转出数量超过账户余额!手续费：</string>
+    <string name="module_asset_balance_short">余额不足!手续费：</string>
     <string name="unlock_memo_tips" tools:ignore="ResourceName">点此解锁来查看备注</string>
     <string name="module_asset_contract_author">授权人：</string>
     <string name="module_asset_contract_type">合约调用</string>
@@ -63,6 +60,4 @@
     <string name="module_asset_account_not_found">收款账户不存在</string>
     <string name="module_asset_wrong_password">密码不正确</string>
     <string name="module_asset_private_key_author_failed">owner key不能进行转账，请导入active key</string>
-    <string name="module_asset_contract_not_found">未查找到交易合约信息</string>
-    <string name="module_asset_data_cast_error">数据类型转换异常</string>
 </resources>

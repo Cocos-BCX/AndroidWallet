@@ -8,10 +8,9 @@
     <string name="customactivityoncrash_error_activity_error_details_copy" tools:ignore="MissingTranslation">复制日志</string>
     <string name="customactivityoncrash_error_activity_error_details_copied" tools:ignore="MissingTranslation">复制日志</string>
     <string name="customactivityoncrash_error_activity_error_details_clipboard_label" tools:ignore="MissingTranslation">错误信息</string>
-    <string name="network_error" tools:ignore="MissingTranslation">网络繁忙，请检查你的网络连接</string>
     <string name="language_cn">中文</string>
     <string name="language_en">English</string>
-    <string name="net_work_failed">网络连接不可用，请检查网络设置</string>
+    <string name="net_work_failed">网络繁忙，请检查你的网络连接</string>
     <string name="title_verify_password_text">验证密码</string>
     <string name="verify_password_hint">请输入钱包密码/临时密码</string>
     <string name="web_load_failed">页面被外星人带走啦</string>
