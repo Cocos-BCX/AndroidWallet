@@ -27,6 +27,8 @@
     <string name="module_asset_record_detail_square_height">区块高度：</string>
     <string name="module_asset_record_detail_deal_time">交易时间：</string>
     <string name="module_asset_transfer_deal_detail">交易详情</string>
+    <string name="module_asset_transfer_account_name">转出账号</string>
+    <string name="module_asset_receivable_account_name">转入账号</string>
     <string name="module_asset_transfer_order_info">订单信息</string>
     <string name="module_asset_transfer_amount_info">数量</string>
     <string name="module_asset_transfer_memo_info">备注</string>

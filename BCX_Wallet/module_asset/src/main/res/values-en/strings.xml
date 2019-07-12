@@ -4,7 +4,6 @@
     <string name="module_asset_props_assets">Prop</string>
     <string name="module_asset_message_center">Message</string>
     <string name="module_asset_owner_assets_text">My Assets</string>
-
     <string name="module_asset_transfer_title">Send</string>
     <string name="module_asset_receivable_account">Address</string>
     <string name="module_asset_receivables">To</string>
@@ -37,7 +36,6 @@
     <string name="module_asset_developing">To Be Expected</string>
     <string name="module_asset_transfer_account_can_not_yourself">transfer account can not be self</string>
     <string name="module_asset_receivablesAccountName_empty">Address empty!</string>
-    <string name="module_asset_response_error">data error</string>
     <string name="module_asset_transfer_success">Transfer completed</string>
     <string name="module_asset_account_balance_text">Balance:</string>
     <string name="module_asset_transfer_fee_info">fee</string>
@@ -64,6 +62,4 @@
     <string name="module_asset_account_not_found">Account does not exist</string>
     <string name="module_asset_wrong_password">Wrong password</string>
     <string name="module_asset_private_key_author_failed">Owner key cannot transfer,Please import active key</string>
-    <string name="module_asset_contract_not_found">contract not found</string>
-    <string name="module_asset_data_cast_error">class cast exception</string>
 </resources>

@@ -10,15 +10,12 @@
     <string name="module_login_import_wallet">Import Wallet</string>
     <string name="module_login_register_title">Register</string>
     <string name="module_login_account_name">Account Name</string>
-    <string name="module_login_set_password">Set Passcode</string>
     <string name="module_login_password">Passcode</string>
-    <string name="module_login_confirm_password">Confirm Passcode</string>
     <string name="module_login_to_import_wallet">Already have a wallet, import it</string>
     <string name="module_login_login_title">Log In</string>
     <string name="module_login_private_key_title">Private Key</string>
     <string name="module_login_temporary_password_hint">Set temporary password</string>
     <string name="module_login_confirm_password_hint" tools:ignore="MissingTranslation">Enter passcode again</string>
-    <string name="module_login_account_password">Account Passcode</string>
     <string name="module_login_password_empty">Enter passcode!</string>
     <string name="module_login_account_name_hint">Enter account name</string>
     <string name="module_login_password_hint_login" tools:ignore="DuplicateDefinition">Enter passcode</string>
@@ -27,7 +24,6 @@
     <string name="module_login_password_illegal" tools:ignore="MissingTranslation">Passcode does not meet requirements</string>
     <string name="module_login_register_success">Registered</string>
     <string name="module_login_account_info">Please enter account info</string>
-    <string name="module_login_temporary_password_empty">Please set temporary passcode</string>
     <string name="module_login_private_key_empty">Please enter private key</string>
     <string name="module_login_key_login_success">Imported</string>
 
@@ -37,7 +33,6 @@
     <string name="module_login_account_title">Account mode</string>
     <string name="module_login_wallet_model_tips">In wallet mode, private key to login only, please backup your private key well, make sure your wallet safe.</string>
     <string name="module_login_account_model_tips">In account mode, you can login with Account name or private key, please backup your private key well, make sure your wallet safe</string>
-    <string name="module_login_backup_private_key_title">Backup private key</string>
     <string name="module_login_backup_wallet_title">Backup Wallet</string>
     <string name="module_login_no_shotcut_screen">Please do not take screenshots</string>
     <string name="module_login_no_shotcut_screen_tips">Anyone who gets your private key, can have your assets directly, please write your private key down on paper and keep it safe.</string>

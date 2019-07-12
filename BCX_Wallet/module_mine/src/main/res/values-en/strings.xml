@@ -59,7 +59,6 @@
     <string name="fragment_mine_discord" tools:ignore="ResourceName">Discord</string>
     <string name="fragment_mine_telegram" tools:ignore="ResourceName">Telegram</string>
     <string name="module_mine_modify_password_empty">Please input a password</string>
-    <string name="module_mine_response_error">data error!</string>
     <string name="module_mine_contact_add_manully">Manual addition</string>
     <string name="module_mine_contact_scan_add" tools:ignore="MissingTranslation">Scan</string>
     <string name="fragment_mine_net_setting">Network Setting</string>
