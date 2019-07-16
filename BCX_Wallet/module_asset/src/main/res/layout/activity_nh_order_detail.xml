@@ -73,12 +73,13 @@
                         android:typeface="@{@string/TOTAL_ASSET}" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:gravity="center_horizontal"
                         android:text="@={viewModel.orderId}"
                         android:textColor="@color/color_262A33"
-                        android:textSize="@dimen/sp_26"
+                        android:textSize="@dimen/sp_16"
                         android:typeface="@{@string/TOTAL_ASSET}" />
 
                     <LinearLayout
@@ -90,7 +91,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
+                            android:layout_weight="1.8"
                             android:text="@string/module_asset_nh_asset_id"
                             android:textColor="@color/color_626670"
                             android:textSize="@dimen/sp_14" />
@@ -98,7 +99,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3.5">
+                            android:layout_weight="3.2">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -123,7 +124,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
+                            android:layout_weight="1.8"
                             android:text="@string/module_asset_nh_asset_order_seller"
                             android:textColor="@color/color_626670"
                             android:textSize="@dimen/sp_14" />
@@ -131,7 +132,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3.5"
+                            android:layout_weight="3.2"
                             binding:onClickCommand="@{viewModel.onSellerCopyClick}">
 
                             <TextView
@@ -162,7 +163,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
+                            android:layout_weight="1.8"
                             android:singleLine="true"
                             android:text="@string/module_asset_order_detail_asset_qualifier"
                             android:textColor="@color/color_626670"
@@ -171,14 +172,14 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3.5">
+                            android:layout_weight="3.2">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:text="@={viewModel.assetQualifier}"
-                                android:textColor="@color/color_4868DC"
+                                android:textColor="@color/color_262A33"
                                 android:textSize="@dimen/sp_14" />
 
                         </LinearLayout>
@@ -193,7 +194,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
+                            android:layout_weight="1.8"
                             android:singleLine="true"
                             android:text="@string/module_asset_order_detail_world_view"
                             android:textColor="@color/color_626670"
@@ -202,14 +203,14 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3.5">
+                            android:layout_weight="3.2">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:text="@={viewModel.worldView}"
-                                android:textColor="@color/color_4868DC"
+                                android:textColor="@color/color_262A33"
                                 android:textSize="@dimen/sp_14" />
 
                         </LinearLayout>
@@ -239,7 +240,8 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3.2">
+                            android:layout_weight="3.2"
+                            binding:onClickCommand="@{viewModel.onBaseDesCopyClick}">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -249,6 +251,12 @@
                                 android:text="@={viewModel.baseDescribe}"
                                 android:textColor="@color/color_262A33"
                                 android:textSize="@dimen/sp_14" />
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_20"
+                                android:layout_height="@dimen/dp_20"
+                                android:layout_marginLeft="@dimen/dp_6"
+                                android:src="@drawable/copy_black_icon" />
                         </LinearLayout>
                     </LinearLayout>
 

@@ -2,13 +2,21 @@ package com.cocos.module_asset.nh_order_manager;
 
 import android.annotation.SuppressLint;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.ItemViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.entity.NhAssetOrderEntity;
+import com.cocos.library_base.global.EventTypeGlobal;
+import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.TimeUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,7 +48,8 @@ public class MineNhOrderItemViewModel extends ItemViewModel {
         Date dateObject = null;
         try {
             dateObject = sDateFormat.parse(nhOrderEntity.expiration);
-            mineNhOrderExpritationTime.set("过期时间：" + TimeUtil.formDate(dateObject));
+            entity.expirationTime = TimeUtil.formDate(dateObject);
+            mineNhOrderExpritationTime.set("过期时间：" + entity.expirationTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -51,15 +60,22 @@ public class MineNhOrderItemViewModel extends ItemViewModel {
     public BindingCommand itemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-
+            entity.isMineOrder = true;
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentKeyGlobal.NH_ORDER_MODEL, entity);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_NH_ORDER_DETAIL).with(bundle).navigation();
         }
     });
+
 
     //取消订单按钮
     public BindingCommand cancelNhOrderCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-
+            EventBusCarrier eventBusCarrier = new EventBusCarrier();
+            eventBusCarrier.setEventType(EventTypeGlobal.SHOW_PASSWORD_VERIFY_DIALOG);
+            eventBusCarrier.setObject(entity);
+            EventBus.getDefault().post(eventBusCarrier);
         }
     });
 }

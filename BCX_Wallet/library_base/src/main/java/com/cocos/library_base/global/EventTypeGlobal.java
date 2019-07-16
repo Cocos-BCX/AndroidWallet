@@ -20,4 +20,5 @@ public class EventTypeGlobal {
     public static final String TRANSFER_SUCCESS = "transfer_success";
     public static final CharSequence GET_COCOS_ACCOUNT = "getCocosAccount";
     public static final String SWITCH_NODE_WORK = "node_work_switch";
+    public static final String SHOW_PASSWORD_VERIFY_DIALOG = "show_password_verify_dialog";
 }

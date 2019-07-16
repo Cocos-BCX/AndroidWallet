@@ -1,5 +1,6 @@
 package com.cocos.library_base.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class NhAssetOrderEntity extends BaseResult {
@@ -21,10 +22,11 @@ public class NhAssetOrderEntity extends BaseResult {
         this.data = data;
     }
 
-    public static class NhOrderBean {
+    public static class NhOrderBean implements Serializable {
 
         public String id;
         public String seller;
+        public String sellerName;
         public String otcaccount;
         public String nh_asset_id;
         public String asset_qualifier;
@@ -34,13 +36,14 @@ public class NhAssetOrderEntity extends BaseResult {
         public PriceBean price;
         public String memo;
         public String expiration;
+        public String expirationTime;
         public String priceWithSymbol;
+        public boolean isMineOrder;
 
-        public static class PriceBean {
+        public static class PriceBean implements Serializable {
 
             public double amount;
             public String asset_id;
-
 
         }
     }
