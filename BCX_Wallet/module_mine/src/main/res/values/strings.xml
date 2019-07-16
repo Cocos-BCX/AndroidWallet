@@ -97,5 +97,9 @@
     <string name="module_mine_wrong_password">密码不正确</string>
     <string name="module_mine_node_connect_failed">节点连接失败</string>
     <string name="module_mine_node_connect_success">切换成功</string>
+    <string name="mine_nh_asset_id_text">资产ID：</string>
+    <string name="mine_nh_asset_qualifier">通行资产：</string>
+    <string name="mine_nh_asset_world_view">世界观：</string>
+    <string name="delete_text">删除</string>
 
 </resources>

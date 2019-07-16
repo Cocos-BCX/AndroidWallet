@@ -30,7 +30,7 @@ public class PropAssetFragment extends BaseFragment<FragmentPropAssetBinding, Pr
 
     @Override
     public void initData() {
-        // viewModel.requestPropAssetsListData();
+         viewModel.requestPropAssetsListData();
     }
 
 }

@@ -17,4 +17,5 @@
     <dimen name="dp_3">3dp</dimen>
     <dimen name="dp_88">88dp</dimen>
     <dimen name="dp_125">125dp</dimen>
+    <dimen name="dp_62">62dp</dimen>
 </resources>

@@ -11,7 +11,6 @@ import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.KLog;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.BR;
@@ -35,9 +34,9 @@ public class PropAssetViewModel extends BaseViewModel {
     }
 
 
-    public ObservableInt emptyViewVisible = new ObservableInt(View.VISIBLE);
+    public ObservableInt emptyViewVisible = new ObservableInt(View.GONE);
 
-    public ObservableInt recyclerViewVisible = new ObservableInt(View.GONE);
+    public ObservableInt recyclerViewVisible = new ObservableInt(View.VISIBLE);
 
     public ObservableList<PropAssetItemViewModel> observableList = new ObservableArrayList<>();
 
@@ -49,20 +48,18 @@ public class PropAssetViewModel extends BaseViewModel {
         String accountName = AccountHelperUtils.getCurrentAccountName();
         List<String> wordView = new ArrayList<>();
         observableList.clear();
-        CocosBcxApiWrapper.getBcxInstance().list_account_nh_asset(accountName, wordView, 1, 10, new IBcxCallBack() {
+        CocosBcxApiWrapper.getBcxInstance().list_account_nh_asset(accountName, wordView, 1, 100, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
-                KLog.i("list_account_nh_asset", s);
                 final PropAssetModel propAssetModel = GsonSingleInstance.getGsonInstance().fromJson(s, PropAssetModel.class);
-                if (!propAssetModel.isSuccess() || propAssetModel.data.size() <= 0) {
-                    emptyViewVisible.set(View.VISIBLE);
-                    recyclerViewVisible.set(View.GONE);
-                    return;
-                }
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
-
+                        if (!propAssetModel.isSuccess() || propAssetModel.data.size() <= 0) {
+                            emptyViewVisible.set(View.VISIBLE);
+                            recyclerViewVisible.set(View.GONE);
+                            return;
+                        }
                         for (PropAssetModel.PropAssetModelBean assetModelBean : propAssetModel.data) {
                             PropAssetItemViewModel itemViewModel = new PropAssetItemViewModel(PropAssetViewModel.this, assetModelBean);
                             observableList.add(itemViewModel);

@@ -98,6 +98,10 @@
     <string name="module_mine_wrong_password">Wrong password</string>
     <string name="module_mine_node_connect_failed">Connect failed</string>
     <string name="module_mine_node_connect_success">Connect success</string>
+    <string name="mine_nh_asset_id_text">资产ID：</string>
+    <string name="mine_nh_asset_qualifier">通行资产：</string>
+    <string name="mine_nh_asset_world_view">世界观：</string>
+    <string name="delete_text">删除</string>
 
 
 </resources>
