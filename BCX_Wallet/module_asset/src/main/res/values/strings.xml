@@ -2,7 +2,7 @@
     <string name="module_asset_transfer_token">转账</string>
     <string name="module_asset_receivables_token">收款</string>
     <string name="module_asset_props_assets">资产管理</string>
-    <string name="module_asset_message_center">消息中心</string>
+    <string name="module_asset_message_center">订单管理</string>
     <string name="module_asset_owner_assets_text">我的资产</string>
     <string name="module_asset_developing">敬请期待</string>
     <string name="module_asset_transfer_title">转账</string>
@@ -62,4 +62,14 @@
     <string name="module_asset_account_not_found">收款账户不存在</string>
     <string name="module_asset_wrong_password">密码不正确</string>
     <string name="module_asset_private_key_author_failed">owner key不能进行转账，请导入active key</string>
+    <string name="module_asset_nh_order_mine_title">我的订单</string>
+    <string name="module_asset_nh_order_all_title">全网订单</string>
+    <string name="module_asset_nh_order_id">订单ID：</string>
+    <string name="module_asset_nh_order_price">价格：</string>
+    <string name="module_asset_nh_asset_order_id">资产ID：</string>
+    <string name="module_asset_nh_asset_order_memo">备注：</string>
+    <string name="cancel_mine_nh_order_text">取消订单</string>
+    <string name="module_asset_nh_asset_order_seller">卖家：</string>
+    <string name="buy_nh_order_text">购买</string>
+    <string name="order_manage_title">订单管理</string>
 </resources>

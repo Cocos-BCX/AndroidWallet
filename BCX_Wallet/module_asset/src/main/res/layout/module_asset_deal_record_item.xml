@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_82"
         android:layout_marginTop="@dimen/dp_8"
-        android:background="@drawable/fragment_assets_item_bg"
+        android:background="@drawable/item_bg_round"
         android:orientation="horizontal"
         binding:onClickCommand="@{viewModel.itemClick}">
 

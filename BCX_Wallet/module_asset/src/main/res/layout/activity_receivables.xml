@@ -87,7 +87,7 @@
                 android:layout_marginLeft="@dimen/dp_25"
                 android:layout_marginTop="@dimen/dp_35"
                 android:layout_marginRight="@dimen/dp_25"
-                android:background="@drawable/fragment_assets_item_bg"
+                android:background="@drawable/item_bg_round"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/dp_14"
                 android:paddingRight="@dimen/dp_14">

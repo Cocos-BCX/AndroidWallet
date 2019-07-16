@@ -1,4 +1,4 @@
-package com.cocos.module_mine.entity;
+package com.cocos.library_base.entity;
 
 import com.flyco.tablayout.listener.CustomTabEntity;
 

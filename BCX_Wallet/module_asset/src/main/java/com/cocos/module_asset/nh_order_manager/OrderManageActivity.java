@@ -1,6 +1,5 @@
-package com.cocos.module_mine.asset_overview;
+package com.cocos.module_asset.nh_order_manager;
 
-import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,13 +9,11 @@ import android.support.v4.view.ViewPager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.entity.TabEntity;
-import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
-import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.Utils;
-import com.cocos.module_mine.BR;
-import com.cocos.module_mine.R;
-import com.cocos.module_mine.databinding.ActivityAssetOverviewBinding;
+import com.cocos.module_asset.BR;
+import com.cocos.module_asset.R;
+import com.cocos.module_asset.databinding.ActivityOrderManageBinding;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
@@ -24,21 +21,20 @@ import java.util.ArrayList;
 
 /**
  * @author ningkang.guo
- * @Date 2019/2/19
+ * @Date 2019/7/15
  */
-@Route(path = RouterActivityPath.ACTIVITY_ASSET_OVERVIEW)
-public class AssetOverviewActivity extends BaseActivity<ActivityAssetOverviewBinding, AssetOverviewViewModel> {
+@Route(path = RouterActivityPath.ACTIVITY_ORDER_MANAGE)
+public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding, OrderManageViewModel> {
 
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
-    private ArrayList<Fragment> mFragments;
+    private int[] mTitles = {R.string.module_asset_nh_order_mine_title, R.string.module_asset_nh_order_all_title,};
 
-    private int[] mTitles = {R.string.module_mine_asset_overview_digital_assets, R.string.module_mine_asset_overview_prop_assets,};
-    private int tabPosition = 0;
+    private ArrayList<Fragment> mFragments;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        return R.layout.activity_asset_overview;
+        return R.layout.activity_order_manage;
     }
 
     @Override
@@ -47,46 +43,18 @@ public class AssetOverviewActivity extends BaseActivity<ActivityAssetOverviewBin
     }
 
     @Override
-    public void initParam() {
-        try {
-            Bundle bundle = getIntent().getExtras();
-            tabPosition = bundle.getInt(IntentKeyGlobal.TAB_POSITION);
-        } catch (Exception e) {
-        }
-    }
-
-    @Override
     public void initData() {
         mFragments = new ArrayList<>();
-        NumberAssetFragment numberAssetFragment = new NumberAssetFragment();
-        PropAssetFragment propAssetFragment = new PropAssetFragment();
-        mFragments.add(numberAssetFragment);
-        mFragments.add(propAssetFragment);
+        MineNhOrderFragment mineNhOrderFragment = new MineNhOrderFragment();
+        AllNhOrderFragment allNhOrderFragment = new AllNhOrderFragment();
+        mFragments.add(mineNhOrderFragment);
+        mFragments.add(allNhOrderFragment);
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(Utils.getString(mTitles[i])));
         }
         binding.viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
         initTabListener();
-        String accountId = AccountHelperUtils.getCurrentAccountId();
-        viewModel.requestAssetsListData(accountId);
     }
-
-    @Override
-    public void initViewObservable() {
-        viewModel.uc.pSwitchObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                if (!viewModel.uc.pSwitchObservable.get()) {
-                    binding.ivAssetVisible.setImageResource(R.drawable.asset_overview_visible_icon);
-                    viewModel.totalAsset.set(String.valueOf(viewModel.totalAssets));
-                } else {
-                    binding.ivAssetVisible.setImageResource(R.drawable.asset_overview_invisible_icon);
-                    viewModel.totalAsset.set("****");
-                }
-            }
-        });
-    }
-
 
     private class PagerAdapter extends FragmentPagerAdapter {
 
@@ -140,7 +108,6 @@ public class AssetOverviewActivity extends BaseActivity<ActivityAssetOverviewBin
 
             }
         });
-        binding.viewPager.setCurrentItem(tabPosition);
+        binding.viewPager.setCurrentItem(0);
     }
-
 }

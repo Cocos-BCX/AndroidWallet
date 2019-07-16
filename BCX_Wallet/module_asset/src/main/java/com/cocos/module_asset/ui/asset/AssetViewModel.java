@@ -23,7 +23,6 @@ import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -123,10 +122,10 @@ public class AssetViewModel extends BaseViewModel {
     });
 
     //消息中心按钮的点击事件
-    public BindingCommand messageCentersItemClick = new BindingCommand(new BindingAction() {
+    public BindingCommand OrderManageCentersItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ToastUtils.showShort(R.string.module_asset_developing);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_ORDER_MANAGE).navigation();
         }
     });
 

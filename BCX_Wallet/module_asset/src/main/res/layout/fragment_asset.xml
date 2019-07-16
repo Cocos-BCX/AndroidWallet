@@ -174,7 +174,7 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
-                        binding:onClickCommand="@{viewModel.messageCentersItemClick}">
+                        binding:onClickCommand="@{viewModel.OrderManageCentersItemClick}">
 
                         <ImageView
                             android:layout_width="@dimen/dp_28"
