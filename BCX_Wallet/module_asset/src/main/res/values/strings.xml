@@ -56,7 +56,7 @@
     <string name="module_asset_contract_action">动作：</string>
     <string name="module_asset_contract_params">数据：</string>
     <string name="module_asset_transfer_nh_title">NH资产转移</string>
-    <string name="module_asset_nh_asset_id">NH资产ID:</string>
+    <string name="module_asset_nh_asset_id">NH资产ID：</string>
     <string name="no_asset_data">暂无资产</string>
     <string name="module_asset_transfer_amount_empty">请输入转账数量</string>
     <string name="module_asset_account_not_found">收款账户不存在</string>

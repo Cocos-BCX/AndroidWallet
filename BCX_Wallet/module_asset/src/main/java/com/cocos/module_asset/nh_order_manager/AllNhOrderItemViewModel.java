@@ -33,7 +33,6 @@ public class AllNhOrderItemViewModel extends ItemViewModel {
     public ObservableField<String> allNhOrderId = new ObservableField<>("");
     public ObservableField<String> allNhOrderPrice = new ObservableField<>("");
     public ObservableField<String> nhAssetIconUrl = new ObservableField<>("http://47.75.186.60/itemimgs/bomb.png");
-    public ObservableField<String> nhAssetId = new ObservableField<>("");
     public ObservableField<String> allNhOrderSeller = new ObservableField<>("");
     public ObservableField<String> allNhOrderExpritationTime = new ObservableField<>("");
     public ObservableField<String> allNhOrderMemo = new ObservableField<>("");
@@ -43,7 +42,6 @@ public class AllNhOrderItemViewModel extends ItemViewModel {
         super(viewModel);
         this.entity = nhOrderEntity;
         allNhOrderId.set(entity.id);
-        nhAssetId.set(entity.nh_asset_id);
         allNhOrderPrice.set(entity.priceWithSymbol);
         String seller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(entity.seller);
         allNhOrderSeller.set(seller);

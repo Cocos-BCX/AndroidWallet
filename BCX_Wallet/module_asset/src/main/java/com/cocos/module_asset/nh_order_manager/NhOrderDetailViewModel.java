@@ -43,7 +43,7 @@ public class NhOrderDetailViewModel extends BaseViewModel {
     public void requestOrderDetailData(NhAssetOrderEntity.NhOrderBean nhOrderBean) {
         orderId.set(nhOrderBean.id);
         nhAssetId.set(nhOrderBean.nh_asset_id);
-        sellerAccount.set(nhOrderBean.isMineOrder ? AccountHelperUtils.getCurrentAccountName() : nhOrderBean.nh_asset_id);
+        sellerAccount.set(nhOrderBean.isMineOrder ? AccountHelperUtils.getCurrentAccountName() : nhOrderBean.sellerName);
         assetQualifier.set(nhOrderBean.asset_qualifier);
         worldView.set(nhOrderBean.world_view);
         baseDescribe.set(nhOrderBean.base_describe);

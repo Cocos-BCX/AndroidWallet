@@ -30,50 +30,37 @@
             android:paddingBottom="@dimen/dp_7">
 
             <LinearLayout
+                android:id="@+id/ll_seller"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:ignore="RtlHardcoded">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/module_asset_nh_order_id"
+                    android:text="@string/module_asset_nh_asset_id"
                     android:textColor="@color/color_262A33"
-                    android:textSize="@dimen/sp_14"
-                    android:typeface="@{@string/TOTAL_ASSET}" />
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@={viewModel.mineNhOrderId}"
+                    android:maxWidth="@dimen/dp_90"
+                    android:singleLine="true"
+                    android:text="@={viewModel.nhAssetId}"
                     android:textColor="@color/color_262A33"
-                    android:textSize="@dimen/sp_14"
-                    android:typeface="@{@string/TOTAL_ASSET}" />
+                    android:textSize="@dimen/sp_14" />
+
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                tools:ignore="RtlHardcoded">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/module_asset_nh_order_price"
-                    android:textColor="@color/color_262A33"
-                    android:textSize="@dimen/sp_14"
-                    android:typeface="@{@string/TOTAL_ASSET}" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@={viewModel.mineNhOrderPrice}"
-                    android:textColor="@color/color_262A33"
-                    android:textSize="@dimen/sp_14"
-                    android:typeface="@{@string/TOTAL_ASSET}" />
-            </LinearLayout>
-
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="@={viewModel.mineNhOrderExpritationTime}"
+                android:textColor="@color/color_F56151"
+                android:textSize="@dimen/sp_10"
+                tools:ignore="SpUsage" />
         </RelativeLayout>
 
         <View
@@ -100,48 +87,25 @@
                 android:orientation="vertical"
                 tools:ignore="RtlHardcoded">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/dp_6">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/module_asset_nh_asset_order_id"
-                        android:textColor="@color/color_262A33"
-                        android:textSize="@dimen/sp_14"
-                        tools:ignore="SpUsage" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@={viewModel.nhAssetId}"
-                        android:textColor="@color/color_262A33"
-                        android:textSize="@dimen/sp_14" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right|center_vertical"
-                        android:text="@={viewModel.mineNhOrderExpritationTime}"
-                        android:textColor="@color/color_F56151"
-                        android:textSize="@dimen/sp_10" />
-
-                </LinearLayout>
+                    android:text="@={viewModel.mineNhOrderId}"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_16"
+                    android:typeface="@{@string/TOTAL_ASSET}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:paddingBottom="@dimen/dp_6">
+                    android:paddingBottom="@dimen/dp_4">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/module_asset_nh_asset_order_memo"
-                        android:textColor="@color/color_626670"
+                        android:textColor="@color/color_262A33"
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
@@ -149,9 +113,30 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="@={viewModel.mineNhOrderMemo}"
-                        android:textColor="@color/color_626670"
+                        android:textColor="@color/color_262A33"
                         android:textSize="@dimen/sp_14" />
 
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/module_asset_nh_order_price"
+                        android:textColor="@color/color_262A33"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.mineNhOrderPrice}"
+                        android:textColor="@color/color_262A33"
+                        android:textSize="@dimen/sp_14" />
                 </LinearLayout>
 
                 <TextView
@@ -163,9 +148,9 @@
                     android:background="@drawable/btn_bigger_round_bg"
                     android:gravity="center"
                     android:paddingLeft="@dimen/dp_10"
-                    android:paddingTop="@dimen/dp_3"
+                    android:paddingTop="@dimen/dp_4"
                     android:paddingRight="@dimen/dp_10"
-                    android:paddingBottom="@dimen/dp_3"
+                    android:paddingBottom="@dimen/dp_4"
                     android:text="@string/cancel_mine_nh_order_text"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
