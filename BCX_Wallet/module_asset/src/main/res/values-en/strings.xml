@@ -72,4 +72,11 @@
     <string name="module_asset_nh_asset_order_seller">卖家：</string>
     <string name="buy_nh_order_text">购买</string>
     <string name="order_manage_title">订单管理</string>
+    <string name="module_asset_nh_order_detail_title">订单详情</string>
+    <string name="module_asset_nh_order_detail_order_id">订单ID</string>
+    <string name="module_asset_order_detail_asset_qualifier">通行资产：</string>
+    <string name="module_asset_order_detail_world_view">世界观：</string>
+    <string name="module_asset_order_detail_base_describe">基础数据：</string>
+    <string name="module_asset_order_detail_expiration">过期时间：</string>
+    <string name="module_asset_nh_asset_order_price">价格：</string>
 </resources>

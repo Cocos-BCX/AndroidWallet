@@ -96,7 +96,7 @@ dependencies {
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "org.projectlombok:lombok:1.18.2"
-    implementation project(':cocos_bcx_sdk')
+    implementation project(':cocos_sdk')
     implementation project(':library_res')
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
