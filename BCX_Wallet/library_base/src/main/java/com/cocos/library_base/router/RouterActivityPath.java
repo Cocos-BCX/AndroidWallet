@@ -41,6 +41,7 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_JOIN_COMMUNITY = "/module_mine/JoinCommunityActivity";
     public static final String ACTIVITY_SYSTEM_SETTING = "/module_mine/SystemSettingActivity";
     public static final String ACTIVITY_CUSTOM_NODE_WORK = "/module_mine/CustomNodeWorkActivity";
+    public static final String ACTIVITY_NH_ASSET_DETAIL = "/module_mine/NHAssetDetailActivity";
 
     //zxing
     public static final String ACTIVITY_CAPTURE = "/module_zxing/CaptureActivity";

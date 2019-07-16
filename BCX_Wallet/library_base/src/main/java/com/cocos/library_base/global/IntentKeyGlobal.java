@@ -40,4 +40,5 @@ public final class IntentKeyGlobal {
     public static final String ACCOUNT_NAME = "ACCOUNT_NAME";
     public static final String OPERATE_TYPE = "OPERATE_TYPE";
     public static final String NH_ORDER_MODEL = "NH_ORDER_MODEL";
+    public static final String NH_ASSET_MODEL = "NH_ASSET_MODEL";
 }

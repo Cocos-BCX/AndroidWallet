@@ -41,6 +41,9 @@ public class NhOrderDetailViewModel extends BaseViewModel {
 
 
     public void requestOrderDetailData(NhAssetOrderEntity.NhOrderBean nhOrderBean) {
+        if (null == nhOrderBean) {
+            return;
+        }
         orderId.set(nhOrderBean.id);
         nhAssetId.set(nhOrderBean.nh_asset_id);
         sellerAccount.set(nhOrderBean.isMineOrder ? AccountHelperUtils.getCurrentAccountName() : nhOrderBean.sellerName);

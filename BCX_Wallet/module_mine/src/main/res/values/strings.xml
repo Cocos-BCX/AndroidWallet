@@ -101,5 +101,14 @@
     <string name="mine_nh_asset_qualifier">通行资产：</string>
     <string name="mine_nh_asset_world_view">世界观：</string>
     <string name="delete_text">删除</string>
+    <string name="module_mine_nh_asset_detail_title">资产详情</string>
+    <string name="module_asset_nh_asset_detail_id">NH资产ID</string>
+    <string name="module_mine_nh_asset_creator">创建者：</string>
+    <string name="module_mine_nh_asset_owner">持有者：</string>
+    <string name="module_mine_asset_detail_asset_qualifier">通行资产：</string>
+    <string name="module_mine_asset_detail_world_view">世界观：</string>
+    <string name="module_mine_asset_create_time">创建时间：</string>
+    <string name="module_mine_nh_asset_base_desc">基础数据：</string>
+    <string name="module_mine_nh_asset_zone_data">域数据：</string>
 
 </resources>

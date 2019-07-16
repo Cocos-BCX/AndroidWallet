@@ -2,6 +2,7 @@ package com.cocos.module_mine.entity;
 
 import com.cocos.library_base.entity.BaseResult;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class PropAssetModel extends BaseResult {
 
     public List<PropAssetModelBean> data;
 
-    public static class PropAssetModelBean {
+    public static class PropAssetModelBean implements Serializable {
 
         public String id;
         public String nh_hash;
