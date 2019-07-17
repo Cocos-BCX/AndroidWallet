@@ -15,7 +15,7 @@ import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
-import com.cocos.module_mine.entity.PropAssetModel;
+import com.cocos.module_mine.entity.NHAssetModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,16 +51,16 @@ public class NHAssetViewModel extends BaseViewModel {
         CocosBcxApiWrapper.getBcxInstance().list_account_nh_asset(accountName, wordView, 1, 100, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
-                final PropAssetModel propAssetModel = GsonSingleInstance.getGsonInstance().fromJson(s, PropAssetModel.class);
+                final NHAssetModel NHAssetModel = GsonSingleInstance.getGsonInstance().fromJson(s, NHAssetModel.class);
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
-                        if (!propAssetModel.isSuccess() || propAssetModel.data.size() <= 0) {
+                        if (!NHAssetModel.isSuccess() || NHAssetModel.data.size() <= 0) {
                             emptyViewVisible.set(View.VISIBLE);
                             recyclerViewVisible.set(View.GONE);
                             return;
                         }
-                        for (PropAssetModel.PropAssetModelBean assetModelBean : propAssetModel.data) {
+                        for (com.cocos.module_mine.entity.NHAssetModel.NHAssetModelBean assetModelBean : NHAssetModel.data) {
                             NHAssetItemViewModel itemViewModel = new NHAssetItemViewModel(NHAssetViewModel.this, assetModelBean);
                             observableList.add(itemViewModel);
                             emptyViewVisible.set(View.GONE);

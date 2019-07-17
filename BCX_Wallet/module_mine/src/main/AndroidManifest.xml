@@ -12,6 +12,8 @@
         <activity android:name=".system_setting.SystemSettingActivity" />
         <activity android:name=".account_manage.AccountManagerListActivity" />
         <activity android:name=".asset_overview.NHAssetDetailActivity" />
+        <activity android:name=".asset_operate.sale_nhasset.SaleNHAssetActivity" />
+
         <activity
             android:name=".contact.EditContactActivity"
             android:windowSoftInputMode="adjustResize" />

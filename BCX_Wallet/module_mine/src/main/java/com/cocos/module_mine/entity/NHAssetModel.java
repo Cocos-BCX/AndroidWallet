@@ -9,11 +9,11 @@ import java.util.List;
  * @author ningkang.guo
  * @Date 2019/5/23
  */
-public class PropAssetModel extends BaseResult {
+public class NHAssetModel extends BaseResult {
 
-    public List<PropAssetModelBean> data;
+    public List<NHAssetModelBean> data;
 
-    public static class PropAssetModelBean implements Serializable {
+    public static class NHAssetModelBean implements Serializable {
 
         public String id;
         public String nh_hash;

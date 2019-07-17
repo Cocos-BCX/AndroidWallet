@@ -113,6 +113,28 @@
     <string name="module_mine_nh_asset_zone_data">域数据：</string>
     <string name="module_mine_nh_asset_detail_transfer_text">转移</string>
     <string name="module_mine_nh_asset_sale_text">出售</string>
+    <string name="module_mine_nh_sale_title">道具出售</string>
+    <string name="module_mine_nh_sale_next">下一步</string>
+    <string name="module_mine_nh_asset_sale_id">资产ID</string>
+    <string name="module_mine_nh_asset_sale_price">价格</string>
+    <string name="choose_other_symbol">选择币种</string>
+    <string name="module_mine_nh_asset_sale_price_default">(默认币种：COCOS)</string>
+    <string name="module_mine_nh_asset_sale_valid_time">有效时间</string>
+    <string name="module_mine_nh_asset_sale_valid_time_hint">请输入挂卖订单的有效时间</string>
+    <string name="module_mine_nh_asset_sale_memo">备注</string>
+    <string name="module_mine_nh_asset_sale_memo_hint">请输入挂单备注</string>
+    <string name="module_mine_nh_asset_sale_price_hint">请输入挂单价格</string>
+    <string name="module_mine_nh_asset_sale_valid_time_default">(单位：秒)</string>
+    <string name="module_mine_nh_asset_sale_memo_default">(选填)</string>
+    <string name="module_mine_sale_nh_price_error">挂单价格不能小于0</string>
+    <string name="module_mine_nh_asset_sale_fee">挂单费用</string>
+    <string name="module_mine_nh_asset_sale_fee_default">(单位：COCOS)</string>
+    <string name="module_mine_nh_asset_sale_fee_hint">请输入挂单费用</string>
+    <string name="module_mine_sale_nh_info">出售</string>
+    <string name="module_mine_sale_info">交易信息</string>
+    <string name="module_mine_nh_asset_sale_miner_fee">手续费</string>
+    <string name="module_mine_sale_nh_confirm_btn">确认出售</string>
+    <string name="module_mine_sale_nh_success">挂单成功</string>
 
 
 </resources>

@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.cocos.module_asset.ui.transfer.OrderConfirmViewModel" />
+        <import type="com.cocos.module_mine.asset_operate.sale_nhasset.SaleNhConfirmViewModel" />
 
         <variable
             name="viewModel"
-            type="com.cocos.module_asset.ui.transfer.OrderConfirmViewModel" />
+            type="com.cocos.module_mine.asset_operate.sale_nhasset.SaleNhConfirmViewModel" />
     </data>
 
     <LinearLayout
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="@string/module_asset_transfer_deal_detail"
+                android:text="@string/deal_detail"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_16" />
         </RelativeLayout>
@@ -53,7 +53,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/module_asset_transfer_order_info"
+                android:text="@string/module_mine_sale_info"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="22dp"
-                android:text="@={viewModel.orderType}"
+                android:text="@string/module_mine_sale_nh_info"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
@@ -81,7 +81,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.8"
-                android:text="@string/module_asset_transfer_account_name"
+                android:text="@string/module_mine_nh_asset_sale_id"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
@@ -89,7 +89,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3.2"
-                android:text="@={viewModel.transferAccount}"
+                android:text="@={viewModel.nhAssetId}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
@@ -109,7 +109,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.8"
-                android:text="@string/module_asset_receivable_account_name"
+                android:text="@string/module_mine_nh_asset_sale_price"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
@@ -117,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3.2"
-                android:text="@={viewModel.receivablesAccount}"
+                android:text="@={viewModel.priceAmount}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
@@ -137,7 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.8"
-                android:text="@string/module_asset_transfer_amount_info"
+                android:text="@string/module_mine_nh_asset_sale_valid_time"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
@@ -145,7 +145,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3.2"
-                android:text="@={viewModel.orderAmount}"
+                android:text="@={viewModel.validTime}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
@@ -166,7 +166,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.8"
-                android:text="@string/module_asset_transfer_fee_info"
+                android:text="@string/module_mine_nh_asset_sale_fee"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
@@ -174,6 +174,35 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3.2"
+                android:text="@={viewModel.saleFee}"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/color_E8EBF1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:gravity="center_vertical"
+            android:weightSum="5">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8"
+                android:text="@string/module_mine_nh_asset_sale_miner_fee"
+                android:textColor="@color/color_A5A9B1"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3.2"
+                android:singleLine="true"
                 android:text="@={viewModel.minerFee}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -194,7 +223,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.8"
-                android:text="@string/module_asset_transfer_memo_info"
+                android:text="@string/module_mine_nh_asset_sale_memo"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
@@ -207,6 +236,7 @@
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -221,10 +251,10 @@
             android:gravity="center"
             android:paddingTop="@dimen/dp_7"
             android:paddingBottom="@dimen/dp_7"
-            android:text="@string/module_asset_transfer_pay_confirm_btn"
+            android:text="@string/module_mine_sale_nh_confirm_btn"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_16"
-            binding:onClickCommand="@{viewModel.payConfirmOnClickCommand}" />
+            binding:onClickCommand="@{viewModel.saleConfirmOnClickCommand}" />
     </LinearLayout>
 </layout>

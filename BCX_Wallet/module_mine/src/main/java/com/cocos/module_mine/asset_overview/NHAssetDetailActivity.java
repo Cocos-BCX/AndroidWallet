@@ -9,7 +9,7 @@ import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.databinding.ActivityNhAssetDetaiilBinding;
-import com.cocos.module_mine.entity.PropAssetModel;
+import com.cocos.module_mine.entity.NHAssetModel;
 
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ import java.util.Objects;
 @Route(path = RouterActivityPath.ACTIVITY_NH_ASSET_DETAIL)
 public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBinding, NHAssetDetailViewModel> {
 
-    PropAssetModel.PropAssetModelBean propAssetModelBean;
+    NHAssetModel.NHAssetModelBean NHAssetModelBean;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -35,13 +35,13 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
     @Override
     public void initParam() {
         try {
-            propAssetModelBean = (PropAssetModel.PropAssetModelBean) Objects.requireNonNull(getIntent().getExtras()).getSerializable(IntentKeyGlobal.NH_ASSET_MODEL);
+            NHAssetModelBean = (NHAssetModel.NHAssetModelBean) Objects.requireNonNull(getIntent().getExtras()).getSerializable(IntentKeyGlobal.NH_ASSET_MODEL);
         } catch (Exception e) {
         }
     }
 
     @Override
     public void initData() {
-        viewModel.requestAssetDetailData(propAssetModelBean);
+        viewModel.requestAssetDetailData(NHAssetModelBean);
     }
 }

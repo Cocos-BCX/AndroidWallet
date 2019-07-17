@@ -15,7 +15,11 @@ import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
 import com.cocos.module_mine.R;
-import com.cocos.module_mine.entity.PropAssetModel;
+import com.cocos.module_mine.entity.NHAssetModel;
+
+
+
+
 
 /**
  * @author ningkang.guo
@@ -95,7 +99,7 @@ public class NHAssetDetailViewModel extends BaseViewModel {
         }
     });
 
-    public void requestAssetDetailData(PropAssetModel.PropAssetModelBean assetModelBean) {
+    public void requestAssetDetailData(NHAssetModel.NHAssetModelBean assetModelBean) {
         if (null == assetModelBean) {
             return;
         }
