@@ -4,11 +4,11 @@
 
     <data>
 
-        <import type="com.cocos.module_mine.asset_overview.PropAssetItemViewModel" />
+        <import type="com.cocos.module_mine.asset_overview.NHAssetItemViewModel" />
 
         <variable
             name="viewModel"
-            type="com.cocos.module_mine.asset_overview.PropAssetItemViewModel" />
+            type="com.cocos.module_mine.asset_overview.NHAssetItemViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -100,11 +100,11 @@
                 android:paddingTop="@dimen/dp_2"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingBottom="@dimen/dp_2"
-                android:text="@string/delete_text"
+                android:text="@string/module_mine_nh_asset_sale_text"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_13"
-                binding:onClickCommand="@{viewModel.deleteNhAssetCommand}"
+                binding:onClickCommand="@{viewModel.saleNhAssetCommand}"
                 tools:ignore="SpUsage" />
         </RelativeLayout>
 

@@ -111,6 +111,8 @@
     <string name="module_mine_asset_create_time">创建时间：</string>
     <string name="module_mine_nh_asset_base_desc">基础数据：</string>
     <string name="module_mine_nh_asset_zone_data">域数据：</string>
+    <string name="module_mine_nh_asset_detail_transfer_text">转移</string>
+    <string name="module_mine_nh_asset_sale_text">出售</string>
 
 
 </resources>

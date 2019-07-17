@@ -14,7 +14,7 @@ import com.cocos.module_mine.databinding.FragmentPropAssetBinding;
 /**
  * Created by guoningkang on 2019/2/12
  */
-public class PropAssetFragment extends BaseFragment<FragmentPropAssetBinding, PropAssetViewModel> {
+public class NHAssetFragment extends BaseFragment<FragmentPropAssetBinding, NHAssetViewModel> {
 
 
     @Override

@@ -22,9 +22,8 @@ import com.cocos.module_asset.R;
  */
 public class NhOrderDetailViewModel extends BaseViewModel {
 
-
+    NhAssetOrderEntity.NhOrderBean orderBean;
     public Drawable drawableImg;
-
     public ObservableField<String> orderId = new ObservableField<>("");
     public ObservableField<String> nhAssetId = new ObservableField<>("");
     public ObservableField<String> sellerAccount = new ObservableField<>("");
@@ -34,6 +33,7 @@ public class NhOrderDetailViewModel extends BaseViewModel {
     public ObservableField<String> price = new ObservableField<>("");
     public ObservableField<String> memo = new ObservableField<>("");
     public ObservableField<String> expirationTime = new ObservableField<>("");
+    public ObservableField<String> operateOrderText = new ObservableField<>("");
 
     public NhOrderDetailViewModel(@NonNull Application application) {
         super(application);
@@ -44,9 +44,11 @@ public class NhOrderDetailViewModel extends BaseViewModel {
         if (null == nhOrderBean) {
             return;
         }
+        this.orderBean = nhOrderBean;
         orderId.set(nhOrderBean.id);
         nhAssetId.set(nhOrderBean.nh_asset_id);
         sellerAccount.set(nhOrderBean.isMineOrder ? AccountHelperUtils.getCurrentAccountName() : nhOrderBean.sellerName);
+        operateOrderText.set(nhOrderBean.isMineOrder ? Utils.getString(R.string.cancel_mine_nh_order_text) : Utils.getString(R.string.buy_nh_order_text));
         assetQualifier.set(nhOrderBean.asset_qualifier);
         worldView.set(nhOrderBean.world_view);
         baseDescribe.set(nhOrderBean.base_describe);
@@ -81,6 +83,18 @@ public class NhOrderDetailViewModel extends BaseViewModel {
             ClipData mClipData = ClipData.newPlainText("Label", baseDescribe.get());
             ClipboardManagerInstance.getClipboardManager().setPrimaryClip(mClipData);
             ToastUtils.showShort(R.string.copy_success);
+        }
+    });
+
+    // 订单操作
+    public BindingCommand operateOnClickCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            if (orderBean.isMineOrder) {
+                // todo
+            } else {
+                // todo
+            }
         }
     });
 }

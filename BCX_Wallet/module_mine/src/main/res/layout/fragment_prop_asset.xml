@@ -12,11 +12,11 @@
 
         <import type="com.cocos.library_base.binding.viewadapter.recyclerview.LineManagers" />
 
-        <import type="com.cocos.module_mine.asset_overview.PropAssetViewModel" />
+        <import type="com.cocos.module_mine.asset_overview.NHAssetViewModel" />
 
         <variable
             name="viewModel"
-            type="PropAssetViewModel" />
+            type="com.cocos.module_mine.asset_overview.NHAssetViewModel" />
     </data>
 
     <LinearLayout

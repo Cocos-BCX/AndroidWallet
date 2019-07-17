@@ -59,9 +59,9 @@ public class AssetOverviewActivity extends BaseActivity<ActivityAssetOverviewBin
     public void initData() {
         mFragments = new ArrayList<>();
         NumberAssetFragment numberAssetFragment = new NumberAssetFragment();
-        PropAssetFragment propAssetFragment = new PropAssetFragment();
+        NHAssetFragment NHAssetFragment = new NHAssetFragment();
         mFragments.add(numberAssetFragment);
-        mFragments.add(propAssetFragment);
+        mFragments.add(NHAssetFragment);
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(Utils.getString(mTitles[i])));
         }

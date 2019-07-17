@@ -27,9 +27,9 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
  * @author ningkang.guo
  * @Date 2019/2/25
  */
-public class PropAssetViewModel extends BaseViewModel {
+public class NHAssetViewModel extends BaseViewModel {
 
-    public PropAssetViewModel(@NonNull Application application) {
+    public NHAssetViewModel(@NonNull Application application) {
         super(application);
     }
 
@@ -38,11 +38,11 @@ public class PropAssetViewModel extends BaseViewModel {
 
     public ObservableInt recyclerViewVisible = new ObservableInt(View.VISIBLE);
 
-    public ObservableList<PropAssetItemViewModel> observableList = new ObservableArrayList<>();
+    public ObservableList<NHAssetItemViewModel> observableList = new ObservableArrayList<>();
 
-    public ItemBinding<PropAssetItemViewModel> itemBinding = ItemBinding.of(BR.viewModel, R.layout.module_mine_item_prop_assets);
+    public ItemBinding<NHAssetItemViewModel> itemBinding = ItemBinding.of(BR.viewModel, R.layout.module_mine_item_prop_assets);
 
-    public final BindingRecyclerViewAdapter<PropAssetItemViewModel> adapter = new BindingRecyclerViewAdapter<>();
+    public final BindingRecyclerViewAdapter<NHAssetItemViewModel> adapter = new BindingRecyclerViewAdapter<>();
 
     public void requestPropAssetsListData() {
         String accountName = AccountHelperUtils.getCurrentAccountName();
@@ -61,7 +61,7 @@ public class PropAssetViewModel extends BaseViewModel {
                             return;
                         }
                         for (PropAssetModel.PropAssetModelBean assetModelBean : propAssetModel.data) {
-                            PropAssetItemViewModel itemViewModel = new PropAssetItemViewModel(PropAssetViewModel.this, assetModelBean);
+                            NHAssetItemViewModel itemViewModel = new NHAssetItemViewModel(NHAssetViewModel.this, assetModelBean);
                             observableList.add(itemViewModel);
                             emptyViewVisible.set(View.GONE);
                             recyclerViewVisible.set(View.VISIBLE);

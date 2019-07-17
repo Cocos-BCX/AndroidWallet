@@ -81,6 +81,20 @@ public class NHAssetDetailViewModel extends BaseViewModel {
         }
     });
 
+    public BindingCommand transferNhAssetCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            //todo
+        }
+    });
+
+    public BindingCommand deleteNhAssetCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            //todo
+        }
+    });
+
     public void requestAssetDetailData(PropAssetModel.PropAssetModelBean assetModelBean) {
         if (null == assetModelBean) {
             return;

@@ -20,15 +20,15 @@ import org.greenrobot.eventbus.EventBus;
  * @author ningkang.guo
  * @Date 2019/2/25
  */
-public class PropAssetItemViewModel extends ItemViewModel {
+public class NHAssetItemViewModel extends ItemViewModel {
 
     public ObservableField<String> nhAssetIconUrl = new ObservableField<>("http://47.75.186.60/itemimgs/bomb.png");
     public ObservableField<String> nhAssetId = new ObservableField<>("");
     public ObservableField<String> assetQualifier = new ObservableField<>("");
     public ObservableField<String> assetWorldView = new ObservableField<>("");
-    PropAssetModel.PropAssetModelBean entity;
+    public PropAssetModel.PropAssetModelBean entity;
 
-    public PropAssetItemViewModel(@NonNull PropAssetViewModel viewModel, PropAssetModel.PropAssetModelBean propAssetModelBean) {
+    public NHAssetItemViewModel(@NonNull NHAssetViewModel viewModel, PropAssetModel.PropAssetModelBean propAssetModelBean) {
         super(viewModel);
         this.entity = propAssetModelBean;
         nhAssetId.set(propAssetModelBean.id);
@@ -46,7 +46,7 @@ public class PropAssetItemViewModel extends ItemViewModel {
         }
     });
 
-    public BindingCommand deleteNhAssetCommand = new BindingCommand(new BindingAction() {
+    public BindingCommand saleNhAssetCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
             EventBusCarrier eventBusCarrier = new EventBusCarrier();
