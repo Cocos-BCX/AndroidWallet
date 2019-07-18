@@ -35,8 +35,8 @@ public class SaleNHAssetViewModel extends BaseViewModel {
 
     public class UIChangeObservable {
         public ObservableBoolean saleNHNBtnObservable = new ObservableBoolean(false);
+        public ObservableBoolean choosePriceSymbolObservable = new ObservableBoolean(false);
     }
-
 
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
@@ -48,7 +48,7 @@ public class SaleNHAssetViewModel extends BaseViewModel {
     public BindingCommand choosePriceSymbolCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            finish();
+            uc.choosePriceSymbolObservable.set(!uc.choosePriceSymbolObservable.get());
         }
     });
 

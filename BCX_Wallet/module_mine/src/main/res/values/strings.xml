@@ -134,5 +134,6 @@
     <string name="module_mine_nh_asset_sale_miner_fee">手续费</string>
     <string name="module_mine_sale_nh_confirm_btn">确认出售</string>
     <string name="module_mine_sale_nh_success">挂单成功</string>
+    <string name="module_mine_coin_select_title">选择币种</string>
 
 </resources>

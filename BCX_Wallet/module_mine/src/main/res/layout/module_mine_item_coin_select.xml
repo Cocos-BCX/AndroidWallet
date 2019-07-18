@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.cocos.module_mine.asset_operate.sale_nhasset.SymbolChooseItemViewModel" />
+
+        <variable
+            name="viewModel"
+            type="SymbolChooseItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:layout_marginTop="@dimen/dp_12">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            binding:onClickCommand="@{viewModel.symbolCheckedOnClickCommand}">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.symbol}"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_18"
+                    android:typeface="@{@string/TOTAL_ASSET}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.symbolID}"
+                    android:textColor="@color/color_626670"
+                    android:textSize="@dimen/sp_13" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="vertical"
+                tools:ignore="ObsoleteLayoutParam">
+
+                <CheckBox
+                    style="@style/checkBoxStyle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:checked="@={viewModel.symbolChecked}"
+                    binding:onClickCommand="@{viewModel.symbolCheckedOnClickCommand}" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:background="@color/color_E8EBF1"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
+</layout>

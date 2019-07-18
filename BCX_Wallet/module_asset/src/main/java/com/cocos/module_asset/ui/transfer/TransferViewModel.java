@@ -116,7 +116,7 @@ public class TransferViewModel extends BaseViewModel {
                 }
                 final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
                 balance = dataBean.amount;
-                accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + String.valueOf(balance.add(BigDecimal.ZERO)) + assetModel.symbol);
+                accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + balance.add(BigDecimal.ZERO) + assetModel.symbol);
             }
         });
     }

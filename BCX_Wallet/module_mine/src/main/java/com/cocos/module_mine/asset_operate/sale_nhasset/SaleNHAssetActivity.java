@@ -1,5 +1,6 @@
 package com.cocos.module_mine.asset_operate.sale_nhasset;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.os.Bundle;
@@ -10,8 +11,8 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
@@ -20,9 +21,11 @@ import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.NumberUtil;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
@@ -155,5 +158,37 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
 
             }
         });
+
+        viewModel.uc.choosePriceSymbolObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                Bundle bundle = new Bundle();
+                bundle.putInt(IntentKeyGlobal.SALE_TO_SYMBOL_SELECT, IntentKeyGlobal.GET_CONTACT);
+                ARouter.getInstance().
+                        build(RouterActivityPath.ACTIVITY_SYMBOL_LIST).
+                        with(bundle).
+                        navigation(SaleNHAssetActivity.this, IntentKeyGlobal.REQ_SYMBOL_SELECT_CODE);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IntentKeyGlobal.REQ_SYMBOL_SELECT_CODE) {
+                Bundle bundle = data.getExtras();
+                String salePricesSymbol = bundle.getString(IntentKeyGlobal.PRICE_SYMBOL);
+                viewModel.salePricesSymbolVisible.set(View.VISIBLE);
+                viewModel.choosePricesSymbolVisible.set(View.GONE);
+                viewModel.salePricesSymbol.set(salePricesSymbol);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SPUtils.putString(Utils.getContext(), SPKeyGlobal.SYMBOL_SELECTED, "");
     }
 }

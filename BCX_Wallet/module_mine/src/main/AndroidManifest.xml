@@ -13,6 +13,7 @@
         <activity android:name=".account_manage.AccountManagerListActivity" />
         <activity android:name=".asset_overview.NHAssetDetailActivity" />
         <activity android:name=".asset_operate.sale_nhasset.SaleNHAssetActivity" />
+        <activity android:name=".asset_operate.sale_nhasset.SymbolChooseActivity" />
 
         <activity
             android:name=".contact.EditContactActivity"

@@ -34,8 +34,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dp_14"
-            android:paddingTop="@dimen/dp_3">
+            android:layout_marginStart="@dimen/dp_14">
 
             <TextView
                 android:id="@+id/asset_id"
@@ -69,8 +68,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:paddingBottom="@dimen/dp_3">
+                android:layout_alignParentBottom="true">
 
                 <TextView
                     android:id="@+id/token_balance_tv"
