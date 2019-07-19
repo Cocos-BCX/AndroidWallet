@@ -24,5 +24,8 @@ public class EventTypeGlobal {
     public static final String SHOW_NH_ASSET_DELETE_CONFIRM_DIALOG = "show_nh_asset_delete_confirm_dialog";
     public static final String SALE_SUCCESS = "sale_success";
     public static final String SET_PRICE_SYMBOL = "set_price_symbol";
-    public static final String SHOW_ORDER_CONFIRM_DIALOG = "show_order_confirm_dialog";
+    public static final String SHOW_CANCEL_ORDER_CONFIRM_DIALOG = "show_cancel_order_confirm_dialog";
+    public static final String SHOW_BUY_ORDER_CONFIRM_DIALOG = "show_buy_order_confirm_dialog";
+    public static final String SHOW_BUY_ORDER_PASSWORD_VERIFY_DIALOG = "show_buy_order_password_verify_dialog";
+    public static final String SHOW_CANCEL_ORDER_PASSWORD_VERIFY_DIALOG = "show_cancel_order_password_verify_dialog";
 }

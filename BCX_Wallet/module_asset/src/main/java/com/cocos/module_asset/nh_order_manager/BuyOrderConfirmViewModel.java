@@ -17,30 +17,32 @@ import org.greenrobot.eventbus.EventBus;
  * @author ningkang.guo
  * @Date 2019/7/19
  */
-public class CancelOrderConfirmViewModel extends BaseViewModel {
+public class BuyOrderConfirmViewModel extends BaseViewModel {
 
-    public ObservableField<String> orderId = new ObservableField<>("");
+    public ObservableField<String> orderPrice = new ObservableField<>("");
     public ObservableField<String> minerFee = new ObservableField<>("");
+    public ObservableField<String> orderId = new ObservableField<>("");
     public NhAssetOrderEntity.NhOrderBean nhOrderBean;
 
-    public CancelOrderConfirmViewModel(@NonNull Application application) {
+    public BuyOrderConfirmViewModel(@NonNull Application application) {
         super(application);
     }
 
     //取消订单按钮
-    public BindingCommand cancelConfirmOnClickCommand = new BindingCommand(new BindingAction() {
+    public BindingCommand buyConfirmOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
             EventBusCarrier eventBusCarrier = new EventBusCarrier();
-            eventBusCarrier.setEventType(EventTypeGlobal.SHOW_CANCEL_ORDER_PASSWORD_VERIFY_DIALOG);
+            eventBusCarrier.setEventType(EventTypeGlobal.SHOW_BUY_ORDER_PASSWORD_VERIFY_DIALOG);
             eventBusCarrier.setObject(nhOrderBean);
             EventBus.getDefault().post(eventBusCarrier);
         }
     });
 
-    public void setCancelOrderModel(NhAssetOrderEntity.NhOrderBean nhOrderBean) {
+    public void setBuyOrderModel(NhAssetOrderEntity.NhOrderBean nhOrderBean) {
         this.nhOrderBean = nhOrderBean;
         orderId.set(nhOrderBean.id);
+        orderPrice.set(nhOrderBean.priceWithSymbol);
         minerFee.set(nhOrderBean.minerFee + nhOrderBean.feeSymbol);
     }
 

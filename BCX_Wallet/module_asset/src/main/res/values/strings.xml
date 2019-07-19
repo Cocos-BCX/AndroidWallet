@@ -82,4 +82,9 @@
     <string name="module_asset_order_id">订单ID：</string>
     <string name="module_asset_cancel_order_confirm_btn">确认取消</string>
     <string name="module_asset_order_cancel_success">取消成功</string>
+    <string name="module_asset_nh_order_detail_order_price">订单价格</string>
+    <string name="module_asset_buy_order_confirm_btn">确认购买</string>
+    <string name="module_asset_order_buy_success">购买成功</string>
+    <string name="module_asset_can_not_buy_owner_order">不能购买自己创建的订单</string>
+    <string name="no_asset_order">暂无订单</string>
 </resources>
