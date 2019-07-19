@@ -77,6 +77,10 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
                 dialog.dismiss();
                 NHAssetModel.NHAssetModelBean nhAssetModelBean = (NHAssetModel.NHAssetModelBean) busCarrier.getObject();
                 showDeleteAssetPasswordVerifyDialog(nhAssetModelBean);
+            } else if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
+                if (null != dialog) {
+                    dialog.dismiss();
+                }
             }
         }
     }

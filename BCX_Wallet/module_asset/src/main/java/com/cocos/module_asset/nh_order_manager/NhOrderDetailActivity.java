@@ -82,6 +82,10 @@ public class NhOrderDetailActivity extends BaseActivity<ActivityNhOrderDetailBin
                 dialog.dismiss();
                 NhAssetOrderEntity.NhOrderBean nhOrderBean = (NhAssetOrderEntity.NhOrderBean) busCarrier.getObject();
                 showBuyOrderPasswordVerifyDialog(nhOrderBean);
+            } else if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
+                if (null != dialog) {
+                    dialog.dismiss();
+                }
             }
         }
     }

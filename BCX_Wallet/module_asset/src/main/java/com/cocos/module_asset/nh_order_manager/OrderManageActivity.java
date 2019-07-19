@@ -197,13 +197,19 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
                     }
                 });
             } else if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
-                dialog.dismiss();
+                if (null != dialog) {
+                    dialog.dismiss();
+                }
             } else if (TextUtils.equals(EventTypeGlobal.SHOW_CANCEL_ORDER_PASSWORD_VERIFY_DIALOG, busCarrier.getEventType())) {
-                dialog.dismiss();
+                if (null != dialog) {
+                    dialog.dismiss();
+                }
                 final NhAssetOrderEntity.NhOrderBean nhOrderBean = (NhAssetOrderEntity.NhOrderBean) busCarrier.getObject();
                 showCancelOrderPasswordVerifyDialog(nhOrderBean);
             } else if (TextUtils.equals(EventTypeGlobal.SHOW_BUY_ORDER_PASSWORD_VERIFY_DIALOG, busCarrier.getEventType())) {
-                dialog.dismiss();
+                if (null != dialog) {
+                    dialog.dismiss();
+                }
                 final NhAssetOrderEntity.NhOrderBean nhOrderBean = (NhAssetOrderEntity.NhOrderBean) busCarrier.getObject();
                 showBuyOrderPasswordVerifyDialog(nhOrderBean);
             }
