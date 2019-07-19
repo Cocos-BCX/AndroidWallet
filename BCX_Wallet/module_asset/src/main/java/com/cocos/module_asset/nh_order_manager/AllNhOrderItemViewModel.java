@@ -32,7 +32,6 @@ public class AllNhOrderItemViewModel extends ItemViewModel {
 
     public ObservableField<String> allNhOrderId = new ObservableField<>("");
     public ObservableField<String> allNhOrderPrice = new ObservableField<>("");
-    public ObservableField<String> nhAssetIconUrl = new ObservableField<>("http://47.75.186.60/itemimgs/bomb.png");
     public ObservableField<String> allNhOrderSeller = new ObservableField<>("");
     public ObservableField<String> allNhOrderExpritationTime = new ObservableField<>("");
     public ObservableField<String> allNhOrderMemo = new ObservableField<>("");

@@ -79,4 +79,5 @@
     <string name="module_asset_order_detail_base_describe">基础数据：</string>
     <string name="module_asset_order_detail_expiration">过期时间：</string>
     <string name="module_asset_nh_asset_order_price">价格：</string>
+    <string name="module_asset_order_id">订单ID：</string>
 </resources>

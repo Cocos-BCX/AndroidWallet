@@ -14,58 +14,81 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_12"
-        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_15"
         android:background="@drawable/item_bg_round"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/dp_14"
-        android:paddingRight="@dimen/dp_14"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
         binding:onClickCommand="@{viewModel.itemClick}">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/dp_9"
-            android:paddingBottom="@dimen/dp_7">
+            android:paddingTop="@dimen/dp_12"
+            android:paddingBottom="@dimen/dp_9">
+
 
             <LinearLayout
-                android:id="@+id/ll_seller"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/module_asset_nh_asset_id"
+                    android:text="@string/module_asset_order_id"
                     android:textColor="@color/color_262A33"
                     android:textSize="@dimen/sp_14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.mineNhOrderId}"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_14" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_seller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:src="@drawable/seller_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_3"
+                    android:text="@string/module_asset_nh_asset_order_seller"
+                    android:textColor="@color/color_ACAFB6"
+                    android:textSize="@dimen/sp_13" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxWidth="@dimen/dp_90"
                     android:singleLine="true"
-                    android:text="@={viewModel.nhAssetId}"
-                    android:textColor="@color/color_262A33"
-                    android:textSize="@dimen/sp_14" />
+                    android:text="@={viewModel.seller}"
+                    android:textColor="@color/color_ACAFB6"
+                    android:textSize="@dimen/sp_13" />
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:text="@={viewModel.mineNhOrderExpritationTime}"
-                android:textColor="@color/color_F56151"
-                android:textSize="@dimen/sp_10"
-                tools:ignore="SpUsage" />
+
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1" />
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/color_E0E0E0" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,39 +96,25 @@
             android:paddingTop="@dimen/dp_16"
             android:paddingBottom="@dimen/dp_16">
 
-            <ImageView
-                android:layout_width="@dimen/dp_62"
-                android:layout_height="@dimen/dp_62"
-                binding:url="@{viewModel.nhAssetIconUrl}" />
-
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/dp_62"
-                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_height="@dimen/dp_60"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
                 tools:ignore="RtlHardcoded">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@={viewModel.mineNhOrderId}"
-                    android:textColor="@color/color_262A33"
-                    android:textSize="@dimen/sp_16"
-                    android:typeface="@{@string/TOTAL_ASSET}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:paddingBottom="@dimen/dp_4">
+                    android:layout_alignParentBottom="true">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/module_asset_nh_asset_order_memo"
-                        android:textColor="@color/color_262A33"
+                        android:textColor="@color/color_626670"
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
@@ -121,14 +130,13 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/module_asset_nh_order_price"
-                        android:textColor="@color/color_262A33"
+                        android:textColor="@color/color_626670"
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
@@ -136,14 +144,25 @@
                         android:layout_height="wrap_content"
                         android:text="@={viewModel.mineNhOrderPrice}"
                         android:textColor="@color/color_262A33"
-                        android:textSize="@dimen/sp_14" />
+                        android:textSize="@dimen/sp_15"
+                        android:typeface="@{@string/TOTAL_ASSET}" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:text="@={viewModel.mineNhOrderExpritationTime}"
+                    android:textColor="@color/color_F56151"
+                    android:textSize="@dimen/sp_10"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_gravity="bottom"
                     android:background="@drawable/btn_bigger_round_bg"
                     android:gravity="center"

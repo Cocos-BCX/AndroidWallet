@@ -31,8 +31,7 @@ public class MineNhOrderItemViewModel extends ItemViewModel {
 
     public ObservableField<String> mineNhOrderId = new ObservableField<>("");
     public ObservableField<String> mineNhOrderPrice = new ObservableField<>("");
-    public ObservableField<String> nhAssetIconUrl = new ObservableField<>("http://47.75.186.60/itemimgs/bomb.png");
-    public ObservableField<String> nhAssetId = new ObservableField<>("");
+    public ObservableField<String> seller = new ObservableField<>("");
     public ObservableField<String> mineNhOrderExpritationTime = new ObservableField<>("");
     public ObservableField<String> mineNhOrderMemo = new ObservableField<>("");
     NhAssetOrderEntity.NhOrderBean entity;
@@ -42,7 +41,7 @@ public class MineNhOrderItemViewModel extends ItemViewModel {
         this.entity = nhOrderEntity;
         mineNhOrderId.set(nhOrderEntity.id);
         mineNhOrderPrice.set(nhOrderEntity.priceWithSymbol);
-        nhAssetId.set(nhOrderEntity.nh_asset_id);
+        seller.set(nhOrderEntity.sellerName);
         String pattern = "yyyy-MM-dd'T'HH:mm:ss";
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
         Date dateObject = null;
