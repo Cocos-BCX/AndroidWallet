@@ -28,6 +28,16 @@ public class MineNhOrderFragment extends BaseFragment<FragmentMineNhOrderBinding
 
     @Override
     public void initData() {
+        loadData();
+    }
+
+    public void loadData() {
         viewModel.requestAssetsListData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
 }

@@ -47,11 +47,10 @@ public class AllNhOrderViewModel extends BaseViewModel {
      * 加载全网NH订单
      */
     public void requestAssetsListData() {
-
         CocosBcxApiWrapper.getBcxInstance().list_nh_asset_order(1, 100, new IBcxCallBack() {
             @Override
             public void onReceiveValue(String s) {
-                Log.i("list_nh_asset_order",s);
+                Log.i("list_nh_asset_order", s);
                 final NhAssetOrderEntity nhOrderEntity = GsonSingleInstance.getGsonInstance().fromJson(s, NhAssetOrderEntity.class);
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
@@ -61,6 +60,7 @@ public class AllNhOrderViewModel extends BaseViewModel {
                             recyclerViewVisible.set(View.GONE);
                             return;
                         }
+                        observableList.clear();
                         List<NhAssetOrderEntity.NhOrderBean> nhOrderBeans = nhOrderEntity.getData();
                         for (NhAssetOrderEntity.NhOrderBean nhOrderBean : nhOrderBeans) {
                             asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);

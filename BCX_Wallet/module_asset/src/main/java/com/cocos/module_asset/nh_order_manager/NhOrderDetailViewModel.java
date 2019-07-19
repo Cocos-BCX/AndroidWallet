@@ -2,6 +2,7 @@ package com.cocos.module_asset.nh_order_manager;
 
 import android.app.Application;
 import android.content.ClipData;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -86,14 +87,23 @@ public class NhOrderDetailViewModel extends BaseViewModel {
         }
     });
 
+    //封装一个界面发生改变的观察者
+    public UIChangeObservable uc = new UIChangeObservable();
+
+    public class UIChangeObservable {
+        public ObservableBoolean cancelBtnObservable = new ObservableBoolean(false);
+        public ObservableBoolean buyBtnObservable = new ObservableBoolean(false);
+    }
+
+
     // 订单操作
     public BindingCommand operateOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
             if (orderBean.isMineOrder) {
-                // todo
+                uc.cancelBtnObservable.set(!uc.cancelBtnObservable.get());
             } else {
-                // todo
+                uc.buyBtnObservable.set(!uc.buyBtnObservable.get());
             }
         }
     });

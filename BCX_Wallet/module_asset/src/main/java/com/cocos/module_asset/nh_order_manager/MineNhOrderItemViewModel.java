@@ -72,7 +72,7 @@ public class MineNhOrderItemViewModel extends ItemViewModel {
         @Override
         public void call() {
             EventBusCarrier eventBusCarrier = new EventBusCarrier();
-            eventBusCarrier.setEventType(EventTypeGlobal.SHOW_PASSWORD_VERIFY_DIALOG);
+            eventBusCarrier.setEventType(EventTypeGlobal.SHOW_ORDER_CONFIRM_DIALOG);
             eventBusCarrier.setObject(entity);
             EventBus.getDefault().post(eventBusCarrier);
         }

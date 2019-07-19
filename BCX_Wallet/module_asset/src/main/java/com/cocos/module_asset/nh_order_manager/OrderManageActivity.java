@@ -1,22 +1,43 @@
 package com.cocos.module_asset.nh_order_manager;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.base.BaseVerifyPasswordDialog;
+import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.entity.FeeModel;
+import com.cocos.library_base.entity.NhAssetOrderEntity;
+import com.cocos.library_base.entity.OperateResultModel;
 import com.cocos.library_base.entity.TabEntity;
+import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
+import com.cocos.library_base.utils.singleton.GsonSingleInstance;
+import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.ActivityOrderManageBinding;
+import com.cocos.module_asset.databinding.DialogCancelOrderConfirmBinding;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +52,9 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
     private int[] mTitles = {R.string.module_asset_nh_order_mine_title, R.string.module_asset_nh_order_all_title,};
 
     private ArrayList<Fragment> mFragments;
+    private BottomSheetDialog dialog;
+    private MineNhOrderFragment mineNhOrderFragment;
+    private AllNhOrderFragment allNhOrderFragment;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -45,8 +69,8 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
     @Override
     public void initData() {
         mFragments = new ArrayList<>();
-        MineNhOrderFragment mineNhOrderFragment = new MineNhOrderFragment();
-        AllNhOrderFragment allNhOrderFragment = new AllNhOrderFragment();
+        mineNhOrderFragment = new MineNhOrderFragment();
+        allNhOrderFragment = new AllNhOrderFragment();
         mFragments.add(mineNhOrderFragment);
         mFragments.add(allNhOrderFragment);
         for (int i = 0; i < mTitles.length; i++) {
@@ -76,6 +100,93 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
         public Fragment getItem(int position) {
             return mFragments.get(position);
         }
+    }
+
+    @Override
+    public void onHandleEvent(EventBusCarrier busCarrier) {
+        if (null != busCarrier) {
+            if (TextUtils.equals(EventTypeGlobal.SHOW_ORDER_CONFIRM_DIALOG, busCarrier.getEventType())) {
+                final NhAssetOrderEntity.NhOrderBean nhOrderBean = (NhAssetOrderEntity.NhOrderBean) busCarrier.getObject();
+                CocosBcxApiWrapper.getBcxInstance().cancel_nh_asset_order_fee(nhOrderBean.seller, nhOrderBean.id, "COCOS", new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(final String s) {
+                        MainHandler.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (TextUtils.isEmpty(s)) {
+                                    ToastUtils.showShort(R.string.net_work_failed);
+                                    return;
+                                }
+                                final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
+                                if (!feeModel.isSuccess()) {
+                                    return;
+                                }
+                                dialog = new BottomSheetDialog(OrderManageActivity.this);
+                                DialogCancelOrderConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_cancel_order_confirm, null, false);
+                                dialog.setContentView(binding.getRoot());
+                                // 设置dialog 完全显示
+                                View parent = (View) binding.getRoot().getParent();
+                                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+                                binding.getRoot().measure(0, 0);
+                                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
+                                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
+                                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+                                parent.setLayoutParams(params);
+                                dialog.setCanceledOnTouchOutside(false);
+                                final CancelOrderConfirmViewModel cancelOrderConfirmViewModel = new CancelOrderConfirmViewModel(getApplication());
+                                binding.setViewModel(cancelOrderConfirmViewModel);
+                                nhOrderBean.minerFee = feeModel.data.amount;
+                                nhOrderBean.feeSymbol = "COCOS";
+                                cancelOrderConfirmViewModel.setCancelOrderModel(nhOrderBean);
+                                if (new BigDecimal(feeModel.data.amount).compareTo(BigDecimal.ZERO) > 0) {
+                                    dialog.show();
+                                } else {
+                                    showCancelOrderPasswordVerifyDialog(nhOrderBean);
+                                }
+                            }
+                        });
+                    }
+                });
+            } else if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
+                dialog.dismiss();
+            } else if (TextUtils.equals(EventTypeGlobal.SHOW_PASSWORD_VERIFY_DIALOG, busCarrier.getEventType())) {
+                dialog.dismiss();
+                final NhAssetOrderEntity.NhOrderBean nhOrderBean = (NhAssetOrderEntity.NhOrderBean) busCarrier.getObject();
+                showCancelOrderPasswordVerifyDialog(nhOrderBean);
+            }
+        }
+    }
+
+    /**
+     * 弹出取消订单密码验证弹窗
+     *
+     * @param nhOrderBean
+     */
+    private void showCancelOrderPasswordVerifyDialog(final NhAssetOrderEntity.NhOrderBean nhOrderBean) {
+        final BaseVerifyPasswordDialog passwordVerifyDialog = new BaseVerifyPasswordDialog();
+        passwordVerifyDialog.show(getSupportFragmentManager(), "passwordVerifyDialog");
+        passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
+            @Override
+            public void onFinish(String password) {
+                CocosBcxApiWrapper.getBcxInstance().cancel_nh_asset_order(nhOrderBean.seller, password, nhOrderBean.id, "COCOS", new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        final OperateResultModel operateResultModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
+                        if (null != operateResultModel && operateResultModel.isSuccess()) {
+                            // 刷新页面
+                            mineNhOrderFragment.loadData();
+                            allNhOrderFragment.loadData();
+                            ToastUtils.showShort(R.string.module_asset_order_cancel_success);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
     }
 
     private void initTabListener() {

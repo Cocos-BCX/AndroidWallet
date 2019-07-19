@@ -80,4 +80,6 @@
     <string name="module_asset_order_detail_expiration">过期时间：</string>
     <string name="module_asset_nh_asset_order_price">价格：</string>
     <string name="module_asset_order_id">订单ID：</string>
+    <string name="module_asset_cancel_order_confirm_btn">确认取消</string>
+    <string name="module_asset_order_cancel_success">取消成功</string>
 </resources>

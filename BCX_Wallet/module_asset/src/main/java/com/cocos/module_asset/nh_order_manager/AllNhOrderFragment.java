@@ -14,7 +14,7 @@ import com.cocos.module_asset.databinding.FragmentAllNhOrderBinding;
  * @author ningkang.guo
  * @Date 2019/7/15
  */
-public class AllNhOrderFragment extends BaseFragment<FragmentAllNhOrderBinding,AllNhOrderViewModel> {
+public class AllNhOrderFragment extends BaseFragment<FragmentAllNhOrderBinding, AllNhOrderViewModel> {
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,6 +28,16 @@ public class AllNhOrderFragment extends BaseFragment<FragmentAllNhOrderBinding,A
 
     @Override
     public void initData() {
+        loadData();
+    }
+
+    public void loadData() {
         viewModel.requestAssetsListData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
 }

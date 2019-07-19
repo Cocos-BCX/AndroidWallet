@@ -64,6 +64,7 @@ public class MineNhOrderViewModel extends BaseViewModel {
                             recyclerViewVisible.set(View.GONE);
                             return;
                         }
+                        observableList.clear();
                         List<NhAssetOrderEntity.NhOrderBean> nhOrderBeans = nhOrderEntity.getData();
                         for (NhAssetOrderEntity.NhOrderBean nhOrderBean : nhOrderBeans) {
                             asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);
