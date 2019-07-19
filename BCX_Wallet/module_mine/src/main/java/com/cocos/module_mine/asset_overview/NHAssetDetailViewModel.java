@@ -2,6 +2,7 @@ package com.cocos.module_mine.asset_overview;
 
 import android.app.Application;
 import android.content.ClipData;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -16,8 +17,6 @@ import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.entity.NHAssetModel;
-
-
 
 
 
@@ -40,6 +39,13 @@ public class NHAssetDetailViewModel extends BaseViewModel {
     public NHAssetDetailViewModel(@NonNull Application application) {
         super(application);
 
+    }
+
+    public UIChangeObservable uc = new UIChangeObservable();
+
+    public class UIChangeObservable {
+        public ObservableBoolean transferBtnObservable = new ObservableBoolean(false);
+        public ObservableBoolean deteleBtnObservable = new ObservableBoolean(false);
     }
 
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
@@ -88,14 +94,14 @@ public class NHAssetDetailViewModel extends BaseViewModel {
     public BindingCommand transferNhAssetCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            //todo
+            uc.transferBtnObservable.set(!uc.transferBtnObservable.get());
         }
     });
 
     public BindingCommand deleteNhAssetCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            //todo
+            uc.deteleBtnObservable.set(!uc.deteleBtnObservable.get());
         }
     });
 

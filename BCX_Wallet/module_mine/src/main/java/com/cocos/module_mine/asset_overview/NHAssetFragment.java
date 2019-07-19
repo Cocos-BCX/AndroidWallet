@@ -30,7 +30,17 @@ public class NHAssetFragment extends BaseFragment<FragmentPropAssetBinding, NHAs
 
     @Override
     public void initData() {
-         viewModel.requestPropAssetsListData();
+        loadData();
     }
 
+
+    public void loadData() {
+        viewModel.requestPropAssetsListData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
 }

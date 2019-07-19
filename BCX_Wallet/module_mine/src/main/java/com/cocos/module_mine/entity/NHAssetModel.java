@@ -25,6 +25,8 @@ public class NHAssetModel extends BaseResult {
         public String world_view;
         public String base_describe;
         public String create_time;
+        public String minerFee;
+        public String feeSymbol;
         public String limit_type;
         public List<Object> parent;
         public List<Object> child;

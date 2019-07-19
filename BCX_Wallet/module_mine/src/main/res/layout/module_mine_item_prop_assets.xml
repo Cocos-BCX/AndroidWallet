@@ -54,14 +54,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mine_nh_asset_qualifier"
-                    android:textColor="@color/color_262A33"
+                    android:textColor="@color/color_5A5D66"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.assetQualifier}"
-                    android:textColor="@color/color_262A33"
+                    android:textColor="@color/color_5A5D66"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mine_nh_asset_world_view"
-                    android:textColor="@color/color_262A33"
+                    android:textColor="@color/color_5A5D66"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.assetWorldView}"
-                    android:textColor="@color/color_262A33"
+                    android:textColor="@color/color_5A5D66"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
@@ -101,7 +101,7 @@
                 android:text="@string/module_mine_nh_asset_sale_text"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_13"
+                android:textSize="@dimen/sp_12"
                 binding:onClickCommand="@{viewModel.saleNhAssetCommand}"
                 tools:ignore="SpUsage" />
         </RelativeLayout>

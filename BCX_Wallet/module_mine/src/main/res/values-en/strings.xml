@@ -136,6 +136,12 @@
     <string name="module_mine_sale_nh_confirm_btn">确认出售</string>
     <string name="module_mine_sale_nh_success">挂单成功</string>
     <string name="module_mine_coin_select_title">选择币种</string>
+    <string name="module_mine_detele_nh_asset_tip">注意：资产删除后不可恢复</string>
+    <string name="module_asset_deal_info">交易信息</string>
+    <string name="delete_nh_asset_text">删除资产</string>
+    <string name="module_mine_nh_asset_id">资产ID</string>
+    <string name="module_mine_asset_delete_confirm">确认删除</string>
+    <string name="module_mine_delete_nh_asset_success">删除成功</string>
 
 
 </resources>
