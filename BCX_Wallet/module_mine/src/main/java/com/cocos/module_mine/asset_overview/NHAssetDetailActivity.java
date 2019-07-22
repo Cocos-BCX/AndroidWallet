@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
@@ -46,6 +47,7 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
 
     NHAssetModel.NHAssetModelBean nHAssetModelBean;
     private BottomSheetDialog dialog;
+    public static NHAssetDetailActivity nhAssetDetailActivity;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
     @Override
     public void initParam() {
         try {
+            nhAssetDetailActivity = this;
             nHAssetModelBean = (NHAssetModel.NHAssetModelBean) Objects.requireNonNull(getIntent().getExtras()).getSerializable(IntentKeyGlobal.NH_ASSET_MODEL);
         } catch (Exception e) {
         }
@@ -133,7 +136,9 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
         viewModel.uc.transferBtnObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(IntentKeyGlobal.NH_ASSET_MODEL, nHAssetModelBean);
+                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_NH_ASSET_TRANSFER).with(bundle).navigation();
             }
         });
     }

@@ -44,6 +44,7 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_NH_ASSET_DETAIL = "/module_mine/NHAssetDetailActivity";
     public static final String ACTIVITY_SALE_NH_ASSET = "/module_mine/SaleNhAssetActivity";
     public static final String ACTIVITY_SYMBOL_LIST = "/module_mine/SymbolChooseActivity";
+    public static final String ACTIVITY_NH_ASSET_TRANSFER = "/module_mine/TransferNHAssetActivity";
 
     //zxing
     public static final String ACTIVITY_CAPTURE = "/module_zxing/CaptureActivity";
@@ -53,7 +54,6 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_JS_WEB = "/library_base/JsWebViewActivity";
     //found
     public static final String ACTIVITY_SEARCH = "/module_found/SearchActivity";
-
 
 
 }

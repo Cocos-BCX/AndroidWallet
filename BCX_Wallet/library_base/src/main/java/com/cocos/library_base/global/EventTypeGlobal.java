@@ -29,4 +29,5 @@ public class EventTypeGlobal {
     public static final String SHOW_BUY_ORDER_PASSWORD_VERIFY_DIALOG = "show_buy_order_password_verify_dialog";
     public static final String SHOW_CANCEL_ORDER_PASSWORD_VERIFY_DIALOG = "show_cancel_order_password_verify_dialog";
     public static final String SHOW_DELETE_NH_ASSET_PASSWORD_VERIFY_DIALOG = "show_delete_nh_asset_password_verify_dialog";
+    public static final String SHOW_TRANSFER_NH_ASSET_PASSWORD_VERIFY_DIALOG = "show_transfer_nh_asset_password_verify_dialog";
 }

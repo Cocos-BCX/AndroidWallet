@@ -17,6 +17,8 @@ public class NHAssetModel extends BaseResult {
 
         public String id;
         public String nh_hash;
+        public String from;
+        public String to;
         public String nh_asset_creator;
         public String nh_asset_owner;
         public String nh_asset_active;
