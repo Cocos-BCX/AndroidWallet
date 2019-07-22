@@ -27,9 +27,9 @@
         binding:onClickCommand="@{viewModel.itemClick}">
 
         <ImageView
-            android:layout_width="@dimen/dp_62"
-            android:layout_height="@dimen/dp_62"
-            binding:url="@{viewModel.nhAssetIconUrl}" />
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            android:src="@{viewModel.nhAssetIcon}" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.nhAssetId}"
                 android:textColor="@color/color_262A33"
-                android:textSize="@dimen/sp_16"
+                android:textSize="@dimen/sp_18"
                 android:typeface="@{@string/TOTAL_ASSET}" />
 
             <LinearLayout
@@ -55,14 +55,14 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mine_nh_asset_qualifier"
                     android:textColor="@color/color_5A5D66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_13" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.assetQualifier}"
                     android:textColor="@color/color_5A5D66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <LinearLayout
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mine_nh_asset_world_view"
                     android:textColor="@color/color_5A5D66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_13" />
 
                 <TextView
                     android:id="@+id/token_total_tv"
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.assetWorldView}"
                     android:textColor="@color/color_5A5D66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <TextView
