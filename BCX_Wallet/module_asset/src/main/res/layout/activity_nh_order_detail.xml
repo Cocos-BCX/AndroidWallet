@@ -217,49 +217,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginTop="@dimen/dp_26"
-                        android:background="@color/color_ffe8ebf1" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_26"
-                        android:weightSum="5">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.8"
-                            android:singleLine="true"
-                            android:text="@string/module_asset_order_detail_base_describe"
-                            android:textColor="@color/color_626670"
-                            android:textSize="@dimen/sp_14" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3.2"
-                            binding:onClickCommand="@{viewModel.onBaseDesCopyClick}">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="middle"
-                                android:singleLine="true"
-                                android:text="@={viewModel.baseDescribe}"
-                                android:textColor="@color/color_262A33"
-                                android:textSize="@dimen/sp_14" />
-
-                            <ImageView
-                                android:layout_width="@dimen/dp_20"
-                                android:layout_height="@dimen/dp_20"
-                                android:layout_marginLeft="@dimen/dp_6"
-                                android:src="@drawable/copy_black_icon" />
-                        </LinearLayout>
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -319,7 +276,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_15"
-                        android:paddingBottom="@dimen/dp_48"
                         android:weightSum="5">
 
                         <TextView
@@ -341,6 +297,41 @@
                             android:textColor="@color/color_262A33"
                             android:textSize="@dimen/sp_14" />
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:paddingBottom="@dimen/dp_48"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.8"
+                            android:singleLine="true"
+                            android:text="@string/module_asset_order_detail_base_describe"
+                            android:textColor="@color/color_626670"
+                            android:textSize="@dimen/sp_14" />
+
+                        <ScrollView
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dp_80"
+                            android:layout_weight="3.2"
+                            android:background="@color/color_f8f8f8"
+                            android:fillViewport="true"
+                            binding:onClickCommand="@{viewModel.onBaseDesCopyClick}">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="middle"
+                                android:minLines="2"
+                                android:text="@={viewModel.baseDescribe}"
+                                android:textColor="@color/color_262A33"
+                                android:textSize="@dimen/sp_14" />
+                        </ScrollView>
                     </LinearLayout>
 
                 </LinearLayout>
