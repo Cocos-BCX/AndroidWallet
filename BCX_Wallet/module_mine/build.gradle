@@ -23,6 +23,10 @@ android {
 
     //统一资源前缀，规范资源引用
     resourcePrefix "module_mine_"
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 dependencies {
@@ -38,4 +42,6 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
     // tabLayout
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    implementation 'in.srain.cube:ptr-load-more:1.0.6'
 }

@@ -18,8 +18,8 @@ import com.cocos.module_mine.R;
 import com.cocos.module_mine.entity.NHAssetModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
@@ -44,20 +44,31 @@ public class NHAssetViewModel extends BaseViewModel {
 
     public final BindingRecyclerViewAdapter<NHAssetItemViewModel> adapter = new BindingRecyclerViewAdapter<>();
 
-    public void requestPropAssetsListData() {
+
+    public void requestPropAssetsListData(int page, int pageSize, PtrFrameLayout ptrFrameLayout) {
         String accountName = AccountHelperUtils.getCurrentAccountName();
-        List<String> wordView = new ArrayList<>();
-        observableList.clear();
-        CocosBcxApiWrapper.getBcxInstance().list_account_nh_asset(accountName, wordView, 1, 100, new IBcxCallBack() {
+        CocosBcxApiWrapper.getBcxInstance().list_account_nh_asset(accountName, new ArrayList<>(), page, pageSize, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
                 final NHAssetModel NHAssetModel = GsonSingleInstance.getGsonInstance().fromJson(s, NHAssetModel.class);
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
+                        if (page <= 1) {
+                            observableList.clear();
+                        }
+                        if (NHAssetModel.data.size() <= 0 && page > 1) {
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
+                            return;
+                        }
                         if (!NHAssetModel.isSuccess() || NHAssetModel.data.size() <= 0) {
                             emptyViewVisible.set(View.VISIBLE);
                             recyclerViewVisible.set(View.GONE);
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
                             return;
                         }
                         for (com.cocos.module_mine.entity.NHAssetModel.NHAssetModelBean assetModelBean : NHAssetModel.data) {
@@ -65,6 +76,9 @@ public class NHAssetViewModel extends BaseViewModel {
                             observableList.add(itemViewModel);
                             emptyViewVisible.set(View.GONE);
                             recyclerViewVisible.set(View.VISIBLE);
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
                         }
                     }
                 });
