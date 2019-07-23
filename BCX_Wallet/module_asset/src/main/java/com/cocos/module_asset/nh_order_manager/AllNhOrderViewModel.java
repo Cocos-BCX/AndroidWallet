@@ -20,6 +20,7 @@ import com.cocos.module_asset.R;
 
 import java.util.List;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
@@ -45,9 +46,15 @@ public class AllNhOrderViewModel extends BaseViewModel {
 
     /**
      * 加载全网NH订单
+     *
+     * @param page
+     * @param pageSize
+     * @param ptrFrameLayout
      */
-    public void requestAssetsListData() {
-        CocosBcxApiWrapper.getBcxInstance().list_nh_asset_order(1, 100, new IBcxCallBack() {
+    public void requestAssetsListData(final int page, int pageSize, final PtrFrameLayout ptrFrameLayout) {
+
+
+        CocosBcxApiWrapper.getBcxInstance().list_nh_asset_order(page, pageSize, new IBcxCallBack() {
             @Override
             public void onReceiveValue(String s) {
                 Log.i("list_nh_asset_order", s);
@@ -55,12 +62,24 @@ public class AllNhOrderViewModel extends BaseViewModel {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
+
+                        if (page <= 1) {
+                            observableList.clear();
+                        }
+                        if (nhOrderEntity.getData().size() <= 0 && page > 1) {
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
+                            return;
+                        }
                         if (!nhOrderEntity.isSuccess() || nhOrderEntity.getData() == null || nhOrderEntity.getData().size() <= 0) {
                             emptyViewVisible.set(View.VISIBLE);
                             recyclerViewVisible.set(View.GONE);
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
                             return;
                         }
-                        observableList.clear();
                         List<NhAssetOrderEntity.NhOrderBean> nhOrderBeans = nhOrderEntity.getData();
                         for (NhAssetOrderEntity.NhOrderBean nhOrderBean : nhOrderBeans) {
                             asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);
@@ -69,6 +88,9 @@ public class AllNhOrderViewModel extends BaseViewModel {
                             observableList.add(itemViewModel);
                             emptyViewVisible.set(View.GONE);
                             recyclerViewVisible.set(View.VISIBLE);
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
                         }
                     }
                 });
