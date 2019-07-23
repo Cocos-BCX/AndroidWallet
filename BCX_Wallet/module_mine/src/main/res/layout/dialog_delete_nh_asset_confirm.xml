@@ -47,20 +47,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_60"
-            android:layout_marginTop="@dimen/dp_8"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:weightSum="5">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1.2"
                 android:text="@string/module_asset_deal_info"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="22dp"
+                android:layout_weight="3.8"
                 android:text="@string/delete_nh_asset_text"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />

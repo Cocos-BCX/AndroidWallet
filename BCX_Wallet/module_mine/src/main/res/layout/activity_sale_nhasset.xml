@@ -46,11 +46,11 @@
 
         <com.cocos.library_base.widget.LinearRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_76"
+            android:layout_height="@dimen/dp_88"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_15"
-            android:paddingTop="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_24"
             br:borderColor="@color/color_D8DBE1"
             br:borderStrokeWidth="6"
             br:needLeftAndRigtBorder="false"
@@ -79,10 +79,11 @@
 
         <com.cocos.library_base.widget.LinearRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_76"
+            android:layout_height="@dimen/dp_88"
             android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_15"
-            android:paddingTop="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_24"
             br:borderColor="@color/color_D8DBE1"
             br:borderStrokeWidth="6"
             br:needLeftAndRigtBorder="false"
@@ -127,16 +128,16 @@
                         android:layout_height="wrap_content"
                         android:text="@string/choose_other_symbol"
                         android:textColor="@color/color_A5A9B1"
-                        android:visibility="@{viewModel.choosePricesSymbolVisible}"
-                        android:textSize="@dimen/sp_15" />
+                        android:textSize="@dimen/sp_15"
+                        android:visibility="@{viewModel.choosePricesSymbolVisible}" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@={viewModel.salePricesSymbol}"
-                        android:visibility="@{viewModel.salePricesSymbolVisible}"
                         android:textColor="@color/color_262A33"
-                        android:textSize="@dimen/sp_15" />
+                        android:textSize="@dimen/sp_15"
+                        android:visibility="@{viewModel.salePricesSymbolVisible}" />
 
                 </FrameLayout>
 
@@ -164,11 +165,11 @@
 
         <com.cocos.library_base.widget.LinearRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_76"
+            android:layout_height="@dimen/dp_88"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_15"
-            android:paddingTop="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_24"
             br:borderColor="@color/color_D8DBE1"
             br:borderStrokeWidth="6"
             br:needLeftAndRigtBorder="false"
@@ -212,11 +213,11 @@
 
         <com.cocos.library_base.widget.LinearRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_76"
+            android:layout_height="@dimen/dp_88"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_15"
-            android:paddingTop="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_24"
             br:borderColor="@color/color_D8DBE1"
             br:borderStrokeWidth="6"
             br:needLeftAndRigtBorder="false"
@@ -260,11 +261,11 @@
 
         <com.cocos.library_base.widget.LinearRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_76"
+            android:layout_height="@dimen/dp_88"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_15"
-            android:paddingTop="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_24"
             br:borderColor="@color/color_D8DBE1"
             br:borderStrokeWidth="6"
             br:needLeftAndRigtBorder="false"
