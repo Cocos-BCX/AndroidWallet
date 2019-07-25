@@ -41,7 +41,6 @@ import com.cocos.module_asset.databinding.DialogCancelOrderConfirmBinding;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -144,11 +143,7 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
                                 nhOrderBean.minerFee = feeModel.data.amount;
                                 nhOrderBean.feeSymbol = "COCOS";
                                 cancelOrderConfirmViewModel.setCancelOrderModel(nhOrderBean);
-                                if (new BigDecimal(feeModel.data.amount).compareTo(BigDecimal.ZERO) > 0) {
-                                    dialog.show();
-                                } else {
-                                    showCancelOrderPasswordVerifyDialog(nhOrderBean);
-                                }
+                                dialog.show();
                             }
                         });
                     }

@@ -35,8 +35,6 @@ import com.cocos.module_asset.databinding.ActivityNhOrderDetailBinding;
 import com.cocos.module_asset.databinding.DialogBuyOrderConfirmBinding;
 import com.cocos.module_asset.databinding.DialogCancelOrderConfirmBinding;
 
-import java.math.BigDecimal;
-
 /**
  * @author ningkang.guo
  * @Date 2019/7/16
@@ -126,11 +124,7 @@ public class NhOrderDetailActivity extends BaseActivity<ActivityNhOrderDetailBin
                                 nhOrderBean.minerFee = feeModel.data.amount;
                                 nhOrderBean.feeSymbol = "COCOS";
                                 cancelOrderConfirmViewModel.setCancelOrderModel(nhOrderBean);
-                                if (new BigDecimal(feeModel.data.amount).compareTo(BigDecimal.ZERO) > 0) {
-                                    dialog.show();
-                                } else {
-                                    showCancelOrderPasswordVerifyDialog(nhOrderBean);
-                                }
+                                dialog.show();
                             }
                         });
                     }
