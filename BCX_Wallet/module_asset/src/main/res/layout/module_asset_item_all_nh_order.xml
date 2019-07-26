@@ -159,7 +159,7 @@
                     android:paddingTop="@dimen/dp_2"
                     android:paddingRight="@dimen/dp_12"
                     android:paddingBottom="@dimen/dp_2"
-                    android:text="@string/buy_nh_order_text"
+                    android:text="@string/buy_nh_order_btn_text"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_13"

@@ -84,7 +84,7 @@ public class MineNhOrderViewModel extends BaseViewModel {
                         List<NhAssetOrderEntity.NhOrderBean> nhOrderBeans = nhOrderEntity.getData();
                         for (NhAssetOrderEntity.NhOrderBean nhOrderBean : nhOrderBeans) {
                             asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);
-                            nhOrderBean.priceWithSymbol = nhOrderBean.price.amount / (Math.pow(10, asset_object.precision)) + asset_object.symbol;
+                            nhOrderBean.priceWithSymbol = nhOrderBean.price.amount / (Math.pow(10, asset_object.precision)) + " " + asset_object.symbol;
                             nhOrderBean.sellerName = AccountHelperUtils.getCurrentAccountName();
                             MineNhOrderItemViewModel itemViewModel = new MineNhOrderItemViewModel(MineNhOrderViewModel.this, nhOrderBean);
                             observableList.add(itemViewModel);
