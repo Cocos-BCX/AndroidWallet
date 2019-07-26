@@ -61,10 +61,19 @@ public class AllNhOrderViewModel extends BaseViewModel {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
-
                         if (page <= 1) {
                             observableList.clear();
                         }
+
+                        if (null == nhOrderEntity.getData()) {
+                            emptyViewVisible.set(View.VISIBLE);
+                            recyclerViewVisible.set(View.GONE);
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
+                            return;
+                        }
+
                         if (nhOrderEntity.getData().size() <= 0 && page > 1) {
                             if (null != ptrFrameLayout) {
                                 ptrFrameLayout.refreshComplete();

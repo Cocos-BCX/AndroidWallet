@@ -54,7 +54,7 @@ public class MineNhOrderViewModel extends BaseViewModel {
      * @param ptrFrameLayout
      */
     public void requestAssetsListData(final int page, int pageSize, final PtrFrameLayout ptrFrameLayout) {
-
+        showDialog();
         CocosBcxApiWrapper.getBcxInstance().list_account_nh_asset_order(AccountHelperUtils.getCurrentAccountName(), pageSize, page, new IBcxCallBack() {
             @SuppressLint("LongLogTag")
             @Override
@@ -67,10 +67,22 @@ public class MineNhOrderViewModel extends BaseViewModel {
                         if (page <= 1) {
                             observableList.clear();
                         }
+
+                        if (null == nhOrderEntity.getData()) {
+                            emptyViewVisible.set(View.VISIBLE);
+                            recyclerViewVisible.set(View.GONE);
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
+                            dismissDialog();
+                            return;
+                        }
+
                         if (nhOrderEntity.getData().size() <= 0 && page > 1) {
                             if (null != ptrFrameLayout) {
                                 ptrFrameLayout.refreshComplete();
                             }
+                            dismissDialog();
                             return;
                         }
                         if (!nhOrderEntity.isSuccess() || nhOrderEntity.getData() == null || nhOrderEntity.getData().size() <= 0) {
@@ -79,12 +91,14 @@ public class MineNhOrderViewModel extends BaseViewModel {
                             if (null != ptrFrameLayout) {
                                 ptrFrameLayout.refreshComplete();
                             }
+                            dismissDialog();
                             return;
                         }
+
                         List<NhAssetOrderEntity.NhOrderBean> nhOrderBeans = nhOrderEntity.getData();
                         for (NhAssetOrderEntity.NhOrderBean nhOrderBean : nhOrderBeans) {
                             asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);
-                            if (null == asset_object) {
+                            if (null != asset_object) {
                                 nhOrderBean.priceWithSymbol = nhOrderBean.price.amount / (Math.pow(10, asset_object.precision)) + " " + asset_object.symbol;
                                 nhOrderBean.sellerName = AccountHelperUtils.getCurrentAccountName();
                                 MineNhOrderItemViewModel itemViewModel = new MineNhOrderItemViewModel(MineNhOrderViewModel.this, nhOrderBean);
@@ -93,6 +107,7 @@ public class MineNhOrderViewModel extends BaseViewModel {
                                 recyclerViewVisible.set(View.VISIBLE);
                             }
                         }
+                        dismissDialog();
                         if (null != ptrFrameLayout) {
                             ptrFrameLayout.refreshComplete();
                         }
