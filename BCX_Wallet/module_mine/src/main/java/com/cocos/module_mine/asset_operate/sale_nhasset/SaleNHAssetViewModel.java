@@ -26,8 +26,6 @@ public class SaleNHAssetViewModel extends BaseViewModel {
     public ObservableField<String> saleValidTime = new ObservableField<>("");
     public ObservableField<String> saleMemo = new ObservableField<>("");
     public ObservableField<String> saleFee = new ObservableField<>("");
-    public ObservableInt salePricesSymbolVisible = new ObservableInt(View.GONE);
-    public ObservableInt choosePricesSymbolVisible = new ObservableInt(View.VISIBLE);
 
     public SaleNHAssetViewModel(@NonNull Application application) {
         super(application);

@@ -119,27 +119,12 @@
                 android:layout_centerVertical="true"
                 binding:onClickCommand="@{viewModel.choosePriceSymbolCommand}">
 
-                <FrameLayout
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/choose_other_symbol"
-                        android:textColor="@color/color_A5A9B1"
-                        android:textSize="@dimen/sp_15"
-                        android:visibility="@{viewModel.choosePricesSymbolVisible}" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@={viewModel.salePricesSymbol}"
-                        android:textColor="@color/color_262A33"
-                        android:textSize="@dimen/sp_15"
-                        android:visibility="@{viewModel.salePricesSymbolVisible}" />
-
-                </FrameLayout>
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.salePricesSymbol}"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
                     android:layout_width="@dimen/dp_20"

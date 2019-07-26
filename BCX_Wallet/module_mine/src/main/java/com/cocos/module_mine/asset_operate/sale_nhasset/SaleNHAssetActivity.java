@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -179,8 +180,6 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
             if (requestCode == IntentKeyGlobal.REQ_SYMBOL_SELECT_CODE) {
                 Bundle bundle = data.getExtras();
                 String salePricesSymbol = bundle.getString(IntentKeyGlobal.PRICE_SYMBOL);
-                viewModel.salePricesSymbolVisible.set(View.VISIBLE);
-                viewModel.choosePricesSymbolVisible.set(View.GONE);
                 viewModel.salePricesSymbol.set(salePricesSymbol);
             }
         }
