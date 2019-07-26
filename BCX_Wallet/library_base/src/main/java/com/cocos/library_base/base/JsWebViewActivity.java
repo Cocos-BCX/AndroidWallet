@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_wallet.chain.asset_object;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.databinding.ActivityJsWebviewBindingImpl;
@@ -413,7 +414,10 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         if (baseResult.isSuccess()) {
             TransactionFeeModel.DataBean dataBean = new TransactionFeeModel.DataBean();
             dataBean.fee_amount = Double.valueOf(baseResult.data.amount);
-            dataBean.fee_symbol = CocosBcxApiWrapper.getBcxInstance().get_asset_object(baseResult.data.asset_id).symbol;
+            asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(baseResult.data.asset_id);
+            if (null != asset_object) {
+                dataBean.fee_symbol = asset_object.symbol;
+            }
             transactionFeeModel.data = dataBean;
         }
         transactionFeeModel.code = baseResult.getCode();
