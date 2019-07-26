@@ -3,6 +3,8 @@ package com.cocos.module_mine.asset_operate.sale_nhasset;
 import android.app.Application;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
@@ -60,6 +62,7 @@ public class SaleNhConfirmViewModel extends BaseViewModel {
                     saleAssetParamsModel.getPriceSymbol(), Long.parseLong(saleAssetParamsModel.getValidTime()), new IBcxCallBack() {
                         @Override
                         public void onReceiveValue(final String s) {
+                            Log.i("create_nh_asset_order", s);
                             MainHandler.getInstance().post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -69,7 +72,12 @@ public class SaleNhConfirmViewModel extends BaseViewModel {
                                             ToastUtils.showShort(R.string.module_mine_wrong_password);
                                             return;
                                         }
-
+                                        if (!TextUtils.isEmpty(feeModel.message)
+                                                && (feeModel.message.contains("insufficient_balance")
+                                                || feeModel.message.contains("Insufficient Balance"))) {
+                                            ToastUtils.showShort(R.string.insufficient_balance);
+                                            return;
+                                        }
                                         if (!feeModel.isSuccess()) {
                                             ToastUtils.showShort(R.string.net_work_failed);
                                             return;

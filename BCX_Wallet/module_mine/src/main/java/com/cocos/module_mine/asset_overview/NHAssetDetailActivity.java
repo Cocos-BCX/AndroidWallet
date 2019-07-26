@@ -155,18 +155,22 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
                     public void onReceiveValue(String s) {
                         Log.i("delete_nh_asset", s);
                         final OperateResultModel operateResultModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
-                        if (null == operateResultModel) {
-                            ToastUtils.showShort(R.string.net_work_failed);
-                            return;
-                        }
                         if (operateResultModel.code == 105) {
                             ToastUtils.showShort(R.string.module_mine_wrong_password);
                             return;
                         }
-                        if (operateResultModel.isSuccess()) {
-                            finish();
-                            ToastUtils.showShort(R.string.module_mine_delete_nh_asset_success);
+                        if (!TextUtils.isEmpty(operateResultModel.message)
+                                && (operateResultModel.message.contains("insufficient_balance")
+                                || operateResultModel.message.contains("Insufficient Balance"))) {
+                            ToastUtils.showShort(R.string.insufficient_balance);
+                            return;
                         }
+                        if (!operateResultModel.isSuccess()) {
+                            ToastUtils.showShort(R.string.net_work_failed);
+                            return;
+                        }
+                        finish();
+                        ToastUtils.showShort(R.string.module_mine_delete_nh_asset_success);
                     }
                 });
             }

@@ -111,7 +111,7 @@ public class AssetViewModel extends BaseViewModel {
         }
     });
 
-    //道具资产按钮的点击事件
+    //资产按钮的点击事件
     public BindingCommand propsAssetsItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {

@@ -222,17 +222,20 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
                     public void onReceiveValue(String s) {
                         Log.i("buy_nh_asset", s);
                         final OperateResultModel operateResultModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
-
                         if (operateResultModel.code == 161) {
                             ToastUtils.showShort(R.string.module_asset_order_not_exist);
                             return;
                         }
-
                         if (operateResultModel.code == 105) {
                             ToastUtils.showShort(R.string.module_asset_wrong_password);
                             return;
                         }
-
+                        if (!TextUtils.isEmpty(operateResultModel.message)
+                                && (operateResultModel.message.contains("insufficient_balance")
+                                || operateResultModel.message.contains("Insufficient Balance"))) {
+                            ToastUtils.showShort(R.string.insufficient_balance);
+                            return;
+                        }
                         if (!operateResultModel.isSuccess()) {
                             ToastUtils.showShort(R.string.net_work_failed);
                             return;
@@ -274,6 +277,13 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
 
                         if (operateResultModel.code == 105) {
                             ToastUtils.showShort(R.string.module_asset_wrong_password);
+                            return;
+                        }
+
+                        if (!TextUtils.isEmpty(operateResultModel.message)
+                                && (operateResultModel.message.contains("insufficient_balance")
+                                || operateResultModel.message.contains("Insufficient Balance"))) {
+                            ToastUtils.showShort(R.string.insufficient_balance);
                             return;
                         }
 
