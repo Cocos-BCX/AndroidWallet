@@ -15,4 +15,5 @@
     <string name="module_asset_coin_type_test">(测试)</string>
     <string name="deal_detail">交易详情</string>
     <string name="next_text">下一步</string>
+    <string name="insufficient_balance">余额不足</string>
 </resources>
