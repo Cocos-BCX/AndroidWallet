@@ -21,6 +21,7 @@ public class CancelOrderConfirmViewModel extends BaseViewModel {
 
     public ObservableField<String> orderId = new ObservableField<>("");
     public ObservableField<String> minerFee = new ObservableField<>("");
+    public ObservableField<String> nhAssetId = new ObservableField<>("");
     public NhAssetOrderEntity.NhOrderBean nhOrderBean;
 
     public CancelOrderConfirmViewModel(@NonNull Application application) {
@@ -42,6 +43,7 @@ public class CancelOrderConfirmViewModel extends BaseViewModel {
         this.nhOrderBean = nhOrderBean;
         orderId.set(nhOrderBean.id);
         minerFee.set(nhOrderBean.minerFee + nhOrderBean.feeSymbol);
+        nhAssetId.set(nhOrderBean.nh_asset_id);
     }
 
     public BindingCommand dismissOnClickCommand = new BindingCommand(new BindingAction() {
