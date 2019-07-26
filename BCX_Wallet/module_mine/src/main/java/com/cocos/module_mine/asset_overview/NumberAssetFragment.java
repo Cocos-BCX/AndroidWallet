@@ -10,9 +10,6 @@ import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.databinding.FragmentNumberAssetBinding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * Created by guoningkang on 2019/2/12
@@ -33,7 +30,16 @@ public class NumberAssetFragment extends BaseFragment<FragmentNumberAssetBinding
 
     @Override
     public void initData() {
-        viewModel.requestAssetsListData();
+        loadData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    private void loadData() {
+        viewModel.requestAssetsListData();
+    }
 }

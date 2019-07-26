@@ -4,11 +4,8 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,8 +15,6 @@ import android.view.ViewGroup;
 
 import com.cocos.library_base.bus.Messenger;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.receiver.NetStateChangeObserver;
-import com.cocos.library_base.receiver.NetStateChangeReceiver;
 import com.cocos.library_base.utils.LoadingDialogUtils;
 import com.cocos.library_base.widget.zloading.ZLoadingDialog;
 import com.cocos.library_base.widget.zloading.Z_TYPE;
@@ -44,6 +39,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     protected VM viewModel;
     private int viewModelId;
     private ZLoadingDialog dialog;
+    private boolean isFirst = true;
 
 
     @Override
@@ -53,6 +49,20 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         initParam();
     }
 
+    @Override
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        // 可见并且调用过initData()
+        boolean s = getUserVisibleHint();
+        if (s && !isFirst) {
+            lazyLoad();
+        }
+    }
+
+
+    protected void lazyLoad() {
+    }
 
 
     @Override
@@ -110,6 +120,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         registorUIChangeLiveDataCallBack();
         //页面数据初始化方法
         initData();
+        isFirst = false;
         //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
         initViewObservable();
         //注册RxBus
