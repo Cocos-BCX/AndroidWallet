@@ -222,18 +222,23 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
                     public void onReceiveValue(String s) {
                         Log.i("buy_nh_asset", s);
                         final OperateResultModel operateResultModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
-                        if (null == operateResultModel) {
-                            ToastUtils.showShort(R.string.net_work_failed);
+
+                        if (operateResultModel.code == 161) {
+                            ToastUtils.showShort(R.string.module_asset_order_not_exist);
                             return;
                         }
+
                         if (operateResultModel.code == 105) {
                             ToastUtils.showShort(R.string.module_asset_wrong_password);
                             return;
                         }
-                        if (operateResultModel.isSuccess()) {
-                            allNhOrderFragment.loadData();
-                            ToastUtils.showShort(R.string.module_asset_order_buy_success);
+
+                        if (!operateResultModel.isSuccess()) {
+                            ToastUtils.showShort(R.string.net_work_failed);
+                            return;
                         }
+                        allNhOrderFragment.loadData();
+                        ToastUtils.showShort(R.string.module_asset_order_buy_success);
                     }
                 });
             }
@@ -261,20 +266,24 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
                     public void onReceiveValue(String s) {
                         Log.i("cancel_nh_asset_order", s);
                         final OperateResultModel operateResultModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
-                        if (null == operateResultModel) {
-                            ToastUtils.showShort(R.string.net_work_failed);
+
+                        if (operateResultModel.code == 161) {
+                            ToastUtils.showShort(R.string.module_asset_order_not_exist);
                             return;
                         }
+
                         if (operateResultModel.code == 105) {
                             ToastUtils.showShort(R.string.module_asset_wrong_password);
                             return;
                         }
-                        if (operateResultModel.isSuccess()) {
-                            // 刷新页面
-                            mineNhOrderFragment.loadData();
-                            allNhOrderFragment.loadData();
-                            ToastUtils.showShort(R.string.module_asset_order_cancel_success);
+
+                        if (!operateResultModel.isSuccess()) {
+                            ToastUtils.showShort(R.string.net_work_failed);
+                            return;
                         }
+                        mineNhOrderFragment.loadData();
+                        allNhOrderFragment.loadData();
+                        ToastUtils.showShort(R.string.module_asset_order_cancel_success);
                     }
                 });
             }

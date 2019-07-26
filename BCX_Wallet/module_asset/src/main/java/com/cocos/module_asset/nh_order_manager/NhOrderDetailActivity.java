@@ -196,18 +196,23 @@ public class NhOrderDetailActivity extends BaseActivity<ActivityNhOrderDetailBin
                     @Override
                     public void onReceiveValue(String s) {
                         final OperateResultModel operateResultModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
-                        if (null == operateResultModel) {
-                            ToastUtils.showShort(R.string.net_work_failed);
+
+                        if (operateResultModel.code == 161) {
+                            ToastUtils.showShort(R.string.module_asset_order_not_exist);
                             return;
                         }
+
                         if (operateResultModel.code == 105) {
                             ToastUtils.showShort(R.string.module_asset_wrong_password);
                             return;
                         }
-                        if (operateResultModel.isSuccess()) {
-                            ToastUtils.showShort(R.string.module_asset_order_cancel_success);
-                            finish();
+
+                        if (!operateResultModel.isSuccess()) {
+                            ToastUtils.showShort(R.string.net_work_failed);
+                            return;
                         }
+                        ToastUtils.showShort(R.string.module_asset_order_cancel_success);
+                        finish();
                     }
                 });
             }
@@ -230,18 +235,23 @@ public class NhOrderDetailActivity extends BaseActivity<ActivityNhOrderDetailBin
                     public void onReceiveValue(String s) {
                         Log.i("buy_nh_asset", s);
                         final OperateResultModel operateResultModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
-                        if (null == operateResultModel) {
-                            ToastUtils.showShort(R.string.net_work_failed);
+
+                        if (operateResultModel.code == 161) {
+                            ToastUtils.showShort(R.string.module_asset_order_not_exist);
                             return;
                         }
+
                         if (operateResultModel.code == 105) {
                             ToastUtils.showShort(R.string.module_asset_wrong_password);
                             return;
                         }
-                        if (operateResultModel.isSuccess()) {
-                            finish();
-                            ToastUtils.showShort(R.string.module_asset_order_buy_success);
+
+                        if (!operateResultModel.isSuccess()) {
+                            ToastUtils.showShort(R.string.net_work_failed);
+                            return;
                         }
+                        finish();
+                        ToastUtils.showShort(R.string.module_asset_order_buy_success);
                     }
                 });
             }
