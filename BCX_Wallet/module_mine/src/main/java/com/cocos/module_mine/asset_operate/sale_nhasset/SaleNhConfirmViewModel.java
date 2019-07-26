@@ -36,7 +36,6 @@ public class SaleNhConfirmViewModel extends BaseViewModel {
     public ObservableField<String> nhAssetId = new ObservableField<>("");
     public ObservableField<String> priceAmount = new ObservableField<>("");
     public ObservableField<String> validTime = new ObservableField<>("");
-    public ObservableField<String> saleFee = new ObservableField<>("");
     public ObservableField<String> minerFee = new ObservableField<>("");
     public ObservableField<String> orderMemo = new ObservableField<>("");
 
@@ -96,7 +95,6 @@ public class SaleNhConfirmViewModel extends BaseViewModel {
         nhAssetId.set(saleNHAssetParamsModel.getNhAssetId());
         priceAmount.set(saleNHAssetParamsModel.getPriceAmount() + " " + saleNHAssetParamsModel.getPriceSymbol());
         validTime.set(saleNHAssetParamsModel.getValidTime() + " s");
-        saleFee.set(saleNHAssetParamsModel.getSaleFee() + " COCOS");
         minerFee.set(saleNHAssetParamsModel.getMinerFee() + " COCOS");
         orderMemo.set(saleNHAssetParamsModel.getOrderMemo());
     }

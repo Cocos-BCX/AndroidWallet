@@ -12,5 +12,6 @@
     <string name="account_private_key_detail" tools:ignore="ResourceName,StringEscaping">The “owner” authority is used to set controller of the account. The controller(account or public key) has the right to change issues related to the account, including authorization.</string>
     <string name="private_key_function_tips">Private key is for recover wallet or reset wallet password, long press to copy, keep your private key safe</string>
     <string name="module_asset_coin_type_test">(TEST)</string>
-    <string name="deal_detail">交易详情</string>
+    <string name="deal_detail">Deal Detail</string>
+    <string name="next_text">Next</string>
 </resources>

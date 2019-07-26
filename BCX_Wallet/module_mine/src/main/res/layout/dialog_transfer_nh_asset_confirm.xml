@@ -82,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
-                android:text="@string/module_mine_nh_asset_transfer_from"
+                android:text="@string/module_mine_transfer_account_name"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
@@ -110,7 +110,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
-                android:text="@string/module_mine_nh_asset_transfer_to"
+                android:text="@string/module_mine_receivable_account_name"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
 
@@ -193,7 +193,7 @@
             android:gravity="center"
             android:paddingTop="@dimen/dp_7"
             android:paddingBottom="@dimen/dp_7"
-            android:text="@string/module_mine_transfer_nh_confirm_btn"
+            android:text="@string/next_text"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_16"

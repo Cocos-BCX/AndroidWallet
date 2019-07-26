@@ -25,7 +25,6 @@ public class SaleNHAssetViewModel extends BaseViewModel {
     public ObservableField<String> salePricesAmount = new ObservableField<>("");
     public ObservableField<String> saleValidTime = new ObservableField<>("");
     public ObservableField<String> saleMemo = new ObservableField<>("");
-    public ObservableField<String> saleFee = new ObservableField<>("");
 
     public SaleNHAssetViewModel(@NonNull Application application) {
         super(application);

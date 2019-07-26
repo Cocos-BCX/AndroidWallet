@@ -21,6 +21,8 @@ public class DeleteNhAssetViewModel extends BaseViewModel {
 
     public ObservableField<String> assetId = new ObservableField<>("");
 
+    public ObservableField<String> worldView = new ObservableField<>("");
+
     public ObservableField<String> minerFee = new ObservableField<>("");
 
     public NHAssetModel.NHAssetModelBean nHAssetModelBean;
@@ -32,7 +34,8 @@ public class DeleteNhAssetViewModel extends BaseViewModel {
     public void setNhAssetModel(NHAssetModel.NHAssetModelBean nHAssetModelBean) {
         this.nHAssetModelBean = nHAssetModelBean;
         assetId.set(nHAssetModelBean.id);
-        minerFee.set(nHAssetModelBean.minerFee + nHAssetModelBean.feeSymbol);
+        worldView.set(nHAssetModelBean.world_view);
+        minerFee.set(nHAssetModelBean.minerFee + " " + nHAssetModelBean.feeSymbol);
     }
 
 

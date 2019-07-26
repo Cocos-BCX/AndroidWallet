@@ -49,7 +49,7 @@ public class NhOrderDetailViewModel extends BaseViewModel {
         orderId.set(nhOrderBean.id);
         nhAssetId.set(nhOrderBean.nh_asset_id);
         sellerAccount.set(nhOrderBean.isMineOrder ? AccountHelperUtils.getCurrentAccountName() : nhOrderBean.sellerName);
-        operateOrderText.set(nhOrderBean.isMineOrder ? Utils.getString(R.string.cancel_mine_nh_order_text) : Utils.getString(R.string.buy_nh_order_btn_text));
+        operateOrderText.set(nhOrderBean.isMineOrder ? Utils.getString(R.string.cancel_text) : Utils.getString(R.string.buy_nh_order_btn_text));
         assetQualifier.set(nhOrderBean.asset_qualifier);
         worldView.set(nhOrderBean.world_view);
         baseDescribe.set(nhOrderBean.base_describe);

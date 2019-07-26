@@ -115,7 +115,7 @@
     <string name="module_mine_nh_asset_sale_text">出售</string>
     <string name="module_mine_nh_sale_title">道具出售</string>
     <string name="module_mine_nh_sale_next">下一步</string>
-    <string name="module_mine_nh_asset_sale_id">资产ID</string>
+    <string name="module_mine_nh_asset_sale_id">NH资产ID</string>
     <string name="module_mine_nh_asset_sale_price">价格</string>
     <string name="choose_other_symbol">选择币种</string>
     <string name="module_mine_nh_asset_sale_price_default">(默认币种：COCOS)</string>
@@ -130,28 +130,29 @@
     <string name="module_mine_nh_asset_sale_fee">挂单费用</string>
     <string name="module_mine_nh_asset_sale_fee_default">(单位：COCOS)</string>
     <string name="module_mine_nh_asset_sale_fee_hint">请输入挂单费用</string>
-    <string name="module_mine_sale_nh_info">出售</string>
+    <string name="module_mine_sale_nh_info">出售资产</string>
     <string name="module_mine_sale_info">交易信息</string>
-    <string name="module_mine_nh_asset_sale_miner_fee">手续费</string>
+    <string name="module_mine_nh_asset_sale_miner_fee">矿工费</string>
     <string name="module_mine_sale_nh_confirm_btn">确认出售</string>
     <string name="module_mine_sale_nh_success">挂单成功</string>
     <string name="module_mine_coin_select_title">选择币种</string>
     <string name="module_mine_detele_nh_asset_tip">注意：资产删除后不可恢复</string>
     <string name="module_asset_deal_info">交易信息</string>
     <string name="delete_nh_asset_text">删除资产</string>
-    <string name="module_mine_nh_asset_id">资产ID</string>
     <string name="module_mine_asset_delete_confirm">确认删除</string>
     <string name="module_mine_delete_nh_asset_success">删除成功</string>
     <string name="module_mine_nh_transfer_title">道具转移</string>
     <string name="module_mine_nh_asset_transfer_receiver_hint">请输入资产接收方</string>
     <string name="module_mine_nh_asset_transfer_id">NH资产ID</string>
     <string name="module_mine_nh_asset_transfer_receiver">资产接收方</string>
-    <string name="module_mine_transfer_nh_info">转移</string>
+    <string name="module_mine_transfer_nh_info">转移资产</string>
     <string name="module_mine_nh_asset_transfer_from">发送发</string>
     <string name="module_mine_nh_asset_transfer_to">接收方</string>
     <string name="module_mine_transfer_nh_confirm_btn">确认转移</string>
     <string name="module_mine_nh_receiver_can_not_be_empty">资产接收方不能为空</string>
     <string name="module_mine_transfer_nh_asset_success">转移成功</string>
+    <string name="module_mine_receivable_account_name">转入账号</string>
+    <string name="module_mine_transfer_account_name">转出账号</string>
 
 
 </resources>

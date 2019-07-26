@@ -122,7 +122,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                     @Override
                     public void onFinish(final String password) {
                         CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order_fee("otcaccount",
-                                AccountHelperUtils.getCurrentAccountName(), nhAssetModelBean.id, viewModel.saleFee.get(),
+                                AccountHelperUtils.getCurrentAccountName(), nhAssetModelBean.id, "0",
                                 "COCOS", viewModel.saleMemo.get(), viewModel.salePricesAmount.get(),
                                 viewModel.salePricesSymbol.get(), Long.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())), new IBcxCallBack() {
                                     @Override
@@ -139,7 +139,6 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                                                 saleNHAssetParamsModel.setPriceAmount(viewModel.salePricesAmount.get());
                                                 saleNHAssetParamsModel.setPriceSymbol(viewModel.salePricesSymbol.get());
                                                 saleNHAssetParamsModel.setMinerFee(feeModel.data.amount);
-                                                saleNHAssetParamsModel.setSaleFee(viewModel.saleFee.get());
                                                 saleNHAssetParamsModel.setOrderMemo(viewModel.saleMemo.get());
                                                 saleNHAssetParamsModel.setValidTime(viewModel.saleValidTime.get());
                                                 saleNHAssetParamsModel.setPassword(password);

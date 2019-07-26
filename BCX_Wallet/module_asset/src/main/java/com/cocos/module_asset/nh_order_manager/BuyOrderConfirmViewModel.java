@@ -44,7 +44,7 @@ public class BuyOrderConfirmViewModel extends BaseViewModel {
         this.nhOrderBean = nhOrderBean;
         orderId.set(nhOrderBean.id);
         orderPrice.set(nhOrderBean.priceWithSymbol);
-        minerFee.set(nhOrderBean.minerFee + nhOrderBean.feeSymbol);
+        minerFee.set(nhOrderBean.minerFee + " " + nhOrderBean.feeSymbol);
         nhAssetId.set(nhOrderBean.nh_asset_id);
     }
 

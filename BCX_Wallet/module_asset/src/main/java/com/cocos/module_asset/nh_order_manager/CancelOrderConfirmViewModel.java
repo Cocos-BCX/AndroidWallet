@@ -42,7 +42,7 @@ public class CancelOrderConfirmViewModel extends BaseViewModel {
     public void setCancelOrderModel(NhAssetOrderEntity.NhOrderBean nhOrderBean) {
         this.nhOrderBean = nhOrderBean;
         orderId.set(nhOrderBean.id);
-        minerFee.set(nhOrderBean.minerFee + nhOrderBean.feeSymbol);
+        minerFee.set(nhOrderBean.minerFee + " " + nhOrderBean.feeSymbol);
         nhAssetId.set(nhOrderBean.nh_asset_id);
     }
 

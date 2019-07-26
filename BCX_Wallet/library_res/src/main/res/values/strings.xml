@@ -14,4 +14,5 @@
     <string name="private_key_function_tips">私钥用于恢复钱包或重置钱包密码，长按复制，并将它存放在只有您知道的安全地方</string>
     <string name="module_asset_coin_type_test">(测试)</string>
     <string name="deal_detail">交易详情</string>
+    <string name="next_text">下一步</string>
 </resources>

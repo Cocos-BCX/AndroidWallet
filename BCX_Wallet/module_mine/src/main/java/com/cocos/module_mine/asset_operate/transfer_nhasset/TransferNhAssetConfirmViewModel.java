@@ -58,7 +58,7 @@ public class TransferNhAssetConfirmViewModel extends BaseViewModel {
         from.set(nHAssetModelBean.from);
         to.set(nHAssetModelBean.to);
         nhAssetId.set(nHAssetModelBean.id);
-        minerFee.set(nHAssetModelBean.minerFee + nHAssetModelBean.feeSymbol);
+        minerFee.set(nHAssetModelBean.minerFee + " " + nHAssetModelBean.feeSymbol);
 
     }
 }

@@ -194,7 +194,7 @@
             android:gravity="center"
             android:paddingTop="@dimen/dp_7"
             android:paddingBottom="@dimen/dp_7"
-            android:text="@string/module_asset_buy_order_confirm_btn"
+            android:text="@string/next_text"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_16"
