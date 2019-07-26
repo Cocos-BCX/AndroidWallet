@@ -112,6 +112,12 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                     ToastUtils.showShort(R.string.module_mine_nh_asset_sale_valid_time_hint);
                     return;
                 }
+
+                if (Integer.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())) < 1) {
+                    ToastUtils.showShort(R.string.module_mine_nh_asset_sale_valid_time_less_than_one);
+                    return;
+                }
+
                 if (new BigDecimal(viewModel.salePricesAmount.get()).compareTo(BigDecimal.ZERO) < 0) {
                     ToastUtils.showShort(R.string.module_mine_sale_nh_price_error);
                     return;
