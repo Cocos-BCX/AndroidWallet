@@ -22,6 +22,7 @@ public class BuyOrderConfirmViewModel extends BaseViewModel {
     public ObservableField<String> orderPrice = new ObservableField<>("");
     public ObservableField<String> minerFee = new ObservableField<>("");
     public ObservableField<String> orderId = new ObservableField<>("");
+    public ObservableField<String> nhAssetId = new ObservableField<>("");
     public NhAssetOrderEntity.NhOrderBean nhOrderBean;
 
     public BuyOrderConfirmViewModel(@NonNull Application application) {
@@ -44,6 +45,7 @@ public class BuyOrderConfirmViewModel extends BaseViewModel {
         orderId.set(nhOrderBean.id);
         orderPrice.set(nhOrderBean.priceWithSymbol);
         minerFee.set(nhOrderBean.minerFee + nhOrderBean.feeSymbol);
+        nhAssetId.set(nhOrderBean.nh_asset_id);
     }
 
     public BindingCommand dismissOnClickCommand = new BindingCommand(new BindingAction() {

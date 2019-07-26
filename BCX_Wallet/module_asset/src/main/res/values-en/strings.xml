@@ -87,4 +87,5 @@
     <string name="module_asset_order_buy_success">购买成功</string>
     <string name="module_asset_can_not_buy_owner_order">不能购买自己创建的订单</string>
     <string name="no_asset_order">暂无订单</string>
+    <string name="module_asset_buy_nh_asset_id">NH资产ID</string>
 </resources>
