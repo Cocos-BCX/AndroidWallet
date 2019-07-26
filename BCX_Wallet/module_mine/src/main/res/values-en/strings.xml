@@ -153,6 +153,7 @@
     <string name="module_mine_transfer_nh_asset_success">转移成功</string>
     <string name="module_mine_receivable_account_name">转入账号</string>
     <string name="module_mine_transfer_account_name">转出账号</string>
+    <string name="module_mine_nh_asset_sale_valid_time_less_than_one">请输入合理的有效时间</string>
 
 
 </resources>

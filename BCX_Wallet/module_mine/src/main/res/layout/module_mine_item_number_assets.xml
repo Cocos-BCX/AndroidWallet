@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
         android:layout_marginLeft="@dimen/dp_15"
-        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_12"
         android:layout_marginRight="@dimen/dp_15"
         android:background="@drawable/fragment_mine_number_asset_item_bg"
         android:gravity="center_vertical"
