@@ -57,6 +57,15 @@ public class NHAssetViewModel extends BaseViewModel {
                         if (page <= 1) {
                             observableList.clear();
                         }
+                        if (null == NHAssetModel.data) {
+                            emptyViewVisible.set(View.VISIBLE);
+                            recyclerViewVisible.set(View.GONE);
+                            if (null != ptrFrameLayout) {
+                                ptrFrameLayout.refreshComplete();
+                            }
+                            return;
+                        }
+
                         if (NHAssetModel.data.size() <= 0 && page > 1) {
                             if (null != ptrFrameLayout) {
                                 ptrFrameLayout.refreshComplete();
