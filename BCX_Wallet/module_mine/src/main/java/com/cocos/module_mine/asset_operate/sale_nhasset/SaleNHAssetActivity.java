@@ -169,8 +169,13 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                     return;
                 }
 
-                if (Integer.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())) < 1 || Integer.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())) > viewModel.saleValidTimeMax) {
+                if (TextUtils.equals(viewModel.saleValidTime.get(), "0")) {
                     ToastUtils.showShort(R.string.module_mine_nh_asset_sale_valid_time_less_than_one);
+                    return;
+                }
+
+                if (Objects.requireNonNull(viewModel.saleValidTime.get()).length() > String.valueOf(viewModel.saleValidTimeMax).length()) {
+                    viewModel.saleValidTime.set(String.valueOf(viewModel.saleValidTimeMax));
                     return;
                 }
 

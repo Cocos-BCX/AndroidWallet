@@ -24,7 +24,7 @@ public final class RegexConstants {
     /**
      * 英文字符
      */
-    public static final String MEMO_LIMIT = "^[a-zA-Z]+$";
+    public static final String MEMO_LIMIT = "^[a-zA-Z\\d]+$";
 
     /**
      * bcx密码设置正则

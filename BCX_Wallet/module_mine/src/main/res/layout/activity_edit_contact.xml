@@ -88,7 +88,6 @@
                 android:focusable="true"
                 android:hint="@string/module_mine_contact_name_hint"
                 android:inputType="text"
-                android:maxLength="12"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_12"
                 android:text="@={viewModel.contactName}" />
