@@ -374,7 +374,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         TransferParamModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, TransferParamModel.class);
         // only get transfer fee
         if (assetModel.onlyGetFee) {
-            CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
+            CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
                 FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
                 setTransactionFeeCallBack(baseResult, params);
                 if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {

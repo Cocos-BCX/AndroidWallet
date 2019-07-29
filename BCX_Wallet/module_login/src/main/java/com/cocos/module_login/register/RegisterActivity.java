@@ -11,6 +11,8 @@ import com.cocos.module_login.BR;
 import com.cocos.module_login.R;
 import com.cocos.module_login.databinding.ActivityRegisterBinding;
 
+import java.util.Objects;
+
 /**
  * 注册账号页面
  *
@@ -35,7 +37,7 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
     @Override
     public void initParam() {
         try {
-            from =  getIntent().getExtras().getInt(IntentKeyGlobal.FROM);
+            from = Objects.requireNonNull(getIntent().getExtras()).getInt(IntentKeyGlobal.FROM);
         } catch (Exception e) {
         }
     }

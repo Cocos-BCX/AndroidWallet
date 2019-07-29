@@ -124,7 +124,7 @@
     <string name="module_mine_nh_asset_sale_memo">备注</string>
     <string name="module_mine_nh_asset_sale_memo_hint">请输入挂单备注</string>
     <string name="module_mine_nh_asset_sale_price_hint">请输入挂单价格</string>
-    <string name="module_mine_nh_asset_sale_valid_time_default">(单位：秒)</string>
+    <string name="module_mine_nh_asset_sale_valid_time_default">（单位：秒）</string>
     <string name="module_mine_nh_asset_sale_memo_default">(选填)</string>
     <string name="module_mine_sale_nh_price_error">挂单价格不能小于0</string>
     <string name="module_mine_nh_asset_sale_fee">挂单费用</string>
@@ -156,6 +156,7 @@
     <string name="module_mine_nh_asset_sale_valid_time_less_than_one">请输入合理的有效时间</string>
     <string name="module_mine_nh_receiver_can_not_be_self">资产接收方不能是自己</string>
     <string name="module_mine_nh_asset_sale_memo_illegal">memo仅支持英文字符</string>
+    <string name="module_mine_nh_asset_sale_valid_time_max">最大 </string>
 
 
 </resources>
