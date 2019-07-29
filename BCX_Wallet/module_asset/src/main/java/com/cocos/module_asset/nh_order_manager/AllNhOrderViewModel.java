@@ -18,6 +18,9 @@ import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.List;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -92,7 +95,9 @@ public class AllNhOrderViewModel extends BaseViewModel {
                         for (NhAssetOrderEntity.NhOrderBean nhOrderBean : nhOrderBeans) {
                             asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);
                             if (null != asset_object) {
-                                nhOrderBean.priceWithSymbol = nhOrderBean.price.amount / (Math.pow(10, asset_object.precision)) + " " + asset_object.symbol;
+                                NumberFormat nf = NumberFormat.getInstance();
+                                nf.setGroupingUsed(false);
+                                nhOrderBean.priceWithSymbol = nf.format(new BigDecimal(nhOrderBean.price.amount / (Math.pow(10, asset_object.precision))).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)) + " " + asset_object.symbol;
                                 AllNhOrderItemViewModel itemViewModel = new AllNhOrderItemViewModel(AllNhOrderViewModel.this, nhOrderBean);
                                 observableList.add(itemViewModel);
                                 emptyViewVisible.set(View.GONE);
