@@ -179,7 +179,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                     return;
                 }
 
-                if (!RegexUtils.isLegalMemo(viewModel.saleMemo.get())) {
+                if (!TextUtils.isEmpty(viewModel.saleMemo.get()) && !RegexUtils.isLegalMemo(viewModel.saleMemo.get())) {
                     ToastUtils.showShort(R.string.module_mine_nh_asset_sale_memo_illegal);
                     return;
                 }
