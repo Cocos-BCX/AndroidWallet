@@ -22,7 +22,6 @@ import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.NumberUtil;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
@@ -33,6 +32,7 @@ import com.cocos.module_asset.entity.DealRecordModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
@@ -109,8 +109,9 @@ public class DealRecordViewModel extends BaseViewModel {
     public void setAssetModel(AssetsModel.AssetModel assetModel) {
         this.assetModel = assetModel;
         tokenSymbol.set(assetModel.symbol);
-        totalAsset.set(NumberUtil.doubleTrans1(assetModel.amount.add(BigDecimal.ZERO).setScale(5, RoundingMode.HALF_UP).doubleValue()));
-        //todo need prices
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setGroupingUsed(false);
+        totalAsset.set(nf.format(assetModel.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
         totalAssetValue.set("≈ ￥" + assetModel.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
         accountName.set(String.valueOf(AccountHelperUtils.getCurrentAccountName()));
     }
