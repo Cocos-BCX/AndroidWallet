@@ -1,5 +1,8 @@
 package com.cocos.module_mine.asset_operate.transfer_nhasset;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.os.Bundle;
@@ -13,11 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.entity.ContactModel;
 import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.entity.OperateResultModel;
 import com.cocos.library_base.global.EventTypeGlobal;
@@ -34,8 +39,14 @@ import com.cocos.module_mine.asset_overview.NHAssetDetailActivity;
 import com.cocos.module_mine.databinding.ActivityTransferNhAssetBinding;
 import com.cocos.module_mine.databinding.DialogTransferNhAssetConfirmBinding;
 import com.cocos.module_mine.entity.NHAssetModel;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * @author ningkang.guo
@@ -121,8 +132,33 @@ public class TransferNHAssetActivity extends BaseActivity<ActivityTransferNhAsse
 
             }
         });
-
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IntentKeyGlobal.REQ_CONTACT_CODE) {
+                Bundle bundle = data.getExtras();
+                ContactModel contactModel = (ContactModel) bundle.getSerializable(IntentKeyGlobal.CONTACT_ENTITY);
+                viewModel.nhAssetReciver.set(contactModel.accountName);
+            } else if (requestCode == IntentKeyGlobal.REQ_CAPTURE_CODE) {
+                try {
+                    Bundle bundle = data.getExtras();
+                    String captureResult = bundle.getString(IntentKeyGlobal.CAPTURE_RESULT);
+                    JSONObject jsonObject = new JSONObject(captureResult);
+                    if (jsonObject.has("address")) {
+                        viewModel.nhAssetReciver.set(String.valueOf(jsonObject.get("address")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
 
     @Override
     public void initViewObservable() {
@@ -168,6 +204,40 @@ public class TransferNHAssetActivity extends BaseActivity<ActivityTransferNhAsse
                         });
                     }
                 });
+            }
+        });
+
+        viewModel.uc.toContact.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                Bundle bundle = new Bundle();
+                bundle.putInt(IntentKeyGlobal.TRANSFER_TO_CONTACT, IntentKeyGlobal.GET_CONTACT);
+                ARouter.getInstance().
+                        build(RouterActivityPath.ACTIVITY_CONTACT).
+                        with(bundle).
+                        navigation(TransferNHAssetActivity.this, IntentKeyGlobal.REQ_CONTACT_CODE);
+            }
+        });
+
+        viewModel.uc.toCaptureActivity.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @SuppressLint("CheckResult")
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                RxPermissions rxPermissions = new RxPermissions(TransferNHAssetActivity.this);
+                rxPermissions.request(Manifest.permission.CAMERA)
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt(IntentKeyGlobal.TO_CAPTURE, IntentKeyGlobal.GET_CAPTURE_RESULT);
+                                    ARouter.getInstance().
+                                            build(RouterActivityPath.ACTIVITY_CAPTURE).
+                                            with(bundle).
+                                            navigation(TransferNHAssetActivity.this, IntentKeyGlobal.REQ_CAPTURE_CODE);
+                                }
+                            }
+                        });
             }
         });
     }

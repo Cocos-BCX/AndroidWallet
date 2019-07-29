@@ -42,6 +42,15 @@
                 android:textSize="@dimen/sp_18"
                 android:typeface="@{@string/TOTAL_ASSET}" />
 
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_13"
+                android:src="@drawable/transfer_scan_icon"
+                binding:onClickCommand="@{viewModel.scanOnClickCommand}" />
+
         </RelativeLayout>
 
 
@@ -63,6 +72,16 @@
                 android:text="@string/module_mine_nh_asset_transfer_receiver"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
+
+
+            <ImageView
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/transfer_contact"
+                binding:onClickCommand="@{viewModel.contactOnClickCommand}" />
 
             <EditText
                 style="@style/editText_style"

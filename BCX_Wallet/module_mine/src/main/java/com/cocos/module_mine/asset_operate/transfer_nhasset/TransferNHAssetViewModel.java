@@ -33,6 +33,8 @@ public class TransferNHAssetViewModel extends BaseViewModel {
 
     public class UIChangeObservable {
         public ObservableBoolean transferNhBtnObservable = new ObservableBoolean(false);
+        public ObservableBoolean toContact = new ObservableBoolean(false);
+        public ObservableBoolean toCaptureActivity = new ObservableBoolean(false);
     }
 
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
@@ -41,6 +43,22 @@ public class TransferNHAssetViewModel extends BaseViewModel {
             finish();
         }
     });
+
+
+    public BindingCommand scanOnClickCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            uc.toCaptureActivity.set(!uc.toCaptureActivity.get());
+        }
+    });
+
+    public BindingCommand contactOnClickCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            uc.toContact.set(!uc.toContact.get());
+        }
+    });
+
 
     public BindingCommand transferNHNextOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
