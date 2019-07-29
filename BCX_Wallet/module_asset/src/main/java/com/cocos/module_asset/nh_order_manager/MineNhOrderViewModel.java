@@ -15,6 +15,7 @@ import com.cocos.bcx_sdk.bcx_wallet.chain.asset_object;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.entity.NhAssetOrderEntity;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.TimeUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
@@ -23,6 +24,9 @@ import com.cocos.module_asset.R;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -34,6 +38,11 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
  * @Date 2019/7/15
  */
 public class MineNhOrderViewModel extends BaseViewModel {
+
+
+    String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
 
     public MineNhOrderViewModel(@NonNull Application application) {
         super(application);
@@ -106,6 +115,13 @@ public class MineNhOrderViewModel extends BaseViewModel {
                                 nf.setGroupingUsed(false);
                                 nhOrderBean.priceWithSymbol = nf.format(new BigDecimal(nhOrderBean.price.amount / (Math.pow(10, asset_object.precision))).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)) + " " + asset_object.symbol;
                                 nhOrderBean.sellerName = AccountHelperUtils.getCurrentAccountName();
+                                Date dateObject = null;
+                                try {
+                                    dateObject = sDateFormat.parse(nhOrderBean.expiration);
+                                    nhOrderBean.expirationTime = TimeUtil.formDate(dateObject);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                                 MineNhOrderItemViewModel itemViewModel = new MineNhOrderItemViewModel(MineNhOrderViewModel.this, nhOrderBean);
                                 observableList.add(itemViewModel);
                                 emptyViewVisible.set(View.GONE);

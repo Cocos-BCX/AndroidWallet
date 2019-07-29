@@ -3,22 +3,12 @@ package com.cocos.module_mine.asset_operate.sale_nhasset;
 import android.app.Application;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.util.Log;
 
-import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
-import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.entity.OperateResultModel;
 import com.cocos.library_base.global.EventTypeGlobal;
-import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.ToastUtils;
-import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocos.library_base.utils.singleton.MainHandler;
-import com.cocos.module_mine.R;
 import com.cocos.module_mine.entity.SaleNHAssetParamsModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,44 +46,10 @@ public class SaleNhConfirmViewModel extends BaseViewModel {
     public BindingCommand saleConfirmOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("otcaccount", AccountHelperUtils.getCurrentAccountName(),
-                    saleAssetParamsModel.getPassword(), saleAssetParamsModel.getNhAssetId(), saleAssetParamsModel.getSaleFee(),
-                    "COCOS", saleAssetParamsModel.getOrderMemo(), saleAssetParamsModel.getPriceAmount(),
-                    saleAssetParamsModel.getPriceSymbol(), Long.parseLong(saleAssetParamsModel.getValidTime()), new IBcxCallBack() {
-                        @Override
-                        public void onReceiveValue(final String s) {
-                            Log.i("create_nh_asset_order", s);
-                            MainHandler.getInstance().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        final OperateResultModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
-                                        if (feeModel.code == 105) {
-                                            ToastUtils.showShort(R.string.module_mine_wrong_password);
-                                            return;
-                                        }
-                                        if (!TextUtils.isEmpty(feeModel.message)
-                                                && (feeModel.message.contains("insufficient_balance")
-                                                || feeModel.message.contains("Insufficient Balance"))) {
-                                            ToastUtils.showShort(R.string.insufficient_balance);
-                                            return;
-                                        }
-                                        if (!feeModel.isSuccess()) {
-                                            ToastUtils.showShort(R.string.net_work_failed);
-                                            return;
-                                        }
-                                        ToastUtils.showShort(R.string.module_mine_sale_nh_success);
-                                        EventBusCarrier eventBusCarrier = new EventBusCarrier();
-                                        eventBusCarrier.setEventType(EventTypeGlobal.SALE_SUCCESS);
-                                        eventBusCarrier.setObject(null);
-                                        EventBus.getDefault().post(eventBusCarrier);
-                                    } catch (Exception e) {
-                                        ToastUtils.showShort(R.string.net_work_failed);
-                                    }
-                                }
-                            });
-                        }
-                    });
+            EventBusCarrier eventBusCarrier = new EventBusCarrier();
+            eventBusCarrier.setEventType(EventTypeGlobal.SHOW_SALE_NH_ASSET_PASSWORD_VERIFY_DIALOG);
+            eventBusCarrier.setObject(saleAssetParamsModel);
+            EventBus.getDefault().post(eventBusCarrier);
         }
     });
 

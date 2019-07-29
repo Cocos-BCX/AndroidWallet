@@ -178,7 +178,8 @@
                     android:paddingStart="@dimen/dp_4"
                     android:text="@string/module_mine_nh_asset_sale_valid_time_default"
                     android:textColor="@color/color_A5A9B1"
-                    android:textSize="@dimen/sp_10" />
+                    android:textSize="@dimen/sp_10"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 

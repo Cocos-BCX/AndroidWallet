@@ -16,7 +16,7 @@ public class TimeUtil {
     public static String formDate(Date value) {
         String newValue = "null";
         try {
-            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             if (value == null) {
                 return "";
             }

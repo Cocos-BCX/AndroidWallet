@@ -8,6 +8,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +21,14 @@ import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.entity.FeeModel;
+import com.cocos.library_base.entity.OperateResultModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.NumberUtil;
+import com.cocos.library_base.utils.RegexUtils;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
@@ -80,11 +83,64 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
     public void onHandleEvent(EventBusCarrier busCarrier) {
         if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
             dialog.dismiss();
-        } else if (TextUtils.equals(EventTypeGlobal.SALE_SUCCESS, busCarrier.getEventType())) {
+        } else if (TextUtils.equals(EventTypeGlobal.SHOW_SALE_NH_ASSET_PASSWORD_VERIFY_DIALOG, busCarrier.getEventType())) {
             dialog.dismiss();
-            finish();
+            SaleNHAssetParamsModel saleAssetParamsModel = (SaleNHAssetParamsModel) busCarrier.getObject();
+            showSaleAssetPasswordVerifyDialog(saleAssetParamsModel);
         }
     }
+
+    private void showSaleAssetPasswordVerifyDialog(SaleNHAssetParamsModel saleAssetParamsModel) {
+        final BaseVerifyPasswordDialog passwordVerifyDialog = new BaseVerifyPasswordDialog();
+        passwordVerifyDialog.show(getSupportFragmentManager(), "passwordVerifyDialog");
+        passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
+            @Override
+            public void onFinish(final String password) {
+                CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("otcaccount", AccountHelperUtils.getCurrentAccountName(),
+                        password, saleAssetParamsModel.getNhAssetId(), saleAssetParamsModel.getSaleFee(),
+                        "COCOS", saleAssetParamsModel.getOrderMemo(), saleAssetParamsModel.getPriceAmount(),
+                        saleAssetParamsModel.getPriceSymbol(), Long.parseLong(saleAssetParamsModel.getValidTime()), new IBcxCallBack() {
+                            @Override
+                            public void onReceiveValue(final String s) {
+                                Log.i("create_nh_asset_order", s);
+                                MainHandler.getInstance().post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            final OperateResultModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
+                                            if (feeModel.code == 105) {
+                                                ToastUtils.showShort(R.string.module_mine_wrong_password);
+                                                return;
+                                            }
+                                            if (!TextUtils.isEmpty(feeModel.message)
+                                                    && (feeModel.message.contains("insufficient_balance")
+                                                    || feeModel.message.contains("Insufficient Balance"))) {
+                                                ToastUtils.showShort(R.string.insufficient_balance);
+                                                return;
+                                            }
+                                            if (!feeModel.isSuccess()) {
+                                                ToastUtils.showShort(R.string.net_work_failed);
+                                                return;
+                                            }
+                                            ToastUtils.showShort(R.string.module_mine_sale_nh_success);
+                                            dialog.dismiss();
+                                            finish();
+                                        } catch (Exception e) {
+                                            ToastUtils.showShort(R.string.net_work_failed);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
+    }
+
 
     @Override
     public void initViewObservable() {
@@ -122,46 +178,37 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                     ToastUtils.showShort(R.string.module_mine_sale_nh_price_error);
                     return;
                 }
-                final BaseVerifyPasswordDialog passwordVerifyDialog = new BaseVerifyPasswordDialog();
-                passwordVerifyDialog.show(getSupportFragmentManager(), "passwordVerifyDialog");
-                passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
-                    @Override
-                    public void onFinish(final String password) {
-                        CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order_fee("otcaccount",
-                                AccountHelperUtils.getCurrentAccountName(), nhAssetModelBean.id, "0",
-                                "COCOS", viewModel.saleMemo.get(), viewModel.salePricesAmount.get(),
-                                viewModel.salePricesSymbol.get(), Long.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())), new IBcxCallBack() {
+
+                if (!RegexUtils.isLegalMemo(viewModel.saleMemo.get())) {
+                    ToastUtils.showShort(R.string.module_mine_nh_asset_sale_memo_illegal);
+                    return;
+                }
+                CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order_fee("otcaccount",
+                        AccountHelperUtils.getCurrentAccountName(), nhAssetModelBean.id, "0",
+                        "COCOS", viewModel.saleMemo.get(), viewModel.salePricesAmount.get(),
+                        viewModel.salePricesSymbol.get(), Long.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())), new IBcxCallBack() {
+                            @Override
+                            public void onReceiveValue(final String s) {
+                                MainHandler.getInstance().post(new Runnable() {
                                     @Override
-                                    public void onReceiveValue(final String s) {
-                                        MainHandler.getInstance().post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                                                if (!feeModel.isSuccess()) {
-                                                    return;
-                                                }
-                                                SaleNHAssetParamsModel saleNHAssetParamsModel = new SaleNHAssetParamsModel();
-                                                saleNHAssetParamsModel.setNhAssetId(nhAssetModelBean.id);
-                                                saleNHAssetParamsModel.setPriceAmount(viewModel.salePricesAmount.get());
-                                                saleNHAssetParamsModel.setPriceSymbol(viewModel.salePricesSymbol.get());
-                                                saleNHAssetParamsModel.setMinerFee(feeModel.data.amount);
-                                                saleNHAssetParamsModel.setOrderMemo(viewModel.saleMemo.get());
-                                                saleNHAssetParamsModel.setValidTime(viewModel.saleValidTime.get());
-                                                saleNHAssetParamsModel.setPassword(password);
-                                                orderConfirmViewModel.setSaleInfoData(saleNHAssetParamsModel);
-                                                dialog.show();
-                                            }
-                                        });
+                                    public void run() {
+                                        final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
+                                        if (!feeModel.isSuccess()) {
+                                            return;
+                                        }
+                                        SaleNHAssetParamsModel saleNHAssetParamsModel = new SaleNHAssetParamsModel();
+                                        saleNHAssetParamsModel.setNhAssetId(nhAssetModelBean.id);
+                                        saleNHAssetParamsModel.setPriceAmount(viewModel.salePricesAmount.get());
+                                        saleNHAssetParamsModel.setPriceSymbol(viewModel.salePricesSymbol.get());
+                                        saleNHAssetParamsModel.setMinerFee(feeModel.data.amount);
+                                        saleNHAssetParamsModel.setOrderMemo(viewModel.saleMemo.get());
+                                        saleNHAssetParamsModel.setValidTime(viewModel.saleValidTime.get());
+                                        orderConfirmViewModel.setSaleInfoData(saleNHAssetParamsModel);
+                                        dialog.show();
                                     }
                                 });
-                    }
-
-                    @Override
-                    public void cancel() {
-
-                    }
-                });
-
+                            }
+                        });
             }
         });
 

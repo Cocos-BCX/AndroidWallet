@@ -43,6 +43,15 @@ public final class RegexUtils {
         return isMatch(RegexConstants.PRIVATE_KEY_LIMIT, input);
     }
 
+
+    /**
+     * 验证账户密码
+     */
+    public static boolean isLegalMemo(final CharSequence input) {
+        return isMatch(RegexConstants.MEMO_LIMIT, input);
+    }
+
+
     /**
      * 验证手机号（简单）
      *

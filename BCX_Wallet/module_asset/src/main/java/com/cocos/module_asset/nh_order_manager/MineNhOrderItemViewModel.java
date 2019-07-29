@@ -1,6 +1,5 @@
 package com.cocos.module_asset.nh_order_manager;
 
-import android.annotation.SuppressLint;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,13 +13,8 @@ import com.cocos.library_base.entity.NhAssetOrderEntity;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
-import com.cocos.library_base.utils.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author ningkang.guo
@@ -42,16 +36,7 @@ public class MineNhOrderItemViewModel extends ItemViewModel {
         mineNhOrderId.set(nhOrderEntity.id);
         mineNhOrderPrice.set(nhOrderEntity.priceWithSymbol);
         seller.set(nhOrderEntity.sellerName);
-        String pattern = "yyyy-MM-dd'T'HH:mm:ss";
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
-        Date dateObject = null;
-        try {
-            dateObject = sDateFormat.parse(nhOrderEntity.expiration);
-            entity.expirationTime = TimeUtil.formDate(dateObject);
-            mineNhOrderExpritationTime.set("过期时间：" + entity.expirationTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        mineNhOrderExpritationTime.set("过期时间：" + entity.expirationTime);
         mineNhOrderMemo.set(nhOrderEntity.memo);
     }
 

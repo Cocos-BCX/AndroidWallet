@@ -169,6 +169,10 @@ public class TransferNHAssetActivity extends BaseActivity<ActivityTransferNhAsse
                     ToastUtils.showShort(R.string.module_mine_nh_receiver_can_not_be_empty);
                     return;
                 }
+                if (TextUtils.equals(viewModel.nhAssetReciver.get(), AccountHelperUtils.getCurrentAccountName())) {
+                    ToastUtils.showShort(R.string.module_mine_nh_receiver_can_not_be_self);
+                    return;
+                }
                 CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset_fee(AccountHelperUtils.getCurrentAccountName(), viewModel.nhAssetReciver.get(), "COCOS", nHAssetModelBean.id, new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(final String s) {

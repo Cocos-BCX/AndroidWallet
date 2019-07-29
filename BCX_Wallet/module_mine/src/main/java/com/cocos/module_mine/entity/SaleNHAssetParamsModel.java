@@ -46,7 +46,6 @@ public class SaleNHAssetParamsModel extends BaseResult {
      */
     private String orderMemo;
 
-    private String password;
 
 
 }

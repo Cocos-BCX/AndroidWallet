@@ -6,6 +6,7 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
@@ -56,7 +57,7 @@ public class NhOrderDetailViewModel extends BaseViewModel {
         price.set(nhOrderBean.priceWithSymbol);
         memo.set(nhOrderBean.memo);
         expirationTime.set(nhOrderBean.expirationTime);
-        drawableImg = Utils.getDrawable(nhOrderBean.isMineOrder ? R.drawable.mine_nh_order_icon : R.drawable.all_nh_order_icon);
+        drawableImg = ContextCompat.getDrawable(Utils.getContext(), R.drawable.nh_asset_detail_icon);
     }
 
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
@@ -91,8 +92,8 @@ public class NhOrderDetailViewModel extends BaseViewModel {
     public UIChangeObservable uc = new UIChangeObservable();
 
     public class UIChangeObservable {
-        public ObservableBoolean cancelBtnObservable = new ObservableBoolean(false);
-        public ObservableBoolean buyBtnObservable = new ObservableBoolean(false);
+        ObservableBoolean cancelBtnObservable = new ObservableBoolean(false);
+        ObservableBoolean buyBtnObservable = new ObservableBoolean(false);
     }
 
 

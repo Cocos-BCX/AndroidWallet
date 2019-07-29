@@ -1,5 +1,6 @@
 package com.cocos.module_mine.asset_overview;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.ClipData;
 import android.databinding.ObservableBoolean;
@@ -12,12 +13,16 @@ import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.utils.TimeUtil;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.entity.NHAssetModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -34,7 +39,10 @@ public class NHAssetDetailViewModel extends BaseViewModel {
     public ObservableField<String> worldView = new ObservableField<>("");
     public ObservableField<String> createTime = new ObservableField<>("");
     public ObservableField<String> baseDescription = new ObservableField<>("");
-    public ObservableField<String> zoneData = new ObservableField<>("");
+
+    String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
 
     public NHAssetDetailViewModel(@NonNull Application application) {
         super(application);
@@ -82,14 +90,6 @@ public class NHAssetDetailViewModel extends BaseViewModel {
         }
     });
 
-    public BindingCommand zoneDataCopyCommand = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            ClipData mClipData = ClipData.newPlainText("Label", zoneData.get());
-            ClipboardManagerInstance.getClipboardManager().setPrimaryClip(mClipData);
-            ToastUtils.showShort(R.string.copy_success);
-        }
-    });
 
     public BindingCommand transferNhAssetCommand = new BindingCommand(new BindingAction() {
         @Override
@@ -117,8 +117,13 @@ public class NHAssetDetailViewModel extends BaseViewModel {
         ownerAccount.set(owner);
         assetQualifier.set(assetModelBean.asset_qualifier);
         worldView.set(assetModelBean.world_view);
-        createTime.set(assetModelBean.create_time);
+        Date dateObject = null;
+        try {
+            dateObject = sDateFormat.parse(assetModelBean.create_time);
+            createTime.set(TimeUtil.formDate(dateObject));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         baseDescription.set(assetModelBean.base_describe);
-        zoneData.set("");
     }
 }
