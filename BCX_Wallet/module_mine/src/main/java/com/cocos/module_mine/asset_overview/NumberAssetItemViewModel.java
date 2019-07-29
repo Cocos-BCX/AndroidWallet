@@ -32,6 +32,7 @@ public class NumberAssetItemViewModel extends ItemViewModel {
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_number_asset_bcx_icon);
         totalValue.set("≈ ￥" + entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
         NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(5);
         nf.setGroupingUsed(false);
         amount.set(nf.format(entity.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
     }

@@ -112,6 +112,7 @@ public class MineNhOrderViewModel extends BaseViewModel {
                             asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);
                             if (null != asset_object) {
                                 NumberFormat nf = NumberFormat.getInstance();
+                                nf.setMaximumFractionDigits(5);
                                 nf.setGroupingUsed(false);
                                 nhOrderBean.priceWithSymbol = nf.format(new BigDecimal(nhOrderBean.price.amount / (Math.pow(10, asset_object.precision))).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)) + " " + asset_object.symbol;
                                 nhOrderBean.sellerName = AccountHelperUtils.getCurrentAccountName();

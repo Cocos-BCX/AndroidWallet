@@ -111,6 +111,7 @@ public class DealRecordViewModel extends BaseViewModel {
         tokenSymbol.set(assetModel.symbol);
         NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(false);
+        nf.setMaximumFractionDigits(5);
         totalAsset.set(nf.format(assetModel.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
         totalAssetValue.set("≈ ￥" + assetModel.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
         accountName.set(String.valueOf(AccountHelperUtils.getCurrentAccountName()));
