@@ -27,15 +27,8 @@ public class NumberAssetFragment extends BaseFragment<FragmentNumberAssetBinding
         return BR.viewModel;
     }
 
-
     @Override
     public void initData() {
-        loadData();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         loadData();
     }
 
