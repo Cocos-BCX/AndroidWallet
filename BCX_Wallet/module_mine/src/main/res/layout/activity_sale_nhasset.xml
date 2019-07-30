@@ -141,6 +141,7 @@
                 android:layout_alignParentBottom="true"
                 android:hint="@string/module_mine_nh_asset_sale_price_hint"
                 android:inputType="numberDecimal"
+                android:maxLength="11"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_12"
                 android:text="@={viewModel.salePricesAmount}" />
