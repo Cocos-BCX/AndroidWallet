@@ -104,6 +104,10 @@ public class NhOrderDetailActivity extends BaseActivity<ActivityNhOrderDetailBin
                                     return;
                                 }
                                 final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
+                                if (feeModel.code == 161) {
+                                    ToastUtils.showShort(R.string.module_asset_order_not_exist);
+                                    return;
+                                }
                                 if (!feeModel.isSuccess()) {
                                     return;
                                 }
@@ -151,6 +155,10 @@ public class NhOrderDetailActivity extends BaseActivity<ActivityNhOrderDetailBin
                                 }
                                 Log.i("buy_nh_asset_fee", s);
                                 final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
+                                if (feeModel.code == 161) {
+                                    ToastUtils.showShort(R.string.module_asset_order_not_exist);
+                                    return;
+                                }
                                 if (!feeModel.isSuccess()) {
                                     return;
                                 }
