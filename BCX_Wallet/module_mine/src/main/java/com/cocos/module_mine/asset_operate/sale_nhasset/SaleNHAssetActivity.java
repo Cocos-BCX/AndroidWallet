@@ -28,7 +28,6 @@ import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.NumberUtil;
-import com.cocos.library_base.utils.RegexUtils;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
@@ -96,8 +95,9 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
         passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
             @Override
             public void onFinish(final String password) {
+                Log.i("saleMemo", saleAssetParamsModel.getOrderMemo());
                 CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("otcaccount", AccountHelperUtils.getCurrentAccountName(),
-                        password, saleAssetParamsModel.getNhAssetId(), saleAssetParamsModel.getSaleFee(),
+                        password, saleAssetParamsModel.getNhAssetId(), "0",
                         "COCOS", saleAssetParamsModel.getOrderMemo(), saleAssetParamsModel.getPriceAmount(),
                         saleAssetParamsModel.getPriceSymbol(), Long.parseLong(saleAssetParamsModel.getValidTime()), new IBcxCallBack() {
                             @Override
@@ -184,10 +184,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                     return;
                 }
 
-                if (!TextUtils.isEmpty(viewModel.saleMemo.get()) && !RegexUtils.isLegalMemo(viewModel.saleMemo.get())) {
-                    ToastUtils.showShort(R.string.module_mine_nh_asset_sale_memo_illegal);
-                    return;
-                }
+                Log.i("saleMemo", viewModel.saleMemo.get());
                 CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order_fee("otcaccount",
                         AccountHelperUtils.getCurrentAccountName(), nhAssetModelBean.id, "0",
                         "COCOS", viewModel.saleMemo.get(), viewModel.salePricesAmount.get(),
@@ -236,7 +233,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
         if (resultCode == RESULT_OK) {
             if (requestCode == IntentKeyGlobal.REQ_SYMBOL_SELECT_CODE) {
                 Bundle bundle = data.getExtras();
-                String salePricesSymbol = bundle.getString(IntentKeyGlobal.PRICE_SYMBOL);
+                String salePricesSymbol = Objects.requireNonNull(bundle).getString(IntentKeyGlobal.PRICE_SYMBOL);
                 viewModel.salePricesSymbol.set(salePricesSymbol);
             }
         }

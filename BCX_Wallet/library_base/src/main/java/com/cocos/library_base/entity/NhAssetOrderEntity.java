@@ -44,7 +44,7 @@ public class NhAssetOrderEntity extends BaseResult {
 
         public static class PriceBean implements Serializable {
 
-            public double amount;
+            public String amount;
             public String asset_id;
 
         }

@@ -108,7 +108,7 @@ public class AllNhOrderViewModel extends BaseViewModel {
                                 NumberFormat nf = NumberFormat.getInstance();
                                 nf.setMaximumFractionDigits(5);
                                 nf.setGroupingUsed(false);
-                                nhOrderBean.priceWithSymbol = nf.format(new BigDecimal(nhOrderBean.price.amount / (Math.pow(10, asset_object.precision))).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)) + " " + asset_object.symbol;
+                                nhOrderBean.priceWithSymbol = nf.format(new BigDecimal(nhOrderBean.price.amount).divide(BigDecimal.valueOf(Math.pow(10, asset_object.precision))).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)) + " " + asset_object.symbol;
                                 Date dateObject = null;
                                 try {
                                     dateObject = sDateFormat.parse(nhOrderBean.expiration);
