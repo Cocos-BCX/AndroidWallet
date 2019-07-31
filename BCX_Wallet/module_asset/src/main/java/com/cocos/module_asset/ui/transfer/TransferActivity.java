@@ -173,12 +173,18 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                     @Override
                     public void onFinish(final String password) {
                         // 查询手续费
-                        CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(accountName, viewModel.receivablesAccountName.get(),
+                        CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(password, accountName, viewModel.receivablesAccountName.get(),
                                 // todo 手续费币种类型
                                 viewModel.transferAmount.get(), assetModel.symbol, "COCOS", viewModel.transferMemo.get(), new IBcxCallBack() {
                                     @Override
                                     public void onReceiveValue(final String fee) {
                                         final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(fee, FeeModel.class);
+
+                                        if (feeModel.code == 105) {
+                                            ToastUtils.showShort(R.string.module_asset_wrong_password);
+                                            return;
+                                        }
+
                                         if (!feeModel.isSuccess()) {
                                             ToastUtils.showShort(R.string.net_work_failed);
                                             return;
