@@ -191,6 +191,7 @@
                 android:layout_alignParentBottom="true"
                 android:hint="@string/module_mine_nh_asset_sale_valid_time_hint"
                 android:inputType="number"
+                android:maxLength="11"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_12"
                 android:text="@={viewModel.saleValidTime}" />

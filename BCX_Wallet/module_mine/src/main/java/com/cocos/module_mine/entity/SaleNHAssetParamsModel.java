@@ -29,7 +29,7 @@ public class SaleNHAssetParamsModel extends BaseResult {
     /**
      * 有效时间
      */
-    private String validTime;
+    private long validTime;
 
     /**
      * 挂单费

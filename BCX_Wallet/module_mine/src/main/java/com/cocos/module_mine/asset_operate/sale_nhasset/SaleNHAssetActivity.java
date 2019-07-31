@@ -99,7 +99,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                 CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("otcaccount", AccountHelperUtils.getCurrentAccountName(),
                         password, saleAssetParamsModel.getNhAssetId(), "0",
                         "COCOS", saleAssetParamsModel.getOrderMemo(), saleAssetParamsModel.getPriceAmount(),
-                        saleAssetParamsModel.getPriceSymbol(), Long.parseLong(saleAssetParamsModel.getValidTime()), new IBcxCallBack() {
+                        saleAssetParamsModel.getPriceSymbol(), saleAssetParamsModel.getValidTime(), new IBcxCallBack() {
                             @Override
                             public void onReceiveValue(final String s) {
                                 Log.i("create_nh_asset_order", s);
@@ -174,7 +174,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                     return;
                 }
 
-                if (Objects.requireNonNull(viewModel.saleValidTime.get()).length() > String.valueOf(viewModel.saleValidTimeMax).length()) {
+                if (Long.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())) > viewModel.saleValidTimeMax) {
                     viewModel.saleValidTime.set(String.valueOf(viewModel.saleValidTimeMax));
                     return;
                 }
@@ -204,7 +204,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                                         saleNHAssetParamsModel.setPriceSymbol(viewModel.salePricesSymbol.get());
                                         saleNHAssetParamsModel.setMinerFee(feeModel.data.amount);
                                         saleNHAssetParamsModel.setOrderMemo(viewModel.saleMemo.get());
-                                        saleNHAssetParamsModel.setValidTime(viewModel.saleValidTime.get());
+                                        saleNHAssetParamsModel.setValidTime(Long.parseLong(viewModel.saleValidTime.get()));
                                         orderConfirmViewModel.setSaleInfoData(saleNHAssetParamsModel);
                                         dialog.show();
                                     }
