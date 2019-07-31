@@ -108,6 +108,14 @@ public class NhOrderDetailActivity extends BaseActivity<ActivityNhOrderDetailBin
                                     ToastUtils.showShort(R.string.module_asset_order_not_exist);
                                     return;
                                 }
+
+                                if (!TextUtils.isEmpty(feeModel.message)
+                                        && (feeModel.message.contains("insufficient_balance")
+                                        || feeModel.message.contains("Insufficient Balance"))) {
+                                    ToastUtils.showShort(R.string.insufficient_balance);
+                                    return;
+                                }
+
                                 if (!feeModel.isSuccess()) {
                                     return;
                                 }
@@ -159,6 +167,14 @@ public class NhOrderDetailActivity extends BaseActivity<ActivityNhOrderDetailBin
                                     ToastUtils.showShort(R.string.module_asset_order_not_exist);
                                     return;
                                 }
+
+                                if (!TextUtils.isEmpty(feeModel.message)
+                                        && (feeModel.message.contains("insufficient_balance")
+                                        || feeModel.message.contains("Insufficient Balance"))) {
+                                    ToastUtils.showShort(R.string.insufficient_balance);
+                                    return;
+                                }
+
                                 if (!feeModel.isSuccess()) {
                                     return;
                                 }

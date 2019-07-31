@@ -105,7 +105,16 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
                                     return;
                                 }
                                 final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
+
+                                if (!TextUtils.isEmpty(feeModel.message)
+                                        && (feeModel.message.contains("insufficient_balance")
+                                        || feeModel.message.contains("Insufficient Balance"))) {
+                                    ToastUtils.showShort(R.string.insufficient_balance);
+                                    return;
+                                }
+
                                 if (!feeModel.isSuccess()) {
+                                    ToastUtils.showShort(R.string.net_work_failed);
                                     return;
                                 }
                                 dialog = new BottomSheetDialog(NHAssetDetailActivity.this);
