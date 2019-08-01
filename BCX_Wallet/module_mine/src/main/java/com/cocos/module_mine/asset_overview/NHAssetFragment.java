@@ -73,6 +73,7 @@ public class NHAssetFragment extends BaseFragment<FragmentPropAssetBinding, NHAs
     @Override
     public void onResume() {
         super.onResume();
+        page = 1;
         loadData();
     }
 }

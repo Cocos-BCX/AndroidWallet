@@ -71,6 +71,7 @@ public class MineNhOrderFragment extends BaseFragment<FragmentMineNhOrderBinding
     @Override
     public void onResume() {
         super.onResume();
+        page = 1;
         loadData();
     }
 }

@@ -23,7 +23,7 @@ import in.srain.cube.views.ptr.header.MaterialHeader;
 public class AllNhOrderFragment extends BaseFragment<FragmentAllNhOrderBinding, AllNhOrderViewModel> {
 
     private int page = 1;
-    private int pageSize = 6;
+    private int pageSize = 8;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +71,7 @@ public class AllNhOrderFragment extends BaseFragment<FragmentAllNhOrderBinding, 
     @Override
     public void onResume() {
         super.onResume();
+        page = 1;
         loadData();
     }
 
