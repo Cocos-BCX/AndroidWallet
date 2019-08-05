@@ -86,4 +86,6 @@ dependencies {
     implementation project(':library_base')
     implementation project(':cocos_sdk')
     implementation project(':module_zxing')
+
+    annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
 }
