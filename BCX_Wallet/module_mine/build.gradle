@@ -37,11 +37,6 @@ dependencies {
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "org.projectlombok:lombok:1.18.2"
-    implementation 'org.greenrobot:eventbus:3.1.1'
     //ARouter
     annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
-    // tabLayout
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-
-    implementation 'in.srain.cube:ptr-load-more:1.0.6'
 }

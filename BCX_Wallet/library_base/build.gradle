@@ -54,6 +54,7 @@ dependencies {
     //ARouter
     api rootProject.ext.dependencies["arouter-api"]
     annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
+
     //rxjava
     api rootProject.ext.dependencies.rxjava
     api rootProject.ext.dependencies.rxandroid
@@ -72,13 +73,16 @@ dependencies {
     api(rootProject.ext.dependencies.rxpermissions) {
         exclude group: 'com.android.support'
     }
+
+    // module
+    api project(':cocos_sdk')
+    api project(':library_res')
+
     //network
-    api rootProject.ext.dependencies.okhttp
     api rootProject.ext.dependencies.retrofit
     api rootProject.ext.dependencies["converter-gson"]
     api rootProject.ext.dependencies["adapter-rxjava"]
-    //json解析
-    api rootProject.ext.dependencies.gson
+
     //recyclerview的databinding套装
     api(rootProject.ext.dependencies.bindingcollectionadapter) {
         exclude group: 'com.android.support'
@@ -89,28 +93,46 @@ dependencies {
     //Google LiveData和ViewModel组件
     api rootProject.ext.dependencies["lifecycle-extensions"]
     annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
-    //下拉刷新,上拉加载
-    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
     // 适配框架
-    implementation 'me.jessyan:autosize:1.1.2'
+    api 'me.jessyan:autosize:1.1.2'
+
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "org.projectlombok:lombok:1.18.2"
-    implementation project(':cocos_sdk')
-    implementation project(':library_res')
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.github.ybq:Android-SpinKit:1.2.0'
+
+    api 'org.greenrobot:eventbus:3.1.1'
+    api 'com.jakewharton.rxrelay2:rxrelay:2.1.0'
+    api 'com.android.support.constraint:constraint-layout:1.1.3'
+    // 进度条样式库
+    api 'com.github.ybq:Android-SpinKit:1.2.0'
 
     // 友盟统计
-    implementation 'com.umeng.sdk:common:1.5.3'
-    implementation 'com.umeng.sdk:analytics:7.5.3'
+    api 'com.umeng.sdk:common:1.5.3'
+    api 'com.umeng.sdk:analytics:7.5.3'
 
-    //glide
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    // glide
+    api 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
+
+    // implenment websocket
+    api 'com.neovisionaries:nv-websocket-client:2.6'
+    // implenment bitcoinj
+    api 'org.bitcoinj:bitcoinj-core:0.14.7'
+    api group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    api group: "org.tukaani", name: "xz", version: "1.6"
+    api 'com.squareup.okhttp3:okhttp:3.14.0'
+    // spongycastle
+    api 'com.madgag.spongycastle:core:1.58.0.0'
+    api 'com.madgag.spongycastle:prov:1.58.0.0'
+    api 'com.madgag.spongycastle:pkix:1.54.0.0'
+    api 'com.madgag.spongycastle:pg:1.54.0.0'
+    // fasterxml
+    api 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+
     // tabLayout
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    // ptr-load-more
+    api 'in.srain.cube:ptr-load-more:1.0.6'
 }
