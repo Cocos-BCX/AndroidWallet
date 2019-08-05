@@ -50,7 +50,6 @@
 
     <string name="module_mine_asset_overview_digital_assets">数字资产</string>
     <string name="module_mine_asset_overview_prop_assets">非同质资产</string>
-    <string name="module_mine_no_contact_data" translatable="false">暂无联系人</string>
     <string name="module_mine_contact_title" tools:ignore="ExtraTranslation,ResourceName">联系人</string>
     <string name="module_mine_complish" tools:ignore="ExtraTranslation,ResourceName">完成</string>
     <string name="module_mine_contact_name" tools:ignore="ExtraTranslation,ResourceName">名称</string>
@@ -92,7 +91,6 @@
     <string name="module_mine_custom_node_name_hint">请输入Name</string>
     <string name="module_mine_discord_ling_url">https://discordapp.com/invite/jdJMNtC</string>
     <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
-    <string name="no_asset_data">暂无资产</string>
     <string name="module_mine_name_empty">联系人名称不能为空</string>
     <string name="module_mine_wrong_password">密码不正确</string>
     <string name="module_mine_node_connect_failed">节点连接失败</string>

@@ -42,12 +42,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/empty_view" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_24"
-                    android:text="@string/no_data" />
             </LinearLayout>
 
             <in.srain.cube.views.ptr.PtrFrameLayout
