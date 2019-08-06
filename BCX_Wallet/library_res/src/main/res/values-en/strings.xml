@@ -14,5 +14,5 @@
     <string name="module_asset_coin_type_test">(TEST)</string>
     <string name="deal_detail">Deal Detail</string>
     <string name="next_text">Next</string>
-    <string name="insufficient_balance">余额不足</string>
+    <string name="insufficient_balance">Insufficient balance</string>
 </resources>

@@ -53,15 +53,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_transfer_order_info"
                 android:textColor="@color/color_A5A9B1"
+                android:singleLine="true"
                 android:textSize="@dimen/sp_15" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@string/buy_nh_order_text"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -81,7 +82,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_nh_order_detail_order_id"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -89,7 +90,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.orderId}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -110,15 +111,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_buy_nh_asset_id"
                 android:textColor="@color/color_A5A9B1"
-                android:textSize="@dimen/sp_15" />
+                android:textSize="@dimen/sp_15"
+                android:singleLine="true"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.nhAssetId}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -138,7 +140,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_nh_order_detail_order_price"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -146,7 +148,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.orderPrice}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -167,7 +169,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_transfer_fee_info"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -175,7 +177,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.minerFee}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />

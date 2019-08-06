@@ -14,6 +14,8 @@ import com.cocos.library_base.entity.NhAssetOrderEntity;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.Utils;
+import com.cocos.module_asset.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,7 +41,7 @@ public class AllNhOrderItemViewModel extends ItemViewModel {
         String seller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(entity.seller);
         allNhOrderSeller.set(seller);
         entity.sellerName = seller;
-        allNhOrderExpritationTime.set("过期时间：" + entity.expirationTime);
+        allNhOrderExpritationTime.set(Utils.getString(R.string.module_asset_order_detail_expiration) + entity.expirationTime);
         allNhOrderMemo.set(entity.memo);
     }
 

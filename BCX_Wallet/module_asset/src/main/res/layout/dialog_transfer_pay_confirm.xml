@@ -53,7 +53,8 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.3"
+                android:layout_weight="1.5"
+                android:singleLine="true"
                 android:text="@string/module_asset_transfer_order_info"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -61,7 +62,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.7"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.orderType}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -81,7 +82,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.3"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_transfer_account_name"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -89,7 +90,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.7"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.transferAccount}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -109,7 +110,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.3"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_receivable_account_name"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -117,7 +118,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.7"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.receivablesAccount}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -137,7 +138,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.3"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_transfer_amount_info"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -145,7 +146,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.7"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.orderAmount}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -166,7 +167,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.3"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_transfer_fee_info"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -174,7 +175,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.7"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.minerFee}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -194,7 +195,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.3"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_transfer_memo_info"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -202,7 +203,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.7"
+                android:layout_weight="3.5"
                 android:singleLine="true"
                 android:text="@={viewModel.orderMemo}"
                 android:textColor="@color/color_262A33"

@@ -53,15 +53,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_asset_deal_info"
                 android:textColor="@color/color_A5A9B1"
+                android:singleLine="true"
                 android:textSize="@dimen/sp_15" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@string/delete_nh_asset_text"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -81,15 +82,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_mine_nh_asset_transfer_id"
                 android:textColor="@color/color_A5A9B1"
+                android:singleLine="true"
                 android:textSize="@dimen/sp_15" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.assetId}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -109,15 +111,16 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_mine_prop_asset_word_view"
                 android:textColor="@color/color_A5A9B1"
+                android:singleLine="true"
                 android:textSize="@dimen/sp_15" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.worldView}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
@@ -138,7 +141,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1.5"
                 android:text="@string/module_mine_nh_asset_sale_miner_fee"
                 android:textColor="@color/color_A5A9B1"
                 android:textSize="@dimen/sp_15" />
@@ -146,7 +149,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.8"
+                android:layout_weight="3.5"
                 android:text="@={viewModel.minerFee}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />

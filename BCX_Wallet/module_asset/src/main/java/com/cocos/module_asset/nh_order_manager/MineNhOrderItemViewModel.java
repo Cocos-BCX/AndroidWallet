@@ -13,6 +13,8 @@ import com.cocos.library_base.entity.NhAssetOrderEntity;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.Utils;
+import com.cocos.module_asset.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -36,7 +38,7 @@ public class MineNhOrderItemViewModel extends ItemViewModel {
         mineNhOrderId.set(nhOrderEntity.id);
         mineNhOrderPrice.set(nhOrderEntity.priceWithSymbol);
         seller.set(nhOrderEntity.sellerName);
-        mineNhOrderExpritationTime.set("过期时间：" + entity.expirationTime);
+        mineNhOrderExpritationTime.set(Utils.getString(R.string.module_asset_order_detail_expiration) + entity.expirationTime);
         mineNhOrderMemo.set(nhOrderEntity.memo);
     }
 

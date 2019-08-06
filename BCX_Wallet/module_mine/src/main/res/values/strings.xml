@@ -107,7 +107,6 @@
     <string name="module_mine_asset_detail_world_view">世界观：</string>
     <string name="module_mine_asset_create_time">创建时间：</string>
     <string name="module_mine_nh_asset_base_desc">基础数据：</string>
-    <string name="module_mine_nh_asset_zone_data">域数据：</string>
     <string name="module_mine_nh_asset_detail_transfer_text">转移</string>
     <string name="module_mine_nh_asset_sale_text">出售</string>
     <string name="module_mine_nh_sale_title">非同质资产出售</string>
@@ -124,19 +123,14 @@
     <string name="module_mine_nh_asset_sale_valid_time_default">（单位：秒）</string>
     <string name="module_mine_nh_asset_sale_memo_default">(选填)</string>
     <string name="module_mine_sale_nh_price_error">挂单价格不能小于0</string>
-    <string name="module_mine_nh_asset_sale_fee">挂单费用</string>
-    <string name="module_mine_nh_asset_sale_fee_default">(单位：COCOS)</string>
-    <string name="module_mine_nh_asset_sale_fee_hint">请输入挂单费用</string>
     <string name="module_mine_sale_nh_info">出售资产</string>
     <string name="module_mine_sale_info">交易信息</string>
     <string name="module_mine_nh_asset_sale_miner_fee">矿工费</string>
-    <string name="module_mine_sale_nh_confirm_btn">确认出售</string>
     <string name="module_mine_sale_nh_success">挂单成功</string>
     <string name="module_mine_coin_select_title">选择币种</string>
     <string name="module_mine_detele_nh_asset_tip">注意：资产删除后不可恢复</string>
     <string name="module_asset_deal_info">交易信息</string>
     <string name="delete_nh_asset_text">删除资产</string>
-    <string name="module_mine_asset_delete_confirm">确认删除</string>
     <string name="module_mine_delete_nh_asset_success">删除成功</string>
     <string name="module_mine_nh_transfer_title">非同质资产转移</string>
     <string name="module_mine_nh_asset_transfer_receiver_hint">请输入资产接收方</string>
@@ -145,14 +139,12 @@
     <string name="module_mine_transfer_nh_info">转移资产</string>
     <string name="module_mine_nh_asset_transfer_from">发送发</string>
     <string name="module_mine_nh_asset_transfer_to">接收方</string>
-    <string name="module_mine_transfer_nh_confirm_btn">确认转移</string>
     <string name="module_mine_nh_receiver_can_not_be_empty">资产接收方不能为空</string>
     <string name="module_mine_transfer_nh_asset_success">转移成功</string>
     <string name="module_mine_receivable_account_name">转入账号</string>
     <string name="module_mine_transfer_account_name">转出账号</string>
     <string name="module_mine_nh_asset_sale_valid_time_less_than_one">请输入合理的有效时间</string>
     <string name="module_mine_nh_receiver_can_not_be_self">资产接收方不能是自己</string>
-    <string name="module_mine_nh_asset_sale_memo_illegal">备注仅支持英文字符</string>
     <string name="module_mine_nh_asset_sale_valid_time_max">最大 </string>
 
 </resources>

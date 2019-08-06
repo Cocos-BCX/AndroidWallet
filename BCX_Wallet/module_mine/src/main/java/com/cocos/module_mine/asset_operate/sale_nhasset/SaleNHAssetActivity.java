@@ -36,7 +36,7 @@ import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.databinding.ActivitySaleNhassetBinding;
-import com.cocos.module_mine.databinding.DialogSaleNhassetInfoLayoutBinding;
+import com.cocos.module_mine.databinding.DialogSaleNhassetConfirmLayoutBinding;
 import com.cocos.module_mine.entity.NHAssetModel;
 import com.cocos.module_mine.entity.SaleNHAssetParamsModel;
 
@@ -145,7 +145,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
     @Override
     public void initViewObservable() {
         dialog = new BottomSheetDialog(this);
-        DialogSaleNhassetInfoLayoutBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_sale_nhasset_info_layout, null, false);
+        DialogSaleNhassetConfirmLayoutBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_sale_nhasset_confirm_layout, null, false);
         dialog.setContentView(binding.getRoot());
         View parent = (View) binding.getRoot().getParent();
         BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
