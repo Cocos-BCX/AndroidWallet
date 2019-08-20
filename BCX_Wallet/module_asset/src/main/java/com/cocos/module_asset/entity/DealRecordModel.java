@@ -23,7 +23,7 @@ public class DealRecordModel extends BaseResult {
     public List<DealRecordItemModel> data;
 
     public static class DealRecordItemModel implements Serializable {
-        public double block_num;
+        public long block_num;
         public String id;
         public int op_in_trx;
         public int trx_in_block;
