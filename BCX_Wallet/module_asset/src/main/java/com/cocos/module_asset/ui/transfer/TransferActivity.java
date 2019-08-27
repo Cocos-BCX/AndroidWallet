@@ -21,10 +21,12 @@ import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.entity.ContactModel;
+import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
@@ -35,12 +37,10 @@ import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
-import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.ActivityTransferBinding;
 import com.cocos.module_asset.databinding.DialogTransferPayConfirmBinding;
-import com.cocos.module_asset.entity.TransferFeeModel;
 import com.cocos.module_asset.entity.TransferParamsModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -130,7 +130,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
     @Override
     public void initViewObservable() {
         dialog = new BottomSheetDialog(this);
-        DialogTransferPayConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_transfer_pay_confirm, null, false);
+        DialogTransferPayConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_transfer_pay_confirm, null, false);
         dialog.setContentView(binding.getRoot());
         // 设置dialog 完全显示
         View parent = (View) binding.getRoot().getParent();
@@ -178,12 +178,15 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                 viewModel.transferAmount.get(), assetModel.symbol, "COCOS", viewModel.transferMemo.get(), new IBcxCallBack() {
                                     @Override
                                     public void onReceiveValue(final String fee) {
-                                        final TransferFeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(fee, TransferFeeModel.class);
+                                        final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(fee, FeeModel.class);
+
                                         if (feeModel.code == 105) {
                                             ToastUtils.showShort(R.string.module_asset_wrong_password);
                                             return;
                                         }
+
                                         if (!feeModel.isSuccess()) {
+                                            ToastUtils.showShort(R.string.net_work_failed);
                                             return;
                                         }
                                         // 查询手续费的资产
@@ -206,7 +209,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                                                 @Override
                                                                 public void run() {
                                                                     final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
-                                                                    final BigDecimal fee = feeModel.data.amount;
+                                                                    final BigDecimal fee = new BigDecimal(feeModel.data.amount);
                                                                     final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
                                                                     BigDecimal feeAssetBalance = dataBean.amount;
                                                                     final BigDecimal totalAmount;
@@ -223,7 +226,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                                                     }
 
                                                                     if (fee.compareTo(feeAssetBalance) > 0) {
-                                                                        ToastUtils.showLong(feeAssetModel.data.symbol + Utils.getString(R.string.module_asset_balance_short_error) + String.valueOf(fee) + feeAssetModel.data.symbol);
+                                                                        ToastUtils.showLong(feeAssetModel.data.symbol + Utils.getString(R.string.module_asset_balance_short_error) + fee + feeAssetModel.data.symbol);
                                                                         return;
                                                                     }
 

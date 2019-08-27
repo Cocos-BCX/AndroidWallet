@@ -21,4 +21,7 @@
     <dimen name="dp_240">240dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_140">140dp</dimen>
+    <dimen name="dp_62">62dp</dimen>
+    <dimen name="sp_10">10sp</dimen>
+    <dimen name="sp_11">11sp</dimen>
 </resources>

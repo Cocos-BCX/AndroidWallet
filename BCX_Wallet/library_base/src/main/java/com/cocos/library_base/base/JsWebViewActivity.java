@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_wallet.chain.asset_object;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.databinding.ActivityJsWebviewBindingImpl;
@@ -38,7 +39,6 @@ import com.cocos.library_base.utils.JSTools;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
-import com.cocos.library_base.utils.multi_language.SPUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.library_base.widget.JsWebVerifyPasswordDialog;
@@ -414,7 +414,10 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         if (baseResult.isSuccess()) {
             TransactionFeeModel.DataBean dataBean = new TransactionFeeModel.DataBean();
             dataBean.fee_amount = Double.valueOf(baseResult.data.amount);
-            dataBean.fee_symbol = CocosBcxApiWrapper.getBcxInstance().get_asset_object(baseResult.data.asset_id).symbol;
+            asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(baseResult.data.asset_id);
+            if (null != asset_object) {
+                dataBean.fee_symbol = asset_object.symbol;
+            }
             transactionFeeModel.data = dataBean;
         }
         transactionFeeModel.code = baseResult.getCode();
@@ -472,8 +475,11 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * 调用js链接节点方法
      */
     public void onJSConnect() {
-        NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-        binding.jsWebView.loadUrl("javascript:BcxWeb.initConnect(" + "\'" + selectedNodeModel.ws + "\'," + "\'" + selectedNodeModel.coreAsset + "\'," + "\'" + selectedNodeModel.faucetUrl + "\'," + "\'" + selectedNodeModel.chainId + "\'," + ")");
+        try {
+            NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+            binding.jsWebView.loadUrl("javascript:BcxWeb.initConnect(" + "\'" + selectedNodeModel.ws + "\'," + "\'" + selectedNodeModel.coreAsset + "\'," + "\'" + selectedNodeModel.faucetUrl + "\'," + "\'" + selectedNodeModel.chainId + "\'," + ")");
+        } catch (Exception e) {
+        }
     }
 
     @Override

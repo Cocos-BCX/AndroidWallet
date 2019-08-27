@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="ResourceName">
 
@@ -12,11 +13,11 @@
 
         <import type="com.cocos.library_base.binding.viewadapter.recyclerview.LineManagers" />
 
-        <import type="com.cocos.module_mine.asset_overview.PropAssetViewModel" />
+        <import type="com.cocos.module_mine.asset_overview.NHAssetViewModel" />
 
         <variable
             name="viewModel"
-            type="PropAssetViewModel" />
+            type="com.cocos.module_mine.asset_overview.NHAssetViewModel" />
     </data>
 
     <LinearLayout
@@ -41,27 +42,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/empty_view" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_24"
-                    android:text="@string/no_data" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                style="@style/CommonList"
+            <in.srain.cube.views.ptr.PtrFrameLayout
+                android:id="@+id/ptr_frame_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fastScrollEnabled="false"
-                android:overScrollMode="never"
-                android:paddingTop="@dimen/dp_15"
-                android:paddingBottom="@dimen/dp_22"
-                android:visibility="@{viewModel.recyclerViewVisible}"
-                binding:adapter="@{viewModel.adapter}"
-                binding:itemBinding="@{viewModel.itemBinding}"
-                binding:items="@{viewModel.observableList}"
-                binding:layoutManager="@{LayoutManagers.linear(LinearLayoutManager.VERTICAL,Boolean.FALSE)}" />
+
+                cube_ptr:ptr_duration_to_back_footer="1000"
+                cube_ptr:ptr_duration_to_back_header="1000"
+                cube_ptr:ptr_duration_to_close_footer="200"
+                cube_ptr:ptr_duration_to_close_header="200"
+                cube_ptr:ptr_keep_header_when_refresh="true"
+                cube_ptr:ptr_pull_to_fresh="false"
+
+                cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+                cube_ptr:ptr_resistance_footer="1.3"
+                cube_ptr:ptr_resistance_header="1.7">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    style="@style/CommonList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fastScrollEnabled="false"
+                    android:overScrollMode="never"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:visibility="@{viewModel.recyclerViewVisible}"
+                    binding:adapter="@{viewModel.adapter}"
+                    binding:itemBinding="@{viewModel.itemBinding}"
+                    binding:items="@{viewModel.observableList}"
+                    binding:layoutManager="@{LayoutManagers.linear(LinearLayoutManager.VERTICAL,Boolean.FALSE)}" />
+            </in.srain.cube.views.ptr.PtrFrameLayout>
+
 
         </RelativeLayout>
 

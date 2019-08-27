@@ -1,10 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
     <string name="module_asset_transfer_token">转账</string>
     <string name="module_asset_receivables_token">收款</string>
-    <string name="module_asset_props_assets">道具资产</string>
-    <string name="module_asset_message_center">消息中心</string>
+    <string name="module_asset_props_assets">资产管理</string>
+    <string name="module_asset_message_center">订单管理</string>
     <string name="module_asset_owner_assets_text">我的资产</string>
-    <string name="module_asset_response_error">数据错误</string>
     <string name="module_asset_developing">敬请期待</string>
     <string name="module_asset_transfer_title">转账</string>
     <string name="module_asset_receivable_account">收款人钱包账户</string>
@@ -28,15 +27,14 @@
     <string name="module_asset_record_detail_square_height">区块高度：</string>
     <string name="module_asset_record_detail_deal_time">交易时间：</string>
     <string name="module_asset_transfer_deal_detail">交易详情</string>
-    <string name="module_asset_transfer_order_info">订单信息</string>
     <string name="module_asset_transfer_account_name">转出账号</string>
     <string name="module_asset_receivable_account_name">转入账号</string>
+    <string name="module_asset_transfer_order_info">订单信息</string>
     <string name="module_asset_transfer_amount_info">数量</string>
     <string name="module_asset_transfer_memo_info">备注</string>
     <string name="module_asset_transfer_pay_confirm_btn">确认支付</string>
     <string name="module_asset_receivablesAccountName_empty">收款人不能为空</string>
     <string name="module_asset_total_assets">总资产(¥)</string>
-    <string name="module_asset_no_deal_record_data">暂无交易记录</string>
     <string name="module_asset_transfer_success">转账成功</string>
     <string name="module_asset_transfer_account_can_not_yourself" tools:ignore="ExtraTranslation">不能转账给自己</string>
     <string name="module_asset_account_balance_text">余额:</string>
@@ -49,7 +47,7 @@
     <string name="module_login_create_wallet_detail" tools:ignore="ResourceName">通过账号密码自助创建</string>
     <string name="module_asset_coin_select_transfer_title">选择转账币种</string>
     <string name="module_asset_coin_select_receivables_title">选择收款币种</string>
-    <string name="module_asset_balance_short">转出数量超过账户余额!手续费：</string>
+    <string name="module_asset_balance_short">余额不足!手续费：</string>
     <string name="unlock_memo_tips" tools:ignore="ResourceName">点此解锁来查看备注</string>
     <string name="module_asset_contract_author">授权人：</string>
     <string name="module_asset_contract_type">合约调用</string>
@@ -57,11 +55,34 @@
     <string name="module_asset_contract_action">动作：</string>
     <string name="module_asset_contract_params">数据：</string>
     <string name="module_asset_transfer_nh_title">NH资产转移</string>
-    <string name="module_asset_nh_asset_id">NH资产ID:</string>
-    <string name="no_asset_data">暂无资产</string>
+    <string name="module_asset_nh_asset_id">NH资产ID：</string>
     <string name="module_asset_transfer_amount_empty">请输入转账数量</string>
     <string name="module_asset_account_not_found">收款账户不存在</string>
     <string name="module_asset_wrong_password">密码不正确</string>
     <string name="module_asset_private_key_author_failed">owner key不能进行转账，请导入active key</string>
-    <string name="module_asset_contract_not_found">未查找到交易合约信息</string>
+    <string name="module_asset_nh_order_mine_title">我的订单</string>
+    <string name="module_asset_nh_order_all_title">全网订单</string>
+    <string name="module_asset_nh_order_id">订单ID：</string>
+    <string name="module_asset_nh_order_price">价格：</string>
+    <string name="module_asset_nh_asset_order_id">资产ID：</string>
+    <string name="module_asset_nh_asset_order_memo">备注：</string>
+    <string name="module_asset_nh_asset_order_seller">卖家：</string>
+    <string name="buy_nh_order_text">购买资产</string>
+    <string name="order_manage_title">订单管理</string>
+    <string name="module_asset_nh_order_detail_title">订单详情</string>
+    <string name="module_asset_nh_order_detail_order_id">订单ID</string>
+    <string name="module_asset_order_detail_asset_qualifier">通行资产：</string>
+    <string name="module_asset_order_detail_world_view">世界观：</string>
+    <string name="module_asset_order_detail_base_describe">基础数据：</string>
+    <string name="module_asset_order_detail_expiration">有效时间：</string>
+    <string name="module_asset_nh_asset_order_price">价格：</string>
+    <string name="module_asset_order_id">订单ID：</string>
+    <string name="module_asset_order_cancel_success">取消成功</string>
+    <string name="module_asset_nh_order_detail_order_price">订单价格</string>
+    <string name="module_asset_order_buy_success">购买成功</string>
+    <string name="module_asset_can_not_buy_owner_order">不能购买自己创建的订单</string>
+    <string name="module_asset_buy_nh_asset_id">NH资产ID</string>
+    <string name="buy_nh_order_btn_text">购买</string>
+    <string name="cancel_mine_nh_order_text">取消订单</string>
+    <string name="module_asset_order_not_exist">订单已失效</string>
 </resources>

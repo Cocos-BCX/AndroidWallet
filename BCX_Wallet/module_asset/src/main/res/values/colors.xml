@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="color_323232" tools:ignore="ResourceName">#323232</color>
-    <color name="color_fff6f8fb" tools:ignore="ResourceName">#fff6f8fb</color>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
+    <color name="color_323232">#323232</color>
+    <color name="color_fff6f8fb">#fff6f8fb</color>
     <color name="color_282828">#282828</color>
     <color name="color_7B8190">#7B8190</color>
     <color name="color_ffe9ecf1">#ffe9ecf1</color>
@@ -11,9 +11,10 @@
     <color name="color_ffe8ebf1">#ffe8ebf1</color>
     <color name="color_E8EBF1">#E8EBF1</color>
     <color name="color_ffffffff">#ffffffff</color>
-    <color name="color_ffffff" tools:ignore="ResourceName">#ffffff</color>
+    <color name="color_ffffff">#ffffff</color>
     <color name="color_5E68D3">#5E68D3</color>
     <color name="color_2FC49F">#2FC49F</color>
-    <color name="color_F6F8FB">#F6F8FB</color>
     <color name="color_4B4BD9">#4B4BD9</color>
+    <color name="color_ACAFB6">#ACAFB6</color>
+    <color name="color_f8f8f8">#f8f8f8</color>
 </resources>

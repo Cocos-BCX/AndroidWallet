@@ -48,10 +48,8 @@
     <string name="fragment_mine_about_us_version_log_url">file:///android_asset/VersionLog.html</string>
 
 
-    <string name="module_mine_response_error">数据错误</string>
     <string name="module_mine_asset_overview_digital_assets">数字资产</string>
-    <string name="module_mine_asset_overview_prop_assets">道具资产</string>
-    <string name="module_mine_no_contact_data" translatable="false">暂无联系人</string>
+    <string name="module_mine_asset_overview_prop_assets">非同质资产</string>
     <string name="module_mine_contact_title" tools:ignore="ExtraTranslation,ResourceName">联系人</string>
     <string name="module_mine_complish" tools:ignore="ExtraTranslation,ResourceName">完成</string>
     <string name="module_mine_contact_name" tools:ignore="ExtraTranslation,ResourceName">名称</string>
@@ -86,7 +84,6 @@
     <string name="module_mine_custom_name">Name:</string>
     <string name="module_mine_custom_type">Type:</string>
 
-
     <string name="module_mine_node_url_hint" tools:ignore="ExtraTranslation">请输入Node</string>
     <string name="module_mine_custom_chain_id_hint">请输入ChainId</string>
     <string name="module_mine_custom_faucet_url_hint">请输入FaucetUrl</string>
@@ -94,10 +91,60 @@
     <string name="module_mine_custom_node_name_hint">请输入Name</string>
     <string name="module_mine_discord_ling_url">https://discordapp.com/invite/jdJMNtC</string>
     <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
-    <string name="no_asset_data">暂无资产</string>
     <string name="module_mine_name_empty">联系人名称不能为空</string>
     <string name="module_mine_wrong_password">密码不正确</string>
     <string name="module_mine_node_connect_failed">节点连接失败</string>
     <string name="module_mine_node_connect_success">切换成功</string>
+    <string name="mine_nh_asset_id_text">资产ID：</string>
+    <string name="mine_nh_asset_qualifier">通行资产：</string>
+    <string name="mine_nh_asset_world_view">世界观：</string>
+    <string name="delete_text">删除</string>
+    <string name="module_mine_nh_asset_detail_title">资产详情</string>
+    <string name="module_asset_nh_asset_detail_id">NH资产ID</string>
+    <string name="module_mine_nh_asset_creator">创建者：</string>
+    <string name="module_mine_nh_asset_owner">持有者：</string>
+    <string name="module_mine_asset_detail_asset_qualifier">通行资产：</string>
+    <string name="module_mine_asset_detail_world_view">世界观：</string>
+    <string name="module_mine_asset_create_time">创建时间：</string>
+    <string name="module_mine_nh_asset_base_desc">基础数据：</string>
+    <string name="module_mine_nh_asset_detail_transfer_text">转移</string>
+    <string name="module_mine_nh_asset_sale_text">出售</string>
+    <string name="module_mine_nh_sale_title">非同质资产出售</string>
+    <string name="module_mine_nh_sale_next">下一步</string>
+    <string name="module_mine_nh_asset_sale_id">NH资产ID</string>
+    <string name="module_mine_nh_asset_sale_price">价格</string>
+    <string name="choose_other_symbol">选择币种</string>
+    <string name="module_mine_nh_asset_sale_price_default">(默认币种：COCOS)</string>
+    <string name="module_mine_nh_asset_sale_valid_time">有效时间</string>
+    <string name="module_mine_nh_asset_sale_valid_time_hint">请输入挂单有效时间</string>
+    <string name="module_mine_nh_asset_sale_memo">备注</string>
+    <string name="module_mine_nh_asset_sale_memo_hint">请输入挂单备注</string>
+    <string name="module_mine_nh_asset_sale_price_hint">请输入挂单价格</string>
+    <string name="module_mine_nh_asset_sale_valid_time_default">（单位：秒）</string>
+    <string name="module_mine_nh_asset_sale_memo_default">(选填)</string>
+    <string name="module_mine_sale_nh_price_error">挂单价格不能小于0</string>
+    <string name="module_mine_sale_nh_info">出售资产</string>
+    <string name="module_mine_sale_info">交易信息</string>
+    <string name="module_mine_nh_asset_sale_miner_fee">矿工费</string>
+    <string name="module_mine_sale_nh_success">挂单成功</string>
+    <string name="module_mine_coin_select_title">选择币种</string>
+    <string name="module_mine_detele_nh_asset_tip">注意：资产删除后不可恢复</string>
+    <string name="module_asset_deal_info">交易信息</string>
+    <string name="delete_nh_asset_text">删除资产</string>
+    <string name="module_mine_delete_nh_asset_success">删除成功</string>
+    <string name="module_mine_nh_transfer_title">非同质资产转移</string>
+    <string name="module_mine_nh_asset_transfer_receiver_hint">请输入资产接收方</string>
+    <string name="module_mine_nh_asset_transfer_id">NH资产ID</string>
+    <string name="module_mine_nh_asset_transfer_receiver">资产接收方</string>
+    <string name="module_mine_transfer_nh_info">转移资产</string>
+    <string name="module_mine_nh_asset_transfer_from">发送发</string>
+    <string name="module_mine_nh_asset_transfer_to">接收方</string>
+    <string name="module_mine_nh_receiver_can_not_be_empty">资产接收方不能为空</string>
+    <string name="module_mine_transfer_nh_asset_success">转移成功</string>
+    <string name="module_mine_receivable_account_name">转入账号</string>
+    <string name="module_mine_transfer_account_name">转出账号</string>
+    <string name="module_mine_nh_asset_sale_valid_time_less_than_one">请输入合理的有效时间</string>
+    <string name="module_mine_nh_receiver_can_not_be_self">资产接收方不能是自己</string>
+    <string name="module_mine_nh_asset_sale_valid_time_max">最大 </string>
 
 </resources>

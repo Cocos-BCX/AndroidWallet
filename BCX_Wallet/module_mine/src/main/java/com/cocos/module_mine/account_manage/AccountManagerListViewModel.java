@@ -6,9 +6,7 @@ import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
-import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseViewModel;
-import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
@@ -40,53 +38,37 @@ public class AccountManagerListViewModel extends BaseViewModel {
 
 
     //条目的点击事件
-    public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            finish();
-        }
-    });
+    public BindingCommand backOnClickCommand = new BindingCommand(() -> finish());
 
     /**
-     * 数字资产数据加载
-     *
      * @param accountNames
      */
     public void requestAccountsListData(List<String> accountNames) {
-        if (null == accountNames && accountNames.size() <= 0) {
+        if (null == accountNames || accountNames.size() <= 0) {
             return;
         }
         observableList.clear();
         for (final String accountName : accountNames) {
             String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name(accountName);
-            CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, "1.3.0", new IBcxCallBack() {
-                @Override
-                public void onReceiveValue(final String s) {
-                    AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
-                    if (null == balanceEntity || !balanceEntity.isSuccess()) {
+            CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, "1.3.0", s -> {
+                AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
+                if (null == balanceEntity || !balanceEntity.isSuccess()) {
+                    return;
+                }
+                final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
+                CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.asset_id, s1 -> {
+                    final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s1, AssetsModel.class);
+                    if (!assetModel.isSuccess()) {
                         return;
                     }
-                    final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
-                    CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.asset_id, new IBcxCallBack() {
-                        @Override
-                        public void onReceiveValue(final String s) {
-                            final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
-                            if (!assetModel.isSuccess()) {
-                                return;
-                            }
-                            MainHandler.getInstance().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    AssetsModel.AssetModel assetModel1 = assetModel.getData();
-                                    assetModel1.amount = dataBean.amount;
-                                    AccountManagerListItemViewModel itemViewModel = new AccountManagerListItemViewModel(AccountManagerListViewModel.this, assetModel1, accountName);
-                                    observableList.add(itemViewModel);
-                                }
-                            });
-                        }
+                    MainHandler.getInstance().post(() -> {
+                        AssetsModel.AssetModel assetModel1 = assetModel.getData();
+                        assetModel1.amount = dataBean.amount;
+                        AccountManagerListItemViewModel itemViewModel = new AccountManagerListItemViewModel(AccountManagerListViewModel.this, assetModel1, accountName);
+                        observableList.add(itemViewModel);
                     });
+                });
 
-                }
             });
         }
     }

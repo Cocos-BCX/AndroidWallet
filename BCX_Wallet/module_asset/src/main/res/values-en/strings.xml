@@ -1,18 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
     <string name="module_asset_transfer_token">Send</string>
     <string name="module_asset_receivables_token">Receive</string>
-    <string name="module_asset_props_assets">Prop</string>
-    <string name="module_asset_message_center">Message</string>
+    <string name="module_asset_props_assets">Assets</string>
+    <string name="module_asset_message_center">Orders</string>
     <string name="module_asset_owner_assets_text">My Assets</string>
-
     <string name="module_asset_transfer_title">Send</string>
     <string name="module_asset_receivable_account">Address</string>
     <string name="module_asset_receivables">To</string>
     <string name="module_asset_transfer_count">Amount</string>
     <string name="module_asset_transfer_amount">Enter amount</string>
     <string name="module_asset_transfer_all">All</string>
-    <string name="module_asset_transfer_memo">Note(Optional)</string>
-    <string name="module_asset_transfer_memo_hint">Note</string>
+    <string name="module_asset_transfer_memo">Memo(Optional)</string>
+    <string name="module_asset_transfer_memo_hint">Input Memo</string>
     <string name="module_asset_transfer_next">Next</string>
     <string name="module_asset_receivables_title">Receive</string>
     <string name="module_asset_receivable_amount_input_hint">Enter amount</string>
@@ -31,18 +30,16 @@
     <string name="module_asset_transfer_account_name">From</string>
     <string name="module_asset_receivable_account_name">To</string>
     <string name="module_asset_transfer_amount_info">Amount</string>
-    <string name="module_asset_transfer_memo_info">Note</string>
+    <string name="module_asset_transfer_memo_info">Memo</string>
     <string name="module_asset_transfer_pay_confirm_btn">Confirm Payment</string>
     <string name="module_asset_total_assets">Total Assets(¥)</string>
     <string name="module_asset_developing">To Be Expected</string>
-    <string name="module_asset_transfer_account_can_not_yourself">transfer account can not be self</string>
+    <string name="module_asset_transfer_account_can_not_yourself">Transfer account can not be self</string>
     <string name="module_asset_receivablesAccountName_empty">Address empty!</string>
-    <string name="module_asset_response_error">data error</string>
     <string name="module_asset_transfer_success">Transfer completed</string>
     <string name="module_asset_account_balance_text">Balance:</string>
-    <string name="module_asset_transfer_fee_info">fee</string>
+    <string name="module_asset_transfer_fee_info">Fee</string>
     <string name="module_asset_balance_short_error">balance is not enough! fee：</string>
-    <string name="module_asset_no_deal_record_data" tools:ignore="MissingTranslation">No transaction history</string>
     <string name="create_account_title" tools:ignore="ResourceName">Create account</string>
     <string name="module_login_import_wallet" tools:ignore="ResourceName">Import account</string>
     <string name="module_login_import_wallet_detail" tools:ignore="ResourceName">Import account with private key</string>
@@ -58,11 +55,34 @@
     <string name="module_asset_contract_action">Action：</string>
     <string name="module_asset_contract_params">Data：</string>
     <string name="module_asset_transfer_nh_title">NH Asset Transfer</string>
-    <string name="module_asset_nh_asset_id">NHAsset ID:</string>
-    <string name="no_asset_data">No Data</string>
+    <string name="module_asset_nh_asset_id">NHAsset ID：</string>
     <string name="module_asset_transfer_amount_empty">Please enter the amount to be transferred</string>
     <string name="module_asset_account_not_found">Account does not exist</string>
     <string name="module_asset_wrong_password">Wrong password</string>
     <string name="module_asset_private_key_author_failed">Owner key cannot transfer,Please import active key</string>
-    <string name="module_asset_contract_not_found">contract not found</string>
+    <string name="module_asset_nh_order_mine_title">My Orders</string>
+    <string name="module_asset_nh_order_all_title">Total Orders</string>
+    <string name="module_asset_nh_order_id">Order ID:</string>
+    <string name="module_asset_nh_order_price">Price：</string>
+    <string name="module_asset_nh_asset_order_id">Asset ID：</string>
+    <string name="module_asset_nh_asset_order_memo">Memo：</string>
+    <string name="module_asset_nh_asset_order_seller">Seller：</string>
+    <string name="buy_nh_order_text">Buy</string>
+    <string name="order_manage_title">Orders</string>
+    <string name="module_asset_nh_order_detail_title">Order Details</string>
+    <string name="module_asset_nh_order_detail_order_id">Order ID</string>
+    <string name="module_asset_order_detail_asset_qualifier">Coin：</string>
+    <string name="module_asset_order_detail_world_view">Worldview：</string>
+    <string name="module_asset_order_detail_base_describe">Basic Data：</string>
+    <string name="module_asset_order_detail_expiration">Expired in：</string>
+    <string name="module_asset_nh_asset_order_price">Price：</string>
+    <string name="module_asset_order_id">Order ID：</string>
+    <string name="module_asset_order_cancel_success">Canceled</string>
+    <string name="module_asset_nh_order_detail_order_price">Price</string>
+    <string name="module_asset_order_buy_success">Order filled</string>
+    <string name="module_asset_can_not_buy_owner_order">You cannot fill the order created by yourself</string>
+    <string name="module_asset_buy_nh_asset_id">NH Asset ID</string>
+    <string name="buy_nh_order_btn_text">Buy</string>
+    <string name="cancel_mine_nh_order_text">Cancel</string>
+    <string name="module_asset_order_not_exist">The order has expired</string>
 </resources>

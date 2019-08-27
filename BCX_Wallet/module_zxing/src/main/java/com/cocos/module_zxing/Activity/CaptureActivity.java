@@ -358,7 +358,6 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
 //            }
 //        });
 //        builder.show();
-        ToastUtils.showShort(R.string.unknown_error);
     }
 
     public void restartPreviewAfterDelay(long delayMS) {

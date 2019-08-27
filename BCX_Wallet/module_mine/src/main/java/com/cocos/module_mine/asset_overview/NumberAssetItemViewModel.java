@@ -7,12 +7,12 @@ import android.support.v4.content.ContextCompat;
 
 import com.cocos.library_base.base.ItemViewModel;
 import com.cocos.library_base.entity.AssetsModel;
-import com.cocos.library_base.utils.NumberUtil;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_mine.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 
 /**
  * @author ningkang.guo
@@ -31,7 +31,10 @@ public class NumberAssetItemViewModel extends ItemViewModel {
         this.entity.set(entity);
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_number_asset_bcx_icon);
         totalValue.set("≈ ￥" + entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
-        amount.set(NumberUtil.doubleTrans1(entity.amount.add(BigDecimal.ZERO).setScale(5, RoundingMode.HALF_UP).doubleValue()));
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(5);
+        nf.setGroupingUsed(false);
+        amount.set(nf.format(entity.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
     }
 }
 

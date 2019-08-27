@@ -23,19 +23,20 @@ android {
 
     //统一资源前缀，规范资源引用
     resourcePrefix "module_mine_"
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':library_base')
     implementation project(':library_res')
-    implementation project(':cocos_bcx_sdk')
+    implementation project(':cocos_sdk')
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "org.projectlombok:lombok:1.18.2"
-    implementation 'org.greenrobot:eventbus:3.1.1'
     //ARouter
     annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
-    // tabLayout
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 }

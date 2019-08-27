@@ -19,5 +19,3 @@
 #### 如果编译出现问题可在 issues 中提出，会得到及时回复。
 
 附： 项目中 cocos-sdk moudle [源码地址](https://github.com/Cocos-BCX/AndroidSdk),同上可编译运行。
-
-

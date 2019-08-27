@@ -1,5 +1,6 @@
 package com.cocos.module_asset.ui.deal_record;
 
+import android.annotation.SuppressLint;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.TimeUtil;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
@@ -33,7 +35,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -143,7 +148,7 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                             if (null != args && args.size() > 0) {
                                 for (int j = 0; j < contractOp.value_list.size(); j++) {
                                     List<Object> value_list = contractOp.value_list.get(j);
-                                    LinkedTreeMap<String, String> linkedTreeMap2 = (LinkedTreeMap<String, String>) value_list.get(1);
+                                    LinkedTreeMap<Object, Object> linkedTreeMap2 = (LinkedTreeMap<Object, Object>) value_list.get(1);
                                     Object argValue = linkedTreeMap2.get("v");
                                     jsonObject.addProperty(args.get(j), argValue.toString());
                                     dealDetailModel.params = jsonObject.toString();
@@ -153,8 +158,12 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                     }
                 }
             } catch (ContractNotFoundException e) {
-                ToastUtils.showShort(R.string.module_asset_contract_not_found);
+                ToastUtils.showShort(R.string.net_work_failed);
             } catch (NetworkStatusException e) {
+                ToastUtils.showShort(R.string.net_work_failed);
+            } catch (ClassCastException e) {
+                ToastUtils.showShort(R.string.net_work_failed);
+            } catch (Exception e) {
                 ToastUtils.showShort(R.string.net_work_failed);
             }
         } else if (51 == option) {
@@ -216,17 +225,19 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                         if (!assetModel.isSuccess()) {
                             return;
                         }
-                        try {
-                            String timestamp = assetModel.data.timestamp;
-                            String[] times = timestamp.split("T");
-                            //时间
-                            String[] hours = times[1].split(":", 2);
-                            int hour = Integer.parseInt(hours[0]) + 8;
-                            String time = times[0].replace("-", ".") + "  " + hour + ":" + hours[1];
-                            operationDate.set(time);
-                            dealDetailModel.time = time;
-                        } catch (Exception e) {
-
+                        String timestamp = assetModel.data.timestamp;
+                        if (!TextUtils.isEmpty(timestamp)) {
+                            String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+                            @SuppressLint("SimpleDateFormat") SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
+                            Date dateObject = null;
+                            try {
+                                dateObject = sDateFormat.parse(timestamp);
+                                String time = TimeUtil.formDate(dateObject);
+                                operationDate.set(time);
+                                dealDetailModel.time = time;
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });

@@ -22,13 +22,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="@dimen/dp_16"
-                android:layout_height="@dimen/dp_16"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_11"
-                android:src="@drawable/arrow_left_white"
-                binding:onClickCommand="@{viewModel.backOnClickCommand}" />
+                android:paddingStart="@dimen/dp_11"
+                android:paddingRight="@dimen/dp_16"
+                binding:onClickCommand="@{viewModel.backOnClickCommand}">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_18"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/arrow_left_white" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,7 +94,7 @@
                 android:layout_marginLeft="@dimen/dp_25"
                 android:layout_marginTop="@dimen/dp_35"
                 android:layout_marginRight="@dimen/dp_25"
-                android:background="@drawable/fragment_assets_item_bg"
+                android:background="@drawable/item_bg_round"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/dp_14"
                 android:paddingRight="@dimen/dp_14">

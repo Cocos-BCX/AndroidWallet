@@ -17,4 +17,11 @@
     <dimen name="dp_3">3dp</dimen>
     <dimen name="dp_88">88dp</dimen>
     <dimen name="dp_125">125dp</dimen>
+    <dimen name="dp_62">62dp</dimen>
+    <dimen name="dp_34">34dp</dimen>
+    <dimen name="dp_140">140dp</dimen>
+    <dimen name="dp_48">48dp</dimen>
+    <dimen name="sp_10">10sp</dimen>
+    <dimen name="dp_76">76dp</dimen>
+    <dimen name="dp_90">90dp</dimen>
 </resources>

@@ -32,7 +32,6 @@ dependencies {
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "org.projectlombok:lombok:1.18.2"
-    implementation 'org.greenrobot:eventbus:3.1.1'
     //ARouter
     annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
 }

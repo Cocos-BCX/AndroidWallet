@@ -174,7 +174,7 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
-                        binding:onClickCommand="@{viewModel.messageCentersItemClick}">
+                        binding:onClickCommand="@{viewModel.OrderManageCentersItemClick}">
 
                         <ImageView
                             android:layout_width="@dimen/dp_28"
@@ -199,7 +199,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/dp_21"
                     android:layout_weight="1"
-                    android:background="@drawable/fragment_asset_list_bg"
+                    android:background="@drawable/round_corner_bg"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/dp_15"
                     android:paddingTop="@dimen/dp_25"
@@ -233,11 +233,6 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/empty_view" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/dp_24"
-                                android:text="@string/no_asset_data" />
                         </LinearLayout>
 
                         <android.support.v7.widget.RecyclerView

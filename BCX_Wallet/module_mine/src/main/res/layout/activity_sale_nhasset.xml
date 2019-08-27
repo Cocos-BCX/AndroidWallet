@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:br="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cocos.module_mine.asset_operate.sale_nhasset.SaleNHAssetViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_11"
+                android:background="@drawable/arrow_left_black"
+                android:paddingStart="@dimen/dp_11"
+                android:paddingEnd="@dimen/dp_20"
+                binding:onClickCommand="@{viewModel.backOnClickCommand}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/module_mine_nh_sale_title"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_18"
+                android:typeface="@{@string/TOTAL_ASSET}" />
+
+        </RelativeLayout>
+
+        <com.cocos.library_base.widget.LinearRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_88"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_24"
+            br:borderColor="@color/color_D8DBE1"
+            br:borderStrokeWidth="6"
+            br:needLeftAndRigtBorder="false"
+            br:needTopBorder="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/module_mine_nh_asset_sale_id"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_15" />
+
+            <EditText
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:enabled="false"
+                android:inputType="text"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@={viewModel.nhAssetId}" />
+
+        </com.cocos.library_base.widget.LinearRelativeLayout>
+
+
+        <com.cocos.library_base.widget.LinearRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_88"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_24"
+            br:borderColor="@color/color_D8DBE1"
+            br:borderStrokeWidth="6"
+            br:needLeftAndRigtBorder="false"
+            br:needTopBorder="false">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/module_mine_nh_asset_sale_price"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_4"
+                    android:text="@string/module_mine_nh_asset_sale_price_default"
+                    android:textColor="@color/color_A5A9B1"
+                    android:textSize="@dimen/sp_10" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                binding:onClickCommand="@{viewModel.choosePriceSymbolCommand}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.salePricesSymbol}"
+                    android:textColor="@color/color_A5A9B1"
+                    android:textSize="@dimen/sp_15" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginLeft="@dimen/dp_3"
+                    android:src="@drawable/arrow_right_black" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edt_price_amount"
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:hint="@string/module_mine_nh_asset_sale_price_hint"
+                android:inputType="numberDecimal"
+                android:maxLength="11"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@={viewModel.salePricesAmount}" />
+
+        </com.cocos.library_base.widget.LinearRelativeLayout>
+
+
+        <com.cocos.library_base.widget.LinearRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_88"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_24"
+            br:borderColor="@color/color_D8DBE1"
+            br:borderStrokeWidth="6"
+            br:needLeftAndRigtBorder="false"
+            br:needTopBorder="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/module_mine_nh_asset_sale_valid_time"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingStart="@dimen/dp_4"
+                    android:text="@={viewModel.saleValidTimeDefault}"
+                    android:textColor="@color/color_A5A9B1"
+                    android:textSize="@dimen/sp_10"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+            <EditText
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:hint="@string/module_mine_nh_asset_sale_valid_time_hint"
+                android:inputType="number"
+                android:maxLength="11"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@={viewModel.saleValidTime}" />
+
+        </com.cocos.library_base.widget.LinearRelativeLayout>
+
+        <com.cocos.library_base.widget.LinearRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_88"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_24"
+            br:borderColor="@color/color_D8DBE1"
+            br:borderStrokeWidth="6"
+            br:needLeftAndRigtBorder="false"
+            br:needTopBorder="false">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/module_mine_nh_asset_sale_memo"
+                    android:textColor="@color/color_262A33"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_4"
+                    android:text="@string/module_mine_nh_asset_sale_memo_default"
+                    android:textColor="@color/color_A5A9B1"
+                    android:textSize="@dimen/sp_10" />
+
+            </LinearLayout>
+
+
+            <EditText
+                style="@style/editText_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:hint="@string/module_mine_nh_asset_sale_memo_hint"
+                android:inputType="text"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@={viewModel.saleMemo}" />
+
+        </com.cocos.library_base.widget.LinearRelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_66"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15"
+                android:background="@drawable/shape_create_wallet_bg"
+                android:gravity="center"
+                android:text="@string/module_mine_nh_sale_next"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                binding:onClickCommand="@{viewModel.saleNHNextOnClickCommand}" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

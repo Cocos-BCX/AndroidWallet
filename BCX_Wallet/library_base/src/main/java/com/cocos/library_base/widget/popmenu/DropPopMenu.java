@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.cocos.library_base.R;
+import com.cocos.library_base.utils.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
@@ -400,7 +402,7 @@ public class DropPopMenu {
         public View getView(final int position, View view, ViewGroup viewGroup) {
             ViewHolder holder;
             if (view == null || view.getTag() == null) {
-                view = LayoutInflater.from(mContext).inflate(R.layout.item_drop_pop_menu, null);
+                view = LayoutInflater.from(Utils.getContext()).inflate(R.layout.item_drop_pop_menu, null);
                 holder = new ViewHolder(view);
                 view.setTag(holder);
             } else {

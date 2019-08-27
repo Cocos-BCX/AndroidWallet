@@ -96,7 +96,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 dialog = new BottomSheetDialog(activity);
-                DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_switch_account, null, false);
+                DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_switch_account, null, false);
                 dialog.setContentView(binding.getRoot());
                 binding.setViewModel(new SwitchAccountViewModel((Application) Utils.getContext()));
                 dialog.setCanceledOnTouchOutside(true);

@@ -26,6 +26,8 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_CREATE_ACCOUNT = "/module_asset/CreateAccountActivity";
     public static final String ACTIVITY_COIN_SELECT = "/module_asset/CoinSelectActivity";
     public static final String ACTIVITY_NH_TRANSFER_RECORD_DETAIL = "/module_asset/NhTransferRecordDetailActivity";
+    public static final String ACTIVITY_ORDER_MANAGE = "/module_asset/OrderManageActivity";
+    public static final String ACTIVITY_NH_ORDER_DETAIL = "/module_asset/NhOrderDetailActivity";
 
     //mine
     public static final String ACTIVITY_CONTACT = "/module_mine/ContactActivity";
@@ -39,6 +41,10 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_JOIN_COMMUNITY = "/module_mine/JoinCommunityActivity";
     public static final String ACTIVITY_SYSTEM_SETTING = "/module_mine/SystemSettingActivity";
     public static final String ACTIVITY_CUSTOM_NODE_WORK = "/module_mine/CustomNodeWorkActivity";
+    public static final String ACTIVITY_NH_ASSET_DETAIL = "/module_mine/NHAssetDetailActivity";
+    public static final String ACTIVITY_SALE_NH_ASSET = "/module_mine/SaleNhAssetActivity";
+    public static final String ACTIVITY_SYMBOL_LIST = "/module_mine/SymbolChooseActivity";
+    public static final String ACTIVITY_NH_ASSET_TRANSFER = "/module_mine/TransferNHAssetActivity";
 
     //zxing
     public static final String ACTIVITY_CAPTURE = "/module_zxing/CaptureActivity";

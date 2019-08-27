@@ -54,12 +54,10 @@
     <string name="module_mine_modify_password_illegal">Passcode do not meet setting requirements, please enter again</string>
     <string name="module_mine_modify_password_confirm_failure">Passwords do not match, please enter again</string>
     <string name="module_mine_modify_passcode_success">Passcode changed</string>
-    <string name="module_mine_no_contact_data">No contact</string>
     <string name="fragment_mine_about_us_recommend_friends" tools:ignore="ResourceName">Share to friends</string>
     <string name="fragment_mine_discord" tools:ignore="ResourceName">Discord</string>
     <string name="fragment_mine_telegram" tools:ignore="ResourceName">Telegram</string>
     <string name="module_mine_modify_password_empty">Please input a password</string>
-    <string name="module_mine_response_error">data error!</string>
     <string name="module_mine_contact_add_manully">Manual addition</string>
     <string name="module_mine_contact_scan_add" tools:ignore="MissingTranslation">Scan</string>
     <string name="fragment_mine_net_setting">Network Setting</string>
@@ -94,11 +92,61 @@
     <string name="module_mine_custom_node_name_hint">Enter Name</string>
     <string name="module_mine_discord_ling_url">https://discordapp.com/invite/jdJMNtC</string>
     <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
-    <string name="no_asset_data">No Data</string>
     <string name="module_mine_name_empty">Name cannot be empty</string>
     <string name="module_mine_wrong_password">Wrong password</string>
     <string name="module_mine_node_connect_failed">Connect failed</string>
     <string name="module_mine_node_connect_success">Connect success</string>
+    <string name="mine_nh_asset_id_text">Asset ID：</string>
+    <string name="mine_nh_asset_qualifier">Coin：</string>
+    <string name="mine_nh_asset_world_view">Worldview：</string>
+    <string name="delete_text">Delete</string>
+    <string name="module_mine_nh_asset_detail_title">Assets Detail</string>
+    <string name="module_asset_nh_asset_detail_id">NH Asset ID</string>
+    <string name="module_mine_nh_asset_creator">Creator：</string>
+    <string name="module_mine_nh_asset_owner">Holder：</string>
+    <string name="module_mine_asset_detail_asset_qualifier">Coin：</string>
+    <string name="module_mine_asset_detail_world_view">Worldview：</string>
+    <string name="module_mine_asset_create_time">Time：</string>
+    <string name="module_mine_nh_asset_base_desc">Basic Data：</string>
+    <string name="module_mine_nh_asset_detail_transfer_text">Transfer</string>
+    <string name="module_mine_nh_asset_sale_text">Sell</string>
+    <string name="module_mine_nh_sale_title">Sell NH Assets</string>
+    <string name="module_mine_nh_sale_next">Next</string>
+    <string name="module_mine_nh_asset_sale_id">NH Asset ID</string>
+    <string name="module_mine_nh_asset_sale_price">Price</string>
+    <string name="choose_other_symbol">Choose a token</string>
+    <string name="module_mine_nh_asset_sale_price_default">(COCOS)</string>
+    <string name="module_mine_nh_asset_sale_valid_time">Expired in</string>
+    <string name="module_mine_nh_asset_sale_valid_time_hint">Input your Expired in</string>
+    <string name="module_mine_nh_asset_sale_memo">Memo</string>
+    <string name="module_mine_nh_asset_sale_memo_hint">Input your Memo</string>
+    <string name="module_mine_nh_asset_sale_price_hint">Input your price</string>
+    <string name="module_mine_nh_asset_sale_valid_time_default">（Seconds）</string>
+    <string name="module_mine_nh_asset_sale_memo_default">（Optional）</string>
+    <string name="module_mine_sale_nh_price_error">Price can not less than zero</string>
+    <string name="module_mine_sale_nh_info">Sell</string>
+    <string name="module_mine_sale_info">Order Information</string>
+    <string name="module_mine_nh_asset_sale_miner_fee">Fee</string>
+    <string name="module_mine_sale_nh_success">Order created</string>
+    <string name="module_mine_coin_select_title">Choose a token</string>
+    <string name="module_mine_detele_nh_asset_tip">Note: Deleted asset cannot be recovered</string>
+    <string name="module_asset_deal_info">Order Information</string>
+    <string name="delete_nh_asset_text">Delete Assets</string>
+    <string name="module_mine_delete_nh_asset_success">Deleted</string>
+    <string name="module_mine_nh_transfer_title">Transfer NH Assets</string>
+    <string name="module_mine_nh_asset_transfer_receiver_hint">Please enter the receiver</string>
+    <string name="module_mine_nh_asset_transfer_id">NH Asset ID</string>
+    <string name="module_mine_nh_asset_transfer_receiver">Receiver</string>
+    <string name="module_mine_transfer_nh_info">Transfer Assets</string>
+    <string name="module_mine_nh_asset_transfer_from">From</string>
+    <string name="module_mine_nh_asset_transfer_to">To</string>
+    <string name="module_mine_nh_receiver_can_not_be_empty">Receiver can not empty</string>
+    <string name="module_mine_transfer_nh_asset_success">Transferred</string>
+    <string name="module_mine_receivable_account_name">To</string>
+    <string name="module_mine_transfer_account_name">From</string>
+    <string name="module_mine_nh_asset_sale_valid_time_less_than_one">Expired time invalid</string>
+    <string name="module_mine_nh_receiver_can_not_be_self">Transfer account can not be self</string>
+    <string name="module_mine_nh_asset_sale_valid_time_max">Max </string>
 
 
 </resources>

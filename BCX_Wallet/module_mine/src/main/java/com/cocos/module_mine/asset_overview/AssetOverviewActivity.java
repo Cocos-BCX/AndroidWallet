@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.entity.TabEntity;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
@@ -16,7 +17,6 @@ import com.cocos.library_base.utils.Utils;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.databinding.ActivityAssetOverviewBinding;
-import com.cocos.module_mine.entity.TabEntity;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
@@ -59,9 +59,9 @@ public class AssetOverviewActivity extends BaseActivity<ActivityAssetOverviewBin
     public void initData() {
         mFragments = new ArrayList<>();
         NumberAssetFragment numberAssetFragment = new NumberAssetFragment();
-        PropAssetFragment propAssetFragment = new PropAssetFragment();
+        NHAssetFragment NHAssetFragment = new NHAssetFragment();
         mFragments.add(numberAssetFragment);
-        mFragments.add(propAssetFragment);
+        mFragments.add(NHAssetFragment);
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(Utils.getString(mTitles[i])));
         }

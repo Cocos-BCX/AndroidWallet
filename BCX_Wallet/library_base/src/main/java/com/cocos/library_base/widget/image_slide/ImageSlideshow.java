@@ -81,7 +81,7 @@ public class ImageSlideshow extends FrameLayout {
      * 初始化View
      */
     private void initView() {
-        contentView = LayoutInflater.from(context).inflate(R.layout.is_main_layout, this, true);
+        contentView = LayoutInflater.from(Utils.getContext()).inflate(R.layout.is_main_layout, this, true);
         vpImageTitle = (ViewPager) findViewById(R.id.vp_image_title);
         llDot = (LinearLayout) findViewById(R.id.ll_dot);
     }
@@ -325,7 +325,7 @@ public class ImageSlideshow extends FrameLayout {
     private void setViewList(List<ImageTitleBean> imageTitleBeanList) {
         viewList = new ArrayList<>();
         for (int i = 0; i < imageTitleBeanList.size() + 2; i++) {
-            View view = LayoutInflater.from(context).inflate(R.layout.is_image_title_layout, null);
+            View view = LayoutInflater.from(Utils.getContext()).inflate(R.layout.is_image_title_layout, null);
             ImageView ivImage = (ImageView) view.findViewById(R.id.iv_image);
             try {
                 if (i == 0) {
@@ -351,7 +351,9 @@ public class ImageSlideshow extends FrameLayout {
      * 释放资源
      */
     public void releaseResource() {
-        handler.removeCallbacksAndMessages(null);
+        if (null != handler) {
+            handler.removeCallbacksAndMessages(null);
+        }
         context = null;
     }
 }

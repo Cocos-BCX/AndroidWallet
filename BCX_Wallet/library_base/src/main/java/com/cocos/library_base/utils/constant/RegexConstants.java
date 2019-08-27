@@ -20,6 +20,12 @@ public final class RegexConstants {
      */
     public static final String PRIVATE_KEY_LIMIT = "^[a-zA-Z\\d]+$";
 
+
+    /**
+     * 英文字符
+     */
+    public static final String MEMO_LIMIT = "^[a-zA-Z\\d]+$";
+
     /**
      * bcx密码设置正则
      */
