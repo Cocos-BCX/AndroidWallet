@@ -5,7 +5,7 @@
 
 ##### Download and install [Android Studio](https://developer.android.google.cn/studio) 3.0 +
 
-##### Download[JDK 1.7+](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+##### Download [JDK](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.7+
 
 ##### Jdk environment variable configuration:[window](https://www.cnblogs.com/yanhuan123/p/7093211.html)、[mac](https://www.cnblogs.com/xd502djj/p/6642133.html)
 ##### Android Studio finds and uses the installed jdk by searching the JAVA_HOME variable.
