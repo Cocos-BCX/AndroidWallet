@@ -79,10 +79,10 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initLangeuage();
+        initLanguage();
     }
 
-    private void initLangeuage() {
+    private void initLanguage() {
         LocalManageUtil.setApplicationLanguage(this);
     }
 
@@ -138,10 +138,12 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 if (mInjection) {
                     onJSConnect();
                 }
-
+                String title = view.getTitle();
+                if (!TextUtils.isEmpty(title) && TextUtils.isEmpty(viewModel.webTitle.get())) {
+                    viewModel.webTitle.set(title);
+                }
             }
         });
-
     }
 
 
@@ -198,7 +200,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 }
             });
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.CALLCONTRACTFUNCTION)) {
-
             /**
              *  callContractFunction
              */
@@ -239,7 +240,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             });
 
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.GETACCOUNTINFO)) {
-
             /**
              *  get current account info
              */
@@ -271,7 +271,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             });
 
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.TRANSFERNHASSET)) {
-
             /**
              * transfer nh asset
              */
