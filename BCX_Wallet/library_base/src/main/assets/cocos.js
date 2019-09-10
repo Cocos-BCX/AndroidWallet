@@ -1,6 +1,7 @@
 function _sendPeRequest(serialNumber, params, methodName) {
     window.DappJsBridge.pushMessage(serialNumber, JSON.stringify(params), methodName);
 }
+
 function serialNumberFn() {
     return 'serialNumber' + (new Date().getTime() + parseInt(Math.random() * 100000000000))
 }
@@ -39,6 +40,19 @@ class ClientFunction {
             }
         })
     }
+
+    initConnect() {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, '', 'initConnect');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
     decodeMemo(params) {
         const serialNumber = serialNumberFn();
         _sendPeRequest(serialNumber, params, 'decodeMemo');
@@ -101,6 +115,16 @@ class Index {
             })
         })
     }
+
+    initConnect() {
+        return new Promise((resolve, reject) => {
+            hookFunction.initConnect().then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+
     decodeMemo(params) {
         return new Promise((resolve, reject) => {
             hookFunction.decodeMemo(params).then((res) => {
@@ -114,21 +138,6 @@ class Index {
                 resolve(res)
             })
         })
-    }
-    initConnect(url, core_asset, faucet_url, chainId) {
-        var _configParams = {
-            default_ws_node: url,
-            ws_node_list: [],
-            faucet_url: faucet_url,
-            networks: [{
-                core_asset: core_asset,
-                chain_id: chainId
-            }],
-            auto_reconnect: true,
-            worker: false
-        };
-        console.log('initConnect', url);
-        BcxWeb.bcx = new BCX(_configParams);
     }
 
     queryAccountAllBalances(params) {
@@ -275,11 +284,38 @@ class Index {
 
 }
 
+
 function inject() {
     window.BcxWeb = new Index();
     BcxWeb.getAccountInfo().then(res => {
         window.BcxWeb.account_name = res.account_name
     });
+    let timer = null
+    clearInterval(timer)
+    timer = setInterval(() => {
+        try {
+            BcxWeb.initConnect().then(res => {
+                var _configParams = {
+                    default_ws_node: res.ws,
+                    ws_node_list: [res.ws],
+                    faucet_url: res.faucet_url,
+                    networks: [{
+                        core_asset: res.coreAsset,
+                        chain_id: res.chainId
+                    }],
+                    auto_reconnect: true,
+                    worker: false
+                };
+                console.log('initConnect', res.ws);
+                BcxWeb.bcx = new BCX(_configParams);
+                if (BcxWeb.bcx) {
+                    clearInterval(timer);
+                }
+            });
+        } catch (error) {
+            console.log('initConnect', error);
+        }
+    }, 1200)
     console.log('Release-V 1.0.4');
     document.dispatchEvent(new CustomEvent('scatterLoaded'))
 }
