@@ -136,9 +136,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-//                if (mInjection) {
-//                    onJSConnect();
-//                }
             }
         });
 
@@ -466,18 +463,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 Log.i("javascript", sb.toString().replace("\\", "\\\\"));
             }
         });
-    }
-
-    /**
-     * 调用js链接节点方法
-     */
-    public void onJSConnect() {
-        try {
-            NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-            binding.jsWebView.loadUrl("javascript:initConnect(" + "\"" + selectedNodeModel.ws + "\"," + "\"" + selectedNodeModel.coreAsset + "\"," + "\"" + selectedNodeModel.faucetUrl + "\"," + "\"" + selectedNodeModel.chainId + "\"," + ")", null);
-        } catch (Exception e) {
-            Log.i("onJSConnect", e.getMessage());
-        }
     }
 
     @Override
