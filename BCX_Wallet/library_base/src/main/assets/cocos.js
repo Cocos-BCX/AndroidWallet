@@ -315,7 +315,7 @@ function inject() {
         } catch (error) {
             console.log('initConnect', error);
         }
-    }, 1200)
+    }, 500)
     console.log('Release-V 1.0.4');
     document.dispatchEvent(new CustomEvent('scatterLoaded'))
 }
