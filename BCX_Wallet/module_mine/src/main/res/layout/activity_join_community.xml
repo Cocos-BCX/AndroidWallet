@@ -38,6 +38,7 @@
                     android:scaleType="centerInside"
                     android:src="@drawable/arrow_left_black" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,12 +52,12 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/ll_board"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_150"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginTop="@dimen/dp_24"
             android:layout_marginRight="@dimen/dp_15"
-            android:background="@drawable/join_community_banner"
             android:orientation="vertical" />
 
         <LinearLayout

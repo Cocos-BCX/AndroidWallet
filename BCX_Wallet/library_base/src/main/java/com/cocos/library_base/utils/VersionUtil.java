@@ -62,7 +62,7 @@ public class VersionUtil {
     private static void update(UpdateInfo data, BaseViewModel baseViewModel, Activity activity) {
         int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
         final AlertDialog.Builder normalDialog = new AlertDialog.Builder(activity);
-        normalDialog.setTitle(R.string.update_title);
+        normalDialog.setTitle(R.string.update_title + "V " + AppApplicationMgr.getVersionName(Utils.getContext()));
         normalDialog.setCancelable(false);
         normalDialog.setMessage(selectLanguage == 0 ? data.data.info : data.data.en_info);
         normalDialog.setPositiveButton(R.string.update_btn_text, (dialog, which) -> {
@@ -70,7 +70,7 @@ public class VersionUtil {
             baseViewModel.loadUrlEvent.setValue(data.data.download_url);
         });
         if (!data.data.is_force) {
-            normalDialog.setNegativeButton(R.string.cancel_text, (dialog, which) -> dialog.dismiss());
+            normalDialog.setNegativeButton(R.string.not_upgrade_text, (dialog, which) -> dialog.dismiss());
         }
         normalDialog.show();
     }

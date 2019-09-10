@@ -5,6 +5,8 @@ import android.os.Bundle;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.Utils;
+import com.cocos.library_base.utils.multi_language.SPUtil;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.databinding.ActivityJoinCommunityBinding;
@@ -19,6 +21,12 @@ public class JoinCommunityActivity extends BaseActivity<ActivityJoinCommunityBin
     @Override
     public int initContentView(Bundle savedInstanceState) {
         return R.layout.activity_join_community;
+    }
+
+    @Override
+    public void initData() {
+        int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
+        binding.llBoard.setBackground(Utils.getDrawable(selectLanguage == 0 ? R.drawable.join_community_banner_zh : R.drawable.join_community_banner_en));
     }
 
     @Override

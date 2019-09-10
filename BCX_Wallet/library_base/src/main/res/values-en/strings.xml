@@ -29,4 +29,5 @@
     <string name="module_asset_download_failed">download failed!</string>
     <string name="operate_failed">operate failed</string>
     <string name="secret_free_tip">No More Input Before Exit DApp</string>
+    <string name="not_upgrade_text">Not Updated</string>
 </resources>
