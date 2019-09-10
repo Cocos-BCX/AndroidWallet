@@ -79,10 +79,10 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initLangeuage();
+        initLanguage();
     }
 
-    private void initLangeuage() {
+    private void initLanguage() {
         LocalManageUtil.setApplicationLanguage(this);
     }
 
@@ -97,13 +97,14 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     }
 
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "CheckResult"})
     @Override
     public void initData() {
         viewModel.setWebData(webViewModel);
         if (!TextUtils.isEmpty(webViewModel.getUrl())) {
             binding.jsWebView.loadUrl(webViewModel.getUrl());
         }
+
         binding.jsWebView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -135,10 +136,9 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if (mInjection) {
-                    onJSConnect();
-                }
-
+//                if (mInjection) {
+//                    onJSConnect();
+//                }
             }
         });
 
@@ -294,6 +294,9 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     onCancel(params);
                 }
             });
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.INITCONNECT)) {
+            NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+            onJSCallback(params.serialNumber, selectedNodeModel);
         }
 
     }
@@ -459,14 +462,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 StringBuilder sb = new StringBuilder("callbackResult(\'" + serialNumber + "\',\'");
                 sb.append(data instanceof String ? data : GsonSingleInstance.getGsonInstance().toJson(data));
                 sb.append("\')");
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-                    sb.insert(0, "javascript:");
-                    binding.jsWebView.loadUrl(sb.toString().replace("\\", "\\\\"));
-                    Log.i("javascript", sb.toString().replace("\\", "\\\\"));
-                } else {
-                    binding.jsWebView.evaluateJavascript(sb.toString().replace("\\", "\\\\"), null);
-                    Log.i("javascript", sb.toString().replace("\\", "\\\\"));
-                }
+                binding.jsWebView.evaluateJavascript(sb.toString().replace("\\", "\\\\"), null);
+                Log.i("javascript", sb.toString().replace("\\", "\\\\"));
             }
         });
     }
@@ -477,8 +474,9 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     public void onJSConnect() {
         try {
             NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-            binding.jsWebView.loadUrl("javascript:BcxWeb.initConnect(" + "\'" + selectedNodeModel.ws + "\'," + "\'" + selectedNodeModel.coreAsset + "\'," + "\'" + selectedNodeModel.faucetUrl + "\'," + "\'" + selectedNodeModel.chainId + "\'," + ")");
+            binding.jsWebView.loadUrl("javascript:initConnect(" + "\"" + selectedNodeModel.ws + "\"," + "\"" + selectedNodeModel.coreAsset + "\"," + "\"" + selectedNodeModel.faucetUrl + "\"," + "\"" + selectedNodeModel.chainId + "\"," + ")", null);
         } catch (Exception e) {
+            Log.i("onJSConnect", e.getMessage());
         }
     }
 

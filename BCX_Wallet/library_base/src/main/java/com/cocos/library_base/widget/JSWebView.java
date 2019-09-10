@@ -61,8 +61,10 @@ public class JSWebView extends BaseWebView {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
             settings.setMediaPlaybackRequiresUserGesture(true);
         }
+
         WebView.setWebContentsDebuggingEnabled(true);
         settings.setDomStorageEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAppCacheEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         settings.setLoadsImagesAutomatically(true);
@@ -74,10 +76,8 @@ public class JSWebView extends BaseWebView {
         settings.setRenderPriority(WebSettings.RenderPriority.LOW);
         setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         settings.setDefaultTextEncodingName("utf-8");
-        if (Build.VERSION.SDK_INT > 16) {
-            settings.setAllowFileAccessFromFileURLs(false);
-            settings.setAllowUniversalAccessFromFileURLs(false);
-        }
+        settings.setAllowFileAccessFromFileURLs(false);
+        settings.setAllowUniversalAccessFromFileURLs(false);
         // 特别注意：5.1以上默认禁止了https和http混用，以下方式是开启
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
@@ -95,6 +95,5 @@ public class JSWebView extends BaseWebView {
             super.onProgressChanged(view, newProgress);
         }
     }
-
 
 }
