@@ -117,10 +117,9 @@ public class FoundFragment extends BaseFragment<FragmentFoundBinding, FoundViewM
                 binding.vpFound.setDelay(3000);
                 viewModel.initNavListData(data, selectLanguage);
                 viewModel.initListData(data, selectLanguage);
-                binding.tvHotTitle.setText(selectLanguage == 0 ? data.getData().getList().get(0).getHeader() : data.getData().getList().get(0).getEnHeader());
+//                binding.tvHotTitle.setText(selectLanguage == 0 ? data.getData().getList().get(0).getHeader() : data.getData().getList().get(0).getEnHeader());
             }
         });
-
     }
 
     @Override

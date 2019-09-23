@@ -1,9 +1,11 @@
 package com.cocos.module_found.fragment;
 
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseViewModel;
@@ -40,12 +42,21 @@ public class FoundListItemViewModel extends ItemViewModel {
 
     public ObservableField<String> listDesc = new ObservableField<>("");
 
+    public ObservableField<String> headerTitle = new ObservableField<>("");
+
+    public ObservableInt headerTitleVisible = new ObservableInt(View.GONE);
+
+
     public FoundListItemViewModel(@NonNull BaseViewModel viewModel, FoundListModel foundlistModel) {
         super(viewModel);
         entity.set(foundlistModel);
         this.foundlistModel = foundlistModel;
         listTitle.set(foundlistModel.getListTitle());
         listDesc.set(foundlistModel.getListDesc());
+        if (!TextUtils.isEmpty(foundlistModel.getHeaderTitle())) {
+            headerTitleVisible.set(View.VISIBLE);
+            headerTitle.set(foundlistModel.getHeaderTitle());
+        }
     }
 
     public BindingCommand onItemClick = new BindingCommand(new BindingAction() {

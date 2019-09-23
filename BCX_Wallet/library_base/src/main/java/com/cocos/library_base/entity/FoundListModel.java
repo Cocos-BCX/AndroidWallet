@@ -20,4 +20,6 @@ public class FoundListModel extends BaseResult {
 
     private String linkUrl;
 
+    private String headerTitle = null;
+
 }

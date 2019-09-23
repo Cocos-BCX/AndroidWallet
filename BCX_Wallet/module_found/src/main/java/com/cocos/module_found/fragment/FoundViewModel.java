@@ -4,6 +4,7 @@ import android.app.Application;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseViewModel;
@@ -72,6 +73,7 @@ public class FoundViewModel extends BaseViewModel {
         listObservableList.clear();
         List<FoundModel.DataBeanX.ListBean> listBeans = data.getData().getList();
         List<FoundListModel> listModels = new ArrayList<>();
+        String headTitle = null;
         for (FoundModel.DataBeanX.ListBean listBean : listBeans) {
             List<FoundModel.DataBeanX.ListBean.DataBean> dataBeans = listBean.getData();
             for (FoundModel.DataBeanX.ListBean.DataBean dataBean : dataBeans) {
@@ -80,6 +82,10 @@ public class FoundViewModel extends BaseViewModel {
                 foundListModel.setListTitle(selectLanguage == 0 ? dataBean.getTitle() : dataBean.getEnTitle());
                 foundListModel.setLinkUrl(dataBean.getLinkUrl());
                 foundListModel.setImageUrl(dataBean.getImageUrl());
+                if (!TextUtils.isEmpty(listBean.getHeader()) && !TextUtils.equals(headTitle, listBean.getHeader())) {
+                    foundListModel.setHeaderTitle(selectLanguage == 0 ? listBean.getHeader() : listBean.getEnHeader());
+                    headTitle = listBean.getHeader();
+                }
                 listModels.add(foundListModel);
             }
         }
@@ -87,7 +93,6 @@ public class FoundViewModel extends BaseViewModel {
             FoundListItemViewModel itemViewModel = new FoundListItemViewModel(FoundViewModel.this, foundListModel);
             listObservableList.add(itemViewModel);
         }
-
     }
 
     /**

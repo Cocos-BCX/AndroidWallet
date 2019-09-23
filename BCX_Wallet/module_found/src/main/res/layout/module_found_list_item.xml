@@ -14,71 +14,87 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/ll_list_dapp_item"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_94"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp_15"
-        android:paddingRight="@dimen/dp_15"
-        binding:onClickCommand="@{viewModel.onItemClick}">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_item_dapp_icon"
-            android:layout_width="@dimen/dp_64"
-            android:layout_height="@dimen/dp_64"
-            android:layout_gravity="center"
-            binding:url="@{viewModel.entity.imageUrl}" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:paddingLeft="@dimen/dp_18"
+            android:text="@={viewModel.headerTitle}"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_22"
+            android:typeface="@{@string/TOTAL_ASSET}"
+            android:visibility="@{viewModel.headerTitleVisible}" />
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/ll_list_dapp_item"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_20">
+            android:layout_height="@dimen/dp_94"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            binding:onClickCommand="@{viewModel.onItemClick}">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/iv_item_dapp_icon"
+                android:layout_width="@dimen/dp_64"
+                android:layout_height="@dimen/dp_64"
+                android:layout_gravity="center"
+                binding:url="@{viewModel.entity.imageUrl}" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical">
+                android:layout_marginLeft="@dimen/dp_20">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/tv_item_dapp_title"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:text="@={viewModel.listTitle}"
-                        android:textColor="@color/color_333333"
-                        android:textSize="@dimen/sp_18" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_item_dapp_desc"
-                        android:layout_width="@dimen/dp_220"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:text="@={viewModel.listDesc}"
-                        android:textColor="@color/color_666666"
-                        android:textSize="@dimen/sp_15" />
+                        <TextView
+                            android:id="@+id/tv_item_dapp_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="@={viewModel.listTitle}"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_18" />
+
+                        <TextView
+                            android:id="@+id/tv_item_dapp_desc"
+                            android:layout_width="@dimen/dp_220"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_4"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="@={viewModel.listDesc}"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_15" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
+                <View
+                    android:id="@+id/found_view_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/dp_4"
+                    android:background="@color/color_ffdbdbdb" />
+            </RelativeLayout>
 
-            <View
-                android:id="@+id/found_view_bg"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="@dimen/dp_4"
-                android:background="@color/color_ffdbdbdb" />
-        </RelativeLayout>
-
+        </LinearLayout>
     </LinearLayout>
-
 </layout>
