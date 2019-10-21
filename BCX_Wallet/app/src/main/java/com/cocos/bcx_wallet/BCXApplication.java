@@ -3,6 +3,7 @@ package com.cocos.bcx_wallet;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -25,6 +26,7 @@ import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -70,8 +72,28 @@ public class BCXApplication extends BaseApplication {
         ModuleLifecycleConfig.getInstance().initModuleAhead(this); //初始化组件(靠前)
         ModuleLifecycleConfig.getInstance().initModuleLow(this);     //初始化组件(靠后)
         // 初始化sdk
+//        CocosBcxApiWrapper.getBcxInstance().init(this);
+//        requestNodeListData();
+
+        //初始化工具类
+        List<String> mListNode = Arrays.asList("ws://182.92.164.121:8021", "ws://182.92.164.121:8021");
+        String faucetUrl = "http://47.93.62.96:8041";
+        String chainId = "9aab2f1b44ffd6649985629a18154e713f7036f668e458d7568bbf7c01eed26d";
+        String coreAsset = "COCOS";
+        boolean isOpenLog = true;
         CocosBcxApiWrapper.getBcxInstance().init(this);
-        requestNodeListData();
+        CocosBcxApiWrapper.getBcxInstance().connect(this, chainId, mListNode, faucetUrl, coreAsset, isOpenLog,
+                new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        Log.i("initBcxSdk", value);
+                        BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
+                        if (resultEntity.isSuccess()) {
+                            SPUtils.putObject(BCXApplication.this, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, resultEntity);
+                        }
+                    }
+                });
+
         //配置全局异常崩溃操作
         CaocConfig.Builder.create()
                 .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)

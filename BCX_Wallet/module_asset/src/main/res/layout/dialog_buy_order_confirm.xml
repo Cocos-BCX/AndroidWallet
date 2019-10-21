@@ -54,9 +54,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
+                android:singleLine="true"
                 android:text="@string/module_asset_transfer_order_info"
                 android:textColor="@color/color_A5A9B1"
-                android:singleLine="true"
                 android:textSize="@dimen/sp_15" />
 
             <TextView
@@ -112,10 +112,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
+                android:singleLine="true"
                 android:text="@string/module_asset_buy_nh_asset_id"
                 android:textColor="@color/color_A5A9B1"
-                android:textSize="@dimen/sp_15"
-                android:singleLine="true"/>
+                android:textSize="@dimen/sp_15" />
 
             <TextView
                 android:layout_width="0dp"
@@ -150,35 +150,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3.5"
                 android:text="@={viewModel.orderPrice}"
-                android:textColor="@color/color_262A33"
-                android:textSize="@dimen/sp_15" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:background="@color/color_E8EBF1" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_60"
-            android:gravity="center_vertical"
-            android:weightSum="5">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="@string/module_asset_transfer_fee_info"
-                android:textColor="@color/color_A5A9B1"
-                android:textSize="@dimen/sp_15" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3.5"
-                android:text="@={viewModel.minerFee}"
                 android:textColor="@color/color_262A33"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>

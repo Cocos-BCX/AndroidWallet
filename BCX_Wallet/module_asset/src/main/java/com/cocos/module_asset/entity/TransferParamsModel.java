@@ -14,7 +14,6 @@ import lombok.Setter;
 @Setter
 public class TransferParamsModel extends BaseResult {
 
-
     /**
      * 转出账号
      */
@@ -40,15 +39,7 @@ public class TransferParamsModel extends BaseResult {
      */
     private String transferMemo;
 
-    /**
-     * 转账费用
-     */
-    private String fee;
-
-
     private String password;
-
-    private String feeSymbol;
 
     private String transferSymbol;
 

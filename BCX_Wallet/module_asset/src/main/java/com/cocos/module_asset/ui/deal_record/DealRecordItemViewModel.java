@@ -58,7 +58,6 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
     public Drawable drawableImg;
     public DealRecordModel.DealRecordItemModel dealRecordModel;
     DealDetailModel dealDetailModel = new DealDetailModel();
-    DealRecordModel.FeeBean feeBean = new DealRecordModel.FeeBean();
 
     /**
      * @param viewModel
@@ -114,7 +113,6 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                     });
                 }
             });
-            feeBean = opBean.fee;
         } else if (44 == option) {
             try {
                 drawableImg = Utils.getDrawable(R.drawable.deal_record_contract_icon);
@@ -130,7 +128,6 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                 operationAmount.set(contract_object.name);
                 dealDetailModel.contract_name = contract_object.name;
                 dealDetailModel.function_name = contractOp.function_name;
-                feeBean = contractOp.fee;
                 List<List<Object>> contract_ABI = contract_object.contract_ABI;
                 for (List<Object> objects : contract_ABI) {
                     for (int i = 0; i < objects.size(); i++) {
@@ -188,31 +185,10 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
             operationAmount.set(opBean.nh_asset + Utils.getString(R.string.module_asset_coin_type_test));
             dealDetailModel.deal_type = Utils.getString(R.string.module_asset_transfer_nh_title);
             dealDetailModel.nh_asset_id = opBean.nh_asset;
-            feeBean = opBean.fee;
         }
 
         dealDetailModel.block_header = String.valueOf(dealRecordModel.block_num);
         dealDetailModel.tx_id = dealRecordModel.id;
-
-        // 手续费币种查询
-        CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(feeBean.asset_id, new IBcxCallBack() {
-            @Override
-            public void onReceiveValue(final String assets) {
-                final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(assets, AssetsModel.class);
-                MainHandler.getInstance().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!assetModel.isSuccess()) {
-                            return;
-                        }
-                        // precision
-                        BigDecimal ratio = new BigDecimal(Math.pow(10, assetModel.getData().precision));
-                        dealDetailModel.fee = String.valueOf(feeBean.amount.divide(ratio).add(BigDecimal.ZERO));
-                        dealDetailModel.feeAssetSymbol = assetModel.getData().symbol;
-                    }
-                });
-            }
-        });
 
         // 转账区块信息/时间查询
         CocosBcxApiWrapper.getBcxInstance().get_block_header(dealRecordModel.block_num, new IBcxCallBack() {

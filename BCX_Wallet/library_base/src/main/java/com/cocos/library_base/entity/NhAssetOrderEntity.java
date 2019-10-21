@@ -25,8 +25,6 @@ public class NhAssetOrderEntity extends BaseResult {
     public static class NhOrderBean implements Serializable {
 
         public String id;
-        public String minerFee;
-        public String feeSymbol;
         public String seller;
         public String sellerName;
         public String otcaccount;

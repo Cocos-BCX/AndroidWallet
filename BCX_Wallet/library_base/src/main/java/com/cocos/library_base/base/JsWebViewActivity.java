@@ -207,13 +207,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 str5.append(s);
                 str5.append(",");
             }
-            if (jsContractParamsModel.onlyGetFee) {
-                CocosBcxApiWrapper.getBcxInstance().calculate_invoking_contract_fee(AccountHelperUtils.getCurrentAccountName(), "COCOS", jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), s -> {
-                    FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                    setTransactionFeeCallBack(baseResult, params);
-                });
-                return;
-            }
 
             /**
              *  invoking contract method
@@ -306,7 +299,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * @param params
      */
     private void transferNhAssets(String password, TransferNHAssetParamModel transferNHAssetParamModel, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), transferNHAssetParamModel.toAccount, "COCOS", transferNHAssetParamModel.NHAssetIds.get(0), s -> {
+        CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), transferNHAssetParamModel.toAccount, transferNHAssetParamModel.NHAssetIds.get(0), s -> {
             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
             setTransactionCallBack(baseResult, params);
             if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
@@ -348,7 +341,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * @param params
      */
     private void invoking_contract(String password, JsContractParamsModel jsContractParamsModel, StringBuffer str5, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().invoking_contract(AccountHelperUtils.getCurrentAccountName(), password, "COCOS", jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), new IBcxCallBack() {
+        CocosBcxApiWrapper.getBcxInstance().invoking_contract(AccountHelperUtils.getCurrentAccountName(), password, jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), new IBcxCallBack() {
             @Override
             public void onReceiveValue(String s) {
                 BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
@@ -372,19 +365,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      */
     private void transferAssets(String password, JsParamsEventModel params) {
         TransferParamModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, TransferParamModel.class);
-        // only get transfer fee
-        if (assetModel.onlyGetFee) {
-            CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
-                FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                setTransactionFeeCallBack(baseResult, params);
-                if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                    SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                }
-            });
-            return;
-        }
         // transfer asset
-        CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
+        CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.memo, s -> {
             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
             setTransactionCallBack(baseResult, params);
             if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {

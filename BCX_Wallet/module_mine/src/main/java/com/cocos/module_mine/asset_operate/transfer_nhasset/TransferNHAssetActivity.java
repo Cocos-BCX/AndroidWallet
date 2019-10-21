@@ -23,7 +23,6 @@ import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.entity.ContactModel;
-import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.entity.OperateResultModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
@@ -32,7 +31,6 @@ import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.asset_overview.NHAssetDetailActivity;
@@ -102,7 +100,7 @@ public class TransferNHAssetActivity extends BaseActivity<ActivityTransferNhAsse
         passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
             @Override
             public void onFinish(String password) {
-                CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, nhAssetModelBean.from, nhAssetModelBean.to, "COCOS", nhAssetModelBean.id, new IBcxCallBack() {
+                CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, nhAssetModelBean.from, nhAssetModelBean.to, nhAssetModelBean.id, new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(String s) {
                         Log.i("transfer_nh_asset", s);
@@ -173,49 +171,24 @@ public class TransferNHAssetActivity extends BaseActivity<ActivityTransferNhAsse
                     ToastUtils.showShort(R.string.module_mine_nh_receiver_can_not_be_self);
                     return;
                 }
-                CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset_fee(AccountHelperUtils.getCurrentAccountName(), viewModel.nhAssetReciver.get(), "COCOS", nHAssetModelBean.id, new IBcxCallBack() {
-                    @Override
-                    public void onReceiveValue(final String s) {
-                        MainHandler.getInstance().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-
-                                if (!TextUtils.isEmpty(feeModel.message)
-                                        && (feeModel.message.contains("insufficient_balance")
-                                        || feeModel.message.contains("Insufficient Balance"))) {
-                                    ToastUtils.showShort(R.string.insufficient_balance);
-                                    return;
-                                }
-
-                                if (!feeModel.isSuccess()) {
-                                    ToastUtils.showShort(R.string.net_work_failed);
-                                    return;
-                                }
-                                dialog = new BottomSheetDialog(TransferNHAssetActivity.this);
-                                DialogTransferNhAssetConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_transfer_nh_asset_confirm, null, false);
-                                dialog.setContentView(binding.getRoot());
-                                // 设置dialog 完全显示
-                                View parent = (View) binding.getRoot().getParent();
-                                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
-                                binding.getRoot().measure(0, 0);
-                                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
-                                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
-                                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-                                parent.setLayoutParams(params);
-                                dialog.setCanceledOnTouchOutside(false);
-                                final TransferNhAssetConfirmViewModel transferNhAssetViewModel = new TransferNhAssetConfirmViewModel(getApplication());
-                                binding.setViewModel(transferNhAssetViewModel);
-                                nHAssetModelBean.minerFee = feeModel.data.amount;
-                                nHAssetModelBean.from = AccountHelperUtils.getCurrentAccountName();
-                                nHAssetModelBean.to = viewModel.nhAssetReciver.get();
-                                nHAssetModelBean.feeSymbol = "COCOS";
-                                transferNhAssetViewModel.setNhAssetModel(nHAssetModelBean);
-                                dialog.show();
-                            }
-                        });
-                    }
-                });
+                dialog = new BottomSheetDialog(TransferNHAssetActivity.this);
+                DialogTransferNhAssetConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_transfer_nh_asset_confirm, null, false);
+                dialog.setContentView(binding.getRoot());
+                // 设置dialog 完全显示
+                View parent = (View) binding.getRoot().getParent();
+                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+                binding.getRoot().measure(0, 0);
+                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
+                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+                parent.setLayoutParams(params);
+                dialog.setCanceledOnTouchOutside(false);
+                final TransferNhAssetConfirmViewModel transferNhAssetViewModel = new TransferNhAssetConfirmViewModel(getApplication());
+                binding.setViewModel(transferNhAssetViewModel);
+                nHAssetModelBean.from = AccountHelperUtils.getCurrentAccountName();
+                nHAssetModelBean.to = viewModel.nhAssetReciver.get();
+                transferNhAssetViewModel.setNhAssetModel(nHAssetModelBean);
+                dialog.show();
             }
         });
 

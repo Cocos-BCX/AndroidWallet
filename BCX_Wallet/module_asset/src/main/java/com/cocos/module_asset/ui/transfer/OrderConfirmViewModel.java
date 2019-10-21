@@ -39,7 +39,6 @@ public class OrderConfirmViewModel extends BaseViewModel {
     public ObservableField<String> receivablesAccount = new ObservableField<>();
     public ObservableField<String> orderAmount = new ObservableField<>();
     public ObservableField<String> orderMemo = new ObservableField<>("");
-    public ObservableField<String> minerFee = new ObservableField<>();
 
     //转账按钮的点击事件
     public BindingCommand dismissOnClickCommand = new BindingCommand(new BindingAction() {
@@ -56,41 +55,10 @@ public class OrderConfirmViewModel extends BaseViewModel {
     public BindingCommand payConfirmOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            CocosBcxApiWrapper.getBcxInstance().transfer(transferParamsModel.getPassword(), transferParamsModel.getAccountName(), transferParamsModel.getReceivablesAccountName(),
-                    transferParamsModel.getTransferAmount(), transferParamsModel.getTransferSymbol(), transferParamsModel.getFeeSymbol(), transferParamsModel.getTransferMemo(), new IBcxCallBack() {
-                        @Override
-                        public void onReceiveValue(final String s) {
-                            MainHandler.getInstance().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        TransferModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, TransferModel.class);
-                                        if (baseResult.code == 104) {
-                                            ToastUtils.showShort(R.string.module_asset_account_not_found);
-                                            return;
-                                        }
-
-                                        if (baseResult.code == 112) {
-                                            ToastUtils.showShort(R.string.module_asset_private_key_author_failed);
-                                            return;
-                                        }
-
-                                        if (!baseResult.isSuccess()) {
-                                            ToastUtils.showShort(R.string.net_work_failed);
-                                            return;
-                                        }
-                                        ToastUtils.showShort(R.string.module_asset_transfer_success);
-                                        EventBusCarrier eventBusCarrier = new EventBusCarrier();
-                                        eventBusCarrier.setEventType(EventTypeGlobal.TRANSFER_SUCCESS);
-                                        eventBusCarrier.setObject(null);
-                                        EventBus.getDefault().post(eventBusCarrier);
-                                    } catch (Exception e) {
-                                        ToastUtils.showShort(R.string.net_work_failed);
-                                    }
-                                }
-                            });
-                        }
-                    });
+            EventBusCarrier eventBusCarrier = new EventBusCarrier();
+            eventBusCarrier.setEventType(EventTypeGlobal.SHOW_TRANSFER_PASSWORD_VERIFY_DIALOG);
+            eventBusCarrier.setObject(transferParamsModel);
+            EventBus.getDefault().post(eventBusCarrier);
         }
     });
 
@@ -100,7 +68,6 @@ public class OrderConfirmViewModel extends BaseViewModel {
         receivablesAccount.set(transferParamsModel.getReceivablesAccountName());
         orderAmount.set(transferParamsModel.getTransferAmount() + transferParamsModel.getTransferSymbol());
         orderMemo.set(transferParamsModel.getTransferMemo());
-        minerFee.set(transferParamsModel.getFee() + transferParamsModel.getFeeSymbol());
     }
 
 }

@@ -1,6 +1,5 @@
 package com.cocos.module_asset.nh_order_manager;
 
-import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
@@ -22,7 +21,6 @@ import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.entity.NhAssetOrderEntity;
 import com.cocos.library_base.entity.OperateResultModel;
 import com.cocos.library_base.entity.TabEntity;
@@ -32,7 +30,6 @@ import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.ActivityOrderManageBinding;
@@ -110,110 +107,45 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
         if (null != busCarrier) {
             if (TextUtils.equals(EventTypeGlobal.SHOW_CANCEL_ORDER_CONFIRM_DIALOG, busCarrier.getEventType())) {
                 final NhAssetOrderEntity.NhOrderBean nhOrderBean = (NhAssetOrderEntity.NhOrderBean) busCarrier.getObject();
-                CocosBcxApiWrapper.getBcxInstance().cancel_nh_asset_order_fee(nhOrderBean.seller, nhOrderBean.id, "COCOS", new IBcxCallBack() {
-                    @Override
-                    public void onReceiveValue(final String s) {
-                        MainHandler.getInstance().post(new Runnable() {
-                            @SuppressLint("LongLogTag")
-                            @Override
-                            public void run() {
-                                if (TextUtils.isEmpty(s)) {
-                                    ToastUtils.showShort(R.string.net_work_failed);
-                                    return;
-                                }
-                                Log.i("cancel_nh_asset_order_fee", s);
-                                final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                                if (feeModel.code == 161) {
-                                    ToastUtils.showShort(R.string.module_asset_order_not_exist);
-                                    return;
-                                }
+                dialog = new BottomSheetDialog(OrderManageActivity.this);
+                DialogCancelOrderConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_cancel_order_confirm, null, false);
+                dialog.setContentView(binding.getRoot());
+                // 设置dialog 完全显示
+                View parent = (View) binding.getRoot().getParent();
+                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+                binding.getRoot().measure(0, 0);
+                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
+                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+                parent.setLayoutParams(params);
+                dialog.setCanceledOnTouchOutside(false);
+                final CancelOrderConfirmViewModel cancelOrderConfirmViewModel = new CancelOrderConfirmViewModel(getApplication());
+                binding.setViewModel(cancelOrderConfirmViewModel);
+                cancelOrderConfirmViewModel.setCancelOrderModel(nhOrderBean);
+                dialog.show();
 
-                                if (!TextUtils.isEmpty(feeModel.message)
-                                        && (feeModel.message.contains("insufficient_balance")
-                                        || feeModel.message.contains("Insufficient Balance"))) {
-                                    ToastUtils.showShort(R.string.insufficient_balance);
-                                    return;
-                                }
-                                if (!feeModel.isSuccess()) {
-                                    return;
-                                }
-                                dialog = new BottomSheetDialog(OrderManageActivity.this);
-                                DialogCancelOrderConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_cancel_order_confirm, null, false);
-                                dialog.setContentView(binding.getRoot());
-                                // 设置dialog 完全显示
-                                View parent = (View) binding.getRoot().getParent();
-                                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
-                                binding.getRoot().measure(0, 0);
-                                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
-                                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
-                                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-                                parent.setLayoutParams(params);
-                                dialog.setCanceledOnTouchOutside(false);
-                                final CancelOrderConfirmViewModel cancelOrderConfirmViewModel = new CancelOrderConfirmViewModel(getApplication());
-                                binding.setViewModel(cancelOrderConfirmViewModel);
-                                nhOrderBean.minerFee = feeModel.data.amount;
-                                nhOrderBean.feeSymbol = "COCOS";
-                                cancelOrderConfirmViewModel.setCancelOrderModel(nhOrderBean);
-                                dialog.show();
-                            }
-                        });
-                    }
-                });
             } else if (TextUtils.equals(EventTypeGlobal.SHOW_BUY_ORDER_CONFIRM_DIALOG, busCarrier.getEventType())) {
                 final NhAssetOrderEntity.NhOrderBean nhOrderBean = (NhAssetOrderEntity.NhOrderBean) busCarrier.getObject();
                 if (TextUtils.equals(AccountHelperUtils.getCurrentAccountName(), nhOrderBean.sellerName)) {
                     ToastUtils.showShort(R.string.module_asset_can_not_buy_owner_order);
                     return;
                 }
-                CocosBcxApiWrapper.getBcxInstance().buy_nh_asset_fee(AccountHelperUtils.getCurrentAccountName(), nhOrderBean.id, new IBcxCallBack() {
-                    @Override
-                    public void onReceiveValue(final String s) {
-                        MainHandler.getInstance().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (TextUtils.isEmpty(s)) {
-                                    ToastUtils.showShort(R.string.net_work_failed);
-                                    return;
-                                }
-                                Log.i("buy_nh_asset_fee", s);
-                                final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                                if (feeModel.code == 161) {
-                                    ToastUtils.showShort(R.string.module_asset_order_not_exist);
-                                    return;
-                                }
-
-                                if (!TextUtils.isEmpty(feeModel.message)
-                                        && (feeModel.message.contains("insufficient_balance")
-                                        || feeModel.message.contains("Insufficient Balance"))) {
-                                    ToastUtils.showShort(R.string.insufficient_balance);
-                                    return;
-                                }
-
-                                if (!feeModel.isSuccess()) {
-                                    return;
-                                }
-                                dialog = new BottomSheetDialog(OrderManageActivity.this);
-                                DialogBuyOrderConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_buy_order_confirm, null, false);
-                                dialog.setContentView(binding.getRoot());
-                                // 设置dialog 完全显示
-                                View parent = (View) binding.getRoot().getParent();
-                                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
-                                binding.getRoot().measure(0, 0);
-                                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
-                                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
-                                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-                                parent.setLayoutParams(params);
-                                dialog.setCanceledOnTouchOutside(false);
-                                final BuyOrderConfirmViewModel buyOrderConfirmViewModel = new BuyOrderConfirmViewModel(getApplication());
-                                binding.setViewModel(buyOrderConfirmViewModel);
-                                nhOrderBean.minerFee = feeModel.data.amount;
-                                nhOrderBean.feeSymbol = "COCOS";
-                                buyOrderConfirmViewModel.setBuyOrderModel(nhOrderBean);
-                                dialog.show();
-                            }
-                        });
-                    }
-                });
+                dialog = new BottomSheetDialog(OrderManageActivity.this);
+                DialogBuyOrderConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_buy_order_confirm, null, false);
+                dialog.setContentView(binding.getRoot());
+                // 设置dialog 完全显示
+                View parent = (View) binding.getRoot().getParent();
+                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+                binding.getRoot().measure(0, 0);
+                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
+                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+                parent.setLayoutParams(params);
+                dialog.setCanceledOnTouchOutside(false);
+                final BuyOrderConfirmViewModel buyOrderConfirmViewModel = new BuyOrderConfirmViewModel(getApplication());
+                binding.setViewModel(buyOrderConfirmViewModel);
+                buyOrderConfirmViewModel.setBuyOrderModel(nhOrderBean);
+                dialog.show();
             } else if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
                 if (null != dialog) {
                     dialog.dismiss();
@@ -240,7 +172,7 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
         passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
             @Override
             public void onFinish(String password) {
-                CocosBcxApiWrapper.getBcxInstance().buy_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), nhOrderBean.id, new IBcxCallBack() {
+                CocosBcxApiWrapper.getBcxInstance().buy_nh_asset(AccountHelperUtils.getCurrentAccountName(), password, nhOrderBean.id, new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(String s) {
                         Log.i("buy_nh_asset", s);
@@ -287,7 +219,7 @@ public class OrderManageActivity extends BaseActivity<ActivityOrderManageBinding
         passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
             @Override
             public void onFinish(String password) {
-                CocosBcxApiWrapper.getBcxInstance().cancel_nh_asset_order(nhOrderBean.seller, password, nhOrderBean.id, "COCOS", new IBcxCallBack() {
+                CocosBcxApiWrapper.getBcxInstance().cancel_nh_asset_order(nhOrderBean.seller, password, nhOrderBean.id, new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(String s) {
                         Log.i("cancel_nh_asset_order", s);
