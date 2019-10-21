@@ -19,6 +19,7 @@ import com.cocos.library_base.base.ItemViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetsModel;
+import com.cocos.library_base.entity.FeesModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
@@ -69,51 +70,60 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
         double option = (double) dealRecordModel.op.get(0);
         dealDetailModel.option = option;
         if (0 == option) {
-            symbolTypeVisible.set(View.VISIBLE);
-            final Object opObject = dealRecordModel.op.get(1);
-            final DealRecordModel.OpBean opBean = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(opObject), DealRecordModel.OpBean.class);
-            // 转账
-            final String fromAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(opBean.from);
-            final String toAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(opBean.to);
-            dealDetailModel.from = fromAccountName;
-            dealDetailModel.to = toAccountName;
-            //当前账户不是收款账户则为转账
-            final boolean isTransferAccount = !TextUtils.equals(AccountHelperUtils.getCurrentAccountName(), toAccountName);
-            drawableImg = Utils.getDrawable(isTransferAccount ? R.drawable.deal_record_transfer_operation_icon : R.drawable.deal_record_receive_operation_icon);
-            if (isTransferAccount) {
-                account.set(toAccountName);
-                operationAmountColor.set(Utils.getColor(R.color.color_4868DC));
-                dealDetailModel.deal_type = Utils.getString(R.string.module_asset_transfer_title);
-            } else {
-                account.set(fromAccountName);
-                operationAmountColor.set(Utils.getColor(R.color.color_2FC49F));
-                dealDetailModel.deal_type = Utils.getString(R.string.module_asset_receivables_title);
-            }
-            if (null != opBean.memo) {
-                dealDetailModel.memo = opBean.memo;
-            }
-
-            // 转账币种查询
-            CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(opBean.amount.asset_id, new IBcxCallBack() {
-                @Override
-                public void onReceiveValue(final String assets) {
-                    final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(assets, AssetsModel.class);
-                    MainHandler.getInstance().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!assetModel.isSuccess()) {
-                                return;
-                            }
-                            // precision
-                            BigDecimal ratio = new BigDecimal(Math.pow(10, assetModel.getData().precision));
-                            String dealAmount = opBean.amount.amount.divide(ratio).add(BigDecimal.ZERO) + assetModel.getData().symbol;
-                            operationAmount.set(isTransferAccount ? "-" + dealAmount : "+" + dealAmount);
-                            dealDetailModel.amount = dealAmount;
-                        }
-                    });
+            try {
+                symbolTypeVisible.set(View.VISIBLE);
+                final Object opObject = dealRecordModel.op.get(1);
+                final DealRecordModel.OpBean opBean = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(opObject), DealRecordModel.OpBean.class);
+                // 转账
+                final String fromAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(opBean.from);
+                final String toAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(opBean.to);
+                dealDetailModel.from = fromAccountName;
+                dealDetailModel.to = toAccountName;
+                //当前账户不是收款账户则为转账
+                final boolean isTransferAccount = !TextUtils.equals(AccountHelperUtils.getCurrentAccountName(), toAccountName);
+                drawableImg = Utils.getDrawable(isTransferAccount ? R.drawable.deal_record_transfer_operation_icon : R.drawable.deal_record_receive_operation_icon);
+                if (isTransferAccount) {
+                    account.set(toAccountName);
+                    operationAmountColor.set(Utils.getColor(R.color.color_4868DC));
+                    dealDetailModel.deal_type = Utils.getString(R.string.module_asset_transfer_title);
+                } else {
+                    account.set(fromAccountName);
+                    operationAmountColor.set(Utils.getColor(R.color.color_2FC49F));
+                    dealDetailModel.deal_type = Utils.getString(R.string.module_asset_receivables_title);
                 }
-            });
-        } else if (44 == option) {
+                if (null != opBean.memo) {
+                    dealDetailModel.memo = opBean.memo;
+                }
+
+                // 转账币种查询
+                CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(opBean.amount.asset_id, new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(final String assets) {
+                        final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(assets, AssetsModel.class);
+                        MainHandler.getInstance().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!assetModel.isSuccess()) {
+                                    return;
+                                }
+                                // precision
+                                BigDecimal ratio = new BigDecimal(Math.pow(10, assetModel.getData().precision));
+                                String dealAmount = opBean.amount.amount.divide(ratio).add(BigDecimal.ZERO) + assetModel.getData().symbol;
+                                operationAmount.set(isTransferAccount ? "-" + dealAmount : "+" + dealAmount);
+                                dealDetailModel.amount = dealAmount;
+                            }
+                        });
+                    }
+                });
+                final Object resultObject = dealRecordModel.result.get(1);
+                final FeesModel feesModel = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(resultObject), FeesModel.class);
+                FeesModel.FeesBean feesBean = feesModel.fees.get(0);
+                dealDetailModel.fee = String.valueOf(TextUtils.equals("1.3.0", feesBean.asset_id) ? feesModel.fees.get(0).amount.divide(BigDecimal.valueOf(Math.pow(10, 5))) : 0);
+                dealDetailModel.feeSymbol = "COCOS";
+            } catch (Exception e) {
+                ToastUtils.showShort(R.string.net_work_failed);
+            }
+        } else if (35 == option) {
             try {
                 drawableImg = Utils.getDrawable(R.drawable.deal_record_contract_icon);
                 operationAmountColor.set(Utils.getColor(R.color.color_4B4BD9));
@@ -154,6 +164,11 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                         }
                     }
                 }
+                final Object resultObject = dealRecordModel.result.get(1);
+                final FeesModel feesModel = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(resultObject), FeesModel.class);
+                FeesModel.FeesBean feesBean = feesModel.fees.get(0);
+                dealDetailModel.fee = String.valueOf(TextUtils.equals("1.3.0", feesBean.asset_id) ? feesModel.fees.get(0).amount.divide(BigDecimal.valueOf(Math.pow(10, 5))) : 0);
+                dealDetailModel.feeSymbol = "COCOS";
             } catch (ContractNotFoundException e) {
                 ToastUtils.showShort(R.string.net_work_failed);
             } catch (NetworkStatusException e) {
@@ -163,7 +178,7 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
             } catch (Exception e) {
                 ToastUtils.showShort(R.string.net_work_failed);
             }
-        } else if (51 == option) {
+        } else if (42 == option) {
             symbolTypeVisible.set(View.GONE);
             final Object opObject = dealRecordModel.op.get(1);
             final DealRecordModel.OpBean opBean = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(opObject), DealRecordModel.OpBean.class);
@@ -185,6 +200,11 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
             operationAmount.set(opBean.nh_asset + Utils.getString(R.string.module_asset_coin_type_test));
             dealDetailModel.deal_type = Utils.getString(R.string.module_asset_transfer_nh_title);
             dealDetailModel.nh_asset_id = opBean.nh_asset;
+            final Object resultObject = dealRecordModel.result.get(1);
+            final FeesModel feesModel = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(resultObject), FeesModel.class);
+            FeesModel.FeesBean feesBean = feesModel.fees.get(0);
+            dealDetailModel.fee = String.valueOf(TextUtils.equals("1.3.0", feesBean.asset_id) ? feesModel.fees.get(0).amount.divide(BigDecimal.valueOf(Math.pow(10, 5))) : 0);
+            dealDetailModel.feeSymbol = "COCOS";
         }
 
         dealDetailModel.block_header = String.valueOf(dealRecordModel.block_num);
@@ -229,9 +249,9 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
             bundle.putSerializable(IntentKeyGlobal.DEAL_DETAIL_MODEL, dealDetailModel);
             if (dealDetailModel.option == 0) {
                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_RECORD_DETAIL).with(bundle).navigation();
-            } else if (dealDetailModel.option == 44) {
+            } else if (dealDetailModel.option == 35) {
                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_CONTRACT_RECORD_DETAIL).with(bundle).navigation();
-            } else if (dealDetailModel.option == 51) {
+            } else if (dealDetailModel.option == 42) {
                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_NH_TRANSFER_RECORD_DETAIL).with(bundle).navigation();
             }
         }

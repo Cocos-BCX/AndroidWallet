@@ -9,6 +9,7 @@ import android.databinding.ObservableList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -131,6 +132,7 @@ public class DealRecordViewModel extends BaseViewModel {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
+                        Log.i("get_account_history", value);
                         DealRecordModel dealRecordModel = global_config_object.getInstance().getGsonBuilder().create().fromJson(value, DealRecordModel.class);
                         observableList.clear();
                         if (!dealRecordModel.isSuccess() || dealRecordModel.data.size() <= 0) {
@@ -138,7 +140,7 @@ public class DealRecordViewModel extends BaseViewModel {
                         }
                         for (DealRecordModel.DealRecordItemModel recordItemModel : dealRecordModel.getData()) {
                             double option = (double) recordItemModel.op.get(0);
-                            if (option == 0 || option == 44 || option == 51) {
+                            if (option == 0 || option == 35 || option == 42) {
                                 DealRecordItemViewModel itemViewModel = new DealRecordItemViewModel(DealRecordViewModel.this, recordItemModel);
                                 observableList.add(itemViewModel);
                             }

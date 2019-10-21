@@ -92,7 +92,7 @@ public class RecordDetailViewModel extends BaseViewModel {
         dealAmount.set(dealDetailModel.amount);
         senderAccount.set(dealDetailModel.from);
         receiablesAccount.set(dealDetailModel.to);
-        minerFee.set(dealDetailModel.fee + dealDetailModel.feeAssetSymbol);
+        minerFee.set(dealDetailModel.fee + dealDetailModel.feeSymbol);
         squareHeight.set(dealDetailModel.block_header);
         dealTime.set(dealDetailModel.time);
         dealMemoVisibility.set(null != dealDetailModel.memo ? View.VISIBLE : View.GONE);

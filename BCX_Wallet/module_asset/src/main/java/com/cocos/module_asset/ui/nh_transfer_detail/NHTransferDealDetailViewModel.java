@@ -73,7 +73,7 @@ public class NHTransferDealDetailViewModel extends BaseViewModel {
         receiablesAccount.set(dealDetailModel.to);
         nhAssetId.set(dealDetailModel.nh_asset_id);
         dealHash.set(dealDetailModel.tx_id);
-        minerFee.set(dealDetailModel.fee + dealDetailModel.feeAssetSymbol);
+        minerFee.set(dealDetailModel.fee + dealDetailModel.feeSymbol);
         squareHeight.set(dealDetailModel.block_header);
         dealTime.set(dealDetailModel.time);
     }
