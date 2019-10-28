@@ -42,6 +42,8 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.functions.Consumer;
@@ -100,7 +102,9 @@ public class TransferNHAssetActivity extends BaseActivity<ActivityTransferNhAsse
         passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
             @Override
             public void onFinish(String password) {
-                CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, nhAssetModelBean.from, nhAssetModelBean.to, nhAssetModelBean.id, new IBcxCallBack() {
+                List<String> nhAsset_ids = new ArrayList<>();
+                nhAsset_ids.add(nhAssetModelBean.id);
+                CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, nhAssetModelBean.from, nhAssetModelBean.to, nhAsset_ids, new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(String s) {
                         Log.i("transfer_nh_asset", s);

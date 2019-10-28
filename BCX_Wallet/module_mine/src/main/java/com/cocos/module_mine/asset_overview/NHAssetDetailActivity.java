@@ -34,6 +34,8 @@ import com.cocos.module_mine.databinding.ActivityNhAssetDetaiilBinding;
 import com.cocos.module_mine.databinding.DialogDeleteNhAssetConfirmBinding;
 import com.cocos.module_mine.entity.NHAssetModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -128,7 +130,9 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
         passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
             @Override
             public void onFinish(String password) {
-                CocosBcxApiWrapper.getBcxInstance().delete_nh_asset(AccountHelperUtils.getCurrentAccountName(), password, nhAssetModelBean.id, new IBcxCallBack() {
+                List<String> nhAsset_ids = new ArrayList<>();
+                nhAsset_ids.add(nhAssetModelBean.id);
+                CocosBcxApiWrapper.getBcxInstance().delete_nh_asset(AccountHelperUtils.getCurrentAccountName(), password, nhAsset_ids, new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(String s) {
                         Log.i("delete_nh_asset", s);
