@@ -441,45 +441,42 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             /**
              * publishVotes
              */
-//            PublishVotesParamsModel publishVotesParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, PublishVotesParamsModel.class);
-//            if (!TextUtils.isEmpty(password)) {
-//                publishVotes(password, publishVotesParamsModel, params);
-//                return;
-//            }
-//            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
-//            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
-//            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
-//                @Override
-//                public void onFinish(String password) {
-//                    publishVotes(password, publishVotesParamsModel, params);
-//                }
-//
-//                @Override
-//                public void cancel() {
-//                    onCancel(params);
-//                }
-//            });
+            PublishVotesParamsModel publishVotesParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, PublishVotesParamsModel.class);
+            if (!TextUtils.isEmpty(password)) {
+                publishVotes(password, publishVotesParamsModel, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    publishVotes(password, publishVotesParamsModel, params);
+                }
+
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
         }
     }
 
-//    private void publishVotes(String password, PublishVotesParamsModel publishVotes, JsParamsEventModel params) {
-//        List<String> vote_ids = new ArrayList<>();
-//        vote_ids.add("1:0");
-//        vote_ids.add("0:24");
-//        CocosBcxApiWrapper.getBcxInstance().vote_members(AccountHelperUtils.getCurrentAccountName(), password, vote_ids, String.valueOf(publishVotes.votes),
-//                new IBcxCallBack() {
-//                    @SuppressLint("LongLogTag")
-//                    @Override
-//                    public void onReceiveValue(String s) {
-//                        Log.i("vote_members", s);
-//                        BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
-//                        setTransactionCallBack(baseResult, params);
-//                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-//                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-//                        }
-//                    }
-//                });
-//    }
+    private void publishVotes(String password, PublishVotesParamsModel publishVotes, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().vote_members(AccountHelperUtils.getCurrentAccountName(), password, publishVotes.witnessesIds, publishVotes.committee_ids, String.valueOf(publishVotes.votes),
+                new IBcxCallBack() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onReceiveValue(String s) {
+                        Log.i("vote_members", s);
+                        BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                        setTransactionCallBack(baseResult, params);
+                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+                        }
+                    }
+                });
+    }
 
     /**
      * 领取GAS或节点出块奖励
