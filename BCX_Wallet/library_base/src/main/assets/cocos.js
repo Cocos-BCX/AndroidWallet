@@ -447,15 +447,11 @@ class Index {
 
 
 function inject() {
-    window.BcxWeb = new Index();
-    BcxWeb.getAccountInfo().then(res => {
-        window.BcxWeb.account_name = res.account_name
-    });
     let timer = null
     clearInterval(timer)
     timer = setInterval(() => {
         try {
-            BcxWeb.initConnect().then(res => {
+            hookFunction.initConnect().then(async res => {
                 var _configParams = {
                     default_ws_node: res.ws,
                     ws_node_list: [res.ws],
@@ -467,11 +463,16 @@ function inject() {
                     auto_reconnect: true,
                     worker: false
                 };
-                console.log('initConnect', res.ws);
-                BcxWeb.bcx = new BCX(_configParams);
+                window.BcxWeb = new Index();
+                window.BcxWeb.bcx = new BCX(_configParams);
+                let getAccountInfoRes = await window.BcxWeb.getAccountInfo()
+                window.BcxWeb.account_name = getAccountInfoRes.account_name
                 if (BcxWeb.bcx) {
                     clearInterval(timer);
+                    console.log('inject ----- success ', BcxWeb);
                 }
+            }).catch(error => {
+             console.log('BCX not found error', error);
             });
         } catch (error) {
             console.log('initConnect', error);
