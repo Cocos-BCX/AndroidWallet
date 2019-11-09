@@ -204,6 +204,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 }
             });
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.CALLCONTRACTFUNCTION)) {
+
+            Log.i("callContractFunction--param", params.param);
             /**
              *  callContractFunction
              */
@@ -218,6 +220,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              *  invoking contract method
              */
             if (!TextUtils.isEmpty(password)) {
+                Log.i("callContractFunction--valueList", String.valueOf(str5.toString()));
                 invoking_contract(password, jsContractParamsModel, str5, params);
                 return;
             }
@@ -227,6 +230,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
                 @Override
                 public void onFinish(String password) {
+                    Log.i("callContractFunction--valueList", String.valueOf(str5.toString()));
                     invoking_contract(password, jsContractParamsModel, str5, params);
                 }
 

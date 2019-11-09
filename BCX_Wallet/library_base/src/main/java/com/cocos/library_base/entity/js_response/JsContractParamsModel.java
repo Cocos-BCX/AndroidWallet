@@ -17,7 +17,6 @@ public class JsContractParamsModel {
      */
     public String nameOrId;
     public String functionName;
-    public int runtime;
     public List<String> valueList;
 
 

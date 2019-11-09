@@ -76,9 +76,9 @@ public class BCXApplication extends BaseApplication {
 //        requestNodeListData();
 
         //初始化工具类
-        List<String> mListNode = Arrays.asList("ws://182.92.164.121:8021", "ws://182.92.164.121:8021");
-        String faucetUrl = "http://47.93.62.96:8041";
-        String chainId = "0feb05b09945f0e17d022eee831873c867e30cbc2fe9bb040a91caff12713424";
+        List<String> mListNode = Arrays.asList("ws://123.56.98.47:80", "ws://123.56.98.47:80");
+        String faucetUrl = "http://123.56.98.47:8061";
+        String chainId = "c1ac4bb7bd7d94874a1cb98b39a8a582421d03d022dfa4be8c70567076e03ad0";
         String coreAsset = "COCOS";
         boolean isOpenLog = true;
         CocosBcxApiWrapper.getBcxInstance().init(this);
@@ -90,10 +90,10 @@ public class BCXApplication extends BaseApplication {
                         BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
                         if (resultEntity.isSuccess()) {
                             NodeInfoModel.DataBean nodeInfoModel = new NodeInfoModel.DataBean();
-                            nodeInfoModel.chainId = "0feb05b09945f0e17d022eee831873c867e30cbc2fe9bb040a91caff12713424";
-                            nodeInfoModel.faucetUrl = "http://47.93.62.96:8041";
+                            nodeInfoModel.chainId = "c1ac4bb7bd7d94874a1cb98b39a8a582421d03d022dfa4be8c70567076e03ad0";
+                            nodeInfoModel.faucetUrl = "http://123.56.98.47:8061";
                             nodeInfoModel.coreAsset = "COCOS";
-                            nodeInfoModel.ws = "ws://182.92.164.121:8021";
+                            nodeInfoModel.ws = "ws://123.56.98.47:80";
                             SPUtils.putObject(BCXApplication.this, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, nodeInfoModel);
                         }
                     }

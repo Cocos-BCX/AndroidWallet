@@ -443,6 +443,16 @@ class Index {
         });
     }
 
+     queryVestingBalance(params) {
+              return new Promise((resolve, reject) => {
+                  BcxWeb.bcx.queryVestingBalance(params).then((res) => {
+                     console.log('queryVestingBalance--android -- params ', params);
+                     console.log('queryVestingBalance--android -- result ', res);
+                     resolve(res);
+              });
+          });
+       }
+
 }
 
 
