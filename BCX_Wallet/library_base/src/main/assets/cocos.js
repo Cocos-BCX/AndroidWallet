@@ -304,7 +304,9 @@ class Index {
     queryVotes(params) {
         return new Promise((resolve, reject) => {
             BcxWeb.bcx.queryVotes(params).then((res) => {
-                resolve(res);
+              console.log("queryVotes---params", params);
+              console.log("queryVotes--res-", res);
+              resolve(res);
             });
         });
     }

@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class PublishVotesParamsModel {
 
-    public List<String> witnessesIds;
-    public List<String> committee_ids;
-    public int votes;
+    public String type;
+    public List<String> vote_ids;
+    public String votes;
 }
