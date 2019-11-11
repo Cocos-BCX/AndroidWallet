@@ -147,6 +147,7 @@
     <string name="module_mine_nh_asset_sale_valid_time_less_than_one">Expired time invalid</string>
     <string name="module_mine_nh_receiver_can_not_be_self">Transfer account can not be self</string>
     <string name="module_mine_nh_asset_sale_valid_time_max">Max </string>
+    <string name="order_manage_text">Orders</string>
 
 
 </resources>

@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
     <string name="module_asset_transfer_token">转账</string>
     <string name="module_asset_receivables_token">收款</string>
-    <string name="module_asset_props_assets">资产管理</string>
-    <string name="module_asset_message_center">订单管理</string>
+    <string name="module_asset_props_assets">资源</string>
+    <string name="module_asset_message_center">投票</string>
     <string name="module_asset_owner_assets_text">我的资产</string>
     <string name="module_asset_developing">敬请期待</string>
     <string name="module_asset_transfer_title">转账</string>

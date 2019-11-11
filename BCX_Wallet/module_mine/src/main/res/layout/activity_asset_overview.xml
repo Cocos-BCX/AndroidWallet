@@ -50,6 +50,17 @@
                 android:textSize="@dimen/sp_18"
                 android:typeface="@{@string/TOTAL_ASSET}" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/dp_16"
+                android:paddingRight="@dimen/dp_16"
+                android:text="@string/order_manage_text"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_16"
+                binding:onClickCommand="@{viewModel.OrderManageCentersItemClick}" />
 
         </RelativeLayout>
 

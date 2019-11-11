@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
     <string name="module_asset_transfer_token">Send</string>
     <string name="module_asset_receivables_token">Receive</string>
-    <string name="module_asset_props_assets">Assets</string>
-    <string name="module_asset_message_center">Orders</string>
+    <string name="module_asset_props_assets">Sources</string>
+    <string name="module_asset_message_center">Vote</string>
     <string name="module_asset_owner_assets_text">My Assets</string>
     <string name="module_asset_transfer_title">Send</string>
     <string name="module_asset_receivable_account">Address</string>
