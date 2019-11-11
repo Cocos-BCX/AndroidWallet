@@ -20,6 +20,7 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AllAssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
+import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
@@ -111,21 +112,29 @@ public class AssetViewModel extends BaseViewModel {
         }
     });
 
-    //资产按钮的点击事件
+    //资源按钮的点击事件
     public BindingCommand propsAssetsItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
+            WebViewModel webViewModel = new WebViewModel();
+            webViewModel.setTitle(Utils.getString(R.string.module_asset_props_assets));
+            webViewModel.setUrl("http://192.168.15.39:8081");
             Bundle bundle = new Bundle();
-            bundle.putInt(IntentKeyGlobal.TAB_POSITION, 1);
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_ASSET_OVERVIEW).with(bundle).navigation();
+            bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
         }
     });
 
-    //消息中心按钮的点击事件
+    //投票按钮的点击事件
     public BindingCommand OrderManageCentersItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_ORDER_MANAGE).navigation();
+            WebViewModel webViewModel = new WebViewModel();
+            webViewModel.setTitle(Utils.getString(R.string.module_asset_message_center));
+            webViewModel.setUrl("http://192.168.15.39:8080");
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
         }
     });
 
