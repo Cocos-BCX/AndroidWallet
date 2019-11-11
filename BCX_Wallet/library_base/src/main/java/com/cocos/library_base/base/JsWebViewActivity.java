@@ -27,6 +27,7 @@ import com.cocos.library_base.entity.js_params.JsParamsEventModel;
 import com.cocos.library_base.entity.js_params.TransactionFeeModel;
 import com.cocos.library_base.entity.js_params.TransactionModel;
 import com.cocos.library_base.entity.js_response.CancelNHAssetOrderParamsModel;
+import com.cocos.library_base.entity.js_response.ClaimVestingBalanceParamModle;
 import com.cocos.library_base.entity.js_response.CreateNHAssetOrderParamsModel;
 import com.cocos.library_base.entity.js_response.DeleteNHAssetParamsModel;
 import com.cocos.library_base.entity.js_response.FillNHAssetOrderParamsModel;
@@ -422,8 +423,10 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             /**
              * claimVestingBalance
              */
+            ClaimVestingBalanceParamModle claimVestingBalancePrams = GsonSingleInstance.getGsonInstance().fromJson(params.param, ClaimVestingBalanceParamModle.class);
+
             if (!TextUtils.isEmpty(password)) {
-                claimVestingBalance(password, params);
+                claimVestingBalance(claimVestingBalancePrams.id, password, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -431,7 +434,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
                 @Override
                 public void onFinish(String password) {
-                    claimVestingBalance(password, params);
+                    claimVestingBalance(claimVestingBalancePrams.id, password, params);
                 }
 
                 @Override
@@ -467,7 +470,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     }
 
     private void publishVotes(String password, PublishVotesParamsModel publishVotes, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().vote_members(AccountHelperUtils.getCurrentAccountName(), password, Integer.parseInt(publishVotes.type), publishVotes.vote_ids, String.valueOf(publishVotes.votes),
+        CocosBcxApiWrapper.getBcxInstance().vote_members(AccountHelperUtils.getCurrentAccountName(), password, publishVotes.type, publishVotes.vote_ids, String.valueOf(publishVotes.votes),
                 new IBcxCallBack() {
                     @SuppressLint("LongLogTag")
                     @Override
@@ -488,8 +491,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * @param password
      * @param params
      */
-    private void claimVestingBalance(String password, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().receive_vesting_balances(AccountHelperUtils.getCurrentAccountName(), password,
+    private void claimVestingBalance(String awardId, String password, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().receive_vesting_balances(AccountHelperUtils.getCurrentAccountName(), awardId, password,
                 new IBcxCallBack() {
                     @SuppressLint("LongLogTag")
                     @Override
