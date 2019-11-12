@@ -118,7 +118,7 @@ public class AssetViewModel extends BaseViewModel {
         public void call() {
             WebViewModel webViewModel = new WebViewModel();
             webViewModel.setTitle(Utils.getString(R.string.module_asset_props_assets));
-            webViewModel.setUrl("http://192.168.15.39:8081");
+            webViewModel.setUrl(Utils.getString(R.string.module_asset_sources_url));
             Bundle bundle = new Bundle();
             bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
@@ -131,7 +131,7 @@ public class AssetViewModel extends BaseViewModel {
         public void call() {
             WebViewModel webViewModel = new WebViewModel();
             webViewModel.setTitle(Utils.getString(R.string.module_asset_message_center));
-            webViewModel.setUrl("http://192.168.15.39:8080");
+            webViewModel.setUrl(Utils.getString(R.string.module_asset_vote_url));
             Bundle bundle = new Bundle();
             bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
