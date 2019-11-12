@@ -18,6 +18,7 @@ import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.http.api.BaseUrlApi;
 import com.cocos.library_base.http.callback.BaseObserver;
 import com.cocos.library_base.http.http.HttpMethods;
+import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.KLog;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
@@ -75,9 +76,9 @@ public class BCXApplication extends BaseApplication {
         requestNodeListData();
 
 //        //初始化工具类
-//        List<String> mListNode = Arrays.asList("ws://123.57.19.148:9049", "ws://123.57.19.148:9049");
-//        String faucetUrl = "http://test-faucet.cocosbcx.net";
-//        String chainId = "9e0ef9444fc780fa91aaef2e63c18532634ad67dcc436a4b4915d3adeef62c62";
+//        List<String> mListNode = Arrays.asList("ws://47.93.62.96:8049", "ws://47.93.62.96:8049");
+//        String faucetUrl = "http://47.93.62.96:4000";
+//        String chainId = "7d89b84f22af0b150780a2b121aa6c715b19261c8b7fe0fda3a564574ed7d3e9";
 //        String coreAsset = "COCOS";
 //        boolean isOpenLog = true;
 //        CocosBcxApiWrapper.getBcxInstance().init(this);
@@ -89,10 +90,10 @@ public class BCXApplication extends BaseApplication {
 //                        BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
 //                        if (resultEntity.isSuccess()) {
 //                            NodeInfoModel.DataBean nodeInfoModel = new NodeInfoModel.DataBean();
-//                            nodeInfoModel.chainId = "c1ac4bb7bd7d94874a1cb98b39a8a582421d03d022dfa4be8c70567076e03ad0";
-//                            nodeInfoModel.faucetUrl = "http://test-faucet.cocosbcx.net";
+//                            nodeInfoModel.chainId = "7d89b84f22af0b150780a2b121aa6c715b19261c8b7fe0fda3a564574ed7d3e9";
+//                            nodeInfoModel.faucetUrl = "http://47.93.62.96:4000";
 //                            nodeInfoModel.coreAsset = "COCOS";
-//                            nodeInfoModel.ws = "ws://test.cocosbcx.net";
+//                            nodeInfoModel.ws = "ws://47.93.62.96:8049";
 //                            SPUtils.putObject(BCXApplication.this, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, nodeInfoModel);
 //                        }
 //                    }
@@ -125,6 +126,13 @@ public class BCXApplication extends BaseApplication {
                     if (data.status != 200) {
                         onErrorInit(selectedNodeModel);
                         return;
+                    }
+
+                    boolean is_first_connect = SPUtils.getBoolean(BCXApplication.this, SPKeyGlobal.IS_FIRST_INIT, true);
+                    if (null != selectedNodeModel && is_first_connect) {
+                        selectedNodeModel = null;
+                        AccountHelperUtils.setCurrentAccountName("");
+                        SPUtils.putBoolean(BCXApplication.this, SPKeyGlobal.IS_FIRST_INIT, false);
                     }
 
                     for (NodeInfoModel.DataBean dataBean : data.data) {

@@ -9,12 +9,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
 import com.cocos.bcx_wallet.databinding.ActivityMainBinding;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.VersionUtil;
@@ -23,6 +26,7 @@ import com.cocos.module_found.fragment.FoundFragment;
 import com.cocos.module_mine.mine_fragment.MineFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ningkang.guo
@@ -97,6 +101,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             Toast.makeText(MainActivity.this, getResources().getString(R.string.system_exit), Toast.LENGTH_SHORT).show();
             mExitTime = System.currentTimeMillis();
         } else {
+            ActivityContainer.finishAllActivity();
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
+        if (null == accountNames || accountNames.size() <= 0) {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+            AccountHelperUtils.setCurrentAccountName("");
             ActivityContainer.finishAllActivity();
         }
     }
