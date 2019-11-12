@@ -13,7 +13,5 @@ public class TransferParamModel {
     public String amount;
     public String assetId;
     public String memo;
-    public String feeAssetId;
     public boolean isPropose;
-    public boolean onlyGetFee;
 }

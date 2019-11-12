@@ -20,7 +20,6 @@ import org.greenrobot.eventbus.EventBus;
 public class CancelOrderConfirmViewModel extends BaseViewModel {
 
     public ObservableField<String> orderId = new ObservableField<>("");
-    public ObservableField<String> minerFee = new ObservableField<>("");
     public ObservableField<String> nhAssetId = new ObservableField<>("");
     public NhAssetOrderEntity.NhOrderBean nhOrderBean;
 
@@ -42,7 +41,6 @@ public class CancelOrderConfirmViewModel extends BaseViewModel {
     public void setCancelOrderModel(NhAssetOrderEntity.NhOrderBean nhOrderBean) {
         this.nhOrderBean = nhOrderBean;
         orderId.set(nhOrderBean.id);
-        minerFee.set(nhOrderBean.minerFee + " " + nhOrderBean.feeSymbol);
         nhAssetId.set(nhOrderBean.nh_asset_id);
     }
 

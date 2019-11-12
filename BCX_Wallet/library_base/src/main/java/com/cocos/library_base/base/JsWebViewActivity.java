@@ -26,10 +26,17 @@ import com.cocos.library_base.entity.js_params.GetAccountInfoModel;
 import com.cocos.library_base.entity.js_params.JsParamsEventModel;
 import com.cocos.library_base.entity.js_params.TransactionFeeModel;
 import com.cocos.library_base.entity.js_params.TransactionModel;
+import com.cocos.library_base.entity.js_response.CancelNHAssetOrderParamsModel;
+import com.cocos.library_base.entity.js_response.ClaimVestingBalanceParamModle;
+import com.cocos.library_base.entity.js_response.CreateNHAssetOrderParamsModel;
+import com.cocos.library_base.entity.js_response.DeleteNHAssetParamsModel;
+import com.cocos.library_base.entity.js_response.FillNHAssetOrderParamsModel;
 import com.cocos.library_base.entity.js_response.JsContractParamsModel;
 import com.cocos.library_base.entity.js_response.MemoModel;
+import com.cocos.library_base.entity.js_response.PublishVotesParamsModel;
 import com.cocos.library_base.entity.js_response.TransferNHAssetParamModel;
 import com.cocos.library_base.entity.js_response.TransferParamModel;
+import com.cocos.library_base.entity.js_response.UpdateGasParamsModel;
 import com.cocos.library_base.global.GlobalConstants;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
@@ -198,6 +205,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 }
             });
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.CALLCONTRACTFUNCTION)) {
+
+            Log.i("callContractFunction--param", params.param);
             /**
              *  callContractFunction
              */
@@ -207,18 +216,12 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 str5.append(s);
                 str5.append(",");
             }
-            if (jsContractParamsModel.onlyGetFee) {
-                CocosBcxApiWrapper.getBcxInstance().calculate_invoking_contract_fee(AccountHelperUtils.getCurrentAccountName(), "COCOS", jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), s -> {
-                    FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                    setTransactionFeeCallBack(baseResult, params);
-                });
-                return;
-            }
 
             /**
              *  invoking contract method
              */
             if (!TextUtils.isEmpty(password)) {
+                Log.i("callContractFunction--valueList", String.valueOf(str5.toString()));
                 invoking_contract(password, jsContractParamsModel, str5, params);
                 return;
             }
@@ -228,6 +231,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
                 @Override
                 public void onFinish(String password) {
+                    Log.i("callContractFunction--valueList", String.valueOf(str5.toString()));
                     invoking_contract(password, jsContractParamsModel, str5, params);
                 }
 
@@ -294,8 +298,327 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.INITCONNECT)) {
             NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
             onJSCallback(params.serialNumber, selectedNodeModel);
-        }
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.DELETENHASSET)) {
+            Log.i(GlobalConstants.DELETENHASSET, params.param);
+            /**
+             * delete nh asset
+             */
+            DeleteNHAssetParamsModel transferNHAssetParamModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, DeleteNHAssetParamsModel.class);
+            if (!TextUtils.isEmpty(password)) {
+                deleteNhAssets(password, transferNHAssetParamModel, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    deleteNhAssets(password, transferNHAssetParamModel, params);
+                }
 
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.CREATNHASSETORDER)) {
+            Log.i(GlobalConstants.CREATNHASSETORDER, params.param);
+
+            /**
+             * create nh asset order
+             */
+            CreateNHAssetOrderParamsModel createNHAssetOrderParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, CreateNHAssetOrderParamsModel.class);
+            if (!TextUtils.isEmpty(password)) {
+                createNhAssetsOrder(password, createNHAssetOrderParamsModel, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    createNhAssetsOrder(password, createNHAssetOrderParamsModel, params);
+                }
+
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
+
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.FILLNHASSETORDER)) {
+            Log.i(GlobalConstants.FILLNHASSETORDER, params.param);
+
+            /**
+             * fill nh asset order
+             */
+            FillNHAssetOrderParamsModel fillNHAssetOrderParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, FillNHAssetOrderParamsModel.class);
+            if (!TextUtils.isEmpty(password)) {
+                fillNhAssetsOrder(password, fillNHAssetOrderParamsModel, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    fillNhAssetsOrder(password, fillNHAssetOrderParamsModel, params);
+                }
+
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
+
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.CANCELNHASSETORDER)) {
+            Log.i(GlobalConstants.CANCELNHASSETORDER, params.param);
+            /**
+             * cancel nh asset order
+             */
+            CancelNHAssetOrderParamsModel cancelNHAssetOrderParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, CancelNHAssetOrderParamsModel.class);
+            if (!TextUtils.isEmpty(password)) {
+                cancelNhAssetsOrder(password, cancelNHAssetOrderParamsModel, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    cancelNhAssetsOrder(password, cancelNHAssetOrderParamsModel, params);
+                }
+
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.UPDATE_COLLATERAL_FOR_GAS)) {
+            Log.i(GlobalConstants.UPDATE_COLLATERAL_FOR_GAS, params.param);
+
+            /**
+             * updateCollateralForGas
+             */
+            UpdateGasParamsModel updateGasParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, UpdateGasParamsModel.class);
+            if (!TextUtils.isEmpty(password)) {
+                updateGas(password, updateGasParamsModel, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    updateGas(password, updateGasParamsModel, params);
+                }
+
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.CLAIM_VESTING_BALANCE)) {
+            Log.i(GlobalConstants.CLAIM_VESTING_BALANCE, params.param);
+            /**
+             * claimVestingBalance
+             */
+            ClaimVestingBalanceParamModle claimVestingBalancePrams = GsonSingleInstance.getGsonInstance().fromJson(params.param, ClaimVestingBalanceParamModle.class);
+
+            if (!TextUtils.isEmpty(password)) {
+                claimVestingBalance(claimVestingBalancePrams.id, password, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    claimVestingBalance(claimVestingBalancePrams.id, password, params);
+                }
+
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.PUBLISH_VOTES)) {
+            Log.i(GlobalConstants.PUBLISH_VOTES, params.param);
+
+            /**
+             * publishVotes
+             */
+            PublishVotesParamsModel publishVotesParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, PublishVotesParamsModel.class);
+            if (!TextUtils.isEmpty(password)) {
+                publishVotes(password, publishVotesParamsModel, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    publishVotes(password, publishVotesParamsModel, params);
+                }
+
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
+        }
+    }
+
+    private void publishVotes(String password, PublishVotesParamsModel publishVotes, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().vote_members(AccountHelperUtils.getCurrentAccountName(), password, publishVotes.type, publishVotes.vote_ids, String.valueOf(publishVotes.votes),
+                new IBcxCallBack() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onReceiveValue(String s) {
+                        Log.i("vote_members", s);
+                        BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                        setTransactionCallBack(baseResult, params);
+                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 领取GAS或节点出块奖励
+     *
+     * @param password
+     * @param params
+     */
+    private void claimVestingBalance(String awardId, String password, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().receive_vesting_balances(AccountHelperUtils.getCurrentAccountName(), password, awardId,
+                new IBcxCallBack() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onReceiveValue(String s) {
+                        Log.i("claimVestingBalance", s);
+                        BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                        setTransactionCallBack(baseResult, params);
+                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 抵押GAS
+     *
+     * @param password
+     * @param updateGasParamsModel
+     * @param params
+     */
+    private void updateGas(String password, UpdateGasParamsModel updateGasParamsModel, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().update_collateral_for_gas(updateGasParamsModel.mortgager, password, updateGasParamsModel.beneficiary, String.valueOf(updateGasParamsModel.amount),
+                new IBcxCallBack() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onReceiveValue(String s) {
+                        Log.i("update_collateral_for_gas", s);
+                        BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                        setTransactionCallBack(baseResult, params);
+                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 取消NH 资产订单
+     *
+     * @param password
+     * @param cancelNHAssetOrderParamsModel
+     * @param params
+     */
+    private void cancelNhAssetsOrder(String password, CancelNHAssetOrderParamsModel cancelNHAssetOrderParamsModel, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().cancel_nh_asset_order(AccountHelperUtils.getCurrentAccountName(), password, cancelNHAssetOrderParamsModel.orderId,
+                new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        Log.i("cancel_nh_asset_order", s);
+                        BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                        setTransactionCallBack(baseResult, params);
+                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 购买NH 资产
+     *
+     * @param password
+     * @param fillNHAssetOrderParamsModel
+     * @param params
+     */
+    private void fillNhAssetsOrder(String password, FillNHAssetOrderParamsModel fillNHAssetOrderParamsModel, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().buy_nh_asset(AccountHelperUtils.getCurrentAccountName(), password, fillNHAssetOrderParamsModel.orderId,
+                new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        Log.i("buy_nh_asset", s);
+                        BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                        setTransactionCallBack(baseResult, params);
+                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 创建NH 资产订单
+     *
+     * @param password
+     * @param createNHAssetOrderParamsModel
+     * @param params
+     */
+    private void createNhAssetsOrder(String password, CreateNHAssetOrderParamsModel createNHAssetOrderParamsModel, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("syling", AccountHelperUtils.getCurrentAccountName(),
+                password, createNHAssetOrderParamsModel.NHAssetId, "0", "COCOS", createNHAssetOrderParamsModel.memo,
+                String.valueOf(createNHAssetOrderParamsModel.price), createNHAssetOrderParamsModel.priceAssetId, createNHAssetOrderParamsModel.expiration,
+                new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        Log.i("create_nh_asset_order", s);
+                        BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                        setTransactionCallBack(baseResult, params);
+                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 删除NH 资产
+     *
+     * @param password
+     * @param deleteNHAssetParamModel
+     * @param params
+     */
+    private void deleteNhAssets(String password, DeleteNHAssetParamsModel deleteNHAssetParamModel, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().delete_nh_asset(AccountHelperUtils.getCurrentAccountName(), password, deleteNHAssetParamModel.NHAssetIds, new IBcxCallBack() {
+            @Override
+            public void onReceiveValue(String s) {
+                BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                setTransactionCallBack(baseResult, params);
+                if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
+                    SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+                }
+            }
+        });
     }
 
     /**
@@ -306,7 +629,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * @param params
      */
     private void transferNhAssets(String password, TransferNHAssetParamModel transferNHAssetParamModel, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), transferNHAssetParamModel.toAccount, "COCOS", transferNHAssetParamModel.NHAssetIds.get(0), s -> {
+        CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), transferNHAssetParamModel.toAccount, transferNHAssetParamModel.NHAssetIds, s -> {
             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
             setTransactionCallBack(baseResult, params);
             if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
@@ -348,7 +671,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * @param params
      */
     private void invoking_contract(String password, JsContractParamsModel jsContractParamsModel, StringBuffer str5, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().invoking_contract(AccountHelperUtils.getCurrentAccountName(), password, "COCOS", jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), new IBcxCallBack() {
+        CocosBcxApiWrapper.getBcxInstance().invoking_contract(AccountHelperUtils.getCurrentAccountName(), password, jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), new IBcxCallBack() {
             @Override
             public void onReceiveValue(String s) {
                 BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
@@ -372,19 +695,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      */
     private void transferAssets(String password, JsParamsEventModel params) {
         TransferParamModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, TransferParamModel.class);
-        // only get transfer fee
-        if (assetModel.onlyGetFee) {
-            CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
-                FeeModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                setTransactionFeeCallBack(baseResult, params);
-                if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                    SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                }
-            });
-            return;
-        }
         // transfer asset
-        CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.feeAssetId, assetModel.memo, s -> {
+        CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.memo, s -> {
             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
             setTransactionCallBack(baseResult, params);
             if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {

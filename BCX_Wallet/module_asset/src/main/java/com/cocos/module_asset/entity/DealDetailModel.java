@@ -17,7 +17,6 @@ public class DealDetailModel implements Serializable {
     public String block_header;
 
     public String amountAssetSymbol;
-    public String feeAssetSymbol;
 
     // 合约调用字段
     public String caller;
@@ -30,6 +29,7 @@ public class DealDetailModel implements Serializable {
 
     // 公共字段
     public String fee;
+    public String feeSymbol;
     public String time;
     public double option;
 }

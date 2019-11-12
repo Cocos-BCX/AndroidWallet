@@ -19,11 +19,9 @@ import org.greenrobot.eventbus.EventBus;
  */
 public class TransferNhAssetConfirmViewModel extends BaseViewModel {
 
-
     public ObservableField<String> from = new ObservableField<>("");
     public ObservableField<String> to = new ObservableField<>("");
     public ObservableField<String> nhAssetId = new ObservableField<>("");
-    public ObservableField<String> minerFee = new ObservableField<>("");
 
     NHAssetModel.NHAssetModelBean nHAssetModelBean;
 
@@ -58,7 +56,5 @@ public class TransferNhAssetConfirmViewModel extends BaseViewModel {
         from.set(nHAssetModelBean.from);
         to.set(nHAssetModelBean.to);
         nhAssetId.set(nHAssetModelBean.id);
-        minerFee.set(nHAssetModelBean.minerFee + " " + nHAssetModelBean.feeSymbol);
-
     }
 }

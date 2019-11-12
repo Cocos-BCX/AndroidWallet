@@ -59,7 +59,7 @@ public class ContractRecordDetailViewModel extends BaseViewModel {
         contractName.set(dealDetailModel.contract_name);
         contractAction.set(dealDetailModel.function_name);
         contractData.set(dealDetailModel.params);
-        minerFee.set(dealDetailModel.fee + dealDetailModel.feeAssetSymbol);
+        minerFee.set(dealDetailModel.fee + dealDetailModel.feeSymbol);
         squareHeight.set(dealDetailModel.block_header);
         dealTime.set(dealDetailModel.time);
         dealHash.set(dealDetailModel.tx_id);

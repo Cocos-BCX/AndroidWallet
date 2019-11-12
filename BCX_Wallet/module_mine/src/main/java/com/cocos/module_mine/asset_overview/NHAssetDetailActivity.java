@@ -19,7 +19,6 @@ import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.entity.OperateResultModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
@@ -28,7 +27,6 @@ import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.asset_operate.delete_nhasset.DeleteNhAssetViewModel;
@@ -36,6 +34,8 @@ import com.cocos.module_mine.databinding.ActivityNhAssetDetaiilBinding;
 import com.cocos.module_mine.databinding.DialogDeleteNhAssetConfirmBinding;
 import com.cocos.module_mine.entity.NHAssetModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -94,51 +94,22 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
         viewModel.uc.deteleBtnObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                CocosBcxApiWrapper.getBcxInstance().delete_nh_asset_fee(AccountHelperUtils.getCurrentAccountName(), nHAssetModelBean.id, "COCOS", new IBcxCallBack() {
-                    @Override
-                    public void onReceiveValue(final String s) {
-                        MainHandler.getInstance().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (TextUtils.isEmpty(s)) {
-                                    ToastUtils.showShort(R.string.net_work_failed);
-                                    return;
-                                }
-                                final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-
-                                if (!TextUtils.isEmpty(feeModel.message)
-                                        && (feeModel.message.contains("insufficient_balance")
-                                        || feeModel.message.contains("Insufficient Balance"))) {
-                                    ToastUtils.showShort(R.string.insufficient_balance);
-                                    return;
-                                }
-
-                                if (!feeModel.isSuccess()) {
-                                    ToastUtils.showShort(R.string.net_work_failed);
-                                    return;
-                                }
-                                dialog = new BottomSheetDialog(NHAssetDetailActivity.this);
-                                DialogDeleteNhAssetConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_delete_nh_asset_confirm, null, false);
-                                dialog.setContentView(binding.getRoot());
-                                // 设置dialog 完全显示
-                                View parent = (View) binding.getRoot().getParent();
-                                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
-                                binding.getRoot().measure(0, 0);
-                                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
-                                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
-                                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-                                parent.setLayoutParams(params);
-                                dialog.setCanceledOnTouchOutside(false);
-                                final DeleteNhAssetViewModel deleteNhAssetViewModel = new DeleteNhAssetViewModel(getApplication());
-                                binding.setViewModel(deleteNhAssetViewModel);
-                                nHAssetModelBean.minerFee = feeModel.data.amount;
-                                nHAssetModelBean.feeSymbol = "COCOS";
-                                deleteNhAssetViewModel.setNhAssetModel(nHAssetModelBean);
-                                dialog.show();
-                            }
-                        });
-                    }
-                });
+                dialog = new BottomSheetDialog(NHAssetDetailActivity.this);
+                DialogDeleteNhAssetConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_delete_nh_asset_confirm, null, false);
+                dialog.setContentView(binding.getRoot());
+                // 设置dialog 完全显示
+                View parent = (View) binding.getRoot().getParent();
+                BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+                binding.getRoot().measure(0, 0);
+                behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
+                params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+                parent.setLayoutParams(params);
+                dialog.setCanceledOnTouchOutside(false);
+                final DeleteNhAssetViewModel deleteNhAssetViewModel = new DeleteNhAssetViewModel(getApplication());
+                binding.setViewModel(deleteNhAssetViewModel);
+                deleteNhAssetViewModel.setNhAssetModel(nHAssetModelBean);
+                dialog.show();
             }
         });
         // 转移资产
@@ -159,7 +130,9 @@ public class NHAssetDetailActivity extends BaseActivity<ActivityNhAssetDetaiilBi
         passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
             @Override
             public void onFinish(String password) {
-                CocosBcxApiWrapper.getBcxInstance().delete_nh_asset(AccountHelperUtils.getCurrentAccountName(), password, nhAssetModelBean.id, "COCOS", new IBcxCallBack() {
+                List<String> nhAsset_ids = new ArrayList<>();
+                nhAsset_ids.add(nhAssetModelBean.id);
+                CocosBcxApiWrapper.getBcxInstance().delete_nh_asset(AccountHelperUtils.getCurrentAccountName(), password, nhAsset_ids, new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(String s) {
                         Log.i("delete_nh_asset", s);

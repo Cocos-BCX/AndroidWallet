@@ -17,8 +17,6 @@ public class JsContractParamsModel {
      */
     public String nameOrId;
     public String functionName;
-    public int runtime;
-    public boolean onlyGetFee;
     public List<String> valueList;
 
 

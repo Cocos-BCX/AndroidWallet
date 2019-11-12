@@ -1,1 +1,1 @@
-include ':app', ':module_login', ':module_asset', ':module_found', ':module_mine', ':library_base', ':library_res', "module_zxing", ':cocos_sdk'
+include ':app', ':module_login', ':module_asset', ':module_found', ':module_mine', ':library_base', ':library_res', "module_zxing", ':cocos_bcx_sdk'

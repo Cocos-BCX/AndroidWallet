@@ -84,7 +84,7 @@ dependencies {
     implementation project(':module_login')
     implementation project(':module_mine')
     implementation project(':library_base')
-    implementation project(':cocos_sdk')
+    implementation project(':cocos_bcx_sdk')
     implementation project(':module_zxing')
 
     annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]

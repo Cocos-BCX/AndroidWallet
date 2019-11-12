@@ -5,6 +5,7 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.bcx_sdk.bcx_log.LogUtils;
@@ -12,6 +13,7 @@ import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AllAssetBalanceModel;
+import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 
@@ -41,6 +43,14 @@ public class AssetOverviewViewModel extends BaseViewModel {
     //总资产
     public ObservableField<String> totalAsset = new ObservableField<>("0.00");
 
+
+    //消息中心按钮的点击事件
+    public BindingCommand OrderManageCentersItemClick = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_ORDER_MANAGE).navigation();
+        }
+    });
 
     //返回按钮的点击事件
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {

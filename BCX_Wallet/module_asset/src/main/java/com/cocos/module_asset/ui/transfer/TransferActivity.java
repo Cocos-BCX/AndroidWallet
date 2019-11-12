@@ -23,10 +23,8 @@ import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.entity.ContactModel;
-import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
@@ -41,6 +39,7 @@ import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.ActivityTransferBinding;
 import com.cocos.module_asset.databinding.DialogTransferPayConfirmBinding;
+import com.cocos.module_asset.entity.TransferModel;
 import com.cocos.module_asset.entity.TransferParamsModel;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -96,9 +95,51 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
     public void onHandleEvent(EventBusCarrier busCarrier) {
         if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
             dialog.dismiss();
-        } else if (TextUtils.equals(EventTypeGlobal.TRANSFER_SUCCESS, busCarrier.getEventType())) {
+        } else if (TextUtils.equals(EventTypeGlobal.SHOW_TRANSFER_PASSWORD_VERIFY_DIALOG, busCarrier.getEventType())) {
             dialog.dismiss();
-            finish();
+            final TransferParamsModel transferParamsModel = (TransferParamsModel) busCarrier.getObject();
+            final BaseVerifyPasswordDialog passwordVerifyDialog = new BaseVerifyPasswordDialog();
+            passwordVerifyDialog.show(getSupportFragmentManager(), "passwordVerifyDialog");
+            passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(final String password) {
+                    CocosBcxApiWrapper.getBcxInstance().transfer(password, transferParamsModel.getAccountName(), transferParamsModel.getReceivablesAccountName(), transferParamsModel.getTransferAmount(),
+                            transferParamsModel.getTransferSymbol(), transferParamsModel.getTransferMemo(), new IBcxCallBack() {
+                                @Override
+                                public void onReceiveValue(final String s) {
+                                    MainHandler.getInstance().post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                TransferModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, TransferModel.class);
+                                                if (baseResult.code == 104) {
+                                                    ToastUtils.showShort(R.string.module_asset_account_not_found);
+                                                    return;
+                                                }
+                                                if (baseResult.code == 112) {
+                                                    ToastUtils.showShort(R.string.module_asset_private_key_author_failed);
+                                                    return;
+                                                }
+                                                if (!baseResult.isSuccess()) {
+                                                    ToastUtils.showShort(R.string.net_work_failed);
+                                                    return;
+                                                }
+                                                finish();
+                                                ToastUtils.showShort(R.string.module_asset_transfer_success);
+                                            } catch (Exception e) {
+                                                ToastUtils.showShort(R.string.net_work_failed);
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+            });
         }
     }
 
@@ -122,7 +163,6 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }
@@ -167,99 +207,16 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                     return;
                 }
 
-                final BaseVerifyPasswordDialog passwordVerifyDialog = new BaseVerifyPasswordDialog();
-                passwordVerifyDialog.show(getSupportFragmentManager(), "passwordVerifyDialog");
-                passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
-                    @Override
-                    public void onFinish(final String password) {
-                        // 查询手续费
-                        CocosBcxApiWrapper.getBcxInstance().transfer_calculate_fee(password, accountName, viewModel.receivablesAccountName.get(),
-                                // todo 手续费币种类型
-                                viewModel.transferAmount.get(), assetModel.symbol, "COCOS", viewModel.transferMemo.get(), new IBcxCallBack() {
-                                    @Override
-                                    public void onReceiveValue(final String fee) {
-                                        final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(fee, FeeModel.class);
-
-                                        if (feeModel.code == 105) {
-                                            ToastUtils.showShort(R.string.module_asset_wrong_password);
-                                            return;
-                                        }
-
-                                        if (!feeModel.isSuccess()) {
-                                            ToastUtils.showShort(R.string.net_work_failed);
-                                            return;
-                                        }
-                                        // 查询手续费的资产
-                                        CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(feeModel.data.asset_id, new IBcxCallBack() {
-                                            @Override
-                                            public void onReceiveValue(final String assets) {
-                                                try {
-                                                    final AssetsModel feeAssetModel = GsonSingleInstance.getGsonInstance().fromJson(assets, AssetsModel.class);
-                                                    if (!feeAssetModel.isSuccess()) {
-                                                        return;
-                                                    }
-                                                    CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, feeAssetModel.data.id, new IBcxCallBack() {
-                                                        @Override
-                                                        public void onReceiveValue(String s) {
-                                                            final AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
-                                                            if (!balanceEntity.isSuccess()) {
-                                                                return;
-                                                            }
-                                                            MainHandler.getInstance().post(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
-                                                                    final BigDecimal fee = new BigDecimal(feeModel.data.amount);
-                                                                    final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
-                                                                    BigDecimal feeAssetBalance = dataBean.amount;
-                                                                    final BigDecimal totalAmount;
-                                                                    if (TextUtils.equals(feeAssetModel.data.symbol, assetModel.symbol)) {
-                                                                        totalAmount = fee.add(transferAmount.add(BigDecimal.ZERO));
-                                                                    } else {
-                                                                        totalAmount = transferAmount;
-                                                                    }
-                                                                    BigDecimal balance = viewModel.balance.add(BigDecimal.ZERO);
-
-                                                                    if (totalAmount.compareTo(balance) > 0) {
-                                                                        ToastUtils.showLong(Utils.getString(R.string.module_asset_balance_short) + fee + feeAssetModel.getData().symbol);
-                                                                        return;
-                                                                    }
-
-                                                                    if (fee.compareTo(feeAssetBalance) > 0) {
-                                                                        ToastUtils.showLong(feeAssetModel.data.symbol + Utils.getString(R.string.module_asset_balance_short_error) + fee + feeAssetModel.data.symbol);
-                                                                        return;
-                                                                    }
-
-                                                                    TransferParamsModel transferParamsModel = new TransferParamsModel();
-                                                                    transferParamsModel.setAccountName(accountName);
-                                                                    transferParamsModel.setReceivablesAccountName(viewModel.receivablesAccountName.get());
-                                                                    transferParamsModel.setAccountBalance(viewModel.accountBalance.get());
-                                                                    transferParamsModel.setTransferAmount(String.valueOf(transferAmount.add(BigDecimal.ZERO)));
-                                                                    transferParamsModel.setTransferMemo(viewModel.transferMemo.get());
-                                                                    transferParamsModel.setFee(String.valueOf(fee.add(BigDecimal.ZERO)));
-                                                                    transferParamsModel.setPassword(password);
-                                                                    transferParamsModel.setFeeSymbol(feeAssetModel.getData().symbol);
-                                                                    transferParamsModel.setTransferSymbol(assetModel.symbol);
-                                                                    orderConfirmViewModel.setTransferInfoData(transferParamsModel);
-                                                                    dialog.show();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                } catch (Exception e) {
-                                                    ToastUtils.showLong(Utils.getString(R.string.net_work_failed));
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void cancel() {
-
-                    }
-                });
+                final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
+                TransferParamsModel transferParamsModel = new TransferParamsModel();
+                transferParamsModel.setAccountName(accountName);
+                transferParamsModel.setReceivablesAccountName(viewModel.receivablesAccountName.get());
+                transferParamsModel.setAccountBalance(viewModel.accountBalance.get());
+                transferParamsModel.setTransferAmount(String.valueOf(transferAmount.add(BigDecimal.ZERO)));
+                transferParamsModel.setTransferMemo(viewModel.transferMemo.get());
+                transferParamsModel.setTransferSymbol(assetModel.symbol);
+                orderConfirmViewModel.setTransferInfoData(transferParamsModel);
+                dialog.show();
             }
         });
 

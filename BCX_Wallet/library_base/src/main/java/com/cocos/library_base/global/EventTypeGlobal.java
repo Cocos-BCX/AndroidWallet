@@ -17,7 +17,6 @@ public class EventTypeGlobal {
     public static final String RECEIVE_QRCODE_CHANGE = "receive_qrcode_change";
     public static final String SHOW_FOUND_DIALOG = "show_found_dialog";
     public static final String NET_WORK_STATUS = "net_work_status";
-    public static final String TRANSFER_SUCCESS = "transfer_success";
     public static final CharSequence GET_COCOS_ACCOUNT = "getCocosAccount";
     public static final String SWITCH_NODE_WORK = "node_work_switch";
     public static final String SHOW_PASSWORD_VERIFY_DIALOG = "show_password_verify_dialog";
@@ -26,6 +25,7 @@ public class EventTypeGlobal {
     public static final String SHOW_CANCEL_ORDER_CONFIRM_DIALOG = "show_cancel_order_confirm_dialog";
     public static final String SHOW_BUY_ORDER_CONFIRM_DIALOG = "show_buy_order_confirm_dialog";
     public static final String SHOW_BUY_ORDER_PASSWORD_VERIFY_DIALOG = "show_buy_order_password_verify_dialog";
+    public static final String SHOW_TRANSFER_PASSWORD_VERIFY_DIALOG = "show_transfer_password_verify_dialog";
     public static final String SHOW_CANCEL_ORDER_PASSWORD_VERIFY_DIALOG = "show_cancel_order_password_verify_dialog";
     public static final String SHOW_DELETE_NH_ASSET_PASSWORD_VERIFY_DIALOG = "show_delete_nh_asset_password_verify_dialog";
     public static final String SHOW_TRANSFER_NH_ASSET_PASSWORD_VERIFY_DIALOG = "show_transfer_nh_asset_password_verify_dialog";

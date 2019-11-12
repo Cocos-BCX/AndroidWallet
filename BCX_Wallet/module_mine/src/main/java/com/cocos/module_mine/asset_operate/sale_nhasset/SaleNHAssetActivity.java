@@ -20,7 +20,6 @@ import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.entity.OperateResultModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
@@ -96,7 +95,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
             @Override
             public void onFinish(final String password) {
                 Log.i("saleMemo", saleAssetParamsModel.getOrderMemo());
-                CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("otcaccount", AccountHelperUtils.getCurrentAccountName(),
+                CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("syling1", AccountHelperUtils.getCurrentAccountName(),
                         password, saleAssetParamsModel.getNhAssetId(), "0",
                         "COCOS", saleAssetParamsModel.getOrderMemo(), saleAssetParamsModel.getPriceAmount(),
                         saleAssetParamsModel.getPriceSymbol(), saleAssetParamsModel.getValidTime(), new IBcxCallBack() {
@@ -183,34 +182,14 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
                     ToastUtils.showShort(R.string.module_mine_sale_nh_price_error);
                     return;
                 }
-
-                Log.i("saleMemo", viewModel.saleMemo.get());
-                CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order_fee("otcaccount",
-                        AccountHelperUtils.getCurrentAccountName(), nhAssetModelBean.id, "0",
-                        "COCOS", viewModel.saleMemo.get(), viewModel.salePricesAmount.get(),
-                        viewModel.salePricesSymbol.get(), Long.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())), new IBcxCallBack() {
-                            @Override
-                            public void onReceiveValue(final String s) {
-                                MainHandler.getInstance().post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        final FeeModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, FeeModel.class);
-                                        if (!feeModel.isSuccess()) {
-                                            return;
-                                        }
-                                        SaleNHAssetParamsModel saleNHAssetParamsModel = new SaleNHAssetParamsModel();
-                                        saleNHAssetParamsModel.setNhAssetId(nhAssetModelBean.id);
-                                        saleNHAssetParamsModel.setPriceAmount(viewModel.salePricesAmount.get());
-                                        saleNHAssetParamsModel.setPriceSymbol(viewModel.salePricesSymbol.get());
-                                        saleNHAssetParamsModel.setMinerFee(feeModel.data.amount);
-                                        saleNHAssetParamsModel.setOrderMemo(viewModel.saleMemo.get());
-                                        saleNHAssetParamsModel.setValidTime(Long.parseLong(viewModel.saleValidTime.get()));
-                                        orderConfirmViewModel.setSaleInfoData(saleNHAssetParamsModel);
-                                        dialog.show();
-                                    }
-                                });
-                            }
-                        });
+                SaleNHAssetParamsModel saleNHAssetParamsModel = new SaleNHAssetParamsModel();
+                saleNHAssetParamsModel.setNhAssetId(nhAssetModelBean.id);
+                saleNHAssetParamsModel.setPriceAmount(viewModel.salePricesAmount.get());
+                saleNHAssetParamsModel.setPriceSymbol(viewModel.salePricesSymbol.get());
+                saleNHAssetParamsModel.setOrderMemo(viewModel.saleMemo.get());
+                saleNHAssetParamsModel.setValidTime(Long.parseLong(viewModel.saleValidTime.get()));
+                orderConfirmViewModel.setSaleInfoData(saleNHAssetParamsModel);
+                dialog.show();
             }
         });
 

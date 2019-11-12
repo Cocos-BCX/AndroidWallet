@@ -18,6 +18,7 @@ class ClientFunction {
             }
         })
     }
+
     callContractFunction(params) {
         const serialNumber = serialNumberFn();
         _sendPeRequest(serialNumber, params, 'callContractFunction');
@@ -75,6 +76,92 @@ class ClientFunction {
             }
         })
     }
+
+    deleteNHAsset(params) {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, params, 'deleteNHAsset');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
+    creatNHAssetOrder(params) {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, params, 'creatNHAssetOrder');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
+    fillNHAssetOrder(params) {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, params, 'fillNHAssetOrder');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
+    cancelNHAssetOrder(params) {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, params, 'cancelNHAssetOrder');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
+    updateCollateralForGas(params) {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, params, 'updateCollateralForGas');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
+    claimVestingBalance(params) {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, params, 'claimVestingBalance');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
+
+    publishVotes(params) {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, params, 'publishVotes');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
 }
 const hookFunction = new ClientFunction();
 const checkForExtension = (resolve, tries = 0) => {
@@ -140,6 +227,90 @@ class Index {
         })
     }
 
+
+    deleteNHAsset(params) {
+        return new Promise((resolve, reject) => {
+            hookFunction.deleteNHAsset(params).then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+    creatNHAssetOrder(params) {
+        return new Promise((resolve, reject) => {
+            hookFunction.creatNHAssetOrder(params).then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+
+    fillNHAssetOrder(params) {
+        return new Promise((resolve, reject) => {
+            hookFunction.fillNHAssetOrder(params).then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+    cancelNHAssetOrder(params) {
+        return new Promise((resolve, reject) => {
+            hookFunction.cancelNHAssetOrder(params).then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+    updateCollateralForGas(params) {
+        return new Promise((resolve, reject) => {
+            hookFunction.updateCollateralForGas(params).then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+    claimVestingBalance(params) {
+        return new Promise((resolve, reject) => {
+            hookFunction.claimVestingBalance(params).then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+    publishVotes(params) {
+        return new Promise((resolve, reject) => {
+            hookFunction.publishVotes(params).then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+    queryGas(params) {
+        return new Promise((resolve, reject) => {
+            BcxWeb.bcx.queryGas(params).then((res) => {
+                resolve(res);
+            });
+        });
+    }
+
+    lookupBlockRewards(params) {
+        return new Promise((resolve, reject) => {
+            BcxWeb.bcx.lookupBlockRewards(params).then((res) => {
+                resolve(res);
+            });
+        });
+    }
+
+    queryVotes(params) {
+        return new Promise((resolve, reject) => {
+            BcxWeb.bcx.queryVotes(params).then((res) => {
+              console.log("queryVotes---params", params);
+              console.log("queryVotes--res-", res);
+              resolve(res);
+            });
+        });
+    }
+
     queryAccountAllBalances(params) {
         return new Promise((resolve, reject) => {
             BcxWeb.bcx.queryAccountAllBalances(params).then((res) => {
@@ -186,14 +357,6 @@ class Index {
                 console.log("queryAccountNHAssets---", params);
                 resolve(res);
                 console.log("queryAccountNHAssets---", res);
-            });
-        });
-    }
-
-    fillNHAssetOrder(params) {
-        return new Promise((resolve, reject) => {
-            BcxWeb.bcx.fillNHAssetOrder(params).then((res) => {
-                resolve(res);
             });
         });
     }
@@ -282,19 +445,25 @@ class Index {
         });
     }
 
+     queryVestingBalance(params) {
+              return new Promise((resolve, reject) => {
+                  BcxWeb.bcx.queryVestingBalance(params).then((res) => {
+                     console.log('queryVestingBalance--android -- params ', params);
+                     console.log('queryVestingBalance--android -- result ', res);
+                     resolve(res);
+              });
+          });
+       }
+
 }
 
 
 function inject() {
-    window.BcxWeb = new Index();
-    BcxWeb.getAccountInfo().then(res => {
-        window.BcxWeb.account_name = res.account_name
-    });
     let timer = null
     clearInterval(timer)
     timer = setInterval(() => {
         try {
-            BcxWeb.initConnect().then(res => {
+            hookFunction.initConnect().then(async res => {
                 var _configParams = {
                     default_ws_node: res.ws,
                     ws_node_list: [res.ws],
@@ -306,17 +475,22 @@ function inject() {
                     auto_reconnect: true,
                     worker: false
                 };
-                console.log('initConnect', res.ws);
-                BcxWeb.bcx = new BCX(_configParams);
+                window.BcxWeb = new Index();
+                window.BcxWeb.bcx = new BCX(_configParams);
+                let getAccountInfoRes = await window.BcxWeb.getAccountInfo()
+                window.BcxWeb.account_name = getAccountInfoRes.account_name
                 if (BcxWeb.bcx) {
                     clearInterval(timer);
+                    console.log('inject ----- success ', BcxWeb);
                 }
+            }).catch(error => {
+             console.log('BCX not found error', error);
             });
         } catch (error) {
             console.log('initConnect', error);
         }
     }, 500)
-    console.log('Release-V 1.0.4');
+    console.log('Release-V 1.0.5');
     document.dispatchEvent(new CustomEvent('scatterLoaded'))
 }
 inject();

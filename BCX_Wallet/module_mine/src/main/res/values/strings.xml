@@ -146,5 +146,6 @@
     <string name="module_mine_nh_asset_sale_valid_time_less_than_one">请输入合理的有效时间</string>
     <string name="module_mine_nh_receiver_can_not_be_self">资产接收方不能是自己</string>
     <string name="module_mine_nh_asset_sale_valid_time_max">最大 </string>
+    <string name="order_manage_text">订单管理</string>
 
 </resources>

@@ -37,11 +37,6 @@ public class SaleNHAssetParamsModel extends BaseResult {
     private String saleFee;
 
     /**
-     * 手续费
-     */
-    private String minerFee;
-
-    /**
      * 备注
      */
     private String orderMemo;

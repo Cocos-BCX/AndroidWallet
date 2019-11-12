@@ -110,6 +110,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                 List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
                 if (accountNames.size() <= 0) {
                     ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+                    AccountHelperUtils.setCurrentAccountName("");
                     ActivityContainer.finishAllActivity();
                 } else {
                     AccountHelperUtils.setCurrentAccountName(accountNames.get(0));

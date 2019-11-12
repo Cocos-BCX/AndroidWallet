@@ -33,7 +33,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':library_base')
     implementation project(':library_res')
-    implementation project(':cocos_sdk')
+    implementation project(':cocos_bcx_sdk')
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.2'
     annotationProcessor "org.projectlombok:lombok:1.18.2"
