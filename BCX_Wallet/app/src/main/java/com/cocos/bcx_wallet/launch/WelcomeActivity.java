@@ -4,9 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.cocos.bcx_wallet.BCXApplication;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.databinding.ActivityWelcomeBinding;
