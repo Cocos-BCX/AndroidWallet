@@ -62,7 +62,7 @@ public class VersionUtil {
     private static void update(UpdateInfo data, BaseViewModel baseViewModel, Activity activity) {
         int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
         final AlertDialog.Builder normalDialog = new AlertDialog.Builder(activity);
-        normalDialog.setTitle(R.string.update_title + "V " + AppApplicationMgr.getVersionName(Utils.getContext()));
+        normalDialog.setTitle(Utils.getString(R.string.update_title) + " V" + data.data.version);
         normalDialog.setCancelable(false);
         normalDialog.setMessage(selectLanguage == 0 ? data.data.info : data.data.en_info);
         normalDialog.setPositiveButton(R.string.update_btn_text, (dialog, which) -> {
