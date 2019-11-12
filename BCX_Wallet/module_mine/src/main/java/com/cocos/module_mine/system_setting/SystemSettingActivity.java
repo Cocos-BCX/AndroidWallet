@@ -72,7 +72,11 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
             } else if (TextUtils.equals(EventTypeGlobal.SWITCH_NODE_WORK, busCarrier.getEventType())) {
                 NodeInfoModel.DataBean dataBean = (NodeInfoModel.DataBean) busCarrier.getObject();
-                viewModel.netType.set(TextUtils.equals("0", dataBean.type) ? Utils.getString(R.string.module_mine_net_test_text) : Utils.getString(R.string.module_mine_net_main_text));
+                if (null != dataBean && !TextUtils.isEmpty(dataBean.type)) {
+                    viewModel.netType.set(TextUtils.equals("0", dataBean.type) ? Utils.getString(R.string.module_mine_net_test_text) : Utils.getString(R.string.module_mine_net_main_text));
+                } else {
+                    viewModel.netType.set("");
+                }
                 reconnect(dataBean);
             }
         } catch (Exception e) {

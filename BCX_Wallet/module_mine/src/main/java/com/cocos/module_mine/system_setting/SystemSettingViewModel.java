@@ -27,8 +27,10 @@ public class SystemSettingViewModel extends BaseViewModel {
         int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
         languageType.set(selectLanguage == 0 ? Utils.getString(R.string.language_cn) : Utils.getString(R.string.language_en));
         NodeInfoModel.DataBean netNode = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-        if (null != netNode) {
+        if (null != netNode && !TextUtils.isEmpty(netNode.type)) {
             netType.set(TextUtils.equals("0", netNode.type) ? Utils.getString(R.string.module_mine_net_test_text) : Utils.getString(R.string.module_mine_net_main_text));
+        } else {
+            netType.set("");
         }
     }
 
