@@ -94,7 +94,6 @@
     <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
     <string name="module_mine_name_empty">Name cannot be empty</string>
     <string name="module_mine_wrong_password">Wrong password</string>
-    <string name="module_mine_node_connect_failed">Connect failed</string>
     <string name="module_mine_node_connect_success">Connect success</string>
     <string name="mine_nh_asset_id_text">Asset ID：</string>
     <string name="mine_nh_asset_qualifier">Coin：</string>

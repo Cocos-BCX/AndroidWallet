@@ -16,4 +16,5 @@
     <string name="deal_detail">交易详情</string>
     <string name="next_text">下一步</string>
     <string name="insufficient_balance">余额不足</string>
+    <string name="module_mine_node_connect_failed">节点连接失败</string>
 </resources>

@@ -15,4 +15,5 @@
     <string name="deal_detail">Deal Detail</string>
     <string name="next_text">Next</string>
     <string name="insufficient_balance">Insufficient balance</string>
+    <string name="module_mine_node_connect_failed">Node connect failed</string>
 </resources>
