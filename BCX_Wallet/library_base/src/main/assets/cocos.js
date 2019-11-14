@@ -48,6 +48,7 @@ class ClientFunction {
         return new Promise((resolve, reject) => {
             window.callbackResult = function (returnSerialNumber, result) {
                 if (returnSerialNumber == serialNumber) {
+                    console.log('initConnect--android', JSON.parse(result));
                     resolve(JSON.parse(result))
                 }
             }
@@ -464,17 +465,19 @@ function inject() {
     timer = setInterval(() => {
         try {
             hookFunction.initConnect().then(async res => {
+             console.log('initConnect-----configParams ', res.ws);
                 var _configParams = {
-                    default_ws_node: res.ws,
                     ws_node_list: [res.ws],
                     faucet_url: res.faucet_url,
                     networks: [{
                         core_asset: res.coreAsset,
                         chain_id: res.chainId
                     }],
-                    auto_reconnect: true,
-                    worker: false
+                     auto_reconnect:true,
+                     real_sub:true,
+                    check_cached_nodes_data:false
                 };
+                console.log('initConnect-----configParams ', res);
                 window.BcxWeb = new Index();
                 window.BcxWeb.bcx = new BCX(_configParams);
                 let getAccountInfoRes = await window.BcxWeb.getAccountInfo()

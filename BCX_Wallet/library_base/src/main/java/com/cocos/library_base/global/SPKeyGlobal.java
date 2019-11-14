@@ -41,5 +41,4 @@ public final class SPKeyGlobal {
     public static final String SYMBOL_SELECTED = "SYMBOL_SELECTED";
 
     public static final String IS_FIRST_CONNECT = "is_first_connect";
-    public static final String IS_FIRST_INIT = "is_first_init";
 }

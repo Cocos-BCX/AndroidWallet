@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
@@ -109,11 +111,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onResume() {
         super.onResume();
-        List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-        if (null == accountNames || accountNames.size() <= 0) {
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
-            AccountHelperUtils.setCurrentAccountName("");
-            ActivityContainer.finishAllActivity();
+        try {
+            List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
+            if (null == accountNames || accountNames.size() <= 0) {
+                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+                AccountHelperUtils.setCurrentAccountName("");
+                ActivityContainer.finishAllActivity();
+            }
+        }catch (Exception e){
+            Log.i("get_dao_account_names",e.getMessage());
         }
     }
 
