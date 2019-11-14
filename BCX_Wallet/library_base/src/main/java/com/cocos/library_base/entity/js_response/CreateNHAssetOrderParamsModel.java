@@ -7,9 +7,9 @@ package com.cocos.library_base.entity.js_response;
 public class CreateNHAssetOrderParamsModel {
 
     public String otcAccount;
-    public int orderFee;
+    public String orderFee;
     public String NHAssetId;
-    public int price;
+    public String price;
     public String priceAssetId;
     public long expiration;
     public String memo;

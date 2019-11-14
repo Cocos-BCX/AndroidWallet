@@ -14,14 +14,11 @@ public class TransactionModel {
     public List<DataBean> data;
 
     public static class TrxDataBean {
-
         public String trx_id;
-        public int block_num;
-
-
+        public long block_num;
     }
 
     public static class DataBean {
-        public int real_running_time;
+        public long real_running_time;
     }
 }

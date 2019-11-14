@@ -8,6 +8,6 @@ public class UpdateGasParamsModel {
 
     public String mortgager;
     public String beneficiary;
-    public int amount;
+    public double amount;
     public boolean isPropose;
 }
