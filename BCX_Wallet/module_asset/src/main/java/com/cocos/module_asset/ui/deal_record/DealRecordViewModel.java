@@ -21,8 +21,10 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
@@ -46,6 +48,8 @@ public class DealRecordViewModel extends BaseViewModel {
 
     public DealRecordViewModel(@NonNull Application application) {
         super(application);
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
 
     private AssetsModel.AssetModel assetModel;
@@ -54,7 +58,7 @@ public class DealRecordViewModel extends BaseViewModel {
 
     public ObservableInt recyclerViewVisible = new ObservableInt(View.VISIBLE);
 
-    public ObservableField<String> symbolType = new ObservableField<>(Utils.getString(R.string.module_asset_coin_type_test));
+    public ObservableField<String> symbolType = new ObservableField<>("");
 
     //资产名称
     public ObservableField<String> tokenSymbol = new ObservableField<>("COCOS");

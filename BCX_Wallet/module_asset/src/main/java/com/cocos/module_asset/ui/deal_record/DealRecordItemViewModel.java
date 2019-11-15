@@ -21,8 +21,10 @@ import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.entity.FeesModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.TimeUtil;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
@@ -52,7 +54,7 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
     public ObservableField<String> account = new ObservableField<>();
     public ObservableField<String> operationAmount = new ObservableField<>();
     public ObservableField<String> operationDate = new ObservableField<>();
-    public ObservableField<String> symbolType = new ObservableField<>(Utils.getString(R.string.module_asset_coin_type_test));
+    public ObservableField<String> symbolType = new ObservableField<>("");
     public ObservableInt symbolTypeVisible = new ObservableInt(View.GONE);
 
     public ObservableInt operationAmountColor = new ObservableInt(Utils.getColor(R.color.color_4868DC));
@@ -66,6 +68,8 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
      */
     public DealRecordItemViewModel(@NonNull final DealRecordViewModel viewModel, DealRecordModel.DealRecordItemModel dealRecordModel) {
         super(viewModel);
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
         this.dealRecordModel = dealRecordModel;
         double option = (double) dealRecordModel.op.get(0);
         dealDetailModel.option = option;
@@ -197,7 +201,7 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                 account.set(fromAccountName);
                 operationAmountColor.set(Utils.getColor(R.color.color_2FC49F));
             }
-            operationAmount.set(opBean.nh_asset + Utils.getString(R.string.module_asset_coin_type_test));
+            operationAmount.set(opBean.nh_asset + (TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : ""));
             dealDetailModel.deal_type = Utils.getString(R.string.module_asset_transfer_nh_title);
             dealDetailModel.nh_asset_id = opBean.nh_asset;
             final Object resultObject = dealRecordModel.result.get(1);

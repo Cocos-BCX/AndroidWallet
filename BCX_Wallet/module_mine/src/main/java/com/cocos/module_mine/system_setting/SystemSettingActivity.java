@@ -111,6 +111,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                 ToastUtils.showShort(R.string.module_mine_node_connect_success);
                 nodeNetDialog.dismiss();
                 SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
+                SPUtils.putString(Utils.getContext(), SPKeyGlobal.NET_TYPE, dataBean.type);
                 List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
                 if (accountNames.size() <= 0) {
                     ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();

@@ -6,11 +6,14 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.global.SPKeyGlobal;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
@@ -25,6 +28,8 @@ public class RecordDetailViewModel extends BaseViewModel {
 
     public RecordDetailViewModel(@NonNull Application application) {
         super(application);
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
 
 
@@ -48,7 +53,7 @@ public class RecordDetailViewModel extends BaseViewModel {
     public ObservableField<String> squareHeight = new ObservableField<>("");
     public ObservableField<String> dealTime = new ObservableField<>("");
     public ObservableInt dealMemoVisibility = new ObservableInt(View.VISIBLE);
-    public ObservableField<String> symbolType = new ObservableField<>(Utils.getString(R.string.module_asset_coin_type_test));
+    public ObservableField<String> symbolType = new ObservableField<>("");
     //返回按钮的点击事件
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
         @Override

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.ItemViewModel;
@@ -12,7 +13,9 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_asset.R;
 
@@ -29,12 +32,14 @@ public class CoinSelectItemViewModel extends ItemViewModel<CoinSelectViewModel> 
     public ObservableField<AssetsModel.AssetModel> entity = new ObservableField<>();
     public Drawable drawableImg;
     public ObservableField<String> totalValue = new ObservableField<>("≈ ￥0.00");
-    public ObservableField<String> symbolType = new ObservableField<>(Utils.getString(R.string.module_asset_coin_type_test));
+    public ObservableField<String> symbolType = new ObservableField<>("");
     public ObservableField<String> amount = new ObservableField<>("0.00");
     public AssetsModel.AssetModel assetModel;
 
     CoinSelectItemViewModel(@NonNull CoinSelectViewModel viewModel, AssetsModel.AssetModel entity) {
         super(viewModel);
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
         this.entity.set(entity);
         this.assetModel = entity;
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_asset_bcx_icon);

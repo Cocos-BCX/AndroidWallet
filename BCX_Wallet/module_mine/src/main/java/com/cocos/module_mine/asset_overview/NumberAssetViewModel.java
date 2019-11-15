@@ -51,35 +51,40 @@ public class NumberAssetViewModel extends BaseViewModel {
         CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
-                LogUtils.d("get_account_balances", s);
-                AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
-                if (!balanceEntity.isSuccess() || balanceEntity.getData().size() <= 0) {
-                    emptyViewVisible.set(View.VISIBLE);
-                    recyclerViewVisible.set(View.GONE);
-                    return;
-                }
-                for (final AllAssetBalanceModel.DataBean dataBean : balanceEntity.getData()) {
-                    //todo 价值计算
-                    CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
-                        @Override
-                        public void onReceiveValue(final String s) {
-                            LogUtils.d("lookup_asset_symbols", s);
-                            MainHandler.getInstance().post(new Runnable() {
+                MainHandler.getInstance().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        LogUtils.d("get_account_balances", s);
+                        AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
+                        if (!balanceEntity.isSuccess() || balanceEntity.getData().size() <= 0) {
+                            emptyViewVisible.set(View.VISIBLE);
+                            recyclerViewVisible.set(View.GONE);
+                            return;
+                        }
+                        emptyViewVisible.set(View.GONE);
+                        recyclerViewVisible.set(View.VISIBLE);
+                        for (final AllAssetBalanceModel.DataBean dataBean : balanceEntity.getData()) {
+                            //todo 价值计算
+                            CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
                                 @Override
-                                public void run() {
-                                    AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
-                                    if (assetModel.isSuccess()) {
-                                        assetModel.getData().amount = dataBean.getAmount();
-                                        NumberAssetItemViewModel itemViewModel = new NumberAssetItemViewModel(NumberAssetViewModel.this, assetModel.getData());
-                                        observableList.add(itemViewModel);
-                                        emptyViewVisible.set(View.GONE);
-                                        recyclerViewVisible.set(View.VISIBLE);
-                                    }
+                                public void onReceiveValue(final String s) {
+                                    LogUtils.d("lookup_asset_symbols", s);
+                                    MainHandler.getInstance().post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
+                                            if (assetModel.isSuccess()) {
+                                                assetModel.getData().amount = dataBean.getAmount();
+                                                NumberAssetItemViewModel itemViewModel = new NumberAssetItemViewModel(NumberAssetViewModel.this, assetModel.getData());
+                                                observableList.add(itemViewModel);
+                                            }
+                                        }
+                                    });
                                 }
                             });
                         }
-                    });
-                }
+                    }
+                });
             }
         });
     }

@@ -16,8 +16,10 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
@@ -36,12 +38,14 @@ public class AccountManageViewModel extends BaseViewModel {
 
     public BigDecimal totalAssets = BigDecimal.ZERO;
 
-    public ObservableField<String> symbolType = new ObservableField<>(Utils.getString(R.string.module_asset_coin_type_test));
+    public ObservableField<String> symbolType = new ObservableField<>("");
 
     String accountNameStr;
 
     public AccountManageViewModel(@NonNull Application application) {
         super(application);
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
 
     //封装一个界面发生改变的观察者
@@ -137,7 +141,7 @@ public class AccountManageViewModel extends BaseViewModel {
                     public void run() {
                         LogUtils.d("get_account_balances", s);
                         AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
-                        if (!balanceEntity.isSuccess() ) {
+                        if (!balanceEntity.isSuccess()) {
                             return;
                         }
                         final AssetBalanceModel.DataBean dataBean = balanceEntity.data;

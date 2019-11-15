@@ -31,8 +31,6 @@ import com.cocos.module_asset.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
 
 import me.tatarka.bindingcollectionadapter2.BR;
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
@@ -44,13 +42,10 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
  */
 public class AssetViewModel extends BaseViewModel {
 
-    private List<AssetsModel.AssetModel> assetModels = new ArrayList<>();
-
     public ObservableInt emptyViewVisible = new ObservableInt(View.GONE);
 
     public ObservableInt recyclerViewVisible = new ObservableInt(View.VISIBLE);
 
-    public String preAccountId;
 
     public AssetViewModel(@NonNull Application application) {
         super(application);
@@ -143,64 +138,48 @@ public class AssetViewModel extends BaseViewModel {
     public ItemBinding<AssetItemViewModel> itemBinding = ItemBinding.of(BR.viewModel, R.layout.module_asset_item_assets);
     public final BindingRecyclerViewAdapter<AssetItemViewModel> adapter = new BindingRecyclerViewAdapter<>();
 
-    public void requestAssetsListData() {
-        final String accountId = AccountHelperUtils.getCurrentAccountId();
-        // 如果不是同一个账号则清除数据
-        if (!TextUtils.equals(preAccountId, accountId)) {
-            assetModels.clear();
-            observableList.clear();
-        }
-        preAccountId = accountId;
-        showDialog();
+
+    public synchronized void requestAssetsListData() {
+        String accountId = AccountHelperUtils.getCurrentAccountId();
+        observableList.clear();
         CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
-            private BigDecimal totalAssets = BigDecimal.ZERO;
+            BigDecimal totalAssets = BigDecimal.ZERO;
 
             @Override
             public void onReceiveValue(final String s) {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
+                        LogUtils.d("get_account_balances", s);
                         AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
-                        if (balanceEntity.code != 1 || balanceEntity.getData().size() <= 0) {
-                            dismissDialog();
+                        if (!balanceEntity.isSuccess() || balanceEntity.getData().size() <= 0) {
                             emptyViewVisible.set(View.VISIBLE);
                             recyclerViewVisible.set(View.GONE);
                             return;
                         }
-                        final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
-                        for (int i = 0; i < dataBeans.size(); i++) {
-                            //todo 价值计算
-                            final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
+                        emptyViewVisible.set(View.GONE);
+                        recyclerViewVisible.set(View.VISIBLE);
+                        for (final AllAssetBalanceModel.DataBean dataBean : balanceEntity.getData()) {
                             totalAssets = totalAssets.add(dataBean.getAmount().multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_DOWN));
                             totalAsset.set(String.valueOf(totalAssets));
-                            final int finalI = i;
+                            //todo 价值计算
                             CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
                                 @Override
                                 public void onReceiveValue(final String s) {
                                     LogUtils.d("lookup_asset_symbols", s);
-                                    final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
-                                    if (assetModel.code != 1) {
-                                        return;
-                                    }
                                     MainHandler.getInstance().post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            AssetsModel.AssetModel assetModel1 = assetModel.getData();
-                                            assetModel1.amount = dataBean.getAmount();
-                                            if (assetModels.size() == dataBeans.size()) {
-                                                if (!assetModel1.equals(assetModels.get(finalI))) {
-                                                    assetModels.set(finalI, assetModel1);
-                                                    AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
-                                                    observableList.set(finalI, itemViewModel);
+                                            AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
+                                            if (assetModel.isSuccess()) {
+                                                assetModel.getData().amount = dataBean.getAmount();
+                                                AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel.getData());
+                                                if (TextUtils.equals(assetModel.data.symbol, "COCOS")) {
+                                                    observableList.add(0, itemViewModel);
+                                                    return;
                                                 }
-                                            } else {
-                                                assetModels.add(assetModel1);
-                                                AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
                                                 observableList.add(itemViewModel);
                                             }
-                                            dismissDialog();
-                                            emptyViewVisible.set(View.GONE);
-                                            recyclerViewVisible.set(View.VISIBLE);
                                         }
                                     });
                                 }
@@ -211,6 +190,76 @@ public class AssetViewModel extends BaseViewModel {
             }
         });
     }
+
+
+//    public void requestAssetsListData() {
+//        final String accountId = AccountHelperUtils.getCurrentAccountId();
+//        // 如果不是同一个账号则清除数据
+//        if (!TextUtils.equals(preAccountId, accountId)) {
+//            assetModels.clear();
+//            observableList.clear();
+//        }
+//        preAccountId = accountId;
+//        showDialog();
+//        CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
+//            private BigDecimal totalAssets = BigDecimal.ZERO;
+//
+//            @Override
+//            public void onReceiveValue(final String s) {
+//                MainHandler.getInstance().post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
+//                        if (balanceEntity.code != 1 || balanceEntity.getData().size() <= 0) {
+//                            dismissDialog();
+//                            emptyViewVisible.set(View.VISIBLE);
+//                            recyclerViewVisible.set(View.GONE);
+//                            return;
+//                        }
+//                        final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
+//                        for (int i = 0; i < dataBeans.size(); i++) {
+//                            //todo 价值计算
+//                            final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
+//                            totalAssets = totalAssets.add(dataBean.getAmount().multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_DOWN));
+//                            totalAsset.set(String.valueOf(totalAssets));
+//                            final int finalI = i;
+//                            CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
+//                                @Override
+//                                public void onReceiveValue(final String s) {
+//                                    LogUtils.d("lookup_asset_symbols", s);
+//                                    final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
+//                                    if (assetModel.code != 1) {
+//                                        return;
+//                                    }
+//                                    MainHandler.getInstance().post(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            AssetsModel.AssetModel assetModel1 = assetModel.getData();
+//                                            assetModel1.amount = dataBean.getAmount();
+//                                            if (assetModels.size() == dataBeans.size()) {
+//                                                if (!assetModel1.equals(assetModels.get(finalI))) {
+//                                                    assetModels.set(finalI, assetModel1);
+//                                                    AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
+//                                                    observableList.set(finalI, itemViewModel);
+//                                                }
+//                                            } else {
+//                                                assetModels.add(assetModel1);
+//                                                AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
+//                                                observableList.add(itemViewModel);
+//                                            }
+//                                            dismissDialog();
+//                                            emptyViewVisible.set(View.GONE);
+//                                            recyclerViewVisible.set(View.VISIBLE);
+//                                        }
+//                                    });
+//                                }
+//                            });
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//    }
 
 
 }

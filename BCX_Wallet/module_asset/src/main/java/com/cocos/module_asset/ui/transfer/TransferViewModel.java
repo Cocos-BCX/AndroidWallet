@@ -4,6 +4,7 @@ import android.app.Application;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
@@ -12,6 +13,8 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
+import com.cocos.library_base.global.SPKeyGlobal;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.module_asset.R;
@@ -30,6 +33,8 @@ public class TransferViewModel extends BaseViewModel {
 
     public TransferViewModel(@NonNull Application application) {
         super(application);
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
 
 
@@ -39,7 +44,7 @@ public class TransferViewModel extends BaseViewModel {
     //帐户余额的绑定
     public ObservableField<String> accountBalance = new ObservableField<>();
 
-    public ObservableField<String> symbolType = new ObservableField<>(Utils.getString(R.string.module_asset_coin_type_test));
+    public ObservableField<String> symbolType = new ObservableField<>("");
 
     //转账数量的绑定
     public ObservableField<String> transferAmount = new ObservableField<>();

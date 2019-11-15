@@ -5,6 +5,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -13,7 +14,9 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.global.EventTypeGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
@@ -33,6 +36,8 @@ public class SwitchAccountViewModel extends BaseViewModel {
 
     public SwitchAccountViewModel(@NonNull Application application) {
         super(application);
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
         List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
         requestAccountListData(accountNames);
     }
@@ -40,7 +45,7 @@ public class SwitchAccountViewModel extends BaseViewModel {
     //当前代币名称
     public ObservableField<String> currentTokenName = new ObservableField<>("COCOS");
 
-    public ObservableField<String> symbolType = new ObservableField<>(Utils.getString(R.string.module_asset_coin_type_test));
+    public ObservableField<String> symbolType = new ObservableField<>("");
 
     public BindingCommand dissmissOnClickCommand = new BindingCommand(new BindingAction() {
         @Override

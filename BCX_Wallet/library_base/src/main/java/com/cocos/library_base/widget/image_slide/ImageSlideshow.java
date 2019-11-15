@@ -157,23 +157,27 @@ public class ImageSlideshow extends FrameLayout {
      * 设置指示器
      */
     private void setIndicator() {
-        isLarge = new SparseBooleanArray();
-        // 记得创建前先清空数据，否则会受遗留数据的影响。
-        llDot.removeAllViews();
-        for (int i = 0; i < count; i++) {
-            View view = new View(context);
-            view.setBackgroundResource(R.drawable.found_vp_indicator_normal);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Utils.dip2px(9), Utils.dip2px(3));
-            if (i != 0) {
-                layoutParams.leftMargin = dotSpace;
+        try {
+            isLarge = new SparseBooleanArray();
+            // 记得创建前先清空数据，否则会受遗留数据的影响。
+            llDot.removeAllViews();
+            for (int i = 0; i < count; i++) {
+                View view = new View(context);
+                view.setBackgroundResource(R.drawable.found_vp_indicator_normal);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Utils.dip2px(9), Utils.dip2px(3));
+                if (i != 0) {
+                    layoutParams.leftMargin = dotSpace;
+                }
+                llDot.addView(view, layoutParams);
+                isLarge.put(i, false);
             }
-            llDot.addView(view, layoutParams);
-            isLarge.put(i, false);
+            llDot.getChildAt(0).setBackgroundResource(R.drawable.found_vp_indicator_focused);
+            animatorToLarge.setTarget(llDot.getChildAt(0));
+            animatorToLarge.start();
+            isLarge.put(0, true);
+        } catch (Exception e) {
+
         }
-        llDot.getChildAt(0).setBackgroundResource(R.drawable.found_vp_indicator_focused);
-        animatorToLarge.setTarget(llDot.getChildAt(0));
-        animatorToLarge.start();
-        isLarge.put(0, true);
     }
 
     /**

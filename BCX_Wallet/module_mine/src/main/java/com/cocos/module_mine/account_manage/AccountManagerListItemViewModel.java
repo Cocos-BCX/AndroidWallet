@@ -15,8 +15,10 @@ import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
@@ -38,7 +40,7 @@ public class AccountManagerListItemViewModel extends ItemViewModel {
 
     public ObservableField<String> amount = new ObservableField<>("");
 
-    public ObservableField<String> symbolType = new ObservableField<>(Utils.getString(R.string.module_asset_coin_type_test));
+    public ObservableField<String> symbolType = new ObservableField<>("");
 
     public AccountManagerListItemViewModel(@NonNull BaseViewModel viewModel, AssetsModel.AssetModel entity, String accountName) {
         super(viewModel);
@@ -46,6 +48,8 @@ public class AccountManagerListItemViewModel extends ItemViewModel {
         account.set(accountName);
         amount.set(String.valueOf(entity.amount.add(BigDecimal.ZERO)));
         current_account_visible.set(TextUtils.equals(AccountHelperUtils.getCurrentAccountName(), accountName) ? View.VISIBLE : View.INVISIBLE);
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
 
 

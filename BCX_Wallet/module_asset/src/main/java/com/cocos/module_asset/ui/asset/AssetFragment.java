@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -32,6 +33,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
 
     private BottomSheetDialog dialog;
     private boolean isFirst = true;
+    private boolean isInit = false;
     private Activity activity;
 
     @Override
@@ -52,6 +54,8 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
         int statusHeight = StatusBarUtils.getStatusBarHeight(Utils.getContext());
         binding.assetTitle.setPadding(0, statusHeight, DensityUtils.dip2px(Utils.getContext(), 20), 0);
         refreshAssetData();
+        isInit = true;
+        Log.i("refreshAssetData", "initData");
     }
 
     /**
@@ -72,13 +76,18 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && !isFirst) {
             refreshAssetData();
+            Log.i("refreshAssetData", "setUserVisibleHint");
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        refreshAssetData();
+        if (!isInit) {
+            refreshAssetData();
+        }
+        isInit = false;
+        Log.i("refreshAssetData", "onResume");
     }
 
     @Override
@@ -87,6 +96,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
             dialog.dismiss();
         } else if (TextUtils.equals(EventTypeGlobal.SWITCH_ACCOUNT, busCarrier.getEventType())) {
             refreshAssetData();
+            Log.i("refreshAssetData", "SWITCH_ACCOUNT");
         }
     }
 

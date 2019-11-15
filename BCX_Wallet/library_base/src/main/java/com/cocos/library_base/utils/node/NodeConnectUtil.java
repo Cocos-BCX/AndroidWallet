@@ -40,7 +40,6 @@ public class NodeConnectUtil {
                 @Override
                 protected void onBaseNext(NodeInfoModel data) {
                     NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-
                     if (data.status != 200) {
                         onErrorInit(selectedNodeModel);
                         return;
@@ -60,6 +59,7 @@ public class NodeConnectUtil {
                                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
                                 if (resultEntity.isSuccess()) {
                                     SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
+                                    SPUtils.putString(context, SPKeyGlobal.NET_TYPE, dataBean.type);
                                     LogUtils.i("init_node_connect", s + ":" + dataBean.ws);
                                 } else {
                                     ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
@@ -106,7 +106,11 @@ public class NodeConnectUtil {
         }
         init(selectedNodeModel, s -> {
             BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
-            resultEntity.isSuccess();
+            if (resultEntity.isSuccess()) {
+                SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, selectedNodeModel);
+                SPUtils.putString(Utils.getContext(), SPKeyGlobal.NET_TYPE, selectedNodeModel.type);
+                LogUtils.i("init_node_connect", s + ":" + selectedNodeModel.ws);
+            }
         });
     }
 
@@ -139,6 +143,7 @@ public class NodeConnectUtil {
                                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
                                 if (resultEntity.isSuccess()) {
                                     SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
+                                    SPUtils.putString(context, SPKeyGlobal.NET_TYPE, dataBean.type);
                                     LogUtils.i("init_node_connect", s + ":" + dataBean.ws);
                                     return;
                                 } else {
