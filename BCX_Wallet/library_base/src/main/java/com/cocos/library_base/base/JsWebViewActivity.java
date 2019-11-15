@@ -470,6 +470,9 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     }
 
     private void publishVotes(String password, PublishVotesParamsModel publishVotes, JsParamsEventModel params) {
+        if (TextUtils.equals(publishVotes.votes,"0")) {
+            publishVotes.vote_ids = new ArrayList<>();
+        }
         CocosBcxApiWrapper.getBcxInstance().vote_members(AccountHelperUtils.getCurrentAccountName(), password, publishVotes.type, publishVotes.vote_ids, String.valueOf(publishVotes.votes),
                 new IBcxCallBack() {
                     @SuppressLint("LongLogTag")
