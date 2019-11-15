@@ -34,6 +34,7 @@ import com.cocos.library_base.entity.js_response.FillNHAssetOrderParamsModel;
 import com.cocos.library_base.entity.js_response.JsContractParamsModel;
 import com.cocos.library_base.entity.js_response.MemoModel;
 import com.cocos.library_base.entity.js_response.PublishVotesParamsModel;
+import com.cocos.library_base.entity.js_response.SelectLanguageModel;
 import com.cocos.library_base.entity.js_response.TransferNHAssetParamModel;
 import com.cocos.library_base.entity.js_response.TransferParamModel;
 import com.cocos.library_base.entity.js_response.UpdateGasParamsModel;
@@ -46,6 +47,7 @@ import com.cocos.library_base.utils.JSTools;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
+import com.cocos.library_base.utils.multi_language.SPUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.library_base.widget.JsWebVerifyPasswordDialog;
@@ -298,6 +300,12 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.INITCONNECT)) {
             NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
             onJSCallback(params.serialNumber, selectedNodeModel);
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.WALLETLANGUAGE)) {
+            int selectLanguage = SPUtil.getInstance(Utils.getContext()).getSelectLanguage();
+            SelectLanguageModel selectLanguageModel = new SelectLanguageModel();
+            selectLanguageModel.code = 1;
+            selectLanguageModel.data = selectLanguage == 0 ? "cn" : "en";
+            onJSCallback(params.serialNumber, selectLanguageModel);
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.DELETENHASSET)) {
             Log.i(GlobalConstants.DELETENHASSET, params.param);
             /**
@@ -470,7 +478,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     }
 
     private void publishVotes(String password, PublishVotesParamsModel publishVotes, JsParamsEventModel params) {
-        if (TextUtils.equals(publishVotes.votes,"0")) {
+        if (TextUtils.equals(publishVotes.votes, "0")) {
             publishVotes.vote_ids = new ArrayList<>();
         }
         CocosBcxApiWrapper.getBcxInstance().vote_members(AccountHelperUtils.getCurrentAccountName(), password, publishVotes.type, publishVotes.vote_ids, String.valueOf(publishVotes.votes),

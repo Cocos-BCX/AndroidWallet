@@ -163,6 +163,18 @@ class ClientFunction {
         })
     }
 
+    walletLanguage() {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, '', 'walletLanguage');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
 }
 const hookFunction = new ClientFunction();
 const checkForExtension = (resolve, tries = 0) => {
@@ -212,6 +224,14 @@ class Index {
         })
     }
 
+    walletLanguage() {
+        return new Promise((resolve, reject) => {
+            hookFunction.walletLanguage().then((res) => {
+                resolve(res)
+                console.log('walletLanguage', res);
+            })
+        })
+    }
 
     decodeMemo(params) {
         return new Promise((resolve, reject) => {
@@ -220,6 +240,7 @@ class Index {
             })
         })
     }
+
     transferNHAsset(params) {
         return new Promise((resolve, reject) => {
             hookFunction.transferNHAsset(params).then((res) => {
@@ -305,7 +326,6 @@ class Index {
     queryVotes(params) {
         return new Promise((resolve, reject) => {
             BcxWeb.bcx.queryVotes(params).then((res) => {
-              console.log("queryVotes---params", params);
               console.log("queryVotes--res-", res);
               resolve(res);
             });
@@ -355,7 +375,6 @@ class Index {
     queryAccountNHAssets(params) {
         return new Promise((resolve, reject) => {
             BcxWeb.bcx.queryAccountNHAssets(params).then((res) => {
-                console.log("queryAccountNHAssets---", params);
                 resolve(res);
                 console.log("queryAccountNHAssets---", res);
             });
@@ -449,7 +468,6 @@ class Index {
      queryVestingBalance(params) {
               return new Promise((resolve, reject) => {
                   BcxWeb.bcx.queryVestingBalance(params).then((res) => {
-                     console.log('queryVestingBalance--android -- params ', params);
                      console.log('queryVestingBalance--android -- result ', res);
                      resolve(res);
               });

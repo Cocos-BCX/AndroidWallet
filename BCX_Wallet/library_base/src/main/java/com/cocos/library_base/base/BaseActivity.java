@@ -5,13 +5,10 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.PixelFormat;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,14 +24,17 @@ import android.view.inputmethod.InputMethodManager;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.Messenger;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.receiver.NetStateChangeObserver;
-import com.cocos.library_base.receiver.NetStateChangeReceiver;
+import com.cocos.library_base.entity.NodeInfoModel;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.IntentUtils;
 import com.cocos.library_base.utils.LoadingDialogUtils;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.StatusBarUtil;
 import com.cocos.library_base.utils.StatusBarUtils;
+import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
+import com.cocos.library_base.utils.node.NodeConnectUtil;
 import com.cocos.library_base.widget.zloading.ZLoadingDialog;
 import com.cocos.library_base.widget.zloading.Z_TYPE;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -109,6 +109,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
             StatusBarUtil.setStatusBarLightMode(getWindow());
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -261,6 +262,10 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+        if (null == selectedNodeModel) {
+            NodeConnectUtil.reConnect(BaseActivity.this);
+        }
     }
 
     @Override

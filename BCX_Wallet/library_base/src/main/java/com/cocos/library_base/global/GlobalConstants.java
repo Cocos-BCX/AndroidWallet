@@ -34,4 +34,6 @@ public class GlobalConstants {
      */
     public static final String PUBLISH_VOTES = "publishVotes";
 
+    public static final String WALLETLANGUAGE = "walletLanguage";
+
 }
