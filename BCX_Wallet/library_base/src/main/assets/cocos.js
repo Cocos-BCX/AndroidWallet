@@ -511,7 +511,7 @@ function inject() {
             console.log('initConnect', error);
         }
     }, 500)
-    console.log('Release-V 2.0.0');
+    console.log('Release-V 2.0.2');
     document.dispatchEvent(new CustomEvent('scatterLoaded'))
 }
 inject();
