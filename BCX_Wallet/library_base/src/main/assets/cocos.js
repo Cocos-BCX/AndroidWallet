@@ -315,9 +315,10 @@ class Index {
         });
     }
 
-    lookupBlockRewards(params) {
+    queryVestingBalance(params) {
         return new Promise((resolve, reject) => {
-            BcxWeb.bcx.lookupBlockRewards(params).then((res) => {
+            BcxWeb.bcx.queryVestingBalance(params).then((res) => {
+             console.log("queryVestingBalance ", BcxWeb.bcx);
                 resolve(res);
             });
         });
