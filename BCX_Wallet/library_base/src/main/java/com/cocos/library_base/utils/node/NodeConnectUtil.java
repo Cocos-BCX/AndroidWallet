@@ -45,13 +45,6 @@ public class NodeConnectUtil {
                         return;
                     }
 
-                    boolean is_first_connect = SPUtils.getBoolean(context, SPKeyGlobal.IS_FIRST_CONNECT, true);
-                    if (null != selectedNodeModel && is_first_connect) {
-                        selectedNodeModel = null;
-                        AccountHelperUtils.setCurrentAccountName("");
-                        SPUtils.putBoolean(context, SPKeyGlobal.IS_FIRST_CONNECT, false);
-                    }
-
                     for (NodeInfoModel.DataBean dataBean : data.data) {
                         // 之前无选中的节点
                         if (null == selectedNodeModel) {
