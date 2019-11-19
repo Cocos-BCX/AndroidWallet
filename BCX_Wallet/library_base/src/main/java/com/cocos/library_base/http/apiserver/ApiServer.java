@@ -16,12 +16,6 @@ import retrofit2.http.Query;
 
 public interface ApiServer {
 
-//    /**
-//     * 校验交易密码
-//     */
-//    @POST("api/v1/user/check")
-//    Observable<BaseEntity> verifyPwd(@Body RequestBody requestBody);
-
     /**
      * 获取版本更新信息
      */
@@ -37,7 +31,7 @@ public interface ApiServer {
 
 
     /**
-     * 获取节点信息
+     * 获取发现页
      */
     @GET("/getBanInfo")
     Observable<FoundModel> getFoundInfo();

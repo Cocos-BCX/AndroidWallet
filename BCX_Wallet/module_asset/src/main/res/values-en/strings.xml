@@ -85,6 +85,6 @@
     <string name="buy_nh_order_btn_text">Buy</string>
     <string name="cancel_mine_nh_order_text">Cancel</string>
     <string name="module_asset_order_not_exist">The order has expired</string>
-    <string name="module_asset_sources_url">http://gas.test.cjfan.net/</string>
-    <string name="module_asset_vote_url">http://vote.test.cjfan.net/</string>
+    <string name="module_asset_sources_url">http://gas.test.cocosbcx.net/</string>
+    <string name="module_asset_vote_url">http://vote.test.cocosbcx.net/</string>
 </resources>
