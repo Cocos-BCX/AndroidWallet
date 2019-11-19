@@ -43,7 +43,7 @@ android {
         release {
             minifyEnabled false
             buildConfigField 'boolean', 'IS_TEST_ENV', 'false'
-            buildConfigField 'String', 'API_BASE', '"http://backend.test.cjfan.net"'
+            buildConfigField 'String', 'API_BASE', '"http://backend.test.cocosbcx.net"'
             buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -52,7 +52,7 @@ android {
         debug {
             minifyEnabled false
             buildConfigField 'boolean', 'IS_TEST_ENV', 'true'
-            buildConfigField 'String', 'API_BASE', '"http://backend.test.cjfan.net"'
+            buildConfigField 'String', 'API_BASE', '"http://backend.test.cocosbcx.net"'
             buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
