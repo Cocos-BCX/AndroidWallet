@@ -2,17 +2,27 @@ package com.cocos.bcx_wallet;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.bcx_wallet.launch.WelcomeActivity;
 import com.cocos.library_base.base.BaseApplication;
 import com.cocos.library_base.config.ModuleLifecycleConfig;
 import com.cocos.library_base.crash.CaocConfig;
 import com.cocos.library_base.crash.DefaultErrorActivity;
+import com.cocos.library_base.entity.BaseResult;
+import com.cocos.library_base.entity.NodeInfoModel;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.utils.KLog;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.node.NodeConnectUtil;
+import com.cocos.library_base.utils.singleton.GsonSingleInstance;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -56,32 +66,32 @@ public class BCXApplication extends BaseApplication {
         ModuleLifecycleConfig.getInstance().initModuleLow(this);     //初始化组件(靠后)
         // 初始化sdk
         CocosBcxApiWrapper.getBcxInstance().init(this);
-        NodeConnectUtil.requestNodeListData(this);
+//        NodeConnectUtil.requestNodeListData(this);
 
 
-//        //初始化工具类
-//        List<String> mListNode = Arrays.asList("ws://47.93.62.96:8049", "ws://47.93.62.96:8049");
-//        String faucetUrl = "http://47.93.62.96:4000";
-//        String chainId = "7d89b84f22af0b150780a2b121aa6c715b19261c8b7fe0fda3a564574ed7d3e9";
-//        String coreAsset = "COCOS";
-//        boolean isOpenLog = true;
-//        CocosBcxApiWrapper.getBcxInstance().init(this);
-//        CocosBcxApiWrapper.getBcxInstance().connect(this, chainId, mListNode, faucetUrl, coreAsset, isOpenLog,
-//                new IBcxCallBack() {
-//                    @Override
-//                    public void onReceiveValue(String value) {
-//                        Log.i("initBcxSdk", value);
-//                        BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
-//                        if (resultEntity.isSuccess()) {
-//                            NodeInfoModel.DataBean nodeInfoModel = new NodeInfoModel.DataBean();
-//                            nodeInfoModel.chainId = "7d89b84f22af0b150780a2b121aa6c715b19261c8b7fe0fda3a564574ed7d3e9";
-//                            nodeInfoModel.faucetUrl = "http://47.93.62.96:4000";
-//                            nodeInfoModel.coreAsset = "COCOS";
-//                            nodeInfoModel.ws = "ws://47.93.62.96:8049";
-//                            SPUtils.putObject(BCXApplication.this, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, nodeInfoModel);
-//                        }
-//                    }
-//                });
+        //初始化工具类
+        List<String> mListNode = Arrays.asList("ws://192.168.90.46:8149", "ws://192.168.90.46:8149");
+        String faucetUrl = "http://47.93.62.96:4000";
+        String chainId = "dc57c58b0366a06b33615a10fb624c380557f3642278d51910580ade3ab487fe";
+        String coreAsset = "COCOS";
+        boolean isOpenLog = true;
+        CocosBcxApiWrapper.getBcxInstance().init(this);
+        CocosBcxApiWrapper.getBcxInstance().connect(this, chainId, mListNode, faucetUrl, coreAsset, isOpenLog,
+                new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        Log.i("initBcxSdk", value);
+                        BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
+                        if (resultEntity.isSuccess()) {
+                            NodeInfoModel.DataBean nodeInfoModel = new NodeInfoModel.DataBean();
+                            nodeInfoModel.chainId = "dc57c58b0366a06b33615a10fb624c380557f3642278d51910580ade3ab487fe";
+                            nodeInfoModel.faucetUrl = "http://47.93.62.96:4000";
+                            nodeInfoModel.coreAsset = "COCOS";
+                            nodeInfoModel.ws = "ws://192.168.90.46:8149";
+                            SPUtils.putObject(BCXApplication.this, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, nodeInfoModel);
+                        }
+                    }
+                });
 
         //配置全局异常崩溃操作
         CaocConfig.Builder.create()

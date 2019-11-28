@@ -1,6 +1,7 @@
 package com.cocos.module_asset.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author ningkang.guo
@@ -13,7 +14,7 @@ public class DealDetailModel implements Serializable {
     public String deal_type;
     public String from;
     public String to;
-    public DealRecordModel.OpBean.MemoBean memo;
+    public List<Object> memo;
     public String block_header;
 
     public String amountAssetSymbol;

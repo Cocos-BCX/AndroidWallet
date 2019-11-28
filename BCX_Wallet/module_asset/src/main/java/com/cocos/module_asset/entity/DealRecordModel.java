@@ -38,7 +38,7 @@ public class DealRecordModel extends BaseResult {
         public String to;
         public String nh_asset;
         public AmountBean amount;
-        public MemoBean memo;
+        public List<Object> memo;
 
         public static class AmountBean implements Serializable {
             public BigDecimal amount;

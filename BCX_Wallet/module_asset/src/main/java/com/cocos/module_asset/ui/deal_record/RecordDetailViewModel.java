@@ -101,5 +101,12 @@ public class RecordDetailViewModel extends BaseViewModel {
         squareHeight.set(dealDetailModel.block_header);
         dealTime.set(dealDetailModel.time);
         dealMemoVisibility.set(null != dealDetailModel.memo ? View.VISIBLE : View.GONE);
+        if (null != dealDetailModel.memo) {
+            Double is_encrpt = (Double) dealDetailModel.memo.get(0);
+            if (is_encrpt == 0) {
+                String memo_str = (String) dealDetailModel.memo.get(1);
+                dealMemo.set(memo_str);
+            }
+        }
     }
 }

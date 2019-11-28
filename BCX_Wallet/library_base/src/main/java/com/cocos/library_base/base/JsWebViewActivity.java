@@ -707,7 +707,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     private void transferAssets(String password, JsParamsEventModel params) {
         TransferParamModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, TransferParamModel.class);
         // transfer asset
-        CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.memo, s -> {
+        CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.memo, false,s -> {
             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
             setTransactionCallBack(baseResult, params);
             if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {

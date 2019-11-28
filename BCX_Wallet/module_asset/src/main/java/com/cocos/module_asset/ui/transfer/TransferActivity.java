@@ -104,7 +104,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                 @Override
                 public void onFinish(final String password) {
                     CocosBcxApiWrapper.getBcxInstance().transfer(password, transferParamsModel.getAccountName(), transferParamsModel.getReceivablesAccountName(), transferParamsModel.getTransferAmount(),
-                            transferParamsModel.getTransferSymbol(), transferParamsModel.getTransferMemo(), new IBcxCallBack() {
+                            transferParamsModel.getTransferSymbol(), transferParamsModel.getTransferMemo(),false, new IBcxCallBack() {
                                 @Override
                                 public void onReceiveValue(final String s) {
                                     MainHandler.getInstance().post(new Runnable() {
