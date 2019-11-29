@@ -21,6 +21,7 @@ public class NodeInfoModel implements Serializable {
         public String coreAsset;
         public String type;
         public boolean isNative;
+        public boolean isForce;
 
         @Override
         public String toString() {
