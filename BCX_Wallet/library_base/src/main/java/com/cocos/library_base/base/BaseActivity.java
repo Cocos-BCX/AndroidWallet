@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -264,7 +265,9 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         MobclickAgent.onResume(this);
         NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
         if (null == selectedNodeModel) {
-            NodeConnectUtil.reConnect(BaseActivity.this);
+            Log.i("init_node_connect", BaseActivity.this.getLocalClassName());
+            NodeConnectUtil.requestNodeListData(BaseActivity.this);
+            Log.i("init_node_connect", BaseActivity.this.getLocalClassName());
         }
     }
 
