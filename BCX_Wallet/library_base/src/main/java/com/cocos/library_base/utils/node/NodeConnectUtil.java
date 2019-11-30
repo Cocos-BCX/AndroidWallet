@@ -1,6 +1,7 @@
 package com.cocos.library_base.utils.node;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
@@ -60,17 +61,16 @@ public class NodeConnectUtil {
                             return;
                         }
                         // 之前有选中的节点
-                        NodeInfoModel.DataBean finalSelectedNodeModel = selectedNodeModel;
-                        if (selectedNodeModel.isForce) {
+                        if (selectedNodeModel.isForce && TextUtils.equals(dataBean.ws, selectedNodeModel.ws)) {
                             init(selectedNodeModel, s -> {
                                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
                                 if (!resultEntity.isSuccess()) {
                                     ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
                                 } else {
-                                    LogUtils.i("init_node_connect", s + ":" + finalSelectedNodeModel.ws);
+                                    LogUtils.i("init_node_connect", s + ":" + selectedNodeModel.ws);
                                 }
                             });
-                        } else {
+                        } else if (dataBean.isForce){
                             init(dataBean, s -> {
                                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
                                 if (resultEntity.isSuccess()) {
