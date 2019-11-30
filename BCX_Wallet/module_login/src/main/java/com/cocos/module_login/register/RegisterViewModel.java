@@ -170,6 +170,12 @@ public class RegisterViewModel extends BaseViewModel {
                                 return;
                             }
 
+                            if (registerModel.code == 400) {
+                                ToastUtils.showShort(registerModel.message);
+                                dismissDialog();
+                                return;
+                            }
+
                             if (!registerModel.isSuccess()) {
                                 dismissDialog();
                                 return;
