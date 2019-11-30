@@ -1,11 +1,13 @@
 package com.cocos.module_mine.export_private;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.ClipData;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.cocos.library_base.base.BaseViewModel;
@@ -72,10 +74,11 @@ public class ExportKeyViewModel extends BaseViewModel {
         }
     });
 
+    @SuppressLint("LongLogTag")
     public void setPrivateKeyModel(PrivateKeyModel privateKeyModel) {
         Map<String, String> keys = privateKeyModel.getData();
         for (Map.Entry<String, String> public_keys : keys.entrySet()) {
-            if (TextUtils.equals(public_keys.getKey(), AccountHelperUtils.getCurrentActivePublicKey())) {
+            if (TextUtils.equals(public_keys.getKey(), AccountHelperUtils.getActivePublicKey(privateKeyModel.getAccountName()))) {
                 assetPrivateKey.set(public_keys.getValue());
                 activityPrivateKeyVisible.set(View.VISIBLE);
             } else {
@@ -83,6 +86,5 @@ public class ExportKeyViewModel extends BaseViewModel {
                 ownerPrivateKeyVisible.set(View.VISIBLE);
             }
         }
-
     }
 }

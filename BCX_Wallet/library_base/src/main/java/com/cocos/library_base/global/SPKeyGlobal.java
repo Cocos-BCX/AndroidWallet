@@ -26,4 +26,5 @@ public final class SPKeyGlobal {
     public static final String SYMBOL_SELECTED = "SYMBOL_SELECTED";
 
     public static final String NET_TYPE = "net_type";
+    public static final String IS_FIRST_CONNECT = "is_first_connect";
 }

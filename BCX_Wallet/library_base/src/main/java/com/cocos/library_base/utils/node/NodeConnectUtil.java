@@ -1,7 +1,6 @@
 package com.cocos.library_base.utils.node;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -41,50 +40,52 @@ public class NodeConnectUtil {
                 @Override
                 protected void onBaseNext(NodeInfoModel data) {
                     NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+                    boolean is_first_connect = SPUtils.getBoolean(context, SPKeyGlobal.IS_FIRST_CONNECT, true);
                     if (data.status != 200) {
                         onErrorInit(selectedNodeModel);
                         return;
                     }
                     for (NodeInfoModel.DataBean dataBean : data.data) {
-                        // 之前无选中的节点
-                        if (null == selectedNodeModel) {
-                            if (dataBean.isForce) {
+                        if (dataBean.isForce) {
+                            init(dataBean, s -> {
+                                BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
+                                if (resultEntity.isSuccess()) {
+                                    SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
+                                    SPUtils.putString(context, SPKeyGlobal.NET_TYPE, dataBean.type);
+                                    Log.i("init_node_connect---1", s + ":" + dataBean.ws);
+                                } else {
+                                    ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
+                                }
+                            });
+                            return;
+                        } else {
+                            // 之前无选中的节点
+                            if (null == selectedNodeModel || is_first_connect) {
                                 init(dataBean, s -> {
                                     BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
                                     if (resultEntity.isSuccess()) {
                                         SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
                                         SPUtils.putString(context, SPKeyGlobal.NET_TYPE, dataBean.type);
+                                        SPUtils.putBoolean(context, SPKeyGlobal.IS_FIRST_CONNECT, false);
                                         Log.i("init_node_connect---1", s + ":" + dataBean.ws);
                                     } else {
                                         ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
                                     }
                                 });
                                 return;
-                            }
-                        } else {
-                            // 之前有选中的节点
-                            if (dataBean.isForce && TextUtils.equals(dataBean.ws, selectedNodeModel.ws)) {
-                                init(dataBean, s -> {
+                            } else {
+                                // 之前有选中的节点
+                                init(selectedNodeModel, s -> {
                                     BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
                                     if (resultEntity.isSuccess()) {
-                                        SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
-                                        SPUtils.putString(context, SPKeyGlobal.NET_TYPE, dataBean.type);
-                                        Log.i("init_node_connect---2", s + ":" + dataBean.ws);
+                                        SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, selectedNodeModel);
+                                        SPUtils.putString(context, SPKeyGlobal.NET_TYPE, selectedNodeModel.type);
+                                        Log.i("init_node_connect---2", s + ":" + selectedNodeModel.ws);
                                     } else {
                                         ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
                                     }
                                 });
-                            } else if (dataBean.isForce) {
-                                init(dataBean, s -> {
-                                    BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
-                                    if (resultEntity.isSuccess()) {
-                                        SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
-                                        SPUtils.putString(context, SPKeyGlobal.NET_TYPE, dataBean.type);
-                                        Log.i("init_node_connect---3", s + ":" + dataBean.ws);
-                                    } else {
-                                        ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
-                                    }
-                                });
+
                             }
                         }
                     }
@@ -135,6 +136,4 @@ public class NodeConnectUtil {
         nodeUrls.add(dataBean.ws);
         CocosBcxApiWrapper.getBcxInstance().connect(Utils.getContext(), dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
     }
-
-
 }

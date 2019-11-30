@@ -99,6 +99,7 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
                                         if (!keyModel.isSuccess()) {
                                             return;
                                         }
+                                        keyModel.setAccountName(accountName);
                                         Bundle bundle = new Bundle();
                                         bundle.putSerializable(IntentKeyGlobal.KEY_MODEL, keyModel);
                                         ARouter.getInstance().build(RouterActivityPath.ACTIVITY_KEY_EXPORT).with(bundle).navigation();

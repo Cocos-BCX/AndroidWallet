@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
-import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
@@ -117,9 +116,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
                 AccountHelperUtils.setCurrentAccountName("");
                 ActivityContainer.finishAllActivity();
+                return;
             }
-        }catch (Exception e){
-            Log.i("get_dao_account_names",e.getMessage());
+            if (!accountNames.contains(AccountHelperUtils.getCurrentAccountName())) {
+                AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
+            }
+        } catch (Exception e) {
+            Log.i("get_dao_account_names", e.getMessage());
         }
     }
 

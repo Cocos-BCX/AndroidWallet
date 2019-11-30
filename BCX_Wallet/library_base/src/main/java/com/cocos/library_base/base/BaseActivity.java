@@ -263,12 +263,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-        if (null == selectedNodeModel) {
-            Log.i("init_node_connect", BaseActivity.this.getLocalClassName());
-            NodeConnectUtil.requestNodeListData(BaseActivity.this);
-            Log.i("init_node_connect", BaseActivity.this.getLocalClassName());
-        }
     }
 
     @Override
