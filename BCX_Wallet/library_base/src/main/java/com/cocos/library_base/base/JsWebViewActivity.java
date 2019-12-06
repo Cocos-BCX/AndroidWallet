@@ -14,17 +14,14 @@ import android.webkit.WebViewClient;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
-import com.cocos.bcx_sdk.bcx_wallet.chain.asset_object;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.databinding.ActivityJsWebviewBindingImpl;
 import com.cocos.library_base.entity.BaseResultModel;
-import com.cocos.library_base.entity.FeeModel;
 import com.cocos.library_base.entity.NodeInfoModel;
 import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.entity.js_params.GetAccountInfoModel;
 import com.cocos.library_base.entity.js_params.JsParamsEventModel;
-import com.cocos.library_base.entity.js_params.TransactionFeeModel;
 import com.cocos.library_base.entity.js_params.TransactionModel;
 import com.cocos.library_base.entity.js_response.CancelNHAssetOrderParamsModel;
 import com.cocos.library_base.entity.js_response.ClaimVestingBalanceParamModle;
@@ -489,9 +486,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         Log.i("vote_members", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
-                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                        }
+                        remeberPwd(password, baseResult.getCode() != 105);
                     }
                 });
     }
@@ -511,9 +506,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         Log.i("claimVestingBalance", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
-                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                        }
+                        remeberPwd(password, baseResult.getCode() != 105);
                     }
                 });
     }
@@ -535,9 +528,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         Log.i("update_collateral_for_gas", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
-                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                        }
+                        remeberPwd(password, baseResult.getCode() != 105);
                     }
                 });
     }
@@ -557,9 +548,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         Log.i("cancel_nh_asset_order", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
-                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                        }
+                        remeberPwd(password, baseResult.getCode() != 105);
                     }
                 });
     }
@@ -580,9 +569,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         Log.i("buy_nh_asset", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
-                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                        }
+                        remeberPwd(password, baseResult.getCode() != 105);
                     }
                 });
     }
@@ -605,9 +592,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                         Log.i("create_nh_asset_order", s);
                         BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                         setTransactionCallBack(baseResult, params);
-                        if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                        }
+                        remeberPwd(password, baseResult.getCode() != 105);
                     }
                 });
     }
@@ -625,9 +610,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             public void onReceiveValue(String s) {
                 BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
                 setTransactionCallBack(baseResult, params);
-                if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                    SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                }
+                remeberPwd(password, baseResult.getCode() != 105);
             }
         });
     }
@@ -643,10 +626,14 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         CocosBcxApiWrapper.getBcxInstance().transfer_nh_asset(password, AccountHelperUtils.getCurrentAccountName(), transferNHAssetParamModel.toAccount, transferNHAssetParamModel.NHAssetIds, s -> {
             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
             setTransactionCallBack(baseResult, params);
-            if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-            }
+            remeberPwd(password, baseResult.getCode() != 105);
         });
+    }
+
+    private void remeberPwd(String password, boolean b) {
+        if (b && JsWebVerifyPasswordDialog.isChecked) {
+            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+        }
     }
 
     /**
@@ -667,9 +654,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             memoModel.code = resultModel.getCode();
             memoModel.message = resultModel.getMessage();
             onJSCallback(params.serialNumber, memoModel);
-            if (resultModel.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-            }
+            remeberPwd(password, resultModel.getCode() != 105);
         });
     }
 
@@ -691,9 +676,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 } else {
                     onJSCallback(params.serialNumber, s);
                 }
-                if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                    SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-                }
+                remeberPwd(password, baseResult.getCode() != 105);
             }
         });
     }
@@ -707,12 +690,10 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     private void transferAssets(String password, JsParamsEventModel params) {
         TransferParamModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, TransferParamModel.class);
         // transfer asset
-        CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.memo, false,s -> {
+        CocosBcxApiWrapper.getBcxInstance().transfer(password, assetModel.fromAccount, assetModel.toAccount, assetModel.amount, assetModel.assetId, assetModel.memo, false, s -> {
             BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
             setTransactionCallBack(baseResult, params);
-            if (baseResult.isSuccess() && JsWebVerifyPasswordDialog.isChecked) {
-                SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
-            }
+            remeberPwd(password, baseResult.getCode() != 105);
         });
     }
 
@@ -723,29 +704,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      */
     private void onCancel(JsParamsEventModel params) {
         onJSCallback(params.serialNumber, "{\"type\":\"signature_rejected\",\"message\":\"User rejected the signature request\",\"code\":402,\"isError\":true}");
-    }
-
-
-    /**
-     * 拼接交易费用成功回调给dapp端的数据
-     *
-     * @param baseResult
-     * @param params
-     */
-    private void setTransactionFeeCallBack(FeeModel baseResult, JsParamsEventModel params) {
-        TransactionFeeModel transactionFeeModel = new TransactionFeeModel();
-        if (baseResult.isSuccess()) {
-            TransactionFeeModel.DataBean dataBean = new TransactionFeeModel.DataBean();
-            dataBean.fee_amount = Double.valueOf(baseResult.data.amount);
-            asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(baseResult.data.asset_id);
-            if (null != asset_object) {
-                dataBean.fee_symbol = asset_object.symbol;
-            }
-            transactionFeeModel.data = dataBean;
-        }
-        transactionFeeModel.code = baseResult.getCode();
-        transactionFeeModel.message = baseResult.getMessage();
-        onJSCallback(params.serialNumber, transactionFeeModel);
     }
 
     /**

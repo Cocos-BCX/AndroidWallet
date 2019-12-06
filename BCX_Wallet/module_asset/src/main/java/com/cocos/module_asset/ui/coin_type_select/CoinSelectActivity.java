@@ -12,12 +12,12 @@ import com.cocos.module_asset.databinding.ActivitySelectCoinBinding;
 
 /**
  * @author ningkang.guo
- * @Date 2019/4/10
  */
 @Route(path = RouterActivityPath.ACTIVITY_COIN_SELECT)
 public class CoinSelectActivity extends BaseActivity<ActivitySelectCoinBinding, CoinSelectViewModel> {
 
     private int operateType;
+    private boolean isFirst = true;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -40,12 +40,25 @@ public class CoinSelectActivity extends BaseActivity<ActivitySelectCoinBinding, 
     @Override
     public void initData() {
         viewModel.setOperateType(operateType);
-        viewModel.requestAssetsListData();
+        if (isFirst) {
+            loadData();
+        }
+    }
+
+    public void loadData() {
+        if (operateType == 1) {
+            viewModel.requestAssetsListData();
+        } else {
+            viewModel.requestAllBalances();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        viewModel.requestAssetsListData();
+        if (!isFirst) {
+            loadData();
+            isFirst = false;
+        }
     }
 }

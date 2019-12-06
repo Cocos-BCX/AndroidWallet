@@ -53,7 +53,7 @@ public class AssetViewModel extends BaseViewModel {
 
     String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
 
-    boolean hasTryAgain = false;
+    int tryCount = 0;
 
     public AssetViewModel(@NonNull Application application) {
         super(application);
@@ -170,18 +170,18 @@ public class AssetViewModel extends BaseViewModel {
                     @Override
                     public void run() {
                         if (balanceEntity.code != 1 || balanceEntity.getData().size() <= 0) {
-                            dismissDialog();
                             LogUtils.d("emptyViewVisible", "emptyViewVisible");
-                            if (!hasTryAgain) {
+                            if (tryCount < 3) {
                                 requestAssetsListData();
-                                hasTryAgain = true;
+                                ++tryCount;
                                 LogUtils.d("hasTryAgain", "hasTryAgain");
+                            } else {
+                                dismissDialog();
+                                emptyViewVisible.set(View.VISIBLE);
+                                recyclerViewVisible.set(View.GONE);
                             }
-                            emptyViewVisible.set(View.VISIBLE);
-                            recyclerViewVisible.set(View.GONE);
                             return;
                         }
-
                         final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
                         for (int i = 0; i < dataBeans.size(); i++) {
                             //todo 价值计算
@@ -205,13 +205,17 @@ public class AssetViewModel extends BaseViewModel {
                                             if (assetModels.size() == dataBeans.size()) {
                                                 if (!assetModel1.equals(assetModels.get(finalI))) {
                                                     assetModels.set(finalI, assetModel1);
-                                                    AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
-                                                    observableList.set(finalI, itemViewModel);
+                                                    if (!TextUtils.equals(assetModel1.symbol, "GAS")) {
+                                                        AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
+                                                        observableList.set(finalI, itemViewModel);
+                                                    }
                                                 }
                                             } else {
                                                 assetModels.add(assetModel1);
-                                                AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
-                                                observableList.add(itemViewModel);
+                                                if (!TextUtils.equals(assetModel1.symbol, "GAS")) {
+                                                    AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
+                                                    observableList.add(itemViewModel);
+                                                }
                                             }
                                             dismissDialog();
                                             emptyViewVisible.set(View.GONE);

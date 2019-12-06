@@ -68,7 +68,6 @@ public class AccountManagerListViewModel extends BaseViewModel {
                         observableList.add(itemViewModel);
                     });
                 });
-
             });
         }
     }

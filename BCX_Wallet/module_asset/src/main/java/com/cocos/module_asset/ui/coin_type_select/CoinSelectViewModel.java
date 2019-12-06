@@ -12,6 +12,7 @@ import android.view.View;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.bcx_sdk.bcx_log.LogUtils;
+import com.cocos.bcx_sdk.bcx_wallet.chain.asset_object;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -79,7 +80,6 @@ public class CoinSelectViewModel extends BaseViewModel {
             assetModels.clear();
             observableList.clear();
         }
-        showDialog();
         preAccountId = accountId;
         CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
             @Override
@@ -90,7 +90,6 @@ public class CoinSelectViewModel extends BaseViewModel {
                     public void run() {
                         AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
                         if (!balanceEntity.isSuccess() || balanceEntity.getData().size() <= 0) {
-                            dismissDialog();
                             emptyViewVisible.set(View.VISIBLE);
                             recyclerViewVisible.set(View.GONE);
                             return;
@@ -98,6 +97,9 @@ public class CoinSelectViewModel extends BaseViewModel {
                         final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
                         for (int i = 0; i < dataBeans.size(); i++) {
                             final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
+                            if (TextUtils.equals(dataBean.getAsset_id(), "1.3.1")) {
+                                continue;
+                            }
                             final int finalI = i;
                             CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
                                 @Override
@@ -113,6 +115,7 @@ public class CoinSelectViewModel extends BaseViewModel {
                                             AssetsModel.AssetModel assetModel1 = assetModel.getData();
                                             assetModel1.amount = dataBean.getAmount();
                                             assetModel1.operateType = operateType;
+
                                             if (assetModels.size() == dataBeans.size()) {
                                                 if (!assetModel1.equals(assetModels.get(finalI))) {
                                                     assetModels.set(finalI, assetModel1);
@@ -124,7 +127,6 @@ public class CoinSelectViewModel extends BaseViewModel {
                                                 CoinSelectItemViewModel itemViewModel = new CoinSelectItemViewModel(CoinSelectViewModel.this, assetModel1);
                                                 observableList.add(itemViewModel);
                                             }
-                                            dismissDialog();
                                             emptyViewVisible.set(View.GONE);
                                             recyclerViewVisible.set(View.VISIBLE);
                                         }
@@ -137,5 +139,30 @@ public class CoinSelectViewModel extends BaseViewModel {
             }
         });
     }
+
+
+    /**
+     * 查询全网资产
+     */
+    public void requestAllBalances() {
+        assetModels.clear();
+        observableList.clear();
+        List<asset_object> asset_objects = CocosBcxApiWrapper.getBcxInstance().list_assets("A", 100);
+        for (asset_object asset_object : asset_objects) {
+            AssetsModel.AssetModel assetModel1 = new AssetsModel.AssetModel();
+            if (TextUtils.equals(asset_object.symbol, "GAS")) {
+                continue;
+            }
+            assetModel1.symbol = asset_object.symbol;
+            assetModel1.operateType = operateType;
+            CoinSelectItemViewModel itemViewModel = new CoinSelectItemViewModel(CoinSelectViewModel.this, assetModel1);
+            if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
+                observableList.add(0, itemViewModel);
+            } else {
+                observableList.add(itemViewModel);
+            }
+        }
+    }
+
 
 }

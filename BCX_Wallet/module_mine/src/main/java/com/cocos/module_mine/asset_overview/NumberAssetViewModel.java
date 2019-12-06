@@ -5,6 +5,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -75,8 +76,10 @@ public class NumberAssetViewModel extends BaseViewModel {
                                             AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
                                             if (assetModel.isSuccess()) {
                                                 assetModel.getData().amount = dataBean.getAmount();
-                                                NumberAssetItemViewModel itemViewModel = new NumberAssetItemViewModel(NumberAssetViewModel.this, assetModel.getData());
-                                                observableList.add(itemViewModel);
+                                                if (!TextUtils.equals(assetModel.data.symbol, "GAS")) {
+                                                    NumberAssetItemViewModel itemViewModel = new NumberAssetItemViewModel(NumberAssetViewModel.this, assetModel.getData());
+                                                    observableList.add(itemViewModel);
+                                                }
                                             }
                                         }
                                     });

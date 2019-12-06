@@ -51,7 +51,8 @@
             android:layout_centerVertical="true"
             android:layout_weight="1"
             android:gravity="right"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="@{viewModel.amountVisible}">
 
             <TextView
                 android:id="@+id/token_balance_tv"

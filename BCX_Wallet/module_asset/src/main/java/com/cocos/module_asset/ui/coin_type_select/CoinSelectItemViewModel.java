@@ -1,11 +1,13 @@
 package com.cocos.module_asset.ui.coin_type_select;
 
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.ItemViewModel;
@@ -35,6 +37,7 @@ public class CoinSelectItemViewModel extends ItemViewModel<CoinSelectViewModel> 
     public ObservableField<String> symbolType = new ObservableField<>("");
     public ObservableField<String> amount = new ObservableField<>("0.00");
     public AssetsModel.AssetModel assetModel;
+    public ObservableInt amountVisible = new ObservableInt(View.INVISIBLE);
 
     CoinSelectItemViewModel(@NonNull CoinSelectViewModel viewModel, AssetsModel.AssetModel entity) {
         super(viewModel);
@@ -43,11 +46,14 @@ public class CoinSelectItemViewModel extends ItemViewModel<CoinSelectViewModel> 
         this.entity.set(entity);
         this.assetModel = entity;
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_asset_bcx_icon);
-        totalValue.set("≈ ￥" + entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
-        NumberFormat nf = NumberFormat.getInstance();
-        nf.setMaximumFractionDigits(5);
-        nf.setGroupingUsed(false);
-        amount.set(nf.format(entity.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+        if (assetModel.operateType == 1) {
+            amountVisible.set(View.VISIBLE);
+            totalValue.set("≈ ￥" + entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
+            NumberFormat nf = NumberFormat.getInstance();
+            nf.setMaximumFractionDigits(5);
+            nf.setGroupingUsed(false);
+            amount.set(nf.format(entity.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+        }
     }
 
     //条目的点击事件
