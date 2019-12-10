@@ -48,6 +48,12 @@
                 android:orientation="horizontal"
                 binding:onClickCommand="@{viewModel.assetOverviewOnClickCommand}">
 
+                <ImageView
+                    android:layout_width="19dp"
+                    android:layout_height="17dp"
+                    android:layout_marginRight="@dimen/dp_8"
+                    android:src="@drawable/asset_overview_icon" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -76,6 +82,12 @@
                 android:orientation="horizontal"
                 binding:onClickCommand="@{viewModel.walletManageOnClickCommand}">
 
+                <ImageView
+                    android:layout_width="19dp"
+                    android:layout_height="17dp"
+                    android:layout_marginRight="@dimen/dp_8"
+                    android:src="@drawable/wallets_manage_icon" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -103,6 +115,12 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 binding:onClickCommand="@{viewModel.systemSettingOnClickCommand}">
+
+                <ImageView
+                    android:layout_width="19dp"
+                    android:layout_height="17dp"
+                    android:layout_marginRight="@dimen/dp_8"
+                    android:src="@drawable/system_setting_icon" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -134,6 +152,12 @@
                 android:orientation="horizontal"
                 binding:onClickCommand="@{viewModel.contactOnClickCommand}">
 
+                <ImageView
+                    android:layout_width="19dp"
+                    android:layout_height="17dp"
+                    android:layout_marginRight="@dimen/dp_8"
+                    android:src="@drawable/contacts_icon" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -161,6 +185,12 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 binding:onClickCommand="@{viewModel.aboutUsOnClickCommand}">
+
+                <ImageView
+                    android:layout_width="19dp"
+                    android:layout_height="17dp"
+                    android:layout_marginRight="@dimen/dp_8"
+                    android:src="@drawable/about_us_icon" />
 
                 <TextView
                     android:layout_width="0dp"
