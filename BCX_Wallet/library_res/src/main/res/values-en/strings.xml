@@ -19,4 +19,6 @@
     <string name="module_mine_node_connect_success">Connect success</string>
     <string name="module_mine_net_test_text">Test Net</string>
     <string name="module_mine_net_main_text">Main Net</string>
+    <string name="module_asset_fragment_asset_login_text">Login/Register</string>
+    <string name="node_data_load_failed">Nodes load failed!</string>
 </resources>

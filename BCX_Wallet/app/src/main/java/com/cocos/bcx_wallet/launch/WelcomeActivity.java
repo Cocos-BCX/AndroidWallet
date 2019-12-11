@@ -3,7 +3,6 @@ package com.cocos.bcx_wallet.launch;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
@@ -11,8 +10,6 @@ import com.cocos.bcx_wallet.databinding.ActivityWelcomeBinding;
 import com.cocos.bcx_wallet.main.MainActivity;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseViewModel;
-import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.module_login.password_login.PasswordLoginActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import io.reactivex.functions.Consumer;
@@ -41,12 +38,7 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding, BaseVi
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean aBoolean) {
-                        if (!TextUtils.isEmpty(AccountHelperUtils.getCurrentAccountName())) {
-                            startActivity(MainActivity.class);
-                            finish();
-                            return;
-                        }
-                        startActivity(PasswordLoginActivity.class);
+                        startActivity(MainActivity.class);
                         finish();
                     }
                 });

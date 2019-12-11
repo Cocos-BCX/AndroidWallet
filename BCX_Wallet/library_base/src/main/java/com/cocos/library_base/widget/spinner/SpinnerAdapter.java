@@ -12,6 +12,7 @@ import com.cocos.library_base.R;
 import com.cocos.library_base.entity.NodeInfoModel;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.utils.SPUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 
 import java.util.ArrayList;
@@ -38,6 +39,10 @@ public class SpinnerAdapter<String> extends BaseAdapter {
 
     public void refreshData(List<NodeInfoModel.DataBean> objects, int selIndex) {
         mObjects = objects;
+        if (null == mObjects || mObjects.size() <= 0) {
+            ToastUtils.showShort(Utils.getString(R.string.node_data_load_failed));
+            return;
+        }
         if (selIndex < 0) {
             selIndex = 0;
         }

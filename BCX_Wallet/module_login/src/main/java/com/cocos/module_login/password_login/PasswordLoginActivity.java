@@ -90,6 +90,8 @@ public class PasswordLoginActivity extends BaseActivity<ActivityPasswordLoginBin
                             List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
                             if (null != accountNames && accountNames.size() > 0) {
                                 AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
+                            } else {
+                                AccountHelperUtils.setCurrentAccountName("");
                             }
                         }
                     });

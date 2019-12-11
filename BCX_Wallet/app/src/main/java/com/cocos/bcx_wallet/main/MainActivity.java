@@ -115,18 +115,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-            if (null == accountNames || accountNames.size() <= 0) {
-                //todo 显示创建和登录按钮
-                return;
-            }
-            if (!accountNames.contains(AccountHelperUtils.getCurrentAccountName())) {
-                AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
-            }
-        } catch (Exception e) {
-            Log.i("get_dao_account_names", e.getMessage());
-        }
     }
 
     @Override

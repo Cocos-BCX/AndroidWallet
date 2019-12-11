@@ -20,4 +20,6 @@
     <string name="module_mine_node_connect_success">切换成功</string>
     <string name="module_mine_net_test_text">测试网</string>
     <string name="module_mine_net_main_text">主网</string>
+    <string name="module_asset_fragment_asset_login_text">立即登陆/创建账户</string>
+    <string name="node_data_load_failed">节点信息加载失败</string>
 </resources>

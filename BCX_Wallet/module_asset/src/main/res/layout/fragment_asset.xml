@@ -42,6 +42,7 @@
                 android:text="@={viewModel.currentAccountName}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_18"
+                android:visibility="@{viewModel.accountViewVisible}"
                 binding:onClickCommand="@{viewModel.accountItemClick}"
                 tools:ignore="RtlHardcoded" />
         </RelativeLayout>
@@ -234,6 +235,19 @@
                                 android:src="@drawable/empty_view" />
 
                         </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_50"
+                            android:layout_marginTop="40dp"
+                            android:background="@drawable/fragment_asset_login_btn"
+                            android:gravity="center"
+                            android:text="@={viewModel.loginText}"
+                            android:textColor="@color/color_4868DC"
+                            android:textSize="@dimen/sp_16"
+                            android:typeface="@{@string/TOTAL_ASSET}"
+                            android:visibility="@{viewModel.LoginViewVisible}"
+                            binding:onClickCommand="@{viewModel.loginViewClick}" />
 
                         <android.support.v7.widget.RecyclerView
                             style="@style/CommonList"

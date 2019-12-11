@@ -2,14 +2,21 @@ package com.cocos.module_mine.account_manage;
 
 import android.app.Application;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
+import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.library_base.base.BaseViewModel;
+import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
+import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.BR;
@@ -36,17 +43,34 @@ public class AccountManagerListViewModel extends BaseViewModel {
 
     public final BindingRecyclerViewAdapter<AccountManagerListItemViewModel> adapter = new BindingRecyclerViewAdapter<>();
 
+    public ObservableInt LoginViewVisible = new ObservableInt(View.INVISIBLE);
+
+    public ObservableInt recycleViewVisible = new ObservableInt(View.VISIBLE);
+
+    public ObservableField<String> loginText = new ObservableField<>(Utils.getString(R.string.module_asset_fragment_asset_login_text));
 
     //条目的点击事件
     public BindingCommand backOnClickCommand = new BindingCommand(() -> finish());
+
+    //登陆注册按钮的点击事件
+    public BindingCommand loginViewClick = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+        }
+    });
 
     /**
      * @param accountNames
      */
     public void requestAccountsListData(List<String> accountNames) {
         if (null == accountNames || accountNames.size() <= 0) {
+            LoginViewVisible.set(View.VISIBLE);
+            recycleViewVisible.set(View.INVISIBLE);
             return;
         }
+        LoginViewVisible.set(View.INVISIBLE);
+        recycleViewVisible.set(View.VISIBLE);
         observableList.clear();
         for (final String accountName : accountNames) {
             String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name(accountName);

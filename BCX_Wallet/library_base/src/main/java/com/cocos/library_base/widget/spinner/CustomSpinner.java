@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.cocos.library_base.R;
 import com.cocos.library_base.entity.NodeInfoModel;
 import com.cocos.library_base.utils.Utils;
+import com.cocos.library_base.utils.singleton.MainHandler;
 
 import java.util.List;
 
@@ -86,10 +87,12 @@ public class CustomSpinner extends LinearLayout {
     }
 
     public void setDefaultText(String text) {
-        if (null != tv_value) {
-            tv_value.setText(text);
-            tv_value.setTextColor(Utils.getColor(R.color.color_4868DC));
-        }
+        MainHandler.getInstance().post(() -> {
+            if (null != tv_value) {
+                tv_value.setText(text);
+                tv_value.setTextColor(Utils.getColor(R.color.color_4868DC));
+            }
+        });
     }
 
     private void showSpinWindow() {

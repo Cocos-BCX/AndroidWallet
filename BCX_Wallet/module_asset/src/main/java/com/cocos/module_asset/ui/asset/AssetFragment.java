@@ -10,11 +10,14 @@ import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.library_base.base.BaseFragment;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.global.EventTypeGlobal;
+import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.DensityUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.Utils;
@@ -23,6 +26,8 @@ import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.DialogSwitchAccountBinding;
 import com.cocos.module_asset.databinding.FragmentAssetBinding;
 import com.cocos.module_asset.switch_account.SwitchAccountViewModel;
+
+import java.util.List;
 
 
 /**
@@ -63,11 +68,27 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
      */
     private void refreshAssetData() {
         try {
+            List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
+            if (null == accountNames || accountNames.size() <= 0) {
+                //todo 显示创建和登录按钮
+                viewModel.emptyViewVisible.set(View.GONE);
+                viewModel.recyclerViewVisible.set(View.GONE);
+                viewModel.LoginViewVisible.set(View.VISIBLE);
+                viewModel.accountViewVisible.set(View.INVISIBLE);
+                Log.i("refreshAssetData:", "you got no account");
+                viewModel.setAccountName();
+                isFirst = false;
+                return;
+            }
+            if (!accountNames.contains(AccountHelperUtils.getCurrentAccountName())) {
+                AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
+            }
             viewModel.setAccountName();
             viewModel.requestAssetsListData();
             isFirst = false;
         } catch (Exception e) {
-
+            //    refreshAssetData();
+            Log.i("refreshAssetData:", e.getMessage());
         }
     }
 

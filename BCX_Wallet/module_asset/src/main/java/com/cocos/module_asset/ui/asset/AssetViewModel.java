@@ -47,7 +47,11 @@ public class AssetViewModel extends BaseViewModel {
 
     public ObservableInt emptyViewVisible = new ObservableInt(View.GONE);
 
+    public ObservableInt LoginViewVisible = new ObservableInt(View.INVISIBLE);
+
     public ObservableInt recyclerViewVisible = new ObservableInt(View.VISIBLE);
+
+    public ObservableInt accountViewVisible = new ObservableInt(View.INVISIBLE);
 
     private List<AssetsModel.AssetModel> assetModels = new ArrayList<>();
 
@@ -66,6 +70,7 @@ public class AssetViewModel extends BaseViewModel {
     public void setAccountName() {
         this.accountName = AccountHelperUtils.getCurrentAccountName();
         currentAccountName.set(accountName);
+        accountViewVisible.set(TextUtils.isEmpty(accountName) ? View.INVISIBLE : View.VISIBLE);
     }
 
     //当前帐户名户名的绑定
@@ -75,16 +80,24 @@ public class AssetViewModel extends BaseViewModel {
     public ObservableField<String> totalAssetCurrencyUnit = new ObservableField<>(Utils.getString(R.string.module_asset_total_assets));
 
     //当前帐户总资产
-    public ObservableField<String> totalAsset = new ObservableField<>();
+    public ObservableField<String> totalAsset = new ObservableField<>("0.00");
 
+    public ObservableField<String> loginText = new ObservableField<>(Utils.getString(R.string.module_asset_fragment_asset_login_text));
 
     //封装一个界面发生改变的观察者
     public UIChangeObservable uc = new UIChangeObservable();
 
-
     public class UIChangeObservable {
         public ObservableBoolean accountItemObservable = new ObservableBoolean(false);
     }
+
+    //登陆注册按钮的点击事件
+    public BindingCommand loginViewClick = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+        }
+    });
 
 
     //转账按钮的点击事件
@@ -180,6 +193,7 @@ public class AssetViewModel extends BaseViewModel {
                                     dismissDialog();
                                     emptyViewVisible.set(View.VISIBLE);
                                     recyclerViewVisible.set(View.GONE);
+                                    LoginViewVisible.set(View.GONE);
                                 }
                                 return;
                             }
@@ -221,6 +235,7 @@ public class AssetViewModel extends BaseViewModel {
                                                 dismissDialog();
                                                 emptyViewVisible.set(View.GONE);
                                                 recyclerViewVisible.set(View.VISIBLE);
+                                                LoginViewVisible.set(View.GONE);
                                             }
                                         });
                                     }

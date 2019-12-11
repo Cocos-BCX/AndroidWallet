@@ -57,18 +57,37 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            style="@style/CommonList"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fastScrollEnabled="false"
-            android:overScrollMode="never"
-            android:layout_marginTop="@dimen/dp_20"
-            binding:adapter="@{viewModel.adapter}"
-            binding:itemBinding="@{viewModel.itemBinding}"
-            binding:items="@{viewModel.observableList}"
-            binding:layoutManager="@{LayoutManagers.linear(LinearLayoutManager.VERTICAL,Boolean.FALSE)}" />
+            android:layout_height="match_parent">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_42"
+                android:layout_marginRight="@dimen/dp_16"
+                android:background="@drawable/fragment_asset_login_btn"
+                android:gravity="center"
+                android:text="@={viewModel.loginText}"
+                android:textColor="@color/color_4868DC"
+                android:textSize="@dimen/sp_16"
+                android:typeface="@{@string/TOTAL_ASSET}"
+                android:visibility="@{viewModel.LoginViewVisible}"
+                binding:onClickCommand="@{viewModel.loginViewClick}" />
+
+            <android.support.v7.widget.RecyclerView
+                style="@style/CommonList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_20"
+                android:fastScrollEnabled="false"
+                android:overScrollMode="never"
+                android:visibility="@{viewModel.recycleViewVisible}"
+                binding:adapter="@{viewModel.adapter}"
+                binding:itemBinding="@{viewModel.itemBinding}"
+                binding:items="@{viewModel.observableList}"
+                binding:layoutManager="@{LayoutManagers.linear(LinearLayoutManager.VERTICAL,Boolean.FALSE)}" />
+        </RelativeLayout>
     </LinearLayout>
 </layout>

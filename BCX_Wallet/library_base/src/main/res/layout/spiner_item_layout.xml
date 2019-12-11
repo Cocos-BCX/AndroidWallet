@@ -11,6 +11,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/selector_node_selected"
-        android:textSize="16sp" />
+        android:textSize="15sp" />
 
 </LinearLayout>

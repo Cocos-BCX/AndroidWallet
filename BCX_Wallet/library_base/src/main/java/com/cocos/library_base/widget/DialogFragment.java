@@ -15,10 +15,8 @@ import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocos.library_base.utils.singleton.MainHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,17 +61,12 @@ public class DialogFragment extends BaseDialogFragment {
                                 return;
                             }
                             List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-                            if (accountNames.size() <= 0) {
-                                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
-                                MainHandler.getInstance().postDelayed(() -> {
-                                    SPUtils.clear();
-                                    CocosBcxApiWrapper.getBcxInstance().log_out();
-                                    ActivityContainer.finishAllActivity();
-                                }, 100);
-                            } else {
+                            if (null != accountNames && accountNames.size() > 0) {
                                 AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
-                                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
+                            } else {
+                                AccountHelperUtils.setCurrentAccountName("");
                             }
+                            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
                         });
                     }
                 }
