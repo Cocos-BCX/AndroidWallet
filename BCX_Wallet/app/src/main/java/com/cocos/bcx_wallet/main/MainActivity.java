@@ -10,17 +10,20 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
 import com.cocos.bcx_wallet.databinding.ActivityMainBinding;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.entity.NodeInfoModel;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ActivityContainer;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
+import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.VersionUtil;
 import com.cocos.module_asset.ui.asset.AssetFragment;
 import com.cocos.module_found.fragment.FoundFragment;
@@ -37,6 +40,7 @@ import java.util.List;
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements View.OnClickListener {
 
     private long mExitTime;
+    private NodeInfoModel.DataBean initSelectedNodeModel;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         binding.assetRb.setOnClickListener(this);
         binding.foundRb.setOnClickListener(this);
         binding.mineRb.setOnClickListener(this);
+        initSelectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
     }
 
     private void initFragment() {
@@ -113,9 +118,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         try {
             List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
             if (null == accountNames || accountNames.size() <= 0) {
-                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
-                AccountHelperUtils.setCurrentAccountName("");
-                ActivityContainer.finishAllActivity();
+                //todo 显示创建和登录按钮
                 return;
             }
             if (!accountNames.contains(AccountHelperUtils.getCurrentAccountName())) {

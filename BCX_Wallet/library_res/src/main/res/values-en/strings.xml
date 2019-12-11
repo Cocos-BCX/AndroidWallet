@@ -16,4 +16,7 @@
     <string name="next_text">Next</string>
     <string name="insufficient_balance">Insufficient balance</string>
     <string name="module_mine_node_connect_failed">Node connect failed</string>
+    <string name="module_mine_node_connect_success">Connect success</string>
+    <string name="module_mine_net_test_text">Test Net</string>
+    <string name="module_mine_net_main_text">Main Net</string>
 </resources>

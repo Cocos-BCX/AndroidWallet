@@ -158,24 +158,46 @@ public class RegisterViewModel extends BaseViewModel {
                     public void run() {
                         try {
                             RegisterModel registerModel = GsonSingleInstance.getGsonInstance().fromJson(s, RegisterModel.class);
-
-                            if (registerModel.code == 0) {
-                                ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
-                                return;
-                            }
-
                             if (registerModel.code == 159) {
                                 ToastUtils.showShort(R.string.module_login_account_exist);
                                 dismissDialog();
                                 return;
                             }
-
-                            if (registerModel.code == 400) {
+                            if (registerModel.code == 400001) {
                                 ToastUtils.showShort(registerModel.message);
                                 dismissDialog();
                                 return;
                             }
-
+                            if (registerModel.code == 400002) {
+                                ToastUtils.showShort(registerModel.message);
+                                dismissDialog();
+                                return;
+                            }
+                            if (registerModel.code == 400003) {
+                                ToastUtils.showShort(registerModel.message);
+                                dismissDialog();
+                                return;
+                            }
+                            if (registerModel.code == 401001) {
+                                ToastUtils.showShort(registerModel.message);
+                                dismissDialog();
+                                return;
+                            }
+                            if (registerModel.code == 401002) {
+                                ToastUtils.showShort(registerModel.message);
+                                dismissDialog();
+                                return;
+                            }
+                            if (registerModel.code == 401003) {
+                                ToastUtils.showShort(registerModel.message);
+                                dismissDialog();
+                                return;
+                            }
+                            if (registerModel.code == 500) {
+                                ToastUtils.showShort(registerModel.message);
+                                dismissDialog();
+                                return;
+                            }
                             if (!registerModel.isSuccess()) {
                                 dismissDialog();
                                 return;

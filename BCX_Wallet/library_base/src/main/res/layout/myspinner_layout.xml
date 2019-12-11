@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_main_tab_top"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_node_select"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/singleline_item_bg">
+
+        <TextView
+            android:id="@+id/tv_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/bt_dropdown"
+            android:gravity="center_vertical"
+            android:minHeight="40dp"
+            android:paddingStart="10dp"
+            android:singleLine="true"
+            android:textColor="@color/color_4868DC"
+            android:textSize="16sp"
+            tools:ignore="RtlSymmetry,SmallSp" />
+
+        <ImageView
+            android:id="@+id/bt_dropdown"
+            android:layout_width="@dimen/dp_14"
+            android:layout_height="@dimen/dp_10"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_4"
+            android:background="@drawable/node_select_arror" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -61,7 +61,6 @@
     <string name="module_mine_contact_add_manully">Manual addition</string>
     <string name="module_mine_contact_scan_add" tools:ignore="MissingTranslation">Scan</string>
     <string name="fragment_mine_net_setting">Network Setting</string>
-    <string name="module_mine_net_test_text">Test Net</string>
     <string name="module_mine_system_setting">System Setting</string>
     <string name="module_mine_contact_address">Please enter wallet address</string>
     <string name="module_mine_contact_wallet_address">Address</string>
@@ -73,11 +72,8 @@
     <string name="module_mine_prop_asset_word_view">world View</string>
     <string name="module_mine_prop_asset_asset_qualifier">通行资产</string>
 
-
     <string name="custom">Custom</string>
-    <string name="module_mine_net_main_text">Main Net</string>
     <string name="module_mine_custom_node">Custom Node</string>
-
     <string name="module_mine_custom_node_name">Node:</string>
     <string name="module_mine_custom_chain_id">ChainId:</string>
     <string name="module_mine_custom_faucet_url">FaucetUrl:</string>
@@ -94,7 +90,6 @@
     <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
     <string name="module_mine_name_empty">Name cannot be empty</string>
     <string name="module_mine_wrong_password">Wrong password</string>
-    <string name="module_mine_node_connect_success">Connect success</string>
     <string name="mine_nh_asset_id_text">Asset ID：</string>
     <string name="mine_nh_asset_qualifier">Coin：</string>
     <string name="mine_nh_asset_world_view">Worldview：</string>

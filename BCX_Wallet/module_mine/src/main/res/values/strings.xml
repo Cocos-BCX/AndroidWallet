@@ -61,7 +61,6 @@
     <string name="module_mine_contact_scan_add" tools:ignore="MissingTranslation">扫一扫</string>
     <string name="module_mine_system_setting">系统设置</string>
     <string name="fragment_mine_net_setting" tools:ignore="MissingTranslation,ResourceName">网络设置</string>
-    <string name="module_mine_net_test_text">测试网</string>
     <string name="module_mine_modify_passcode_success">密码修改成功</string>
     <string name="module_mine_contact_address">请输入钱包地址</string>
     <string name="module_mine_contact_wallet_address">钱包地址</string>
@@ -72,11 +71,8 @@
     <string name="module_mine_prop_asset_id">NH资产ID</string>
     <string name="module_mine_prop_asset_word_view">世界观</string>
     <string name="module_mine_prop_asset_asset_qualifier">通行资产</string>
-
     <string name="custom">自定义</string>
-    <string name="module_mine_net_main_text">主网</string>
     <string name="module_mine_custom_node">自定义节点</string>
-
     <string name="module_mine_custom_node_name">Node:</string>
     <string name="module_mine_custom_chain_id">ChainId:</string>
     <string name="module_mine_custom_faucet_url">FaucetUrl:</string>
@@ -93,7 +89,7 @@
     <string name="module_mine_telegram_link_url">https://t.me/cocosbcxen</string>
     <string name="module_mine_name_empty">联系人名称不能为空</string>
     <string name="module_mine_wrong_password">密码不正确</string>
-    <string name="module_mine_node_connect_success">切换成功</string>
+
     <string name="mine_nh_asset_id_text">资产ID：</string>
     <string name="mine_nh_asset_qualifier">通行资产：</string>
     <string name="mine_nh_asset_world_view">世界观：</string>

@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
 
     <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
@@ -23,6 +22,11 @@
 
     <style name="checkBoxStyle" tools:ignore="ResourceName">
         <item name="android:button">@drawable/multi_language_check_selector</item>
+    </style>
+
+    <style name="text_whitebtn_style">
+        <item name="android:textSize">18.0dip</item>
+        <item name="android:textColor">#ff444444</item>
     </style>
 
 </resources>

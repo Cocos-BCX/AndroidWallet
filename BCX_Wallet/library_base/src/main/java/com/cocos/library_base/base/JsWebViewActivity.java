@@ -583,8 +583,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * @param params
      */
     private void createNhAssetsOrder(String password, CreateNHAssetOrderParamsModel createNHAssetOrderParamsModel, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("syling", AccountHelperUtils.getCurrentAccountName(),
-                password, createNHAssetOrderParamsModel.NHAssetId, "0", "COCOS", createNHAssetOrderParamsModel.memo,
+        CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order(createNHAssetOrderParamsModel.otcAccount, AccountHelperUtils.getCurrentAccountName(),
+                password, createNHAssetOrderParamsModel.NHAssetId, createNHAssetOrderParamsModel.orderFee, "COCOS", createNHAssetOrderParamsModel.memo,
                 String.valueOf(createNHAssetOrderParamsModel.price), createNHAssetOrderParamsModel.priceAssetId, createNHAssetOrderParamsModel.expiration,
                 new IBcxCallBack() {
                     @Override

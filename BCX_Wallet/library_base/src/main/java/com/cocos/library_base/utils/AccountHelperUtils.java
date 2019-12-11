@@ -2,6 +2,7 @@ package com.cocos.library_base.utils;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
@@ -47,6 +48,7 @@ public class AccountHelperUtils {
      */
     private static void setCurrentAccountId(String accountName) {
         String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name(accountName);
+        Log.i("setCurrentAccountId:", accountId);
         if (TextUtils.isEmpty(accountId)) {
             return;
         }

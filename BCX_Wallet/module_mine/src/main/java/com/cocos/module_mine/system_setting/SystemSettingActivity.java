@@ -98,12 +98,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
                 NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
                 if (!resultEntity.isSuccess()) {
-                    init(selectedNodeModel, new IBcxCallBack() {
-                        @Override
-                        public void onReceiveValue(String s) {
-
-                        }
-                    });
+                    init(selectedNodeModel);
                     ToastUtils.showShort(R.string.module_mine_node_connect_failed);
                     nodeNetDialog.dismiss();
                     return;
@@ -113,11 +108,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                 SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
                 SPUtils.putString(Utils.getContext(), SPKeyGlobal.NET_TYPE, dataBean.type);
                 List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-                if (accountNames.size() <= 0) {
-                    ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
-                    AccountHelperUtils.setCurrentAccountName("");
-                    ActivityContainer.finishAllActivity();
-                } else {
+                if (null != accountNames && accountNames.size() > 0) {
                     AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
                 }
             }
@@ -128,7 +119,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
     /**
      * 切换节点
      */
-    private void init(final NodeInfoModel.DataBean dataBean, IBcxCallBack iBcxCallBack) {
+    private void init(final NodeInfoModel.DataBean dataBean) {
         if (dataBean == null) {
             return;
         }
@@ -137,7 +128,8 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
-        CocosBcxApiWrapper.getBcxInstance().connect(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
+        CocosBcxApiWrapper.getBcxInstance().connect(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, s -> {
+        });
     }
 
     @Override

@@ -17,4 +17,7 @@
     <string name="next_text">下一步</string>
     <string name="insufficient_balance">余额不足</string>
     <string name="module_mine_node_connect_failed">节点连接失败</string>
+    <string name="module_mine_node_connect_success">切换成功</string>
+    <string name="module_mine_net_test_text">测试网</string>
+    <string name="module_mine_net_main_text">主网</string>
 </resources>
