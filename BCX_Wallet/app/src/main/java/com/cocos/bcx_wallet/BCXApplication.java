@@ -6,23 +6,14 @@ import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
-import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.bcx_wallet.launch.WelcomeActivity;
 import com.cocos.library_base.base.BaseApplication;
 import com.cocos.library_base.config.ModuleLifecycleConfig;
 import com.cocos.library_base.crash.CaocConfig;
 import com.cocos.library_base.crash.DefaultErrorActivity;
-import com.cocos.library_base.entity.BaseResult;
-import com.cocos.library_base.entity.NodeInfoModel;
-import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.utils.KLog;
-import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.node.NodeConnectUtil;
-import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -54,6 +45,8 @@ public class BCXApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        // 初始化sdk
+        CocosBcxApiWrapper.getBcxInstance().init(this);
         //是否开启日志打印
         KLog.init(BuildConfig.IS_TEST_ENV);
         //初始化 ARouter
@@ -64,8 +57,6 @@ public class BCXApplication extends BaseApplication {
         ARouter.init(this);
         ModuleLifecycleConfig.getInstance().initModuleAhead(this); //初始化组件(靠前)
         ModuleLifecycleConfig.getInstance().initModuleLow(this);     //初始化组件(靠后)
-        // 初始化sdk
-        CocosBcxApiWrapper.getBcxInstance().init(this);
         NodeConnectUtil.requestNodeListData(this);
 
 //
