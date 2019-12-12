@@ -198,7 +198,8 @@ public class RegisterViewModel extends BaseViewModel {
                                 dismissDialog();
                                 return;
                             }
-                            if (!registerModel.isSuccess()) {
+                            if (registerModel.code != 1) {
+                                ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
                                 dismissDialog();
                                 return;
                             }

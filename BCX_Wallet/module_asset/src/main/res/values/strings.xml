@@ -85,6 +85,6 @@
     <string name="buy_nh_order_btn_text">购买</string>
     <string name="cancel_mine_nh_order_text">取消订单</string>
     <string name="module_asset_order_not_exist">订单已失效</string>
-    <string name="module_asset_sources_url">http://gas.cocosbcx.net/</string>
-    <string name="module_asset_vote_url">http://vote.cocosbcx.net/</string>
+    <string name="module_asset_sources_url">https://gas.cocosbcx.net/</string>
+    <string name="module_asset_vote_url">https://vote.cocosbcx.net/</string>
 </resources>
