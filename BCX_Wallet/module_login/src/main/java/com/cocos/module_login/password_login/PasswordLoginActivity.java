@@ -12,6 +12,7 @@ import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.BR;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.entity.AccountNamesEntity;
 import com.cocos.library_base.entity.BaseResult;
 import com.cocos.library_base.entity.NodeInfoModel;
 import com.cocos.library_base.global.SPKeyGlobal;
@@ -30,6 +31,7 @@ import com.cocos.module_login.R;
 import com.cocos.module_login.databinding.ActivityPasswordLoginBinding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -87,12 +89,19 @@ public class PasswordLoginActivity extends BaseActivity<ActivityPasswordLoginBin
                             SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
                             SPUtils.putString(Utils.getContext(), SPKeyGlobal.NET_TYPE, dataBean.type);
                             reSetNodeText(dataBean);
-                            List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-                            if (null != accountNames && accountNames.size() > 0) {
-                                AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
-                            } else {
-                                AccountHelperUtils.setCurrentAccountName("");
-                            }
+                            CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                                @Override
+                                public void onReceiveValue(String s) {
+                                    AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                                    if (accountNamesEntity.isSuccess()) {
+                                        List<String> accountNames = Arrays.asList(accountNamesEntity.data.split(","));
+                                        AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
+                                    } else {
+                                        AccountHelperUtils.setCurrentAccountName("");
+                                    }
+                                }
+                            });
+
                         }
                     });
                 } catch (Exception e) {

@@ -2,20 +2,19 @@ package com.cocos.module_mine.account_manage;
 
 import android.app.Application;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
-import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -52,11 +51,19 @@ public class AccountManagerListViewModel extends BaseViewModel {
     //条目的点击事件
     public BindingCommand backOnClickCommand = new BindingCommand(() -> finish());
 
+    //封装一个界面发生改变的观察者
+    public UIChangeObservable uc = new UIChangeObservable();
+
+    public class UIChangeObservable {
+        public ObservableBoolean loginViewObservable = new ObservableBoolean(false);
+    }
+
+
     //登陆注册按钮的点击事件
     public BindingCommand loginViewClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+            uc.loginViewObservable.set(!uc.loginViewObservable.get());
         }
     });
 
@@ -73,7 +80,7 @@ public class AccountManagerListViewModel extends BaseViewModel {
         recycleViewVisible.set(View.VISIBLE);
         observableList.clear();
         for (final String accountName : accountNames) {
-            String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name(accountName);
+            String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
             CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, "1.3.0", s -> {
                 AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
                 if (null == balanceEntity || !balanceEntity.isSuccess()) {

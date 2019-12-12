@@ -111,8 +111,8 @@ public class NHAssetDetailViewModel extends BaseViewModel {
         }
         drawableImg = ContextCompat.getDrawable(Utils.getContext(), R.drawable.nh_asset_detail_icon);
         assetId.set(assetModelBean.id);
-        String owner = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(assetModelBean.nh_asset_owner);
-        String creator = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(assetModelBean.nh_asset_creator);
+        String owner = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(assetModelBean.nh_asset_owner);
+        String creator = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(assetModelBean.nh_asset_creator);
         nhAssetCreator.set(creator);
         ownerAccount.set(owner);
         assetQualifier.set(assetModelBean.asset_qualifier);

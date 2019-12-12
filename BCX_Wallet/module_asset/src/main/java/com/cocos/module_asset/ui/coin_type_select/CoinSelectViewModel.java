@@ -147,7 +147,7 @@ public class CoinSelectViewModel extends BaseViewModel {
     public void requestAllBalances() {
         assetModels.clear();
         observableList.clear();
-        List<asset_object> asset_objects = CocosBcxApiWrapper.getBcxInstance().list_assets("A", 100);
+        List<asset_object> asset_objects = CocosBcxApiWrapper.getBcxInstance().list_assets_sync("A", 100);
         for (asset_object asset_object : asset_objects) {
             AssetsModel.AssetModel assetModel1 = new AssetsModel.AssetModel();
             if (TextUtils.equals(asset_object.symbol, "GAS")) {

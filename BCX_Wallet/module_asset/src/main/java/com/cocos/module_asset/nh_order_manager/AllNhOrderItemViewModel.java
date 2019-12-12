@@ -38,7 +38,7 @@ public class AllNhOrderItemViewModel extends ItemViewModel {
         this.entity = nhOrderEntity;
         allNhOrderId.set(entity.id);
         allNhOrderPrice.set(entity.priceWithSymbol);
-        String seller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(entity.seller);
+        String seller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(entity.seller);
         allNhOrderSeller.set(seller);
         entity.sellerName = seller;
         allNhOrderExpritationTime.set(Utils.getString(R.string.module_asset_order_detail_expiration) + entity.expirationTime);

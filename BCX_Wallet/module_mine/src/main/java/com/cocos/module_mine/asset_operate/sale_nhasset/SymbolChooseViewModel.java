@@ -43,7 +43,7 @@ public class SymbolChooseViewModel extends BaseViewModel {
     });
 
     public void requestAllSymbols() {
-        List<asset_object> asset_objects = CocosBcxApiWrapper.getBcxInstance().list_assets("A", 100);
+        List<asset_object> asset_objects = CocosBcxApiWrapper.getBcxInstance().list_assets_sync("A", 100);
         if (null == asset_objects || asset_objects.size() <= 0) {
             return;
         }

@@ -79,8 +79,8 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                 final Object opObject = dealRecordModel.op.get(1);
                 final DealRecordModel.OpBean opBean = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(opObject), DealRecordModel.OpBean.class);
                 // 转账
-                final String fromAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(opBean.from);
-                final String toAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(opBean.to);
+                final String fromAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(opBean.from);
+                final String toAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(opBean.to);
                 dealDetailModel.from = fromAccountName;
                 dealDetailModel.to = toAccountName;
                 //当前账户不是收款账户则为转账
@@ -135,7 +135,7 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                 dealDetailModel.deal_type = Utils.getString(R.string.module_asset_contract_type);
                 final Object opObject = dealRecordModel.op.get(1);
                 final DealRecordModel.ContractOp contractOp = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(opObject), DealRecordModel.ContractOp.class);
-                String caller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(contractOp.caller);
+                String caller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(contractOp.caller);
                 account.set(caller);
                 dealDetailModel.caller = caller;
                 contract_object contract_object = CocosBcxApiWrapper.getBcxInstance().get_contract_object(contractOp.contract_id);
@@ -187,8 +187,8 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
             final Object opObject = dealRecordModel.op.get(1);
             final DealRecordModel.OpBean opBean = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(opObject), DealRecordModel.OpBean.class);
             // 转账
-            final String fromAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(opBean.from);
-            final String toAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id(opBean.to);
+            final String fromAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(opBean.from);
+            final String toAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(opBean.to);
             dealDetailModel.from = fromAccountName;
             dealDetailModel.to = toAccountName;
             //当前账户不是收款账户则为转账

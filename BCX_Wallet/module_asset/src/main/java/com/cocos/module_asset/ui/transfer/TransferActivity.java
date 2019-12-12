@@ -201,7 +201,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                     return;
                 }
 
-                account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object(viewModel.receivablesAccountName.get());
+                account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(viewModel.receivablesAccountName.get());
                 if (null == account_object) {
                     ToastUtils.showShort(R.string.module_asset_account_not_found);
                     return;

@@ -14,6 +14,7 @@ import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.entity.AccountNamesEntity;
 import com.cocos.library_base.entity.BaseResult;
 import com.cocos.library_base.entity.NodeInfoModel;
 import com.cocos.library_base.global.EventTypeGlobal;
@@ -35,6 +36,7 @@ import com.cocos.module_mine.multi_language.MultiLanguageViewModel;
 import com.cocos.module_mine.multi_node_work.NodeWorkViewModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -109,12 +111,18 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                     viewModel.netType.set("");
                 }
                 // 获取当前链账户
-                List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-                if (null != accountNames && accountNames.size() > 0) {
-                    AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
-                } else {
-                    AccountHelperUtils.setCurrentAccountName("");
-                }
+                CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                        if (accountNamesEntity.isSuccess()) {
+                            List<String> accountNames = Arrays.asList(accountNamesEntity.data.split(","));
+                            AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
+                        } else {
+                            AccountHelperUtils.setCurrentAccountName("");
+                        }
+                    }
+                });
             }
         });
     }

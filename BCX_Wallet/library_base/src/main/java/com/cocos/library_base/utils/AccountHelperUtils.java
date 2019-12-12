@@ -8,7 +8,6 @@ import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
 import com.cocos.bcx_sdk.bcx_wallet.chain.types;
 
-import java.util.List;
 import java.util.Map;
 
 import static com.cocos.library_base.global.SPKeyGlobal.ACCOUNT_ID;
@@ -47,7 +46,7 @@ public class AccountHelperUtils {
      * @param accountName
      */
     private static void setCurrentAccountId(String accountName) {
-        String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name(accountName);
+        String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
         Log.i("setCurrentAccountId:", accountId);
         if (TextUtils.isEmpty(accountId)) {
             return;
@@ -63,13 +62,6 @@ public class AccountHelperUtils {
     }
 
     /**
-     * getCurrentAccountId
-     */
-    public static List<String> getAccountNames() {
-        return CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-    }
-
-    /**
      * getCurrentActivePublicKey
      */
     public static String getCurrentActivePublicKey() {
@@ -80,7 +72,7 @@ public class AccountHelperUtils {
      * getCurrentActivePublicKey
      */
     public static String getActivePublicKey(String accountName) {
-        account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object(accountName);
+        account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(accountName);
         if (null == account_object) {
             return "";
         }
@@ -101,7 +93,7 @@ public class AccountHelperUtils {
      * getCurrentOwnerPublicKey
      */
     public static String getOwnerPublicKey(String accountName) {
-        account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object(accountName);
+        account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(accountName);
         if (null == account_object) {
             return "";
         }

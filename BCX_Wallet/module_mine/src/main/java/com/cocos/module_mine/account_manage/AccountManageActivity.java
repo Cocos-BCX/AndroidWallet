@@ -55,7 +55,7 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
     public void initData() {
         try {
             viewModel.setAccountName(accountName);
-            String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name(accountName);
+            String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
             viewModel.requestAccountManagerData(accountId);
         } catch (Exception e) {
         }
