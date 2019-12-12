@@ -22,4 +22,12 @@
     <string name="module_mine_net_main_text">主网</string>
     <string name="module_asset_fragment_asset_login_text">立即登陆/创建账户</string>
     <string name="node_data_load_failed">节点信息加载失败</string>
+    <string name="module_asset_try_after_login">请登陆/注册后再试</string>
+    <string name="module_asset_operate_fee_not_much">余额不足！</string>
+    <string name="module_login_account_creation_required">创建账户需符合要求</string>
+    <string name="module_login_creating_free_account_required">账户需满足 ·含有数字</string>
+    <string name="module_login_create_no_authority">没有权限</string>
+    <string name="module_login_create_any_more_accounts_today">今日你不能再创建账户</string>
+    <string name="module_login_no_free_account_today">今日已经没有免费账户</string>
+    <string name="module_login_server_error">服务器错误</string>
 </resources>

@@ -164,37 +164,37 @@ public class RegisterViewModel extends BaseViewModel {
                                 return;
                             }
                             if (registerModel.code == 400001) {
-                                ToastUtils.showShort(registerModel.message);
+                                ToastUtils.showShort(R.string.module_login_account_creation_required);
                                 dismissDialog();
                                 return;
                             }
                             if (registerModel.code == 400002) {
-                                ToastUtils.showShort(registerModel.message);
+                                ToastUtils.showShort(R.string.module_login_creating_free_account_required);
                                 dismissDialog();
                                 return;
                             }
                             if (registerModel.code == 400003) {
-                                ToastUtils.showShort(registerModel.message);
+                                ToastUtils.showShort(R.string.module_login_account_exist);
                                 dismissDialog();
                                 return;
                             }
                             if (registerModel.code == 401001) {
-                                ToastUtils.showShort(registerModel.message);
+                                ToastUtils.showShort(R.string.module_login_create_no_authority);
                                 dismissDialog();
                                 return;
                             }
                             if (registerModel.code == 401002) {
-                                ToastUtils.showShort(registerModel.message);
+                                ToastUtils.showShort(R.string.module_login_create_any_more_accounts_today);
                                 dismissDialog();
                                 return;
                             }
                             if (registerModel.code == 401003) {
-                                ToastUtils.showShort(registerModel.message);
+                                ToastUtils.showShort(R.string.module_login_no_free_account_today);
                                 dismissDialog();
                                 return;
                             }
                             if (registerModel.code == 500) {
-                                ToastUtils.showShort(registerModel.message);
+                                ToastUtils.showShort(R.string.module_login_server_error);
                                 dismissDialog();
                                 return;
                             }

@@ -201,8 +201,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:hint="@string/module_asset_transfer_memo_hint"
-                android:inputType="text"
-                android:maxLength="12"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_12"
                 android:text="@={viewModel.transferMemo}" />

@@ -24,6 +24,7 @@ import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -105,6 +106,10 @@ public class AssetViewModel extends BaseViewModel {
     public BindingCommand transferItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
+            if (TextUtils.isEmpty(accountName)) {
+                ToastUtils.showShort(R.string.module_asset_try_after_login);
+                return;
+            }
             Bundle bundle = new Bundle();
             bundle.putInt(IntentKeyGlobal.OPERATE_TYPE, 1);
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_COIN_SELECT).with(bundle).navigation();
@@ -115,6 +120,10 @@ public class AssetViewModel extends BaseViewModel {
     public BindingCommand receivablesItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
+            if (TextUtils.isEmpty(accountName)) {
+                ToastUtils.showShort(R.string.module_asset_try_after_login);
+                return;
+            }
             Bundle bundle = new Bundle();
             bundle.putInt(IntentKeyGlobal.OPERATE_TYPE, 2);
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_COIN_SELECT).with(bundle).navigation();
@@ -125,6 +134,10 @@ public class AssetViewModel extends BaseViewModel {
     public BindingCommand propsAssetsItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
+            if (TextUtils.isEmpty(accountName)) {
+                ToastUtils.showShort(R.string.module_asset_try_after_login);
+                return;
+            }
             WebViewModel webViewModel = new WebViewModel();
             webViewModel.setTitle(Utils.getString(R.string.module_asset_props_assets));
             webViewModel.setUrl(Utils.getString(R.string.module_asset_sources_url));
@@ -138,6 +151,10 @@ public class AssetViewModel extends BaseViewModel {
     public BindingCommand OrderManageCentersItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
+            if (TextUtils.isEmpty(accountName)) {
+                ToastUtils.showShort(R.string.module_asset_try_after_login);
+                return;
+            }
             WebViewModel webViewModel = new WebViewModel();
             webViewModel.setTitle(Utils.getString(R.string.module_asset_message_center));
             webViewModel.setUrl(Utils.getString(R.string.module_asset_vote_url));

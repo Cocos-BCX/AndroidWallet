@@ -21,4 +21,12 @@
     <string name="module_mine_net_main_text">Main Net</string>
     <string name="module_asset_fragment_asset_login_text">Login/Register</string>
     <string name="node_data_load_failed">Nodes load failed!</string>
+    <string name="module_asset_try_after_login">Try again after Login/Register</string>
+    <string name="module_asset_operate_fee_not_much">Insufficient Balance！</string>
+    <string name="module_login_account_creation_required">Account creation required</string>
+    <string name="module_login_creating_free_account_required">Creating  free account required</string>
+    <string name="module_login_create_no_authority">No authority</string>
+    <string name="module_login_create_any_more_accounts_today">You cannot create any more accounts today</string>
+    <string name="module_login_no_free_account_today">No free account today</string>
+    <string name="module_login_server_error">Server error</string>
 </resources>

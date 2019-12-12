@@ -11,6 +11,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,25 +105,37 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                 @Override
                 public void onFinish(final String password) {
                     CocosBcxApiWrapper.getBcxInstance().transfer(password, transferParamsModel.getAccountName(), transferParamsModel.getReceivablesAccountName(), transferParamsModel.getTransferAmount(),
-                            transferParamsModel.getTransferSymbol(), transferParamsModel.getTransferMemo(),false, new IBcxCallBack() {
+                            transferParamsModel.getTransferSymbol(), transferParamsModel.getTransferMemo(), false, new IBcxCallBack() {
                                 @Override
                                 public void onReceiveValue(final String s) {
                                     MainHandler.getInstance().post(new Runnable() {
                                         @Override
                                         public void run() {
                                             try {
+                                                Log.i("transfer", s);
                                                 TransferModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, TransferModel.class);
-                                                if (baseResult.code == 104) {
-                                                    ToastUtils.showShort(R.string.module_asset_account_not_found);
+
+                                                if (!baseResult.isSuccess()) {
+                                                    ToastUtils.showShort(R.string.net_work_failed);
+                                                    return;
+                                                }
+
+                                                if (baseResult.code == 105) {
+                                                    ToastUtils.showShort(R.string.module_asset_wrong_password);
                                                     return;
                                                 }
                                                 if (baseResult.code == 112) {
                                                     ToastUtils.showShort(R.string.module_asset_private_key_author_failed);
                                                     return;
                                                 }
-                                                if (!baseResult.isSuccess()) {
-                                                    ToastUtils.showShort(R.string.net_work_failed);
+
+                                                if (baseResult.code == 104) {
+                                                    ToastUtils.showShort(R.string.module_asset_account_not_found);
                                                     return;
+                                                }
+
+                                                if (baseResult.message.contains("Insufficient Balance")) {
+                                                    ToastUtils.showShort(R.string.module_asset_operate_fee_not_much);
                                                 }
                                                 finish();
                                                 ToastUtils.showShort(R.string.module_asset_transfer_success);
@@ -200,12 +213,17 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                     ToastUtils.showShort(R.string.module_asset_transfer_account_can_not_yourself);
                     return;
                 }
-
-                account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(viewModel.receivablesAccountName.get());
-                if (null == account_object) {
-                    ToastUtils.showShort(R.string.module_asset_account_not_found);
-                    return;
-                }
+                account_object account_object;
+                long startTime = System.currentTimeMillis();
+                long endTime;
+                do {
+                    account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(viewModel.receivablesAccountName.get());
+                    endTime = System.currentTimeMillis();
+                    if (endTime - startTime > 4000) {
+                        ToastUtils.showShort(R.string.module_asset_account_not_found);
+                        return;
+                    }
+                } while (account_object == null);
 
                 final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
                 TransferParamsModel transferParamsModel = new TransferParamsModel();
