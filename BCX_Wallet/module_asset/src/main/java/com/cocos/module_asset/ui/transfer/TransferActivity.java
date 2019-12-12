@@ -117,10 +117,6 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                                     ToastUtils.showShort(R.string.module_asset_operate_fee_not_much);
                                                     return;
                                                 }
-                                                if (!baseResult.isSuccess()) {
-                                                    ToastUtils.showShort(R.string.net_work_failed);
-                                                    return;
-                                                }
                                                 if (baseResult.code == 105) {
                                                     ToastUtils.showShort(R.string.module_asset_wrong_password);
                                                     return;
@@ -132,6 +128,10 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
 
                                                 if (baseResult.code == 104) {
                                                     ToastUtils.showShort(R.string.module_asset_account_not_found);
+                                                    return;
+                                                }
+                                                if (!baseResult.isSuccess()) {
+                                                    ToastUtils.showShort(R.string.net_work_failed);
                                                     return;
                                                 }
                                                 finish();
