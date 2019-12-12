@@ -75,12 +75,18 @@ public class CoinSelectViewModel extends BaseViewModel {
      */
     public void requestAssetsListData() {
         final String accountId = AccountHelperUtils.getCurrentAccountId();
+        LogUtils.d("accountId", accountId);
         // 如果不是同一个账号则清除数据
         if (!TextUtils.equals(preAccountId, accountId)) {
             assetModels.clear();
             observableList.clear();
         }
         preAccountId = accountId;
+        if (TextUtils.isEmpty(accountId)) {
+            emptyViewVisible.set(View.VISIBLE);
+            recyclerViewVisible.set(View.GONE);
+            return;
+        }
         CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {

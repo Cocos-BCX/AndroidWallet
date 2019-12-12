@@ -22,10 +22,8 @@ import com.cocos.library_base.entity.AllAssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
-import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -33,7 +31,6 @@ import com.cocos.module_asset.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.List;
 
 import me.tatarka.bindingcollectionadapter2.BR;
@@ -53,9 +50,6 @@ public class AssetViewModel extends BaseViewModel {
 
     public ObservableInt accountViewVisible = new ObservableInt(View.INVISIBLE);
 
-    private List<AssetsModel.AssetModel> assetModels = new ArrayList<>();
-
-    String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
 
     int tryCount = 0;
 
@@ -64,8 +58,6 @@ public class AssetViewModel extends BaseViewModel {
     }
 
     public String accountName;
-
-    public String preAccountId;
 
     public void setAccountName() {
         this.accountName = AccountHelperUtils.getCurrentAccountName();
@@ -164,14 +156,13 @@ public class AssetViewModel extends BaseViewModel {
     public void requestAssetsListData() {
         try {
             final String accountId = AccountHelperUtils.getCurrentAccountId();
-            String nowNetType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
             // 如果不是同一个账号则清除数据
-            if (!TextUtils.equals(preAccountId, accountId) || !TextUtils.equals(nowNetType, netType)) {
-                assetModels.clear();
-                observableList.clear();
-                netType = nowNetType;
+            if (TextUtils.isEmpty(accountId)) {
+                emptyViewVisible.set(View.VISIBLE);
+                recyclerViewVisible.set(View.GONE);
+                LoginViewVisible.set(View.GONE);
+                return;
             }
-            preAccountId = accountId;
             showDialog();
             CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
                 private BigDecimal totalAssets = BigDecimal.ZERO;
@@ -198,12 +189,15 @@ public class AssetViewModel extends BaseViewModel {
                                 return;
                             }
                             final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
+                            observableList.clear();
                             for (int i = 0; i < dataBeans.size(); i++) {
                                 //todo 价值计算
                                 final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
                                 totalAssets = totalAssets.add(dataBean.getAmount().multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_DOWN));
                                 totalAsset.set(String.valueOf(totalAssets));
-                                final int finalI = i;
+                                if (TextUtils.equals(dataBean.getAsset_id(), "1.3.1")) {
+                                    continue;
+                                }
                                 CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
                                     @Override
                                     public void onReceiveValue(final String s) {
@@ -217,20 +211,11 @@ public class AssetViewModel extends BaseViewModel {
                                             public void run() {
                                                 AssetsModel.AssetModel assetModel1 = assetModel.getData();
                                                 assetModel1.amount = dataBean.getAmount();
-                                                if (assetModels.size() == dataBeans.size()) {
-                                                    if (!assetModel1.equals(assetModels.get(finalI))) {
-                                                        assetModels.set(finalI, assetModel1);
-                                                        if (!TextUtils.equals(assetModel1.symbol, "GAS")) {
-                                                            AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
-                                                            observableList.set(finalI, itemViewModel);
-                                                        }
-                                                    }
+                                                AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
+                                                if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
+                                                    observableList.add(0, itemViewModel);
                                                 } else {
-                                                    assetModels.add(assetModel1);
-                                                    if (!TextUtils.equals(assetModel1.symbol, "GAS")) {
-                                                        AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
-                                                        observableList.add(itemViewModel);
-                                                    }
+                                                    observableList.add(itemViewModel);
                                                 }
                                                 dismissDialog();
                                                 emptyViewVisible.set(View.GONE);

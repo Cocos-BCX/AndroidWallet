@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -75,6 +76,7 @@ public class PasswordLoginViewModel extends BaseViewModel {
                     MainHandler.getInstance().post(new Runnable() {
                         @Override
                         public void run() {
+                            Log.i("password_login", s);
                             LoginModel loginModel = GsonSingleInstance.getGsonInstance().fromJson(s, LoginModel.class);
                             if (loginModel.code == 105 || loginModel.code == 104) {
                                 ToastUtils.showShort(R.string.module_login_password_error);

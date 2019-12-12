@@ -9,20 +9,25 @@ import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.entity.AccountNamesEntity;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
+import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
@@ -38,8 +43,18 @@ public class SwitchAccountViewModel extends BaseViewModel {
         super(application);
         String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
         symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
-        List<String> accountNames = CocosBcxApiWrapper.getBcxInstance().get_dao_account_names();
-        requestAccountListData(accountNames);
+        CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+            @Override
+            public void onReceiveValue(String s) {
+                AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                if (accountNamesEntity.isSuccess()) {
+                    List<String> accountNames = Arrays.asList(accountNamesEntity.data.split(","));
+                    requestAccountListData(accountNames);
+                } else {
+                    requestAccountListData(new ArrayList<String>());
+                }
+            }
+        });
     }
 
     //当前代币名称

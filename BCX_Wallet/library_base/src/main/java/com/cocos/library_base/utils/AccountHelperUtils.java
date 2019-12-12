@@ -27,9 +27,17 @@ public class AccountHelperUtils {
      */
     public static void setCurrentAccountName(String accountName) {
         try {
+            Log.i("setCurrentAccountName:", accountName);
+            if (TextUtils.isEmpty(accountName)) {
+                SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, "");
+                setCurrentAccountId("");
+                return;
+            }
             SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, accountName);
             setCurrentAccountId(accountName);
         } catch (Exception e) {
+            SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, "");
+            setCurrentAccountId("");
         }
     }
 
@@ -46,12 +54,13 @@ public class AccountHelperUtils {
      * @param accountName
      */
     private static void setCurrentAccountId(String accountName) {
-        String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
-        Log.i("setCurrentAccountId:", accountId);
-        if (TextUtils.isEmpty(accountId)) {
+        if (TextUtils.isEmpty(accountName)) {
+            SPUtils.putString(Utils.getContext(), ACCOUNT_ID, "");
             return;
         }
+        String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
         SPUtils.putString(Utils.getContext(), ACCOUNT_ID, accountId);
+        Log.i("setCurrentAccountId:", accountId);
     }
 
     /**
