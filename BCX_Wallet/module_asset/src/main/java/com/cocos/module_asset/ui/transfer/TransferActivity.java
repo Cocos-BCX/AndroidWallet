@@ -20,7 +20,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
-import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
@@ -114,12 +113,14 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                             try {
                                                 Log.i("transfer", s);
                                                 TransferModel baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, TransferModel.class);
-
+                                                if (baseResult.message.contains("Insufficient Balance")) {
+                                                    ToastUtils.showShort(R.string.module_asset_operate_fee_not_much);
+                                                    return;
+                                                }
                                                 if (!baseResult.isSuccess()) {
                                                     ToastUtils.showShort(R.string.net_work_failed);
                                                     return;
                                                 }
-
                                                 if (baseResult.code == 105) {
                                                     ToastUtils.showShort(R.string.module_asset_wrong_password);
                                                     return;
@@ -132,10 +133,6 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                                 if (baseResult.code == 104) {
                                                     ToastUtils.showShort(R.string.module_asset_account_not_found);
                                                     return;
-                                                }
-
-                                                if (baseResult.message.contains("Insufficient Balance")) {
-                                                    ToastUtils.showShort(R.string.module_asset_operate_fee_not_much);
                                                 }
                                                 finish();
                                                 ToastUtils.showShort(R.string.module_asset_transfer_success);
@@ -213,17 +210,6 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                     ToastUtils.showShort(R.string.module_asset_transfer_account_can_not_yourself);
                     return;
                 }
-                account_object account_object;
-                long startTime = System.currentTimeMillis();
-                long endTime;
-                do {
-                    account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(viewModel.receivablesAccountName.get());
-                    endTime = System.currentTimeMillis();
-                    if (endTime - startTime > 4000) {
-                        ToastUtils.showShort(R.string.module_asset_account_not_found);
-                        return;
-                    }
-                } while (account_object == null);
 
                 final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
                 TransferParamsModel transferParamsModel = new TransferParamsModel();
