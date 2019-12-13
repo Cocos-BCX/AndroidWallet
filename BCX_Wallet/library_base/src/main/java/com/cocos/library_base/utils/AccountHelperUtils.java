@@ -5,8 +5,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
 import com.cocos.bcx_sdk.bcx_wallet.chain.types;
+import com.cocos.library_base.R;
 
 import java.util.Map;
 
@@ -58,9 +61,16 @@ public class AccountHelperUtils {
             SPUtils.putString(Utils.getContext(), ACCOUNT_ID, "");
             return;
         }
-        String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
-        SPUtils.putString(Utils.getContext(), ACCOUNT_ID, accountId);
-        Log.i("setCurrentAccountId:", accountId);
+        String accountId = null;
+        try {
+            accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
+            SPUtils.putString(Utils.getContext(), ACCOUNT_ID, accountId);
+            Log.i("setCurrentAccountId:", accountId);
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(R.string.net_work_failed);
+        } catch (AccountNotFoundException e) {
+            ToastUtils.showShort(R.string.account_not_found);
+        }
     }
 
     /**
@@ -81,12 +91,16 @@ public class AccountHelperUtils {
      * getCurrentActivePublicKey
      */
     public static String getActivePublicKey(String accountName) {
-        account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(accountName);
-        if (null == account_object) {
-            return "";
-        }
-        for (Map.Entry<types.public_key_type, Integer> entry : account_object.active.key_auths.entrySet()) {
-            return entry.getKey().toString();
+        account_object account_object = null;
+        try {
+            account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(accountName);
+            for (Map.Entry<types.public_key_type, Integer> entry : account_object.active.key_auths.entrySet()) {
+                return entry.getKey().toString();
+            }
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(R.string.net_work_failed);
+        } catch (AccountNotFoundException e) {
+            ToastUtils.showShort(R.string.account_not_found);
         }
         return "";
     }
@@ -102,12 +116,16 @@ public class AccountHelperUtils {
      * getCurrentOwnerPublicKey
      */
     public static String getOwnerPublicKey(String accountName) {
-        account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(accountName);
-        if (null == account_object) {
-            return "";
-        }
-        for (Map.Entry<types.public_key_type, Integer> entry : account_object.owner.key_auths.entrySet()) {
-            return entry.getKey().toString();
+        account_object account_object = null;
+        try {
+            account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(accountName);
+            for (Map.Entry<types.public_key_type, Integer> entry : account_object.owner.key_auths.entrySet()) {
+                return entry.getKey().toString();
+            }
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(R.string.net_work_failed);
+        } catch (AccountNotFoundException e) {
+            ToastUtils.showShort(R.string.account_not_found);
         }
         return "";
     }

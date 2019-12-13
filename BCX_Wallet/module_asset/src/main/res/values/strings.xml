@@ -59,7 +59,6 @@
     <string name="module_asset_transfer_amount_empty">请输入转账数量</string>
     <string name="module_asset_account_not_found">收款账户不存在</string>
     <string name="module_asset_wrong_password">密码不正确</string>
-    <string name="module_asset_private_key_author_failed">owner key不能进行转账，请导入active key</string>
     <string name="module_asset_nh_order_mine_title">我的订单</string>
     <string name="module_asset_nh_order_all_title">全网订单</string>
     <string name="module_asset_nh_order_id">订单ID：</string>

@@ -2,7 +2,7 @@
     <string name="TOTAL_ASSET">fonts/TOTAL_ASSET.ttf</string>
     <string name="FUTURAMEDIUMBT">fonts/FUTURAMEDIUMBT.ttf</string>
     <string name="CENTURY_GOTHIC_BOLD">fonts/CENTURY_GOTHIC_BOLD.ttf</string>
-
+    <string name="module_login_password_hint" tools:ignore="MissingTranslation">8-12位，数字、字母和特殊符号任两种</string>
     <string name="copy_success">复制成功</string>
     <string name="copy">复制</string>
     <string name="title_warning_text" tools:ignore="MissingTranslation">注意</string>
@@ -15,6 +15,7 @@
     <string name="module_asset_coin_type_test">(测试)</string>
     <string name="deal_detail">交易详情</string>
     <string name="next_text">下一步</string>
+    <string name="account_not_found">账户不存在</string>
     <string name="insufficient_balance">余额不足</string>
     <string name="module_mine_node_connect_failed">节点连接失败</string>
     <string name="module_mine_node_connect_success">切换成功</string>
@@ -30,4 +31,7 @@
     <string name="module_login_create_any_more_accounts_today">今日你不能再创建账户</string>
     <string name="module_login_no_free_account_today">今日已经没有免费账户</string>
     <string name="module_login_server_error">服务器错误</string>
+    <string name="module_asset_private_key_author_failed">owner key不能进行转账，请导入active key</string>
+    <string name="module_asset_private_key_author_failed_owner">active key权限不支持该操作，请导入owner key</string>
+    <string name="module_login_key_format_error">私钥无效，请重新输入</string>
 </resources>

@@ -12,6 +12,7 @@ import android.view.View;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
 import com.cocos.bcx_sdk.bcx_error.ContractNotFoundException;
 import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.bcx_sdk.bcx_wallet.chain.contract_object;
@@ -138,7 +139,7 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                 String caller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(contractOp.caller);
                 account.set(caller);
                 dealDetailModel.caller = caller;
-                contract_object contract_object = CocosBcxApiWrapper.getBcxInstance().get_contract_object(contractOp.contract_id);
+                contract_object contract_object = CocosBcxApiWrapper.getBcxInstance().get_contract_sync(contractOp.contract_id);
                 operationAmount.set(contract_object.name);
                 dealDetailModel.contract_name = contract_object.name;
                 dealDetailModel.function_name = contractOp.function_name;
@@ -183,32 +184,39 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                 ToastUtils.showShort(R.string.net_work_failed);
             }
         } else if (42 == option) {
-            symbolTypeVisible.set(View.GONE);
-            final Object opObject = dealRecordModel.op.get(1);
-            final DealRecordModel.OpBean opBean = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(opObject), DealRecordModel.OpBean.class);
-            // 转账
-            final String fromAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(opBean.from);
-            final String toAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(opBean.to);
-            dealDetailModel.from = fromAccountName;
-            dealDetailModel.to = toAccountName;
-            //当前账户不是收款账户则为转账
-            final boolean isTransferAccount = !TextUtils.equals(AccountHelperUtils.getCurrentAccountName(), toAccountName);
-            drawableImg = Utils.getDrawable(isTransferAccount ? R.drawable.deal_record_nh_asset_transfer : R.drawable.deal_record_nh_asset_receive);
-            if (isTransferAccount) {
-                account.set(toAccountName);
-                operationAmountColor.set(Utils.getColor(R.color.color_4868DC));
-            } else {
-                account.set(fromAccountName);
-                operationAmountColor.set(Utils.getColor(R.color.color_2FC49F));
+            try {
+                symbolTypeVisible.set(View.GONE);
+                final Object opObject = dealRecordModel.op.get(1);
+                final DealRecordModel.OpBean opBean = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(opObject), DealRecordModel.OpBean.class);
+                // 转账
+                final String fromAccountName;
+                fromAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(opBean.from);
+                final String toAccountName = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(opBean.to);
+                dealDetailModel.from = fromAccountName;
+                dealDetailModel.to = toAccountName;
+                //当前账户不是收款账户则为转账
+                final boolean isTransferAccount = !TextUtils.equals(AccountHelperUtils.getCurrentAccountName(), toAccountName);
+                drawableImg = Utils.getDrawable(isTransferAccount ? R.drawable.deal_record_nh_asset_transfer : R.drawable.deal_record_nh_asset_receive);
+                if (isTransferAccount) {
+                    account.set(toAccountName);
+                    operationAmountColor.set(Utils.getColor(R.color.color_4868DC));
+                } else {
+                    account.set(fromAccountName);
+                    operationAmountColor.set(Utils.getColor(R.color.color_2FC49F));
+                }
+                operationAmount.set(opBean.nh_asset + (TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : ""));
+                dealDetailModel.deal_type = Utils.getString(R.string.module_asset_transfer_nh_title);
+                dealDetailModel.nh_asset_id = opBean.nh_asset;
+                final Object resultObject = dealRecordModel.result.get(1);
+                final FeesModel feesModel = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(resultObject), FeesModel.class);
+                FeesModel.FeesBean feesBean = feesModel.fees.get(0);
+                dealDetailModel.fee = String.valueOf(TextUtils.equals("1.3.0", feesBean.asset_id) ? feesModel.fees.get(0).amount.divide(BigDecimal.valueOf(Math.pow(10, 5))) : 0);
+                dealDetailModel.feeSymbol = "COCOS";
+            } catch (NetworkStatusException e) {
+                ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
+            } catch (AccountNotFoundException e) {
+                ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
             }
-            operationAmount.set(opBean.nh_asset + (TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : ""));
-            dealDetailModel.deal_type = Utils.getString(R.string.module_asset_transfer_nh_title);
-            dealDetailModel.nh_asset_id = opBean.nh_asset;
-            final Object resultObject = dealRecordModel.result.get(1);
-            final FeesModel feesModel = GsonSingleInstance.getGsonInstance().fromJson(GsonSingleInstance.getGsonInstance().toJson(resultObject), FeesModel.class);
-            FeesModel.FeesBean feesBean = feesModel.fees.get(0);
-            dealDetailModel.fee = String.valueOf(TextUtils.equals("1.3.0", feesBean.asset_id) ? feesModel.fees.get(0).amount.divide(BigDecimal.valueOf(Math.pow(10, 5))) : 0);
-            dealDetailModel.feeSymbol = "COCOS";
         }
 
         dealDetailModel.block_header = String.valueOf(dealRecordModel.block_num);

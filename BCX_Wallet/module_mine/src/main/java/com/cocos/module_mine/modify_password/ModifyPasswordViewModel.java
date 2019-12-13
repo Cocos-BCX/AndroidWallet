@@ -5,12 +5,17 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.BaseResult;
+import com.cocos.library_base.utils.KLog;
 import com.cocos.library_base.utils.RegexUtils;
 import com.cocos.library_base.utils.ToastUtils;
+import com.cocos.library_base.utils.singleton.GsonSingleInstance;
+import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.R;
 
 /**
@@ -19,11 +24,12 @@ import com.cocos.module_mine.R;
  */
 public class ModifyPasswordViewModel extends BaseViewModel {
 
-    private BaseResult baseResult;
 
     public ModifyPasswordViewModel(@NonNull Application application) {
         super(application);
     }
+
+    String accountNameStr;
 
     //旧密码的绑定
     public ObservableField<String> currentPassword = new ObservableField<>();
@@ -42,7 +48,6 @@ public class ModifyPasswordViewModel extends BaseViewModel {
         }
     });
 
-
     //修改按钮的点击事件
     public BindingCommand modifyPasswordOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
@@ -57,25 +62,45 @@ public class ModifyPasswordViewModel extends BaseViewModel {
             return;
         }
 
-        if (!RegexUtils.isLegalPassword(newPassword.get())) {
-            ToastUtils.showShort(R.string.module_mine_modify_password_illegal);
-            return;
-        }
-
         if (!TextUtils.equals(newPassword.get(), confirmPassword.get())) {
             ToastUtils.showShort(R.string.module_mine_modify_password_confirm_failure);
             return;
         }
 
+        if (!RegexUtils.isLegalPassword(newPassword.get())) {
+            ToastUtils.showShort(R.string.module_mine_modify_password_illegal);
+            return;
+        }
+
         showDialog();
-    /*    BcxSDkInstance.getBcxInstance().changePassword(currentPassword.get(), confirmPassword.get(), new IBcxCallBack() {
+        CocosBcxApiWrapper.getBcxInstance().modify_password(accountNameStr, currentPassword.get(), confirmPassword.get(), new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
                         KLog.i("changePassword", s);
-                        baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
+                        BaseResult baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
+                        if (baseResult.getCode() == 105) {
+                            dismissDialog();
+                            ToastUtils.showShort(R.string.module_mine_wrong_password);
+                            return;
+                        }
+                        if (baseResult.getCode() == 104) {
+                            dismissDialog();
+                            ToastUtils.showShort(R.string.account_not_found);
+                            return;
+                        }
+                        if (baseResult.getCode() == 109) {
+                            dismissDialog();
+                            ToastUtils.showShort(R.string.module_login_key_format_error);
+                            return;
+                        }
+                        if (baseResult.code == 112) {
+                            dismissDialog();
+                            ToastUtils.showShort(R.string.module_asset_private_key_author_failed_owner);
+                            return;
+                        }
                         if (!baseResult.isSuccess()) {
                             dismissDialog();
                             return;
@@ -87,6 +112,10 @@ public class ModifyPasswordViewModel extends BaseViewModel {
                 });
             }
         });
-*/
+
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountNameStr = accountName;
     }
 }

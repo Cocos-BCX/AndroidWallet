@@ -6,9 +6,11 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.bcx_sdk.bcx_wallet.chain.global_property_object;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.entity.NHAssetModel;
@@ -46,10 +48,15 @@ public class SaleNHAssetViewModel extends BaseViewModel {
 
     public void setNhAssetId(NHAssetModel.NHAssetModelBean nhAssetModelBean) {
         nhAssetId.set(nhAssetModelBean.id);
-        global_property_object global_property_object = CocosBcxApiWrapper.getBcxInstance().get_global_properties();
-        if (null != global_property_object) {
-            saleValidTimeMax = global_property_object.parameters.maximum_nh_asset_order_expiration - 100;
-            saleValidTimeDefault.set(Utils.getString(R.string.module_mine_nh_asset_sale_valid_time_max) + (global_property_object.parameters.maximum_nh_asset_order_expiration - 100) + " " + Utils.getString(R.string.module_mine_nh_asset_sale_valid_time_default));
+        global_property_object global_property_object = null;
+        try {
+            global_property_object = CocosBcxApiWrapper.getBcxInstance().get_global_properties();
+            if (null != global_property_object) {
+                saleValidTimeMax = global_property_object.parameters.maximum_nh_asset_order_expiration - 100;
+                saleValidTimeDefault.set(Utils.getString(R.string.module_mine_nh_asset_sale_valid_time_max) + (global_property_object.parameters.maximum_nh_asset_order_expiration - 100) + " " + Utils.getString(R.string.module_mine_nh_asset_sale_valid_time_default));
+            }
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
         }
     }
 

@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.library_base.base.ItemViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -14,6 +16,7 @@ import com.cocos.library_base.entity.NhAssetOrderEntity;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_asset.R;
 
@@ -38,11 +41,18 @@ public class AllNhOrderItemViewModel extends ItemViewModel {
         this.entity = nhOrderEntity;
         allNhOrderId.set(entity.id);
         allNhOrderPrice.set(entity.priceWithSymbol);
-        String seller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(entity.seller);
-        allNhOrderSeller.set(seller);
-        entity.sellerName = seller;
-        allNhOrderExpritationTime.set(Utils.getString(R.string.module_asset_order_detail_expiration) + entity.expirationTime);
-        allNhOrderMemo.set(entity.memo);
+        String seller = null;
+        try {
+            seller = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(entity.seller);
+            allNhOrderSeller.set(seller);
+            entity.sellerName = seller;
+            allNhOrderExpritationTime.set(Utils.getString(R.string.module_asset_order_detail_expiration) + entity.expirationTime);
+            allNhOrderMemo.set(entity.memo);
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
+        } catch (AccountNotFoundException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
+        }
     }
 
 

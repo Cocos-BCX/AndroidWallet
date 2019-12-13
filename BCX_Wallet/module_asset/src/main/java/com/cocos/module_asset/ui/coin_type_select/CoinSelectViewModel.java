@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.bcx_sdk.bcx_wallet.chain.asset_object;
 import com.cocos.library_base.base.BaseViewModel;
@@ -19,6 +20,7 @@ import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AllAssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -153,20 +155,25 @@ public class CoinSelectViewModel extends BaseViewModel {
     public void requestAllBalances() {
         assetModels.clear();
         observableList.clear();
-        List<asset_object> asset_objects = CocosBcxApiWrapper.getBcxInstance().list_assets_sync("A", 100);
-        for (asset_object asset_object : asset_objects) {
-            AssetsModel.AssetModel assetModel1 = new AssetsModel.AssetModel();
-            if (TextUtils.equals(asset_object.symbol, "GAS")) {
-                continue;
+        List<asset_object> asset_objects = null;
+        try {
+            asset_objects = CocosBcxApiWrapper.getBcxInstance().list_assets_sync("A", 100);
+            for (asset_object asset_object : asset_objects) {
+                AssetsModel.AssetModel assetModel1 = new AssetsModel.AssetModel();
+                if (TextUtils.equals(asset_object.symbol, "GAS")) {
+                    continue;
+                }
+                assetModel1.symbol = asset_object.symbol;
+                assetModel1.operateType = operateType;
+                CoinSelectItemViewModel itemViewModel = new CoinSelectItemViewModel(CoinSelectViewModel.this, assetModel1);
+                if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
+                    observableList.add(0, itemViewModel);
+                } else {
+                    observableList.add(itemViewModel);
+                }
             }
-            assetModel1.symbol = asset_object.symbol;
-            assetModel1.operateType = operateType;
-            CoinSelectItemViewModel itemViewModel = new CoinSelectItemViewModel(CoinSelectViewModel.this, assetModel1);
-            if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
-                observableList.add(0, itemViewModel);
-            } else {
-                observableList.add(itemViewModel);
-            }
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(R.string.net_work_failed);
         }
     }
 

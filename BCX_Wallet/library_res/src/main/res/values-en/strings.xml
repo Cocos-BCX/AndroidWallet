@@ -2,6 +2,7 @@
     <string name="TOTAL_ASSET">fonts/TOTAL_ASSET.ttf</string>
     <string name="FUTURAMEDIUMBT">fonts/FUTURAMEDIUMBT.ttf</string>
     <string name="CENTURY_GOTHIC_BOLD">fonts/CENTURY_GOTHIC_BOLD.ttf</string>
+    <string name="module_login_password_hint" tools:ignore="MissingTranslation">8-12 digits composed of two among numbers, letters and special characters</string>
     <string name="copy_success">Copied</string>
     <string name="copy">Copy</string>
     <string name="logout_warning_text">Please make sure to have saved your private key before logging out</string>
@@ -14,6 +15,7 @@
     <string name="module_asset_coin_type_test">(TEST)</string>
     <string name="deal_detail">Deal Detail</string>
     <string name="next_text">Next</string>
+    <string name="account_not_found">Account not found</string>
     <string name="insufficient_balance">Insufficient balance</string>
     <string name="module_mine_node_connect_failed">Node connect failed</string>
     <string name="module_mine_node_connect_success">Connect success</string>
@@ -29,4 +31,7 @@
     <string name="module_login_create_any_more_accounts_today">You cannot create any more accounts today</string>
     <string name="module_login_no_free_account_today">No free account today</string>
     <string name="module_login_server_error">Server error</string>
+    <string name="module_asset_private_key_author_failed">Owner key cannot transfer,Please import active key</string>
+    <string name="module_asset_private_key_author_failed_owner">Active key not support this operate,Please import owner key</string>
+    <string name="module_login_key_format_error">Invalid key, enter again</string>
 </resources>

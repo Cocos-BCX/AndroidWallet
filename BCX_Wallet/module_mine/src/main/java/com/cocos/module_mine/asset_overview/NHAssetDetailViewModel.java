@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -109,20 +111,24 @@ public class NHAssetDetailViewModel extends BaseViewModel {
         if (null == assetModelBean) {
             return;
         }
-        drawableImg = ContextCompat.getDrawable(Utils.getContext(), R.drawable.nh_asset_detail_icon);
-        assetId.set(assetModelBean.id);
-        String owner = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(assetModelBean.nh_asset_owner);
-        String creator = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(assetModelBean.nh_asset_creator);
-        nhAssetCreator.set(creator);
-        ownerAccount.set(owner);
-        assetQualifier.set(assetModelBean.asset_qualifier);
-        worldView.set(assetModelBean.world_view);
-        Date dateObject = null;
         try {
+            drawableImg = ContextCompat.getDrawable(Utils.getContext(), R.drawable.nh_asset_detail_icon);
+            assetId.set(assetModelBean.id);
+            String owner = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(assetModelBean.nh_asset_owner);
+            String creator = CocosBcxApiWrapper.getBcxInstance().get_account_name_by_id_sync(assetModelBean.nh_asset_creator);
+            nhAssetCreator.set(creator);
+            ownerAccount.set(owner);
+            assetQualifier.set(assetModelBean.asset_qualifier);
+            worldView.set(assetModelBean.world_view);
+            Date dateObject = null;
             dateObject = sDateFormat.parse(assetModelBean.create_time);
             createTime.set(TimeUtil.formDate(dateObject));
         } catch (ParseException e) {
             e.printStackTrace();
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
+        } catch (AccountNotFoundException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
         }
         baseDescription.set(assetModelBean.base_describe);
     }

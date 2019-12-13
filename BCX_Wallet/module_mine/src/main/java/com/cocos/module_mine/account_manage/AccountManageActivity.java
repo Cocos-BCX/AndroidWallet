@@ -8,6 +8,8 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.entity.PrivateKeyModel;
@@ -57,7 +59,24 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
             viewModel.setAccountName(accountName);
             String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
             viewModel.requestAccountManagerData(accountId);
-        } catch (Exception e) {
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
+        } catch (AccountNotFoundException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String accountId = null;
+        try {
+            accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
+            viewModel.requestAccountManagerData(accountId);
+        } catch (NetworkStatusException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
+        } catch (AccountNotFoundException e) {
+            ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
         }
     }
 

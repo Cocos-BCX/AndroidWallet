@@ -14,7 +14,7 @@
     <string name="module_mine_modify_password_new">新密码</string>
     <string name="module_mine_modify_password_new_hint">请输入新密码</string>
     <string name="module_mine_modify_password_confirm">确认密码</string>
-    <string name="module_mine_modify_password_confirm_hint">请再次确认新密码</string>
+    <string name="module_mine_modify_password_confirm_hint">确认密码</string>
     <string name="module_mine_modify_password_done_btn">完成</string>
     <string name="module_mine_modify_password_empty">请输入密码</string>
     <string name="module_mine_modify_password_confirm_failure" tools:ignore="MissingTranslation">密码前后输入不一致，请重新输入</string>

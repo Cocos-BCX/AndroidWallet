@@ -193,7 +193,7 @@ public class AssetViewModel extends BaseViewModel {
                         public void run() {
                             if (balanceEntity.code != 1 || balanceEntity.getData().size() <= 0) {
                                 LogUtils.d("emptyViewVisible", "emptyViewVisible");
-                                if (tryCount < 3) {
+                                if (tryCount < 5) {
                                     requestAssetsListData();
                                     ++tryCount;
                                     LogUtils.d("hasTryAgain", "hasTryAgain");
@@ -215,10 +215,11 @@ public class AssetViewModel extends BaseViewModel {
                                 if (TextUtils.equals(dataBean.getAsset_id(), "1.3.1")) {
                                     continue;
                                 }
+                                LogUtils.d("lookup_asset_symbolss", dataBean.getAsset_id());
                                 CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
                                     @Override
                                     public void onReceiveValue(final String s) {
-                                        LogUtils.d("lookup_asset_symbols", s);
+                                        LogUtils.d("lookup_asset_symbolss", s);
                                         final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
                                         if (assetModel.code != 1) {
                                             return;

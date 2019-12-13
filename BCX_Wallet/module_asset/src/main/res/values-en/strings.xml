@@ -59,7 +59,6 @@
     <string name="module_asset_transfer_amount_empty">Please enter the amount to be transferred</string>
     <string name="module_asset_account_not_found">Account does not exist</string>
     <string name="module_asset_wrong_password">Wrong password</string>
-    <string name="module_asset_private_key_author_failed">Owner key cannot transfer,Please import active key</string>
     <string name="module_asset_nh_order_mine_title">My Orders</string>
     <string name="module_asset_nh_order_all_title">Total Orders</string>
     <string name="module_asset_nh_order_id">Order ID:</string>

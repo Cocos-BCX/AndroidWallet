@@ -10,11 +10,14 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
@@ -80,26 +83,33 @@ public class AccountManagerListViewModel extends BaseViewModel {
         recycleViewVisible.set(View.VISIBLE);
         observableList.clear();
         for (final String accountName : accountNames) {
-            String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
-            CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, "1.3.0", s -> {
-                AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
-                if (null == balanceEntity || !balanceEntity.isSuccess()) {
-                    return;
-                }
-                final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
-                CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.asset_id, s1 -> {
-                    final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s1, AssetsModel.class);
-                    if (!assetModel.isSuccess()) {
+            String accountId = null;
+            try {
+                accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
+                CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, "1.3.0", s -> {
+                    AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
+                    if (null == balanceEntity || !balanceEntity.isSuccess()) {
                         return;
                     }
-                    MainHandler.getInstance().post(() -> {
-                        AssetsModel.AssetModel assetModel1 = assetModel.getData();
-                        assetModel1.amount = dataBean.amount;
-                        AccountManagerListItemViewModel itemViewModel = new AccountManagerListItemViewModel(AccountManagerListViewModel.this, assetModel1, accountName);
-                        observableList.add(itemViewModel);
+                    final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
+                    CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.asset_id, s1 -> {
+                        final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s1, AssetsModel.class);
+                        if (!assetModel.isSuccess()) {
+                            return;
+                        }
+                        MainHandler.getInstance().post(() -> {
+                            AssetsModel.AssetModel assetModel1 = assetModel.getData();
+                            assetModel1.amount = dataBean.amount;
+                            AccountManagerListItemViewModel itemViewModel = new AccountManagerListItemViewModel(AccountManagerListViewModel.this, assetModel1, accountName);
+                            observableList.add(itemViewModel);
+                        });
                     });
                 });
-            });
+            } catch (NetworkStatusException e) {
+                ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
+            } catch (AccountNotFoundException e) {
+                ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
+            }
         }
     }
 }

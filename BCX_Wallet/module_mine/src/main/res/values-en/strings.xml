@@ -43,7 +43,7 @@
     <string name="module_mine_modify_password_new_hint">Enter new passcode</string>
     <string name="module_mine_modify_password_current_hint">Enter current passcode</string>
     <string name="module_mine_modify_password_current">Old One</string>
-    <string name="module_mine_modify_password_confirm_hint">Enter new passcode again</string>
+    <string name="module_mine_modify_password_confirm_hint">Enter again</string>
     <string name="module_mine_contact_title" tools:ignore="ExtraTranslation,ResourceName">Contacts</string>
     <string name="module_mine_complish" tools:ignore="ExtraTranslation,ResourceName">Done</string>
     <string name="module_mine_contact_name" tools:ignore="ExtraTranslation,ResourceName">Name</string>

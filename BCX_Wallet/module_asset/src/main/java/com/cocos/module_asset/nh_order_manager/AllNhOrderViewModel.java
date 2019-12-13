@@ -11,10 +11,12 @@ import android.view.View;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.bcx_sdk.bcx_wallet.chain.asset_object;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.entity.NhAssetOrderEntity;
 import com.cocos.library_base.utils.TimeUtil;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
@@ -103,23 +105,25 @@ public class AllNhOrderViewModel extends BaseViewModel {
                         }
                         List<NhAssetOrderEntity.NhOrderBean> nhOrderBeans = nhOrderEntity.getData();
                         for (NhAssetOrderEntity.NhOrderBean nhOrderBean : nhOrderBeans) {
-                            asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);
-                            if (null != asset_object) {
-                                NumberFormat nf = NumberFormat.getInstance();
-                                nf.setMaximumFractionDigits(5);
-                                nf.setGroupingUsed(false);
-                                nhOrderBean.priceWithSymbol = nf.format(new BigDecimal(nhOrderBean.price.amount).divide(BigDecimal.valueOf(Math.pow(10, asset_object.precision))).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)) + " " + asset_object.symbol;
-                                Date dateObject = null;
-                                try {
+                            try {
+                                asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(nhOrderBean.price.asset_id);
+                                if (null != asset_object) {
+                                    NumberFormat nf = NumberFormat.getInstance();
+                                    nf.setMaximumFractionDigits(5);
+                                    nf.setGroupingUsed(false);
+                                    nhOrderBean.priceWithSymbol = nf.format(new BigDecimal(nhOrderBean.price.amount).divide(BigDecimal.valueOf(Math.pow(10, asset_object.precision))).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)) + " " + asset_object.symbol;
+                                    Date dateObject = null;
                                     dateObject = sDateFormat.parse(nhOrderBean.expiration);
                                     nhOrderBean.expirationTime = TimeUtil.formDate(dateObject);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
+                                    AllNhOrderItemViewModel itemViewModel = new AllNhOrderItemViewModel(AllNhOrderViewModel.this, nhOrderBean);
+                                    observableList.add(itemViewModel);
+                                    emptyViewVisible.set(View.GONE);
+                                    recyclerViewVisible.set(View.VISIBLE);
                                 }
-                                AllNhOrderItemViewModel itemViewModel = new AllNhOrderItemViewModel(AllNhOrderViewModel.this, nhOrderBean);
-                                observableList.add(itemViewModel);
-                                emptyViewVisible.set(View.GONE);
-                                recyclerViewVisible.set(View.VISIBLE);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            } catch (NetworkStatusException e) {
+                                ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
                             }
                         }
                         if (null != ptrFrameLayout) {
