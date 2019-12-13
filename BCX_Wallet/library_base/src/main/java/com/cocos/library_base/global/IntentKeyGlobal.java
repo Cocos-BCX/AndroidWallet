@@ -52,4 +52,5 @@ public final class IntentKeyGlobal {
     public static final String SALE_TO_SYMBOL_SELECT = "SALE_TO_SYMBOL_SELECT";
 
     public static final String PRICE_SYMBOL = "PRICE_SYMBOL";
+    public static final String DAO_ACCOUNT_MODEL = "DAO_ACCOUNT_MODEL";
 }

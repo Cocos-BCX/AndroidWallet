@@ -34,4 +34,8 @@
     <string name="module_asset_private_key_author_failed">Owner key cannot transfer,Please import active key</string>
     <string name="module_asset_private_key_author_failed_owner">Active key not support this operate,Please import owner key</string>
     <string name="module_login_key_format_error">Invalid key, enter again</string>
+    <string name="module_login_private_key_empty">Please enter private key</string>
+    <string name="reset_password_title">Reset Password</string>
+    <string name="module_login_private_key_hint">Enter cleartext private key</string>
+    <string name="module_login_password_confirm_failure">Passwords do not match, please reset</string>
 </resources>

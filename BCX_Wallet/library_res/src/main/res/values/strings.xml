@@ -34,4 +34,8 @@
     <string name="module_asset_private_key_author_failed">owner key不能进行转账，请导入active key</string>
     <string name="module_asset_private_key_author_failed_owner">active key权限不支持该操作，请导入owner key</string>
     <string name="module_login_key_format_error">私钥无效，请重新输入</string>
+    <string name="module_login_private_key_empty">请输入私钥</string>
+    <string name="reset_password_title">重置密码</string>
+    <string name="module_login_private_key_hint">请输入明文私钥</string>
+    <string name="module_login_password_confirm_failure">前后密码设置不一致，请重新设置</string>
 </resources>

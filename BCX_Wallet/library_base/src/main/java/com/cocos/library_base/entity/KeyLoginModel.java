@@ -1,4 +1,4 @@
-package com.cocos.module_login.entity;
+package com.cocos.library_base.entity;
 
 import com.cocos.library_base.entity.BaseResult;
 

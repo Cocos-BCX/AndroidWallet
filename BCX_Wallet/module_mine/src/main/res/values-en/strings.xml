@@ -142,6 +142,10 @@
     <string name="module_mine_nh_receiver_can_not_be_self">Transfer account can not be self</string>
     <string name="module_mine_nh_asset_sale_valid_time_max">Max </string>
     <string name="order_manage_text">Orders</string>
+    <string name="module_mine_set_password">New</string>
+    <string name="module_mine_reset_confirm_password">Confirm</string>
+    <string name="module_mine_confirm_password_empty">Please Confirm!</string>
+    <string name="module_mine_reset_password_success">Success</string>
 
 
 </resources>

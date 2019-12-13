@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_entity.AccountEntity;
 import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
 import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.library_base.base.BaseViewModel;
@@ -71,10 +72,10 @@ public class AccountManagerListViewModel extends BaseViewModel {
     });
 
     /**
-     * @param accountNames
+     * @param accounts
      */
-    public void requestAccountsListData(List<String> accountNames) {
-        if (null == accountNames || accountNames.size() <= 0) {
+    public void requestAccountsListData(List<AccountEntity.AccountBean> accounts) {
+        if (null == accounts || accounts.size() <= 0) {
             LoginViewVisible.set(View.VISIBLE);
             recycleViewVisible.set(View.INVISIBLE);
             return;
@@ -82,10 +83,10 @@ public class AccountManagerListViewModel extends BaseViewModel {
         LoginViewVisible.set(View.INVISIBLE);
         recycleViewVisible.set(View.VISIBLE);
         observableList.clear();
-        for (final String accountName : accountNames) {
+        for (final AccountEntity.AccountBean daoAccount : accounts) {
             String accountId = null;
             try {
-                accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
+                accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(daoAccount.getName());
                 CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, "1.3.0", s -> {
                     AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
                     if (null == balanceEntity || !balanceEntity.isSuccess()) {
@@ -100,7 +101,7 @@ public class AccountManagerListViewModel extends BaseViewModel {
                         MainHandler.getInstance().post(() -> {
                             AssetsModel.AssetModel assetModel1 = assetModel.getData();
                             assetModel1.amount = dataBean.amount;
-                            AccountManagerListItemViewModel itemViewModel = new AccountManagerListItemViewModel(AccountManagerListViewModel.this, assetModel1, accountName);
+                            AccountManagerListItemViewModel itemViewModel = new AccountManagerListItemViewModel(AccountManagerListViewModel.this, assetModel1, daoAccount);
                             observableList.add(itemViewModel);
                         });
                     });

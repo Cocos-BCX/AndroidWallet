@@ -10,6 +10,7 @@ import android.text.TextUtils;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_entity.AccountEntity;
 import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
@@ -27,8 +28,6 @@ import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.R;
 
-import java.math.BigDecimal;
-
 
 /**
  * @author ningkang.guo
@@ -36,11 +35,9 @@ import java.math.BigDecimal;
  */
 public class AccountManageViewModel extends BaseViewModel {
 
-    public BigDecimal totalAssets = BigDecimal.ZERO;
-
     public ObservableField<String> symbolType = new ObservableField<>("");
 
-    String accountNameStr;
+    AccountEntity.AccountBean daoAccount;
 
     public AccountManageViewModel(@NonNull Application application) {
         super(application);
@@ -51,9 +48,14 @@ public class AccountManageViewModel extends BaseViewModel {
     //封装一个界面发生改变的观察者
     public UIChangeObservable uc = new UIChangeObservable();
 
-    public void setAccountName(String account) {
-        this.accountNameStr = account;
-        accountName.set(accountNameStr);
+    public void setDaoAccount(AccountEntity.AccountBean account) {
+        this.daoAccount = account;
+        accountName.set(daoAccount.getName());
+        if (TextUtils.equals(daoAccount.getAccount_type(), "ACCOUNT")) {
+            passwordText.set(Utils.getString(R.string.fragment_mine_account_manage_modify_password));
+        } else {
+            passwordText.set(Utils.getString(R.string.reset_password_title));
+        }
     }
 
     public class UIChangeObservable {
@@ -76,6 +78,8 @@ public class AccountManageViewModel extends BaseViewModel {
 
     //账户公钥的绑定
     public ObservableField<String> accountPublicKey = new ObservableField<>();
+
+    public ObservableField<String> passwordText = new ObservableField<>();
 
     //复制按钮的点击事件
     public BindingCommand assetPublicKeyCopyOnClickCommand = new BindingCommand(new BindingAction() {
@@ -105,8 +109,12 @@ public class AccountManageViewModel extends BaseViewModel {
         @Override
         public void call() {
             Bundle bundle = new Bundle();
-            bundle.putString(IntentKeyGlobal.ACCOUNT_NAME, accountNameStr);
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MODIFY_PASSWORD).with(bundle).navigation();
+            bundle.putString(IntentKeyGlobal.ACCOUNT_NAME, daoAccount.getName());
+            if (TextUtils.equals(daoAccount.getAccount_type(), "ACCOUNT")) {
+                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MODIFY_PASSWORD).with(bundle).navigation();
+            } else {
+                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_RESET_PASSWORD).with(bundle).navigation();
+            }
         }
     });
 
@@ -125,8 +133,8 @@ public class AccountManageViewModel extends BaseViewModel {
             }
             totalAsset.set(String.valueOf(balanceEntity.data.amount));
         }));
-        String activeKey = AccountHelperUtils.getActivePublicKey(accountNameStr);
-        String ownerKey = AccountHelperUtils.getOwnerPublicKey(accountNameStr);
+        String activeKey = AccountHelperUtils.getActivePublicKey(daoAccount.getName());
+        String ownerKey = AccountHelperUtils.getOwnerPublicKey(daoAccount.getName());
         assetPublicKey.set(ownerKey);
         accountPublicKey.set(activeKey);
     }

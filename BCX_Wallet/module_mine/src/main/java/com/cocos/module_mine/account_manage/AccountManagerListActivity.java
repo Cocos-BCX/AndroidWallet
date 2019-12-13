@@ -8,14 +8,13 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseActivity;
-import com.cocos.library_base.entity.AccountNamesEntity;
+import com.cocos.library_base.entity.DaoAccountEntity;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.databinding.ActivityAccountManageListBinding;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,13 +41,12 @@ public class AccountManagerListActivity extends BaseActivity<ActivityAccountMana
 
     private void loadData() {
         try {
-            CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+            CocosBcxApiWrapper.getBcxInstance().queryAllAccountByChainId(new IBcxCallBack() {
                 @Override
                 public void onReceiveValue(String s) {
-                    AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
-                    if (accountNamesEntity.isSuccess()) {
-                        List<String> accountNames = Arrays.asList(accountNamesEntity.data.split(","));
-                        viewModel.requestAccountsListData(accountNames);
+                    DaoAccountEntity daoAccountEntity = GsonSingleInstance.getGsonInstance().fromJson(s, DaoAccountEntity.class);
+                    if (daoAccountEntity.isSuccess()) {
+                        viewModel.requestAccountsListData(daoAccountEntity.data);
                     } else {
                         viewModel.requestAccountsListData(null);
                     }

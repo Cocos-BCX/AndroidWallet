@@ -4,12 +4,10 @@
     <string name="module_login_btn_register" tools:ignore="MissingTranslation">注册</string>
     <string name="module_login_btn_login" tools:ignore="ExtraTranslation,MissingTranslation">登录钱包</string>
     <string name="module_login_btn_key_login" tools:ignore="MissingTranslation">开始导入</string>
-    <string name="module_login_private_key_hint">请输入明文私钥</string>
+
     <string name="module_login_import_wallet">导入钱包</string>
-    <string name="module_login_private_key_empty">请输入私钥</string>
     <string name="module_login_password_empty">请输入密码</string>
     <string name="module_login_password_confirm_empty">请确认设置密码</string>
-    <string name="module_login_password_confirm_failure">前后密码设置不一致，请重新设置</string>
     <string name="module_login_password_illegal" tools:ignore="MissingTranslation">密码设置不符合规则</string>
     <string name="module_login_register_title">注册</string>
     <string name="module_login_account_name">账户名称</string>

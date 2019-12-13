@@ -4,7 +4,6 @@
     <string name="module_login_btn_register" tools:ignore="MissingTranslation">Register Wallet</string>
     <string name="module_login_btn_login" tools:ignore="ExtraTranslation,MissingTranslation">Log in to wallet</string>
     <string name="module_login_btn_key_login" tools:ignore="MissingTranslation">Start Importing</string>
-    <string name="module_login_private_key_hint">Enter cleartext private key</string>
     <string name="module_login_import_wallet">Import Wallet</string>
     <string name="module_login_register_title">Register</string>
     <string name="module_login_account_name">Account Name</string>
@@ -18,13 +17,10 @@
     <string name="module_login_account_name_hint">Enter account name</string>
     <string name="module_login_password_hint_login" tools:ignore="DuplicateDefinition">Enter passcode</string>
     <string name="module_login_illegal_username">Passcode does not meet requirements</string>
-    <string name="module_login_password_confirm_failure">Passwords do not match, please reset</string>
     <string name="module_login_password_illegal" tools:ignore="MissingTranslation">Passcode does not meet requirements</string>
     <string name="module_login_register_success">Registered</string>
     <string name="module_login_account_info">Please enter account info</string>
-    <string name="module_login_private_key_empty">Please enter private key</string>
     <string name="module_login_key_login_success">Imported</string>
-
     <string name="module_login_password_confirm_empty">Please confirm the password</string>
     <string name="btn_password_login" tools:ignore="ResourceName">Account mode login</string>
     <string name="module_login_wallet_title">Wallet mode</string>

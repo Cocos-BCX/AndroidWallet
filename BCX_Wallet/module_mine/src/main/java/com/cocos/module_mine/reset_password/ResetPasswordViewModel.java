@@ -1,4 +1,4 @@
-package com.cocos.module_login.key_login;
+package com.cocos.module_mine.reset_password;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -13,32 +13,34 @@ import com.cocos.bcx_sdk.bcx_entity.AccountType;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.entity.KeyLoginModel;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.RegexUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
-import com.cocos.module_login.R;
-import com.cocos.library_base.entity.KeyLoginModel;
+import com.cocos.module_mine.R;
 
 
 /**
  * @author ningkang.guo
  * @Date 2019/1/28
  */
-public class KeyLoginViewModel extends BaseViewModel {
+public class ResetPasswordViewModel extends BaseViewModel {
 
     private int from;
 
-    //密码的绑定
-    public ObservableField<String> password = new ObservableField<>();
 
     //私钥的绑定
     public ObservableField<String> privateKey = new ObservableField<>();
 
+    public ObservableField<String> newPassword = new ObservableField<>();
 
-    public KeyLoginViewModel(@NonNull Application application) {
+    public ObservableField<String> confirmPassword = new ObservableField<>();
+
+
+    public ResetPasswordViewModel(@NonNull Application application) {
         super(application);
     }
 
@@ -46,29 +48,15 @@ public class KeyLoginViewModel extends BaseViewModel {
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            if (from == 1) {
-                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_REGISTER).navigation();
-            } else if (from == 2) {
-                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
-            }
             finish();
         }
     });
 
     //登录按钮的点击事件
-    public BindingCommand keyLoginOnClickCommand = new BindingCommand(new BindingAction() {
+    public BindingCommand resetPwdOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            keyLogin();
-        }
-    });
-
-
-    //登录按钮的点击事件
-    public BindingCommand loginClickCommand = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
+            resetPwd();
         }
     });
 
@@ -77,13 +65,23 @@ public class KeyLoginViewModel extends BaseViewModel {
      * 私钥登陆
      **/
     @SuppressLint("CheckResult")
-    private void keyLogin() {
+    private void resetPwd() {
         if (TextUtils.isEmpty(privateKey.get())) {
             ToastUtils.showShort(R.string.module_login_private_key_empty);
             return;
         }
-        if (TextUtils.isEmpty(password.get())) {
-            ToastUtils.showShort(R.string.module_login_temp_password_empty);
+        if (TextUtils.isEmpty(newPassword.get())) {
+            ToastUtils.showShort(R.string.module_mine_modify_password_empty);
+            return;
+        }
+
+        if (TextUtils.isEmpty(confirmPassword.get())) {
+            ToastUtils.showShort(R.string.module_mine_confirm_password_empty);
+            return;
+        }
+
+        if (!TextUtils.equals(confirmPassword.get(), newPassword.get())) {
+            ToastUtils.showShort(R.string.module_mine_modify_password_confirm_failure);
             return;
         }
 
@@ -92,7 +90,7 @@ public class KeyLoginViewModel extends BaseViewModel {
             return;
         }
         showDialog();
-        CocosBcxApiWrapper.getBcxInstance().import_wif_key(privateKey.get(), password.get(), AccountType.WALLET.name(),
+        CocosBcxApiWrapper.getBcxInstance().import_wif_key(privateKey.get(), confirmPassword.get(), AccountType.WALLET.name(),
                 new IBcxCallBack() {
                     @Override
                     public void onReceiveValue(final String s) {
@@ -112,7 +110,7 @@ public class KeyLoginViewModel extends BaseViewModel {
                                 }
                                 AccountHelperUtils.setCurrentAccountName(keyLoginModel.data.get(0));
                                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
-                                ToastUtils.showShort(R.string.module_login_key_login_success);
+                                ToastUtils.showShort(R.string.module_mine_reset_password_success);
                                 finish();
                                 dismissDialog();
                             }

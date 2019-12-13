@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_entity.AccountEntity;
 import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
 import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.library_base.base.BaseActivity;
@@ -32,7 +33,7 @@ import com.cocos.module_mine.databinding.ActivityAccountManageBinding;
 @Route(path = RouterActivityPath.ACTIVITY_ACCOUNT_MANAGE)
 public class AccountManageActivity extends BaseActivity<ActivityAccountManageBinding, AccountManageViewModel> {
 
-    private String accountName;
+    private AccountEntity.AccountBean daoAccount;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -48,22 +49,15 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
     public void initParam() {
         try {
             StatusBarUtils.with(AccountManageActivity.this).init();
-            accountName = (String) getIntent().getExtras().get(IntentKeyGlobal.ACCOUNT_NAME);
+            daoAccount = (AccountEntity.AccountBean) getIntent().getExtras().getSerializable(IntentKeyGlobal.DAO_ACCOUNT_MODEL);
         } catch (Exception e) {
         }
     }
 
     @Override
     public void initData() {
-        try {
-            viewModel.setAccountName(accountName);
-            String accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
-            viewModel.requestAccountManagerData(accountId);
-        } catch (NetworkStatusException e) {
-            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
-        } catch (AccountNotFoundException e) {
-            ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
-        }
+        viewModel.setDaoAccount(daoAccount);
+        viewModel.requestAccountManagerData(daoAccount.getId());
     }
 
     @Override
@@ -71,7 +65,7 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
         super.onResume();
         String accountId = null;
         try {
-            accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
+            accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(daoAccount.getName());
             viewModel.requestAccountManagerData(accountId);
         } catch (NetworkStatusException e) {
             ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
@@ -89,7 +83,7 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
                 Bundle bundle = new Bundle();
                 bundle.putString(IntentKeyGlobal.DIALOG_CONTENT, Utils.getString(R.string.logout_warning_text));
                 bundle.putInt(IntentKeyGlobal.DIALOG_TYPE, 1);
-                bundle.putString(IntentKeyGlobal.ACCOUNT_NAME, accountName);
+                bundle.putString(IntentKeyGlobal.ACCOUNT_NAME, daoAccount.getName());
                 dialogFragment.setArguments(bundle);
                 dialogFragment.show(getSupportFragmentManager(), "dialogFragment");
             }
@@ -103,7 +97,7 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
                 passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
                     @Override
                     public void onFinish(String password) {
-                        CocosBcxApiWrapper.getBcxInstance().export_private_key(accountName, password, new IBcxCallBack() {
+                        CocosBcxApiWrapper.getBcxInstance().export_private_key(daoAccount.getName(), password, new IBcxCallBack() {
                             @Override
                             public void onReceiveValue(final String private_key) {
                                 Log.d("export_private_key", private_key);
@@ -118,7 +112,7 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
                                         if (!keyModel.isSuccess()) {
                                             return;
                                         }
-                                        keyModel.setAccountName(accountName);
+                                        keyModel.setAccountName(daoAccount.getName());
                                         Bundle bundle = new Bundle();
                                         bundle.putSerializable(IntentKeyGlobal.KEY_MODEL, keyModel);
                                         ARouter.getInstance().build(RouterActivityPath.ACTIVITY_KEY_EXPORT).with(bundle).navigation();

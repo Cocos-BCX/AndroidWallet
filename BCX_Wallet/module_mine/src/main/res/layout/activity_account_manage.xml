@@ -143,7 +143,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/fragment_mine_account_manage_modify_password"
+                        android:text="@={viewModel.passwordText}"
                         android:textColor="@color/color_262A33"
                         android:textSize="@dimen/dp_15" />
 

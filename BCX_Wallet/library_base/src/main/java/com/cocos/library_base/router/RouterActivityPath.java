@@ -45,6 +45,7 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_SALE_NH_ASSET = "/module_mine/SaleNhAssetActivity";
     public static final String ACTIVITY_SYMBOL_LIST = "/module_mine/SymbolChooseActivity";
     public static final String ACTIVITY_NH_ASSET_TRANSFER = "/module_mine/TransferNHAssetActivity";
+    public static final String ACTIVITY_RESET_PASSWORD = "/module_mine/ResetPasswordActivity";
 
     //zxing
     public static final String ACTIVITY_CAPTURE = "/module_zxing/CaptureActivity";

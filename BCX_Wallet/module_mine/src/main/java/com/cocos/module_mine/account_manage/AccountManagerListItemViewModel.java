@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.cocos.bcx_sdk.bcx_entity.AccountEntity;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.base.ItemViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
@@ -42,12 +43,15 @@ public class AccountManagerListItemViewModel extends ItemViewModel {
 
     public ObservableField<String> symbolType = new ObservableField<>("");
 
-    public AccountManagerListItemViewModel(@NonNull BaseViewModel viewModel, AssetsModel.AssetModel entity, String accountName) {
+    AccountEntity.AccountBean daoAccount;
+
+    public AccountManagerListItemViewModel(@NonNull BaseViewModel viewModel, AssetsModel.AssetModel entity, AccountEntity.AccountBean daoAccount) {
         super(viewModel);
+        this.daoAccount = daoAccount;
         this.entity.set(entity);
-        account.set(accountName);
+        account.set(daoAccount.getName());
         amount.set(String.valueOf(entity.amount.add(BigDecimal.ZERO)));
-        current_account_visible.set(TextUtils.equals(AccountHelperUtils.getCurrentAccountName(), accountName) ? View.VISIBLE : View.INVISIBLE);
+        current_account_visible.set(TextUtils.equals(AccountHelperUtils.getCurrentAccountName(), daoAccount.getName()) ? View.VISIBLE : View.INVISIBLE);
         String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
         symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
@@ -71,7 +75,7 @@ public class AccountManagerListItemViewModel extends ItemViewModel {
         @Override
         public void call() {
             Bundle bundle = new Bundle();
-            bundle.putString(IntentKeyGlobal.ACCOUNT_NAME, account.get());
+            bundle.putSerializable(IntentKeyGlobal.DAO_ACCOUNT_MODEL, daoAccount);
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_ACCOUNT_MANAGE).with(bundle).navigation();
         }
     });
