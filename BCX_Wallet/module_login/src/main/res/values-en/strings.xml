@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="module_login_username_hint" tools:ignore="MissingTranslation">Begin with 5-63 lowercase letters+numbers</string>
-
+    <string name="module_login_username_hint" tools:ignore="MissingTranslation">Begin with 5-63 lowercase letters</string>
     <string name="module_login_btn_register" tools:ignore="MissingTranslation">Register Wallet</string>
     <string name="module_login_btn_login" tools:ignore="ExtraTranslation,MissingTranslation">Log in to wallet</string>
     <string name="module_login_btn_key_login" tools:ignore="MissingTranslation">Start Importing</string>

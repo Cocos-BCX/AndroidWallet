@@ -75,7 +75,7 @@ dependencies {
     }
 
     // module
-    api project(':bcx_sdk')
+    api project(':cocosbcx_sdk')
     api project(':library_res')
 
     //network

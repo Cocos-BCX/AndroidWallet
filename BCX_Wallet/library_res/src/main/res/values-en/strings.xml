@@ -38,4 +38,8 @@
     <string name="reset_password_title">Reset Password</string>
     <string name="module_login_private_key_hint">Enter cleartext private key</string>
     <string name="module_login_password_confirm_failure">Passwords do not match, please reset</string>
+    <string name="register_needs_title">免费账户需任意满足以下条件之一：</string>
+    <string name="register_needs_text_one">1. 含有数字0～9</string>
+    <string name="register_needs_text_two">2. 含有特殊字符-</string>
+    <string name="register_needs_text_three">3. 不含有a，e，i，o，u，y字母的</string>
 </resources>

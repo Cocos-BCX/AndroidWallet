@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="module_login_username_hint" tools:ignore="MissingTranslation">5-63位小写字母开头+数字</string>
+    <string name="module_login_username_hint" tools:ignore="MissingTranslation">5-63位小写字母开头</string>
     <string name="module_login_confirm_password_hint" tools:ignore="MissingTranslation">请再次输入密码</string>
     <string name="module_login_btn_register" tools:ignore="MissingTranslation">注册</string>
     <string name="module_login_btn_login" tools:ignore="ExtraTranslation,MissingTranslation">登录钱包</string>

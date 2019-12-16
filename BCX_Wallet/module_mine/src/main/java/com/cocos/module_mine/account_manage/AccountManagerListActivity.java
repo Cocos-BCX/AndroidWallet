@@ -7,6 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.entity.DaoAccountEntity;
 import com.cocos.library_base.router.RouterActivityPath;
@@ -14,8 +15,6 @@ import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.databinding.ActivityAccountManageListBinding;
-
-import java.util.List;
 
 /**
  * @author ningkang.guo
@@ -44,7 +43,9 @@ public class AccountManagerListActivity extends BaseActivity<ActivityAccountMana
             CocosBcxApiWrapper.getBcxInstance().queryAllAccountByChainId(new IBcxCallBack() {
                 @Override
                 public void onReceiveValue(String s) {
+                    LogUtils.i("queryAllAccountByChainId", s);
                     DaoAccountEntity daoAccountEntity = GsonSingleInstance.getGsonInstance().fromJson(s, DaoAccountEntity.class);
+                    LogUtils.i("queryAllAccountByChainId", String.valueOf(daoAccountEntity.data.size()));
                     if (daoAccountEntity.isSuccess()) {
                         viewModel.requestAccountsListData(daoAccountEntity.data);
                     } else {
