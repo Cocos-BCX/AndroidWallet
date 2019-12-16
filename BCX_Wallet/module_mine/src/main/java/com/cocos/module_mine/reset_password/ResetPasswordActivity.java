@@ -3,7 +3,7 @@ package com.cocos.module_mine.reset_password;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.cocos.bcx_sdk.bcx_entity.AccountEntity;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
@@ -21,7 +21,7 @@ import com.cocos.module_mine.databinding.ActivityResetPasswordBinding;
 @Route(path = RouterActivityPath.ACTIVITY_RESET_PASSWORD)
 public class ResetPasswordActivity extends BaseActivity<ActivityResetPasswordBinding, ResetPasswordViewModel> {
 
-    private int from;
+    private AccountEntity.AccountBean daoAccountModel;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -36,23 +36,13 @@ public class ResetPasswordActivity extends BaseActivity<ActivityResetPasswordBin
     @Override
     public void initParam() {
         try {
-            from = (int) getIntent().getExtras().get(IntentKeyGlobal.FROM);
+            daoAccountModel = (AccountEntity.AccountBean) getIntent().getSerializableExtra(IntentKeyGlobal.DAO_ACCOUNT_MODEL);
         } catch (Exception e) {
         }
     }
 
     @Override
     public void initData() {
-        viewModel.setFrom(from);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (from == 1) {
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_REGISTER).navigation();
-        } else if (from == 2) {
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_PASSWORD_LOGIN).navigation();
-        }
-        finish();
+        viewModel.setDaoAccountModel(daoAccountModel);
     }
 }

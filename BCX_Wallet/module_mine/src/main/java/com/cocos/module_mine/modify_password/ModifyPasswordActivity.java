@@ -3,13 +3,12 @@ package com.cocos.module_mine.modify_password;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.cocos.bcx_sdk.bcx_entity.AccountEntity;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
-import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
-import com.cocos.module_mine.account_manage.AccountManageActivity;
 import com.cocos.module_mine.databinding.ActivityModifyPasswordBinding;
 
 /**
@@ -20,7 +19,7 @@ import com.cocos.module_mine.databinding.ActivityModifyPasswordBinding;
 public class ModifyPasswordActivity extends BaseActivity<ActivityModifyPasswordBinding, ModifyPasswordViewModel> {
 
 
-    private String accountName;
+    private AccountEntity.AccountBean daoAccountModel;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -35,13 +34,13 @@ public class ModifyPasswordActivity extends BaseActivity<ActivityModifyPasswordB
     @Override
     public void initParam() {
         try {
-            accountName = (String) getIntent().getExtras().get(IntentKeyGlobal.ACCOUNT_NAME);
+            daoAccountModel = (AccountEntity.AccountBean) getIntent().getSerializableExtra(IntentKeyGlobal.DAO_ACCOUNT_MODEL);
         } catch (Exception e) {
         }
     }
 
     @Override
     public void initData() {
-        viewModel.setAccountName(accountName);
+        viewModel.setAccountName(daoAccountModel.getName());
     }
 }

@@ -29,7 +29,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':library_base')
     implementation project(':library_res')
-    implementation project(':cocosbcx_sdk')
+    implementation project(':bcx_sdk')
     implementation project(':module_zxing')
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.2'

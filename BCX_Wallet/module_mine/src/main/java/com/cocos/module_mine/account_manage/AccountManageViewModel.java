@@ -109,7 +109,7 @@ public class AccountManageViewModel extends BaseViewModel {
         @Override
         public void call() {
             Bundle bundle = new Bundle();
-            bundle.putString(IntentKeyGlobal.ACCOUNT_NAME, daoAccount.getName());
+            bundle.putSerializable(IntentKeyGlobal.DAO_ACCOUNT_MODEL, daoAccount);
             if (TextUtils.equals(daoAccount.getAccount_type(), "ACCOUNT")) {
                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MODIFY_PASSWORD).with(bundle).navigation();
             } else {

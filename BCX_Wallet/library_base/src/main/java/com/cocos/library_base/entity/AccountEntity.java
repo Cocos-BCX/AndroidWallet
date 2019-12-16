@@ -1,10 +1,5 @@
 package com.cocos.library_base.entity;
 
-import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
-import com.cocos.bcx_sdk.bcx_wallet.chain.authority;
-import com.cocos.bcx_sdk.bcx_wallet.chain.object_id;
-import com.cocos.bcx_sdk.bcx_wallet.chain.types;
-
 import java.util.List;
 
 /**
@@ -13,13 +8,10 @@ import java.util.List;
  */
 public class AccountEntity extends BaseResult {
 
-    public object_id<account_object> id;
+    public String id;
     public String membership_expiration_date;
     public String registrar;
     public String name;
-    public authority owner;
-    public authority active;
-    public types.account_options options;
     public String statistics;
     public AssetLockedBean asset_locked;
     public String cashback_gas;
