@@ -29,7 +29,9 @@ import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
+import com.cocos.module_mine.coin_type.CoinTypeViewModel;
 import com.cocos.module_mine.databinding.ActivitySystemSettingBinding;
+import com.cocos.module_mine.databinding.DialogCoinTypeSelectBinding;
 import com.cocos.module_mine.databinding.DialogMultiLanguageSelectBinding;
 import com.cocos.module_mine.databinding.DialogMultiNodeWorkBinding;
 import com.cocos.module_mine.multi_language.MultiLanguageViewModel;
@@ -48,6 +50,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
 
     private BottomSheetDialog languageDialog;
     private BottomSheetDialog nodeNetDialog;
+    private BottomSheetDialog coinTypeDialog;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
             if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
                 languageDialog.dismiss();
                 nodeNetDialog.dismiss();
+                coinTypeDialog.dismiss();
                 viewModel.languageType.set(LocalManageUtil.getSetLanguageString(Utils.getContext()));
             } else if (TextUtils.equals(EventTypeGlobal.SWITCH_LANGUAGE, busCarrier.getEventType())) {
                 languageDialog.dismiss();
@@ -75,6 +79,10 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
             } else if (TextUtils.equals(EventTypeGlobal.SWITCH_NODE_WORK, busCarrier.getEventType())) {
                 NodeInfoModel.DataBean dataBean = (NodeInfoModel.DataBean) busCarrier.getObject();
                 reconnect(dataBean);
+            } else if (TextUtils.equals(EventTypeGlobal.SWITCH_COIN_TYPE, busCarrier.getEventType())) {
+                int coinType = (int) busCarrier.getObject();
+                viewModel.coinType.set(coinType == 0 ? Utils.getString(R.string.module_mine_coin_cny) : Utils.getString(R.string.module_mine_coin_usd));
+                coinTypeDialog.dismiss();
             }
         } catch (Exception e) {
         }
@@ -170,6 +178,19 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
             public void onPropertyChanged(Observable observable, int i) {
                 nodeWorkViewModel.requestNodeListData();
                 nodeNetDialog.show();
+            }
+        });
+
+        // 币种切换弹窗
+        coinTypeDialog = new BottomSheetDialog(this);
+        DialogCoinTypeSelectBinding dialogCoinTypeSelectBinding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_coin_type_select, null, false);
+        coinTypeDialog.setContentView(dialogCoinTypeSelectBinding.getRoot());
+        final CoinTypeViewModel coinTypeViewModel = new CoinTypeViewModel((Application) Utils.getContext());
+        dialogCoinTypeSelectBinding.setViewModel(coinTypeViewModel);
+        viewModel.uc.coinSettingObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                coinTypeDialog.show();
             }
         });
     }

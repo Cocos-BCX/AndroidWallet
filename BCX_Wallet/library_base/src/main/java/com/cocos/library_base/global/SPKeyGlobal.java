@@ -27,4 +27,5 @@ public final class SPKeyGlobal {
 
     public static final String NET_TYPE = "net_type";
     public static final String IS_FIRST_CONNECT = "is_first_connect";
+    public static final String CURRENCY_TYPE = "currency_type";
 }

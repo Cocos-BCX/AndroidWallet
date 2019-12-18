@@ -42,4 +42,7 @@
     <string name="register_needs_text_one">1. 含有数字0～9</string>
     <string name="register_needs_text_two">2. 含有特殊字符-</string>
     <string name="register_needs_text_three">3. 不含有a，e，i，o，u，y字母</string>
+    <string name="module_mine_coin_cny" tools:ignore="MissingTranslation">CNY</string>
+    <string name="module_mine_coin_usd">USD</string>
+    <string name="fragment_mine_coin_type_select">币种选择</string>
 </resources>

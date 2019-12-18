@@ -42,4 +42,7 @@
     <string name="register_needs_text_one">1. Contains numbers 0-9</string>
     <string name="register_needs_text_two">2. Contains special characters-</string>
     <string name="register_needs_text_three">3. Without a, e, i, o, u, y</string>
+    <string name="module_mine_coin_cny">CNY</string>
+    <string name="module_mine_coin_usd">USD</string>
+    <string name="fragment_mine_coin_type_select">币种选择</string>
 </resources>

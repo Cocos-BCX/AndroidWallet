@@ -32,9 +32,14 @@ public class SystemSettingViewModel extends BaseViewModel {
         } else {
             netType.set("");
         }
+        // 0 :人民币  1：美元
+        int currencyType = SPUtils.getInt(Utils.getContext(), SPKeyGlobal.CURRENCY_TYPE, 0);
+        coinType.set(currencyType == 0 ? Utils.getString(R.string.module_mine_coin_cny) : Utils.getString(R.string.module_mine_coin_usd));
     }
 
     public ObservableField<String> languageType = new ObservableField<>(Utils.getString(R.string.language_cn));
+
+    public ObservableField<String> coinType = new ObservableField<>(Utils.getString(R.string.module_mine_coin_cny));
 
     // 节点的默认值
     public ObservableField<String> netType = new ObservableField<>(Utils.getString(R.string.module_mine_net_test_text));
@@ -45,6 +50,7 @@ public class SystemSettingViewModel extends BaseViewModel {
     public class UIChangeObservable {
         public ObservableBoolean multiLanguageObservable = new ObservableBoolean(false);
         public ObservableBoolean netSettingObservable = new ObservableBoolean(false);
+        public ObservableBoolean coinSettingObservable = new ObservableBoolean(false);
     }
 
     //返回按钮的点击事件
@@ -69,6 +75,14 @@ public class SystemSettingViewModel extends BaseViewModel {
         @Override
         public void call() {
             uc.netSettingObservable.set(!uc.netSettingObservable.get());
+        }
+    });
+
+    //网络设置按钮的点击事件
+    public BindingCommand coinTypeSettingOnClickCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            uc.coinSettingObservable.set(!uc.coinSettingObservable.get());
         }
     });
 }
