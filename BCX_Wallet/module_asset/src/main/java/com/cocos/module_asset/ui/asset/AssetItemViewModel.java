@@ -34,6 +34,7 @@ public class AssetItemViewModel extends ItemViewModel<AssetViewModel> {
     public ObservableField<String> totalValue = new ObservableField<>("≈ ￥0.00");
     public ObservableField<String> symbolType = new ObservableField<>("");
     public ObservableField<String> amount = new ObservableField<>("0.00");
+    public ObservableField<String> frozenAmount = new ObservableField<>("冻结 0.00");
     public AssetsModel.AssetModel assetModel;
 
     public AssetItemViewModel(@NonNull AssetViewModel viewModel, AssetsModel.AssetModel entity) {
