@@ -497,8 +497,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * @param password
      * @param params
      */
-    private void claimVestingBalance(String awardId, String password, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().receive_vesting_balances(AccountHelperUtils.getCurrentAccountName(), password, awardId,
+    private void claimVestingBalance(List<String> awardIds, String password, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().receive_vesting_balances(AccountHelperUtils.getCurrentAccountName(), password, awardIds,
                 new IBcxCallBack() {
                     @SuppressLint("LongLogTag")
                     @Override
