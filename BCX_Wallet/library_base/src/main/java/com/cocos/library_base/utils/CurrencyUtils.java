@@ -1,5 +1,7 @@
 package com.cocos.library_base.utils;
 
+import android.text.TextUtils;
+
 import com.cocos.library_base.global.SPKeyGlobal;
 
 import java.math.BigDecimal;
@@ -21,6 +23,10 @@ public class CurrencyUtils {
     }
 
     public static String getCnyCocosPrice() {
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        if (TextUtils.equals(netType, "0")) {
+            return "0.00";
+        }
         String cocos_price = SPUtils.getString(Utils.getContext(), SPKeyGlobal.COCOS_PRICE);
         String exchange = SPUtils.getString(Utils.getContext(), SPKeyGlobal.CURRENCY_RATE);
         BigDecimal cnyCocosPrice = new BigDecimal(cocos_price).multiply(new BigDecimal(exchange));
@@ -28,6 +34,10 @@ public class CurrencyUtils {
     }
 
     public static String getUsdCocosPrice() {
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        if (TextUtils.equals(netType, "0")) {
+            return "0.00";
+        }
         return SPUtils.getString(Utils.getContext(), SPKeyGlobal.COCOS_PRICE);
     }
 
@@ -36,6 +46,10 @@ public class CurrencyUtils {
     }
 
     public static String getTotalCnyCocosPrice(String totalValue) {
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        if (TextUtils.equals(netType, "0")) {
+            return "0.00";
+        }
         String cocos_price = SPUtils.getString(Utils.getContext(), SPKeyGlobal.COCOS_PRICE);
         String exchange = SPUtils.getString(Utils.getContext(), SPKeyGlobal.CURRENCY_RATE);
         BigDecimal totalCnyCocosPrice = new BigDecimal(cocos_price).multiply(new BigDecimal(exchange)).multiply(new BigDecimal(totalValue));
@@ -43,6 +57,10 @@ public class CurrencyUtils {
     }
 
     public static String getTotalUsdCocosPrice(String totalValue) {
+        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+        if (TextUtils.equals(netType, "0")) {
+            return "0.00";
+        }
         String cocos_price = SPUtils.getString(Utils.getContext(), SPKeyGlobal.COCOS_PRICE);
         BigDecimal totalUsdCocosPrice = new BigDecimal(cocos_price).multiply(new BigDecimal(totalValue));
         return totalUsdCocosPrice.compareTo(BigDecimal.ZERO) == 0 ? totalUsdCocosPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString() : totalUsdCocosPrice.setScale(6, BigDecimal.ROUND_HALF_UP).toString();
