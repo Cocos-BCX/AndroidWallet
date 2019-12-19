@@ -6,17 +6,13 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
-import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
-import com.cocos.library_base.entity.AssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
-import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.module_asset.R;
 
 import java.math.BigDecimal;
@@ -106,23 +102,7 @@ public class TransferViewModel extends BaseViewModel {
         }
     });
 
-    /**
-     * 计算余额
-     *
-     * @param accountId
-     */
-    public void setAccountBalance(String accountId) {
-        CocosBcxApiWrapper.getBcxInstance().get_account_balances(accountId, assetModel.id, new IBcxCallBack() {
-            @Override
-            public void onReceiveValue(final String s) {
-                AssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AssetBalanceModel.class);
-                if (!balanceEntity.isSuccess()) {
-                    return;
-                }
-                final AssetBalanceModel.DataBean dataBean = balanceEntity.data;
-                balance = dataBean.amount;
-                accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + balance.add(BigDecimal.ZERO) + assetModel.symbol);
-            }
-        });
+    public void setAccountBalance(BigDecimal balance) {
+        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + balance);
     }
 }

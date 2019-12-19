@@ -30,5 +30,7 @@ public final class SPKeyGlobal {
     public static final String CURRENCY_TYPE = "currency_type";
     public static final String CURRENCY_RATE = "currency_rate";
     public static final String COCOS_PRICE = "cocos_price";
-    public static final String TOTAL_ASSET_VALUE = "TOTAL_ASSET_VALUE";
+    public static final String TOTAL_ASSET_VALUE = "total_asset_value";
+    public static final String TOTAL_LOCK_ASSET = "total_lock_asset";
+    public static final String COCOS_TOTAL_LOCK_ASSET = "cocos_total_lock_asset";
 }

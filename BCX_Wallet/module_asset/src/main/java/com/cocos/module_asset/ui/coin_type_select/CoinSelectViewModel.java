@@ -47,7 +47,6 @@ public class CoinSelectViewModel extends BaseViewModel {
 
     public ObservableInt recyclerViewVisible = new ObservableInt(View.VISIBLE);
 
-    private String preAccountId;
     private int operateType;
 
     public CoinSelectViewModel(@NonNull Application application) {
@@ -77,18 +76,12 @@ public class CoinSelectViewModel extends BaseViewModel {
      */
     public void requestAssetsListData() {
         final String accountId = AccountHelperUtils.getCurrentAccountId();
-        LogUtils.d("accountId", accountId);
-        // 如果不是同一个账号则清除数据
-        if (!TextUtils.equals(preAccountId, accountId)) {
-            assetModels.clear();
-            observableList.clear();
-        }
-        preAccountId = accountId;
         if (TextUtils.isEmpty(accountId)) {
             emptyViewVisible.set(View.VISIBLE);
             recyclerViewVisible.set(View.GONE);
             return;
         }
+        showDialog();
         CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
@@ -102,13 +95,13 @@ public class CoinSelectViewModel extends BaseViewModel {
                             recyclerViewVisible.set(View.GONE);
                             return;
                         }
+                        observableList.clear();
                         final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
                         for (int i = 0; i < dataBeans.size(); i++) {
                             final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
                             if (TextUtils.equals(dataBean.getAsset_id(), "1.3.1")) {
                                 continue;
                             }
-                            final int finalI = i;
                             CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
                                 @Override
                                 public void onReceiveValue(final String s) {
@@ -123,17 +116,14 @@ public class CoinSelectViewModel extends BaseViewModel {
                                             AssetsModel.AssetModel assetModel1 = assetModel.getData();
                                             assetModel1.amount = dataBean.getAmount();
                                             assetModel1.operateType = operateType;
-                                            if (assetModels.size() == dataBeans.size()) {
-                                                if (!assetModel1.equals(assetModels.get(finalI))) {
-                                                    assetModels.set(finalI, assetModel1);
-                                                    CoinSelectItemViewModel itemViewModel = new CoinSelectItemViewModel(CoinSelectViewModel.this, assetModel1);
-                                                    observableList.set(finalI, itemViewModel);
-                                                }
+                                            assetModel1.frozen_asset = assetModel1.getFrozen_asset(assetModel1.id);
+                                            CoinSelectItemViewModel itemViewModel = new CoinSelectItemViewModel(CoinSelectViewModel.this, assetModel1);
+                                            if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
+                                                observableList.add(0, itemViewModel);
                                             } else {
-                                                assetModels.add(assetModel1);
-                                                CoinSelectItemViewModel itemViewModel = new CoinSelectItemViewModel(CoinSelectViewModel.this, assetModel1);
                                                 observableList.add(itemViewModel);
                                             }
+                                            dismissDialog();
                                             emptyViewVisible.set(View.GONE);
                                             recyclerViewVisible.set(View.VISIBLE);
                                         }

@@ -1,11 +1,13 @@
 package com.cocos.module_asset.ui.asset;
 
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.ItemViewModel;
@@ -36,7 +38,9 @@ public class AssetItemViewModel extends ItemViewModel<AssetViewModel> {
     public ObservableField<String> symbolType = new ObservableField<>("");
     public ObservableField<String> amount = new ObservableField<>("0.00");
     public ObservableField<String> frozenAmount = new ObservableField<>("冻结 0.00");
+    public ObservableInt frozenAmountViewVisible = new ObservableInt(View.GONE);
     public AssetsModel.AssetModel assetModel;
+
 
     public AssetItemViewModel(@NonNull AssetViewModel viewModel, AssetsModel.AssetModel entity) {
         super(viewModel);
@@ -49,7 +53,9 @@ public class AssetItemViewModel extends ItemViewModel<AssetViewModel> {
         NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(false);
         nf.setMaximumFractionDigits(5);
-        amount.set(nf.format(entity.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+        frozenAmountViewVisible.set(new BigDecimal(entity.frozen_asset).compareTo(BigDecimal.ZERO) <= 0 ? View.GONE : View.VISIBLE);
+        frozenAmount.set("冻结 " + entity.frozen_asset);
+        amount.set(nf.format(entity.amount.subtract(new BigDecimal(entity.frozen_asset)).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
     }
 
     //条目的点击事件

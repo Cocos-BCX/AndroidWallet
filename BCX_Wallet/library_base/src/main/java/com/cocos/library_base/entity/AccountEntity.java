@@ -20,11 +20,11 @@ public class AccountEntity extends BaseResult {
 
     public static class AssetLockedBean {
         public VoteForWitnessBean vote_for_witness;
-        public List<List<String>> locked_total;
+        public List<List<Object>> locked_total;
         public List<Object> contract_lock_details;
 
         public static class VoteForWitnessBean {
-            public int amount;
+            public long amount;
             public String asset_id;
         }
     }

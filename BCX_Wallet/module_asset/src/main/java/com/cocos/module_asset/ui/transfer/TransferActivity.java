@@ -85,7 +85,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
     public void initData() {
         accountId = AccountHelperUtils.getCurrentAccountId();
         viewModel.setTransferAssetModel(assetModel);
-        viewModel.setAccountBalance(accountId);
+        viewModel.setAccountBalance(assetModel.amount);
         binding.edtAmount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(assetModel.precision)});
         NumberUtil.setPricePoint1(binding.edtAmount);
     }

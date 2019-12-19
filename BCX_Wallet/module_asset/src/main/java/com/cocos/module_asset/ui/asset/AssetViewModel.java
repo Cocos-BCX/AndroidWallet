@@ -9,17 +9,21 @@ import android.databinding.ObservableList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.bcx_sdk.bcx_log.LogUtils;
+import com.cocos.bcx_sdk.bcx_wallet.chain.asset_object;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.entity.AllAssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
+import com.cocos.library_base.entity.FullAccountsDataModel;
 import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
@@ -33,6 +37,7 @@ import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.tatarka.bindingcollectionadapter2.BR;
@@ -67,6 +72,7 @@ public class AssetViewModel extends BaseViewModel {
         accountViewVisible.set(TextUtils.isEmpty(accountName) ? View.INVISIBLE : View.VISIBLE);
         totalAssetCurrencyUnit.set(CurrencyUtils.getTotalCurrencyType());
         totalAsset.set(SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00"));
+        getLockAsset(accountName);
     }
 
     //当前帐户名户名的绑定
@@ -244,6 +250,7 @@ public class AssetViewModel extends BaseViewModel {
                     public void run() {
                         AssetsModel.AssetModel assetModel1 = assetModel.getData();
                         assetModel1.amount = dataBean.getAmount();
+                        assetModel1.frozen_asset = assetModel1.getFrozen_asset(assetModel1.id);
                         AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
                         if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
                             observableList.add(0, itemViewModel);
@@ -264,4 +271,32 @@ public class AssetViewModel extends BaseViewModel {
     }
 
 
+    public void getLockAsset(String accountName) {
+        CocosBcxApiWrapper.getBcxInstance().get_full_accounts(accountName, true, new IBcxCallBack() {
+            @Override
+            public void onReceiveValue(String s) {
+                Log.i("get_full_accounts", s);
+                final FullAccountsDataModel fullAccountsDataModel = GsonSingleInstance.getGsonInstance().fromJson(s, FullAccountsDataModel.class);
+                if (fullAccountsDataModel.isSuccess() && !TextUtils.isEmpty(fullAccountsDataModel.getData())) {
+                    final FullAccountsDataModel.FullAccountModel fullAccountModel = GsonSingleInstance.getGsonInstance().fromJson(fullAccountsDataModel.getData(), FullAccountsDataModel.FullAccountModel.class);
+                    if (null != fullAccountModel && null != fullAccountModel.getAccount() && null != fullAccountModel.getAccount().getAsset_locked() && null != fullAccountModel.getAccount().getAsset_locked().getLocked_total() && fullAccountModel.getAccount().getAsset_locked().getLocked_total().size() > 0) {
+                        List<FullAccountsDataModel.AssetModel> assetModels = new ArrayList<>();
+                        for (List<String> locked_total : fullAccountModel.getAccount().getAsset_locked().getLocked_total()) {
+                            try {
+                                asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(locked_total.get(0));
+                                FullAccountsDataModel.AssetModel assetModel = new FullAccountsDataModel.AssetModel();
+                                assetModel.amount = String.valueOf(Double.valueOf(locked_total.get(1)) / (Math.pow(10, asset_object.precision)));
+                                assetModel.asset_id = locked_total.get(0);
+                                assetModel.precision = asset_object.precision;
+                                assetModels.add(assetModel);
+                                SPUtils.setDataList(SPKeyGlobal.TOTAL_LOCK_ASSET, assetModels);
+                            } catch (NetworkStatusException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 }

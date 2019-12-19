@@ -39,12 +39,16 @@ public class CoinSelectItemViewModel extends ItemViewModel<CoinSelectViewModel> 
     public ObservableField<String> amount = new ObservableField<>("0.00");
     public AssetsModel.AssetModel assetModel;
     public ObservableInt amountVisible = new ObservableInt(View.INVISIBLE);
+    public ObservableField<String> frozenAmount = new ObservableField<>("冻结 0.00");
+    public ObservableInt frozenAmountViewVisible = new ObservableInt(View.GONE);
 
     CoinSelectItemViewModel(@NonNull CoinSelectViewModel viewModel, AssetsModel.AssetModel entity) {
         super(viewModel);
         String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
         symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
         this.entity.set(entity);
+        BigDecimal usedAsset = entity.amount.subtract(new BigDecimal(entity.frozen_asset)).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO);
+        entity.amount = usedAsset;
         this.assetModel = entity;
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_asset_bcx_icon);
         if (assetModel.operateType == 1) {
@@ -53,7 +57,9 @@ public class CoinSelectItemViewModel extends ItemViewModel<CoinSelectViewModel> 
             NumberFormat nf = NumberFormat.getInstance();
             nf.setMaximumFractionDigits(5);
             nf.setGroupingUsed(false);
-            amount.set(nf.format(entity.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+            frozenAmountViewVisible.set(new BigDecimal(entity.frozen_asset).compareTo(BigDecimal.ZERO) <= 0 ? View.GONE : View.VISIBLE);
+            frozenAmount.set("冻结 " + entity.frozen_asset);
+            amount.set(nf.format(usedAsset));
         }
     }
 

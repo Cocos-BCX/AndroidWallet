@@ -61,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.frozenAmount}"
                 android:textColor="@color/color_7B8190"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_14"
+                android:visibility="@{viewModel.frozenAmountViewVisible}" />
 
         </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.cocos.library_base.entity.FullAccountsDataModel;
 import com.cocos.library_base.entity.NodeInfoModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -233,7 +234,7 @@ public class SPUtils {
     }
 
     /**
-     * 获取List
+     * getNodeInfo
      *
      * @param tag
      * @return
@@ -253,6 +254,29 @@ public class SPUtils {
             return new ArrayList<>();
         }
     }
+
+    /**
+     * getLockedAssetInfo
+     *
+     * @param tag
+     * @return
+     */
+    public static List<FullAccountsDataModel.AssetModel> getLockedAssetInfo(String tag) {
+        try {
+            List<FullAccountsDataModel.AssetModel> datalist = new ArrayList<>();
+            String strJson = sp.getString(tag, null);
+            if (null == strJson) {
+                return datalist;
+            }
+            Gson gson = new Gson();
+            datalist = gson.fromJson(strJson, new TypeToken<List<FullAccountsDataModel.AssetModel>>() {
+            }.getType());
+            return datalist;
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
 
     public static ArrayList<String> getUrlList(String tag) {
         try {
