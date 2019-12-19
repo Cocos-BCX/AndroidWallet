@@ -65,13 +65,13 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
         }
         int statusHeight = StatusBarUtils.getStatusBarHeight(Utils.getContext());
         binding.assetTitle.setPadding(0, statusHeight, DensityUtils.dip2px(Utils.getContext(), 20), 0);
-        initAccountData();
+        initAccountData(500);
         isInit = true;
         Log.i("refreshAssetData", "initData");
     }
 
-    public void initAccountData() {
-        final long[] delayTime = {600};
+    public void initAccountData(long delayTime) {
+        Log.i("initAccountData:", String.valueOf(delayTime));
         MainHandler.getInstance().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -98,26 +98,23 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
                             viewModel.setAccountName();
                             isFirst = false;
                         } else if (accountNamesEntity.code == 177) {
-                            if (tryCount > 2) {
-                                //todo 显示创建和登录按钮
-                                viewModel.emptyViewVisible.set(View.GONE);
+                            if (tryCount > 8) {
+                                viewModel.emptyViewVisible.set(View.VISIBLE);
                                 viewModel.recyclerViewVisible.set(View.GONE);
-                                viewModel.LoginViewVisible.set(View.VISIBLE);
-                                viewModel.accountViewVisible.set(View.INVISIBLE);
-                                AccountHelperUtils.setCurrentAccountName("");
+                                viewModel.LoginViewVisible.set(View.GONE);
+                                viewModel.accountViewVisible.set(View.GONE);
                                 viewModel.setAccountName();
                                 isFirst = false;
                                 return;
                             }
-                            delayTime[0] = 0;
-                            initAccountData();
+                            initAccountData(100);
                             tryCount++;
                             isFirst = false;
                         }
                     }
                 });
             }
-        }, delayTime[0]);
+        }, delayTime);
     }
 
     /**
