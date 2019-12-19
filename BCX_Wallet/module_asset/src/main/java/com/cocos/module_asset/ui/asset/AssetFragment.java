@@ -21,6 +21,7 @@ import com.cocos.library_base.entity.AccountNamesEntity;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.DensityUtils;
+import com.cocos.library_base.utils.HttpUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
@@ -45,6 +46,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
     private boolean isFirst = true;
     private boolean isInit = false;
     private Activity activity;
+    private long tryCount;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
     }
 
     public void initAccountData() {
+        final long[] delayTime = {600};
         MainHandler.getInstance().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -85,7 +88,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
                             viewModel.setAccountName();
                             viewModel.requestAssetsListData();
                             isFirst = false;
-                        } else {
+                        } else if (accountNamesEntity.code == 0) {
                             //todo 显示创建和登录按钮
                             viewModel.emptyViewVisible.set(View.GONE);
                             viewModel.recyclerViewVisible.set(View.GONE);
@@ -94,11 +97,27 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
                             AccountHelperUtils.setCurrentAccountName("");
                             viewModel.setAccountName();
                             isFirst = false;
+                        } else if (accountNamesEntity.code == 177) {
+                            if (tryCount > 2) {
+                                //todo 显示创建和登录按钮
+                                viewModel.emptyViewVisible.set(View.GONE);
+                                viewModel.recyclerViewVisible.set(View.GONE);
+                                viewModel.LoginViewVisible.set(View.VISIBLE);
+                                viewModel.accountViewVisible.set(View.INVISIBLE);
+                                AccountHelperUtils.setCurrentAccountName("");
+                                viewModel.setAccountName();
+                                isFirst = false;
+                                return;
+                            }
+                            delayTime[0] = 0;
+                            initAccountData();
+                            tryCount++;
+                            isFirst = false;
                         }
                     }
                 });
             }
-        }, 600);
+        }, delayTime[0]);
     }
 
     /**
@@ -131,6 +150,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
                     }
                 }
             });
+            HttpUtils.getCocosPrice();
         } catch (Exception e) {
             //    refreshAssetData();
             Log.i("refreshAssetData:", e.getMessage());

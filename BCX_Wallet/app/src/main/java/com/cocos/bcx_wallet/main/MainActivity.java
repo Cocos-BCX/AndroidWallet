@@ -40,7 +40,6 @@ import java.util.List;
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements View.OnClickListener {
 
     private long mExitTime;
-    private NodeInfoModel.DataBean initSelectedNodeModel;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -59,7 +58,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         binding.assetRb.setOnClickListener(this);
         binding.foundRb.setOnClickListener(this);
         binding.mineRb.setOnClickListener(this);
-        initSelectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
     }
 
     private void initFragment() {

@@ -15,6 +15,7 @@ import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.CurrencyUtils;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_asset.R;
@@ -31,7 +32,7 @@ public class AssetItemViewModel extends ItemViewModel<AssetViewModel> {
 
     public ObservableField<AssetsModel.AssetModel> entity = new ObservableField<>();
     public Drawable drawableImg;
-    public ObservableField<String> totalValue = new ObservableField<>("≈ ￥0.00");
+    public ObservableField<String> totalValue = new ObservableField<>(CurrencyUtils.getSingleCurrencyType() + CurrencyUtils.getCocosPrice());
     public ObservableField<String> symbolType = new ObservableField<>("");
     public ObservableField<String> amount = new ObservableField<>("0.00");
     public ObservableField<String> frozenAmount = new ObservableField<>("冻结 0.00");
@@ -44,8 +45,7 @@ public class AssetItemViewModel extends ItemViewModel<AssetViewModel> {
         this.entity.set(entity);
         this.assetModel = entity;
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_asset_bcx_icon);
-        // todo amount
-        totalValue.set("≈ ￥" + entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
+        totalValue.set(TextUtils.equals(entity.symbol, "COCOS") ? CurrencyUtils.getSingleCurrencyType() + CurrencyUtils.getCocosPrice() : CurrencyUtils.getSingleCurrencyType() + "0.00");
         NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(false);
         nf.setMaximumFractionDigits(5);

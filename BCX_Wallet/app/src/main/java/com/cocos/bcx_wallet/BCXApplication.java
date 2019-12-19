@@ -2,7 +2,6 @@ package com.cocos.bcx_wallet;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -11,6 +10,7 @@ import com.cocos.library_base.base.BaseApplication;
 import com.cocos.library_base.config.ModuleLifecycleConfig;
 import com.cocos.library_base.crash.CaocConfig;
 import com.cocos.library_base.crash.DefaultErrorActivity;
+import com.cocos.library_base.utils.HttpUtils;
 import com.cocos.library_base.utils.KLog;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.node.NodeConnectUtil;
@@ -58,7 +58,8 @@ public class BCXApplication extends BaseApplication {
         ModuleLifecycleConfig.getInstance().initModuleAhead(this); //初始化组件(靠前)
         ModuleLifecycleConfig.getInstance().initModuleLow(this);     //初始化组件(靠后)
         NodeConnectUtil.requestNodeListData(this);
-
+        HttpUtils.getCurrencyRate();
+        HttpUtils.getCocosPrice();
 //
 //        //初始化工具类
 //        List<String> mListNode = Arrays.asList("ws://192.168.90.46:8149", "ws://192.168.90.46:8149");

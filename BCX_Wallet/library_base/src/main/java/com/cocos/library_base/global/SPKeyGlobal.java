@@ -28,4 +28,7 @@ public final class SPKeyGlobal {
     public static final String NET_TYPE = "net_type";
     public static final String IS_FIRST_CONNECT = "is_first_connect";
     public static final String CURRENCY_TYPE = "currency_type";
+    public static final String CURRENCY_RATE = "currency_rate";
+    public static final String COCOS_PRICE = "cocos_price";
+    public static final String TOTAL_ASSET_VALUE = "TOTAL_ASSET_VALUE";
 }

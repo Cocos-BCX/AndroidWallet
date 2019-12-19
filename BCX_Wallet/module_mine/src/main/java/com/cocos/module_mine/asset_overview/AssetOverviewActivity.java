@@ -11,8 +11,9 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.entity.TabEntity;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
-import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
@@ -67,8 +68,6 @@ public class AssetOverviewActivity extends BaseActivity<ActivityAssetOverviewBin
         }
         binding.viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
         initTabListener();
-        String accountId = AccountHelperUtils.getCurrentAccountId();
-        viewModel.requestAssetsListData(accountId);
     }
 
     @Override
@@ -78,7 +77,7 @@ public class AssetOverviewActivity extends BaseActivity<ActivityAssetOverviewBin
             public void onPropertyChanged(Observable observable, int i) {
                 if (!viewModel.uc.pSwitchObservable.get()) {
                     binding.ivAssetVisible.setImageResource(R.drawable.asset_overview_visible_icon);
-                    viewModel.totalAsset.set(String.valueOf(viewModel.totalAssets));
+                    viewModel.totalAsset.set(SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00"));
                 } else {
                     binding.ivAssetVisible.setImageResource(R.drawable.asset_overview_invisible_icon);
                     viewModel.totalAsset.set("****");

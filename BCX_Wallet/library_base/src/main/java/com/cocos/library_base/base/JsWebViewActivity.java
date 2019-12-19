@@ -429,7 +429,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              * claimVestingBalance
              */
             ClaimVestingBalanceParamModle claimVestingBalancePrams = GsonSingleInstance.getGsonInstance().fromJson(params.param, ClaimVestingBalanceParamModle.class);
-
             if (!TextUtils.isEmpty(password)) {
                 claimVestingBalance(claimVestingBalancePrams.id, password, params);
                 return;

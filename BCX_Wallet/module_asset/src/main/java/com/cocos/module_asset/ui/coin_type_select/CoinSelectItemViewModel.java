@@ -17,6 +17,7 @@ import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.CurrencyUtils;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_asset.R;
@@ -48,7 +49,7 @@ public class CoinSelectItemViewModel extends ItemViewModel<CoinSelectViewModel> 
         drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_asset_bcx_icon);
         if (assetModel.operateType == 1) {
             amountVisible.set(View.VISIBLE);
-            totalValue.set("≈ ￥" + entity.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
+            totalValue.set(TextUtils.equals(entity.symbol, "COCOS") ? CurrencyUtils.getSingleCurrencyType() + CurrencyUtils.getCocosPrice() : CurrencyUtils.getSingleCurrencyType() + "0.00");
             NumberFormat nf = NumberFormat.getInstance();
             nf.setMaximumFractionDigits(5);
             nf.setGroupingUsed(false);

@@ -22,16 +22,17 @@ import com.cocos.library_base.entity.AllAssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.CurrencyUtils;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.R;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 import me.tatarka.bindingcollectionadapter2.BR;
@@ -64,16 +65,18 @@ public class AssetViewModel extends BaseViewModel {
         this.accountName = AccountHelperUtils.getCurrentAccountName();
         currentAccountName.set(accountName);
         accountViewVisible.set(TextUtils.isEmpty(accountName) ? View.INVISIBLE : View.VISIBLE);
+        totalAssetCurrencyUnit.set(CurrencyUtils.getTotalCurrencyType());
+        totalAsset.set(SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00"));
     }
 
     //当前帐户名户名的绑定
     public ObservableField<String> currentAccountName = new ObservableField<>();
 
     //当前资产显示的货币单位
-    public ObservableField<String> totalAssetCurrencyUnit = new ObservableField<>(Utils.getString(R.string.module_asset_total_assets));
+    public ObservableField<String> totalAssetCurrencyUnit = new ObservableField<>(CurrencyUtils.getTotalCurrencyType());
 
     //当前帐户总资产
-    public ObservableField<String> totalAsset = new ObservableField<>("0.00");
+    public ObservableField<String> totalAsset = new ObservableField<>(SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00"));
 
     public ObservableField<String> loginText = new ObservableField<>(Utils.getString(R.string.module_asset_fragment_asset_login_text));
 
@@ -139,7 +142,6 @@ public class AssetViewModel extends BaseViewModel {
                 return;
             }
             WebViewModel webViewModel = new WebViewModel();
-            webViewModel.setTitle(Utils.getString(R.string.module_asset_props_assets));
             webViewModel.setUrl(Utils.getString(R.string.module_asset_sources_url));
             Bundle bundle = new Bundle();
             bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
@@ -156,7 +158,6 @@ public class AssetViewModel extends BaseViewModel {
                 return;
             }
             WebViewModel webViewModel = new WebViewModel();
-            webViewModel.setTitle(Utils.getString(R.string.module_asset_message_center));
             webViewModel.setUrl(Utils.getString(R.string.module_asset_vote_url));
             Bundle bundle = new Bundle();
             bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
@@ -173,7 +174,6 @@ public class AssetViewModel extends BaseViewModel {
     public void requestAssetsListData() {
         try {
             final String accountId = AccountHelperUtils.getCurrentAccountId();
-            // 如果不是同一个账号则清除数据
             if (TextUtils.isEmpty(accountId)) {
                 emptyViewVisible.set(View.VISIBLE);
                 recyclerViewVisible.set(View.GONE);
@@ -182,7 +182,6 @@ public class AssetViewModel extends BaseViewModel {
             }
             showDialog();
             CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
-                private BigDecimal totalAssets = BigDecimal.ZERO;
 
                 @Override
                 public void onReceiveValue(final String s) {
@@ -192,7 +191,6 @@ public class AssetViewModel extends BaseViewModel {
                         @Override
                         public void run() {
                             if (balanceEntity.code != 1 || balanceEntity.getData().size() <= 0) {
-                                LogUtils.d("emptyViewVisible", "emptyViewVisible");
                                 if (tryCount < 5) {
                                     requestAssetsListData();
                                     ++tryCount;
@@ -208,41 +206,11 @@ public class AssetViewModel extends BaseViewModel {
                             final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
                             observableList.clear();
                             for (int i = 0; i < dataBeans.size(); i++) {
-                                //todo 价值计算
                                 final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
-                                totalAssets = totalAssets.add(dataBean.getAmount().multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_DOWN));
-                                totalAsset.set(String.valueOf(totalAssets));
                                 if (TextUtils.equals(dataBean.getAsset_id(), "1.3.1")) {
                                     continue;
                                 }
-                                LogUtils.d("lookup_asset_symbolss", dataBean.getAsset_id());
-                                CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
-                                    @Override
-                                    public void onReceiveValue(final String s) {
-                                        LogUtils.d("lookup_asset_symbolss", s);
-                                        final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
-                                        if (assetModel.code != 1) {
-                                            return;
-                                        }
-                                        MainHandler.getInstance().post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                AssetsModel.AssetModel assetModel1 = assetModel.getData();
-                                                assetModel1.amount = dataBean.getAmount();
-                                                AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
-                                                if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
-                                                    observableList.add(0, itemViewModel);
-                                                } else {
-                                                    observableList.add(itemViewModel);
-                                                }
-                                                dismissDialog();
-                                                emptyViewVisible.set(View.GONE);
-                                                recyclerViewVisible.set(View.VISIBLE);
-                                                LoginViewVisible.set(View.GONE);
-                                            }
-                                        });
-                                    }
-                                });
+                                get_asset_detail(dataBean);
                             }
                         }
                     });
@@ -250,6 +218,49 @@ public class AssetViewModel extends BaseViewModel {
             });
         } catch (Exception e) {
         }
+    }
+
+    private void get_asset_detail(final AllAssetBalanceModel.DataBean dataBean) {
+        CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
+            @Override
+            public void onReceiveValue(final String s) {
+                LogUtils.d("lookup_asset_symbols", s);
+                final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
+                if (null != assetModel && assetModel.code != 1) {
+                    if (tryCount < 5) {
+                        get_asset_detail(dataBean);
+                        ++tryCount;
+                        LogUtils.d("hasTryAgain", "hasTryAgain");
+                    } else {
+                        dismissDialog();
+                        emptyViewVisible.set(View.VISIBLE);
+                        recyclerViewVisible.set(View.GONE);
+                        LoginViewVisible.set(View.GONE);
+                    }
+                    return;
+                }
+                MainHandler.getInstance().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        AssetsModel.AssetModel assetModel1 = assetModel.getData();
+                        assetModel1.amount = dataBean.getAmount();
+                        AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
+                        if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
+                            observableList.add(0, itemViewModel);
+                            String totalAssets = CurrencyUtils.getTotalCocosPrice(String.valueOf(assetModel1.amount));
+                            totalAsset.set(totalAssets);
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, totalAssets);
+                        } else {
+                            observableList.add(itemViewModel);
+                        }
+                        dismissDialog();
+                        emptyViewVisible.set(View.GONE);
+                        recyclerViewVisible.set(View.VISIBLE);
+                        LoginViewVisible.set(View.GONE);
+                    }
+                });
+            }
+        });
     }
 
 

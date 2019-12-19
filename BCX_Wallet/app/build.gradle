@@ -44,6 +44,8 @@ android {
             minifyEnabled false
             buildConfigField 'boolean', 'IS_TEST_ENV', 'false'
             buildConfigField 'String', 'API_BASE', '"https://api-cocosbcx.cocosbcx.net/backend/"'
+            buildConfigField 'String', 'COCOS_PRICE_BASE', '"http://fxhapi.feixiaohao.com/public/"'
+            buildConfigField 'String', 'EXCHANGE_CURRENCY', '"http://op.juhe.cn/onebox/exchange/"'
             buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -54,6 +56,8 @@ android {
             buildConfigField 'boolean', 'IS_TEST_ENV', 'true'
             buildConfigField 'String', 'API_BASE', '"https://api-cocosbcx.cocosbcx.net/backend/"'
             buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
+            buildConfigField 'String', 'COCOS_PRICE_BASE', '"http://fxhapi.feixiaohao.com/public/"'
+            buildConfigField 'String', 'EXCHANGE_CURRENCY', '"http://op.juhe.cn/onebox/exchange/"'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }

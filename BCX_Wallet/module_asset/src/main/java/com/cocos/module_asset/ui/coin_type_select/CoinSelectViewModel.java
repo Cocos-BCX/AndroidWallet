@@ -123,7 +123,6 @@ public class CoinSelectViewModel extends BaseViewModel {
                                             AssetsModel.AssetModel assetModel1 = assetModel.getData();
                                             assetModel1.amount = dataBean.getAmount();
                                             assetModel1.operateType = operateType;
-
                                             if (assetModels.size() == dataBeans.size()) {
                                                 if (!assetModel1.equals(assetModels.get(finalI))) {
                                                     assetModels.set(finalI, assetModel1);

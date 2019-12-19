@@ -10,6 +10,7 @@ import com.cocos.bcx_sdk.bcx_error.NetworkStatusException;
 import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
 import com.cocos.bcx_sdk.bcx_wallet.chain.types;
 import com.cocos.library_base.R;
+import com.cocos.library_base.global.SPKeyGlobal;
 
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class AccountHelperUtils {
             if (TextUtils.isEmpty(accountName)) {
                 SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, "");
                 setCurrentAccountId("");
+                SPUtils.putString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00");
                 return;
             }
             SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, accountName);

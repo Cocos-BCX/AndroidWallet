@@ -24,6 +24,7 @@ import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.CurrencyUtils;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
@@ -66,7 +67,7 @@ public class DealRecordViewModel extends BaseViewModel {
     //总资产
     public ObservableField<String> totalAsset = new ObservableField<>();
 
-    public ObservableField<String> totalAssetValue = new ObservableField<>("≈ ￥0.00");
+    public ObservableField<String> totalAssetValue = new ObservableField<>(CurrencyUtils.getSingleCurrencyType() + SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00"));
 
     public ObservableField<String> accountName = new ObservableField<>("");
 
@@ -118,7 +119,6 @@ public class DealRecordViewModel extends BaseViewModel {
         nf.setGroupingUsed(false);
         nf.setMaximumFractionDigits(5);
         totalAsset.set(nf.format(assetModel.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
-        totalAssetValue.set("≈ ￥" + assetModel.amount.multiply(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP));
         accountName.set(String.valueOf(AccountHelperUtils.getCurrentAccountName()));
     }
 
