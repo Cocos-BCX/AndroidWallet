@@ -54,7 +54,7 @@ public class TransferViewModel extends BaseViewModel {
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(5);
         nf.setGroupingUsed(false);
-        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + nf.format(assetModel.amount) + assetModel.symbol);
+        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + nf.format(assetModel.useable_amount) + assetModel.symbol);
     }
 
     public class UIChangeObservable {
@@ -91,7 +91,7 @@ public class TransferViewModel extends BaseViewModel {
     public BindingCommand transferAllOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            transferAmount.set(String.valueOf(assetModel.amount));
+            transferAmount.set(String.valueOf(assetModel.useable_amount));
         }
     });
 

@@ -44,6 +44,7 @@ public class AssetsModel extends BaseResult {
         public int precision;
         public String symbol;
         public BigDecimal amount;
+        public BigDecimal useable_amount;
         public BigDecimal price;
         public int operateType;
 

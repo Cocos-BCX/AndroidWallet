@@ -255,6 +255,8 @@ public class AssetViewModel extends BaseViewModel {
                         if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
                             observableList.add(0, itemViewModel);
                             String totalAssets = CurrencyUtils.getTotalCocosPrice(String.valueOf(assetModel1.amount));
+                            Log.d("totalAssets", String.valueOf(assetModel1.amount));
+                            Log.d("totalAssets", totalAssets);
                             totalAsset.set(totalAssets);
                             SPUtils.putString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, totalAssets);
                         } else {
