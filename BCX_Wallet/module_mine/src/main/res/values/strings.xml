@@ -25,7 +25,6 @@
     <string name="module_mine_export_key_title">导出私钥</string>
     <string name="asset_private_key_text" tools:ignore="ResourceName">资产私钥</string>
     <string name="copy_asset_private_key" tools:ignore="ResourceName">复制资产私钥</string>
-
     <string name="copy_account_private_key" tools:ignore="ResourceName">复制账户私钥</string>
     <string name="account_private_key_text" tools:ignore="ResourceName">账户私钥</string>
 
@@ -142,9 +141,6 @@
     <string name="module_mine_nh_receiver_can_not_be_self">资产接收方不能是自己</string>
     <string name="module_mine_nh_asset_sale_valid_time_max">最大 </string>
     <string name="order_manage_text">订单管理</string>
-    <string name="module_mine_set_password">设置密码</string>
-    <string name="module_mine_reset_confirm_password">确认密码</string>
-    <string name="module_mine_confirm_password_empty">确认密码</string>
     <string name="module_mine_reset_password_success">重置成功</string>
 
 </resources>

@@ -46,4 +46,11 @@
     <string name="module_mine_coin_usd">USD</string>
     <string name="fragment_mine_coin_type_select">币种选择</string>
     <string name="module_mine_frozen_text">冻结 </string>
+    <string name="module_mine_old_password">当前密码</string>
+    <string name="module_mine_new_password">新密码</string>
+    <string name="module_mine_reset_confirm_password">确认密码</string>
+    <string name="module_mine_input_old_password">请输入当前密码</string>
+    <string name="module_mine_input_new_password">请输入新密码</string>
+    <string name="module_mine_confirm_password">请再次确认新密码</string>
+    <string name="module_mine_reset_failed">重置失败</string>
 </resources>

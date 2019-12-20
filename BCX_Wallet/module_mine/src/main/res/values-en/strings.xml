@@ -5,7 +5,7 @@
     <string name="fragment_mine_contact" tools:ignore="ResourceName">Contacts</string>
     <string name="fragment_mine_wallet_manage" tools:ignore="ResourceName">Wallet Management</string>
     <string name="asset_text" tools:ignore="ResourceName">Total Assets(¥) </string>
-    <string name="fragment_mine_account_manage_modify_password" tools:ignore="ResourceName">Change Passcode</string>
+    <string name="fragment_mine_account_manage_modify_password" tools:ignore="ResourceName">Change Password</string>
     <string name="fragment_mine_account_manage_export_privatekey" tools:ignore="ResourceName">Export Private Key</string>
     <string name="module_mine_btn_login_out" tools:ignore="ResourceName">Log Out</string>
     <string name="module_mine_modify_password_done_btn" tools:ignore="ResourceName">Done</string>
@@ -142,10 +142,6 @@
     <string name="module_mine_nh_receiver_can_not_be_self">Transfer account can not be self</string>
     <string name="module_mine_nh_asset_sale_valid_time_max">Max </string>
     <string name="order_manage_text">Orders</string>
-    <string name="module_mine_set_password">New</string>
-    <string name="module_mine_reset_confirm_password">Confirm</string>
-    <string name="module_mine_confirm_password_empty">Please Confirm!</string>
     <string name="module_mine_reset_password_success">Success</string>
-
 
 </resources>

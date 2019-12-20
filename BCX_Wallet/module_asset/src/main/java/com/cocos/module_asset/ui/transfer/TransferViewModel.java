@@ -102,6 +102,6 @@ public class TransferViewModel extends BaseViewModel {
     });
 
     public void setAccountBalance(AssetsModel.AssetModel balance) {
-        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + balance.amount + balance.symbol);
+        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + (balance.amount.compareTo(BigDecimal.ZERO) == 0 ? "0.00" : balance.amount.toString()) + balance.symbol);
     }
 }

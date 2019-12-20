@@ -46,4 +46,11 @@
     <string name="module_mine_coin_usd">USD</string>
     <string name="fragment_mine_coin_type_select">Currency Unit</string>
     <string name="module_mine_frozen_text">Locked </string>
+    <string name="module_mine_old_password">Old one</string>
+    <string name="module_mine_new_password">Reset</string>
+    <string name="module_mine_reset_confirm_password">Repeat</string>
+    <string name="module_mine_input_old_password">Enter current passcode</string>
+    <string name="module_mine_input_new_password">Enter new passcode</string>
+    <string name="module_mine_confirm_password">Enter new passcode again</string>
+    <string name="module_mine_reset_failed">Reset failed!</string>
 </resources>
