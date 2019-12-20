@@ -45,4 +45,5 @@
     <string name="module_mine_coin_cny" tools:ignore="MissingTranslation">CNY</string>
     <string name="module_mine_coin_usd">USD</string>
     <string name="fragment_mine_coin_type_select">币种选择</string>
+    <string name="module_mine_frozen_text">冻结 </string>
 </resources>

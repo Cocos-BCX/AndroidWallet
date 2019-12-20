@@ -39,7 +39,7 @@ public class CoinSelectItemViewModel extends ItemViewModel<CoinSelectViewModel> 
     public ObservableField<String> amount = new ObservableField<>("0.00");
     public AssetsModel.AssetModel assetModel;
     public ObservableInt amountVisible = new ObservableInt(View.INVISIBLE);
-    public ObservableField<String> frozenAmount = new ObservableField<>("冻结 0.00");
+    public ObservableField<String> frozenAmount = new ObservableField<>(Utils.getString(R.string.module_mine_frozen_text) + "0.00");
     public ObservableInt frozenAmountViewVisible = new ObservableInt(View.GONE);
 
     CoinSelectItemViewModel(@NonNull CoinSelectViewModel viewModel, AssetsModel.AssetModel entity) {
@@ -58,7 +58,7 @@ public class CoinSelectItemViewModel extends ItemViewModel<CoinSelectViewModel> 
             nf.setMaximumFractionDigits(5);
             nf.setGroupingUsed(false);
             frozenAmountViewVisible.set(new BigDecimal(entity.frozen_asset).compareTo(BigDecimal.ZERO) <= 0 ? View.GONE : View.VISIBLE);
-            frozenAmount.set("冻结 " + entity.frozen_asset);
+            frozenAmount.set(Utils.getString(R.string.module_mine_frozen_text) + entity.frozen_asset);
             amount.set(nf.format(usedAsset));
         }
     }

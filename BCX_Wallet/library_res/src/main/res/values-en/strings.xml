@@ -2,7 +2,7 @@
     <string name="TOTAL_ASSET">fonts/TOTAL_ASSET.ttf</string>
     <string name="FUTURAMEDIUMBT">fonts/FUTURAMEDIUMBT.ttf</string>
     <string name="CENTURY_GOTHIC_BOLD">fonts/CENTURY_GOTHIC_BOLD.ttf</string>
-    <string name="module_login_password_hint" tools:ignore="MissingTranslation">8-12 digits composed of two among numbers, letters and special characters</string>
+    <string name="module_login_password_hint" tools:ignore="MissingTranslation">8–12 digits composed of two among numbers, letters and special characters</string>
     <string name="copy_success">Copied</string>
     <string name="copy">Copy</string>
     <string name="logout_warning_text">Please make sure to have saved your private key before logging out</string>
@@ -39,10 +39,11 @@
     <string name="module_login_private_key_hint">Enter cleartext private key</string>
     <string name="module_login_password_confirm_failure">Passwords do not match, please reset</string>
     <string name="register_needs_title">When the account name meets one of the following conditions, it is Basic Name：</string>
-    <string name="register_needs_text_one">1. Contains numbers 0-9</string>
+    <string name="register_needs_text_one">1. Contains numbers 0–9</string>
     <string name="register_needs_text_two">2. Contains special characters-</string>
     <string name="register_needs_text_three">3. Without a, e, i, o, u, y</string>
     <string name="module_mine_coin_cny">CNY</string>
     <string name="module_mine_coin_usd">USD</string>
-    <string name="fragment_mine_coin_type_select">币种选择</string>
+    <string name="fragment_mine_coin_type_select">Currency Unit</string>
+    <string name="module_mine_frozen_text">Locked </string>
 </resources>

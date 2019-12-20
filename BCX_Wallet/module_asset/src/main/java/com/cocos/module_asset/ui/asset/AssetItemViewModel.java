@@ -37,7 +37,7 @@ public class AssetItemViewModel extends ItemViewModel<AssetViewModel> {
     public ObservableField<String> totalValue = new ObservableField<>(CurrencyUtils.getSingleCurrencyType() + CurrencyUtils.getCocosPrice());
     public ObservableField<String> symbolType = new ObservableField<>("");
     public ObservableField<String> amount = new ObservableField<>("0.00");
-    public ObservableField<String> frozenAmount = new ObservableField<>("冻结 0.00");
+    public ObservableField<String> frozenAmount = new ObservableField<>(Utils.getString(R.string.module_mine_frozen_text) + "0.00");
     public ObservableInt frozenAmountViewVisible = new ObservableInt(View.GONE);
     public AssetsModel.AssetModel assetModel;
 
@@ -54,7 +54,7 @@ public class AssetItemViewModel extends ItemViewModel<AssetViewModel> {
         nf.setGroupingUsed(false);
         nf.setMaximumFractionDigits(5);
         frozenAmountViewVisible.set(new BigDecimal(entity.frozen_asset).compareTo(BigDecimal.ZERO) <= 0 ? View.GONE : View.VISIBLE);
-        frozenAmount.set("冻结 " + entity.frozen_asset);
+        frozenAmount.set(Utils.getString(R.string.module_mine_frozen_text) + entity.frozen_asset);
         amount.set(nf.format(entity.amount.subtract(new BigDecimal(entity.frozen_asset)).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
     }
 

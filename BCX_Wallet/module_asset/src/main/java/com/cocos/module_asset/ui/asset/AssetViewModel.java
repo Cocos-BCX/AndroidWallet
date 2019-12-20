@@ -272,6 +272,10 @@ public class AssetViewModel extends BaseViewModel {
 
 
     public void getLockAsset(String accountName) {
+        if (TextUtils.isEmpty(accountName)) {
+            SPUtils.setDataList(SPKeyGlobal.TOTAL_LOCK_ASSET, null);
+            return;
+        }
         CocosBcxApiWrapper.getBcxInstance().get_full_accounts(accountName, true, new IBcxCallBack() {
             @Override
             public void onReceiveValue(String s) {

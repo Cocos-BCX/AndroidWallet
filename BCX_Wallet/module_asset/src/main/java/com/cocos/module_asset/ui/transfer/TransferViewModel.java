@@ -33,7 +33,6 @@ public class TransferViewModel extends BaseViewModel {
         symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
 
-
     //收款方帐户名的绑定
     public ObservableField<String> receivablesAccountName = new ObservableField<>();
 
@@ -102,7 +101,7 @@ public class TransferViewModel extends BaseViewModel {
         }
     });
 
-    public void setAccountBalance(BigDecimal balance) {
-        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + balance);
+    public void setAccountBalance(AssetsModel.AssetModel balance) {
+        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + balance.amount + balance.symbol);
     }
 }
