@@ -27,6 +27,7 @@ import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,6 +155,8 @@ public class CoinSelectViewModel extends BaseViewModel {
                 }
                 assetModel1.symbol = asset_object.symbol;
                 assetModel1.operateType = operateType;
+                assetModel1.amount = BigDecimal.ZERO;
+                assetModel1.frozen_asset = "0.00";
                 CoinSelectItemViewModel itemViewModel = new CoinSelectItemViewModel(CoinSelectViewModel.this, assetModel1);
                 if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
                     observableList.add(0, itemViewModel);

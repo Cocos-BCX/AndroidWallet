@@ -75,9 +75,11 @@ public class NumberAssetViewModel extends BaseViewModel {
                                         public void run() {
                                             AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
                                             if (assetModel.isSuccess()) {
-                                                assetModel.getData().amount = dataBean.getAmount();
+                                                AssetsModel.AssetModel assetModel1 = assetModel.getData();
+                                                assetModel1.amount = dataBean.getAmount();
+                                                assetModel1.frozen_asset = assetModel1.getFrozen_asset(assetModel1.id);
                                                 if (!TextUtils.equals(assetModel.data.symbol, "GAS")) {
-                                                    NumberAssetItemViewModel itemViewModel = new NumberAssetItemViewModel(NumberAssetViewModel.this, assetModel.getData());
+                                                    NumberAssetItemViewModel itemViewModel = new NumberAssetItemViewModel(NumberAssetViewModel.this, assetModel1);
                                                     observableList.add(itemViewModel);
                                                 }
                                             }
