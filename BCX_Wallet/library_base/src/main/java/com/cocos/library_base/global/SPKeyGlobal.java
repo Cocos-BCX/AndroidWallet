@@ -1,5 +1,8 @@
 package com.cocos.library_base.global;
 
+import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.library_base.utils.AccountHelperUtils;
+
 /**
  * @author ningkang.guo
  * @Date 2019/1/29
@@ -31,6 +34,5 @@ public final class SPKeyGlobal {
     public static final String CURRENCY_RATE = "currency_rate";
     public static final String COCOS_PRICE = "cocos_price";
     public static final String TOTAL_ASSET_VALUE = "total_asset_value";
-    public static final String TOTAL_LOCK_ASSET = "total_lock_asset";
-    public static final String COCOS_TOTAL_LOCK_ASSET = "cocos_total_lock_asset";
+    public static String TOTAL_LOCK_ASSET = AccountHelperUtils.getCurrentAccountName() + AccountHelperUtils.getCurrentAccountId() + CocosBcxApiWrapper.chainId;
 }

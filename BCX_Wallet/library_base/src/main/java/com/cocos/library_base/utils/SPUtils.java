@@ -1,9 +1,11 @@
 package com.cocos.library_base.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import com.cocos.library_base.entity.FullAccountsDataModel;
 import com.cocos.library_base.entity.NodeInfoModel;
@@ -261,6 +263,7 @@ public class SPUtils {
      * @param tag
      * @return
      */
+    @SuppressLint("LongLogTag")
     public static List<FullAccountsDataModel.AssetModel> getLockedAssetInfo(String tag) {
         try {
             List<FullAccountsDataModel.AssetModel> datalist = new ArrayList<>();

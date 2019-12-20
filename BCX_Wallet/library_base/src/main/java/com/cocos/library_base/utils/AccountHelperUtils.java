@@ -131,4 +131,12 @@ public class AccountHelperUtils {
         }
         return "";
     }
+
+
+    /**
+     * getCurrentChainId
+     */
+    public static String getCurrentChainId() {
+        return CocosBcxApiWrapper.chainId;
+    }
 }

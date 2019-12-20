@@ -294,6 +294,8 @@ public class AssetViewModel extends BaseViewModel {
                                 e.printStackTrace();
                             }
                         }
+                    } else {
+                        SPUtils.setDataList(SPKeyGlobal.TOTAL_LOCK_ASSET, null);
                     }
                 }
             }
