@@ -15,7 +15,7 @@ import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.module_asset.R;
 
-import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 /**
  * @author ningkang.guo
@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 public class TransferViewModel extends BaseViewModel {
 
 
-    public BigDecimal balance;
     private AssetsModel.AssetModel assetModel;
 
     public TransferViewModel(@NonNull Application application) {
@@ -52,8 +51,11 @@ public class TransferViewModel extends BaseViewModel {
 
     public void setTransferAssetModel(AssetsModel.AssetModel assetModel) {
         this.assetModel = assetModel;
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(5);
+        nf.setGroupingUsed(false);
+        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + nf.format(assetModel.amount) + assetModel.symbol);
     }
-
 
     public class UIChangeObservable {
         public ObservableBoolean transferBtnObservable = new ObservableBoolean(false);
@@ -89,7 +91,7 @@ public class TransferViewModel extends BaseViewModel {
     public BindingCommand transferAllOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            transferAmount.set(String.valueOf(balance));
+            transferAmount.set(String.valueOf(assetModel.amount));
         }
     });
 
@@ -101,7 +103,5 @@ public class TransferViewModel extends BaseViewModel {
         }
     });
 
-    public void setAccountBalance(AssetsModel.AssetModel balance) {
-        accountBalance.set(Utils.getString(R.string.module_asset_account_balance_text) + (balance.amount.compareTo(BigDecimal.ZERO) == 0 ? "0.00" : balance.amount.toString()) + balance.symbol);
-    }
+
 }

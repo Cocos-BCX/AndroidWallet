@@ -60,7 +60,6 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
     private String accountName = AccountHelperUtils.getCurrentAccountName();
     private BottomSheetDialog dialog;
     private AssetsModel.AssetModel assetModel;
-    private String accountId;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -83,9 +82,7 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
 
     @Override
     public void initData() {
-        accountId = AccountHelperUtils.getCurrentAccountId();
         viewModel.setTransferAssetModel(assetModel);
-        viewModel.setAccountBalance(assetModel);
         binding.edtAmount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(assetModel.precision)});
         NumberUtil.setPricePoint1(binding.edtAmount);
     }
