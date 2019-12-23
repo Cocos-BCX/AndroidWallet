@@ -15,10 +15,12 @@ import android.view.View;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.bcx_sdk.bcx_wallet.chain.global_config_object;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.entity.AllAssetBalanceModel;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
@@ -29,6 +31,7 @@ import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
+import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
@@ -37,6 +40,7 @@ import com.cocos.module_asset.entity.DealRecordModel;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.List;
 
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
@@ -52,6 +56,8 @@ public class DealRecordViewModel extends BaseViewModel {
         String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
         symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
+
+    NumberFormat nf = NumberFormat.getInstance();
 
     private AssetsModel.AssetModel assetModel;
 
@@ -115,7 +121,6 @@ public class DealRecordViewModel extends BaseViewModel {
     public void setAssetModel(AssetsModel.AssetModel assetModel) {
         this.assetModel = assetModel;
         tokenSymbol.set(assetModel.symbol);
-        NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(false);
         nf.setMaximumFractionDigits(5);
         totalAsset.set(nf.format(assetModel.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
@@ -156,6 +161,40 @@ public class DealRecordViewModel extends BaseViewModel {
         });
     }
 
+
+    public void requestAssetsListData() {
+        final String accountId = AccountHelperUtils.getCurrentAccountId();
+        if (TextUtils.isEmpty(accountId)) {
+            return;
+        }
+        showDialog();
+        CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
+            @Override
+            public void onReceiveValue(final String s) {
+                LogUtils.d("get_account_balances", s);
+                MainHandler.getInstance().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
+                        if (!balanceEntity.isSuccess() || balanceEntity.getData().size() <= 0) {
+                            return;
+                        }
+                        final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
+                        for (int i = 0; i < dataBeans.size(); i++) {
+                            final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
+                            if (TextUtils.equals(dataBean.getAsset_id(), "1.3.0")) {
+                                nf.setGroupingUsed(false);
+                                nf.setMaximumFractionDigits(5);
+                                totalAsset.set(nf.format(dataBean.getAmount().setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+                                return;
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+    }
 }
 
 

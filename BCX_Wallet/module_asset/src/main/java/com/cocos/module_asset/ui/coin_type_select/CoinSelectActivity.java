@@ -58,7 +58,7 @@ public class CoinSelectActivity extends BaseActivity<ActivitySelectCoinBinding, 
         super.onResume();
         if (!isFirst) {
             loadData();
-            isFirst = false;
         }
+        isFirst = false;
     }
 }

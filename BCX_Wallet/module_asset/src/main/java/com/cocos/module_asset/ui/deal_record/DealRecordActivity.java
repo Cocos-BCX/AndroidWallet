@@ -4,12 +4,12 @@ import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.ActivityDealRecordBinding;
-import com.cocos.library_base.entity.AssetsModel;
 
 /**
  * @author ningkang.guo
@@ -19,6 +19,7 @@ import com.cocos.library_base.entity.AssetsModel;
 public class DealRecordActivity extends BaseActivity<ActivityDealRecordBinding, DealRecordViewModel> {
 
     private AssetsModel.AssetModel assetModel;
+    private boolean isFirst = true;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -46,4 +47,14 @@ public class DealRecordActivity extends BaseActivity<ActivityDealRecordBinding, 
         viewModel.requestDealRecordList();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isFirst) {
+            isFirst = false;
+            return;
+        }
+        viewModel.requestDealRecordList();
+        viewModel.requestAssetsListData();
+    }
 }
