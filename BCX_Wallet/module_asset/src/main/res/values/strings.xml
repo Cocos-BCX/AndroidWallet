@@ -34,7 +34,6 @@
     <string name="module_asset_transfer_memo_info">备注</string>
     <string name="module_asset_transfer_pay_confirm_btn">确认支付</string>
     <string name="module_asset_receivablesAccountName_empty">收款人不能为空</string>
-    <string name="module_asset_total_assets">总资产(¥)</string>
     <string name="module_asset_transfer_success">转账成功</string>
     <string name="module_asset_transfer_account_can_not_yourself" tools:ignore="ExtraTranslation">不能转账给自己</string>
     <string name="module_asset_account_balance_text">余额:</string>

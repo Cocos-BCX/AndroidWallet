@@ -32,7 +32,7 @@
     <string name="module_asset_transfer_amount_info">Amount</string>
     <string name="module_asset_transfer_memo_info">Memo</string>
     <string name="module_asset_transfer_pay_confirm_btn">Confirm Payment</string>
-    <string name="module_asset_total_assets">Total Assets(¥)</string>
+
     <string name="module_asset_developing">To Be Expected</string>
     <string name="module_asset_transfer_account_can_not_yourself">Transfer account can not be self</string>
     <string name="module_asset_receivablesAccountName_empty">Address empty!</string>

@@ -92,6 +92,11 @@
                         binding:onClickCommand="@{viewModel.assetPublicKeyCopyOnClickCommand}" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/color_ffe6e6e6" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_50"
@@ -126,7 +131,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:background="@color/color_ffe6e6e6" />
 
                 <LinearLayout
@@ -156,9 +161,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/color_ffe6e6e6"
-                    android:visibility="gone" />
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/color_ffe6e6e6" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -185,7 +189,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:background="@color/color_ffe6e6e6" />
 
                 <LinearLayout

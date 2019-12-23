@@ -15,6 +15,7 @@
     <string name="module_asset_coin_type_test">(TEST)</string>
     <string name="deal_detail">Deal Detail</string>
     <string name="next_text">Next</string>
+    <string name="module_asset_total_assets">Total Assets</string>
     <string name="account_not_found">Account not found</string>
     <string name="insufficient_balance">Insufficient balance</string>
     <string name="module_mine_node_connect_failed">Node connect failed</string>
@@ -53,4 +54,5 @@
     <string name="module_mine_input_new_password">Enter new passcode</string>
     <string name="module_mine_confirm_password">Enter new passcode again</string>
     <string name="module_mine_reset_failed">Reset failed!</string>
+    <string name="module_login_private_key_no_account_info">The private key has no account info</string>
 </resources>

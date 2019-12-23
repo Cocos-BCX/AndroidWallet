@@ -2,6 +2,7 @@ package com.cocos.library_base.utils;
 
 import android.text.TextUtils;
 
+import com.cocos.library_base.R;
 import com.cocos.library_base.global.SPKeyGlobal;
 
 import java.math.BigDecimal;
@@ -14,7 +15,7 @@ public class CurrencyUtils {
 
 
     public static String getTotalCurrencyType() {
-        return SPUtils.getInt(Utils.getContext(), SPKeyGlobal.CURRENCY_TYPE, 0) == 0 ? "总资产(￥)" : "总资产（$）";
+        return SPUtils.getInt(Utils.getContext(), SPKeyGlobal.CURRENCY_TYPE, 0) == 0 ? Utils.getString(R.string.module_asset_total_assets) + "(￥)" : Utils.getString(R.string.module_asset_total_assets) + "（$）";
     }
 
 

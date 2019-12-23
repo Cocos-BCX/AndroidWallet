@@ -10,9 +10,11 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.bcx_sdk.bcx_entity.AccountType;
+import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.entity.KeyLoginModel;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.RegexUtils;
@@ -20,7 +22,6 @@ import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_login.R;
-import com.cocos.library_base.entity.KeyLoginModel;
 
 
 /**
@@ -101,10 +102,17 @@ public class KeyLoginViewModel extends BaseViewModel {
                             public void run() {
                                 KeyLoginModel keyLoginModel = GsonSingleInstance.getGsonInstance().fromJson(s, KeyLoginModel.class);
                                 if (keyLoginModel.code == 109 || keyLoginModel.code == 1011 || keyLoginModel.code == 135) {
+                                    LogUtils.i("import_wif_key", s);
                                     ToastUtils.showShort(R.string.module_login_key_format_error);
                                     dismissDialog();
                                     return;
                                 }
+                                if (keyLoginModel.code == 110) {
+                                    ToastUtils.showShort(R.string.module_login_private_key_no_account_info);
+                                    dismissDialog();
+                                    return;
+                                }
+
                                 if (!keyLoginModel.isSuccess()) {
                                     ToastUtils.showShort(R.string.net_work_failed);
                                     dismissDialog();

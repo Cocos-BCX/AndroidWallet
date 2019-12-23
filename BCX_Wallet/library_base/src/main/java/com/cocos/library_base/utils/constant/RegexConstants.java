@@ -13,7 +13,7 @@ public final class RegexConstants {
     /**
      * bcx帐户名正则
      */
-    public static final String REGEX_BCX_ACCOUNT_NAME = "^[a-z][a-z0-9.-]{4,62}";
+    public static final String REGEX_BCX_ACCOUNT_NAME = "^[a-z][a-z0-9.-]{5,63}";
 
     /**
      * 私钥输入限制
