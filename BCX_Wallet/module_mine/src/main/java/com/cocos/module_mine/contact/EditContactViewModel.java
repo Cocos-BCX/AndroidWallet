@@ -29,6 +29,7 @@ import org.greenrobot.eventbus.EventBus;
 public class EditContactViewModel extends BaseViewModel {
 
     ClipboardManager mClipboardManager;
+    ContactModel contactModel;
 
     public EditContactViewModel(@NonNull Application application) {
         super(application);
@@ -71,6 +72,9 @@ public class EditContactViewModel extends BaseViewModel {
                 ToastUtils.showShort(R.string.module_mine_contact_address);
                 return;
             }
+            if (null != contactModel) {
+                ContactDaoInstance.getContactDaoInstance().deleteContact(contactModel.accountName);
+            }
             ContactDaoInstance.getContactDaoInstance().insertContact(contactName.get(), contactAccountName.get(), contactMemo.get());
             EventBusCarrier eventBusCarrier = new EventBusCarrier();
             eventBusCarrier.setEventType(EventTypeGlobal.CONTACT_CHANGED_TYPE);
@@ -105,6 +109,7 @@ public class EditContactViewModel extends BaseViewModel {
     });
 
     public void setContactModel(ContactModel contactModel) {
+        this.contactModel = contactModel;
         if (null != contactModel) {
             contactName.set(contactModel.name);
             contactMemo.set(contactModel.memo);
