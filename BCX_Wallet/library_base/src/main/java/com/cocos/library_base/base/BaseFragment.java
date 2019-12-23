@@ -198,6 +198,13 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         }
     }
 
+    public void showDialog(String customText) {
+        if (dialog == null) {
+            dialog = new ZLoadingDialog(getActivity());
+            LoadingDialogUtils.showIndeterminateProgressDialog(dialog, customText, Z_TYPE.SINGLE_CIRCLE);
+        }
+    }
+
     public void dismissDialog() {
         if (dialog != null) {
             dialog.dismiss();

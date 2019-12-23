@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,17 +24,12 @@ import android.view.inputmethod.InputMethodManager;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.Messenger;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.entity.NodeInfoModel;
-import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.IntentUtils;
 import com.cocos.library_base.utils.LoadingDialogUtils;
-import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.StatusBarUtil;
 import com.cocos.library_base.utils.StatusBarUtils;
-import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
-import com.cocos.library_base.utils.node.NodeConnectUtil;
 import com.cocos.library_base.widget.zloading.ZLoadingDialog;
 import com.cocos.library_base.widget.zloading.Z_TYPE;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -275,6 +269,13 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         if (dialog == null) {
             dialog = new ZLoadingDialog(this);
             LoadingDialogUtils.showIndeterminateProgressDialog(dialog, Z_TYPE.SINGLE_CIRCLE);
+        }
+    }
+
+    public void showDialog(String customText) {
+        if (dialog == null) {
+            dialog = new ZLoadingDialog(this);
+            LoadingDialogUtils.showIndeterminateProgressDialog(dialog, customText, Z_TYPE.SINGLE_CIRCLE);
         }
     }
 

@@ -78,6 +78,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
             } else if (TextUtils.equals(EventTypeGlobal.SWITCH_NODE_WORK, busCarrier.getEventType())) {
                 NodeInfoModel.DataBean dataBean = (NodeInfoModel.DataBean) busCarrier.getObject();
+                showDialog(Utils.getString(R.string.module_mine_node_switching));
                 reconnect(dataBean);
             } else if (TextUtils.equals(EventTypeGlobal.SWITCH_COIN_TYPE, busCarrier.getEventType())) {
                 int coinType = (int) busCarrier.getObject();
@@ -97,17 +98,19 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
+        nodeNetDialog.dismiss();
         CocosBcxApiWrapper.getBcxInstance().connect(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, new IBcxCallBack() {
             @Override
             public void onReceiveValue(String value) {
                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
                 NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-                nodeNetDialog.dismiss();
                 if (!resultEntity.isSuccess()) {
                     init(selectedNodeModel);
                     ToastUtils.showShort(R.string.module_mine_node_connect_failed);
+                    dismissDialog();
                     return;
                 }
+                dismissDialog();
                 ToastUtils.showShort(R.string.module_mine_node_connect_success);
                 // 保存当前节点信息
                 SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);

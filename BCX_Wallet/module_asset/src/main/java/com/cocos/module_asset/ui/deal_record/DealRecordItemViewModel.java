@@ -39,6 +39,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
     public Drawable drawableImg;
     public DealRecordModel.DealRecordItemModel dealRecordModel;
     DealDetailModel dealDetailModel = new DealDetailModel();
+    NumberFormat nf = NumberFormat.getInstance();
 
     /**
      * @param viewModel
@@ -113,7 +115,9 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                                 }
                                 // precision
                                 BigDecimal ratio = new BigDecimal(Math.pow(10, assetModel.getData().precision));
-                                String dealAmount = opBean.amount.amount.divide(ratio).add(BigDecimal.ZERO) + assetModel.getData().symbol;
+                                nf.setGroupingUsed(false);
+                                nf.setMaximumFractionDigits(5);
+                                String dealAmount = nf.format(opBean.amount.amount.divide(ratio)) + assetModel.getData().symbol;
                                 operationAmount.set(isTransferAccount ? "-" + dealAmount : "+" + dealAmount);
                                 dealDetailModel.amount = dealAmount;
                             }
