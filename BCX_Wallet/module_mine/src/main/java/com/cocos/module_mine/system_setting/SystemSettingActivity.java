@@ -1,11 +1,13 @@
 package com.cocos.module_mine.system_setting;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -27,6 +29,7 @@ import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
+import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_mine.BR;
 import com.cocos.module_mine.R;
 import com.cocos.module_mine.coin_type.CoinTypeViewModel;
@@ -102,36 +105,44 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
         CocosBcxApiWrapper.getBcxInstance().connect(this, dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, new IBcxCallBack() {
             @Override
             public void onReceiveValue(String value) {
-                BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
-                NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-                if (!resultEntity.isSuccess()) {
-                    init(selectedNodeModel);
-                    ToastUtils.showShort(R.string.module_mine_node_connect_failed);
-                    dismissDialog();
-                    return;
-                }
-                dismissDialog();
-                ToastUtils.showShort(R.string.module_mine_node_connect_success);
-                // 保存当前节点信息
-                SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
-                SPUtils.putString(Utils.getContext(), SPKeyGlobal.NET_TYPE, dataBean.type);
-                // 显示主测网
-                if (!TextUtils.isEmpty(dataBean.type)) {
-                    viewModel.netType.set(TextUtils.equals("0", dataBean.type) ? Utils.getString(R.string.module_mine_net_test_text) : Utils.getString(R.string.module_mine_net_main_text));
-                } else {
-                    viewModel.netType.set("");
-                }
-                // 获取当前链账户
-                CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                Log.i("reconnect", value);
+                MainHandler.getInstance().post(new Runnable() {
                     @Override
-                    public void onReceiveValue(String s) {
-                        AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
-                        if (accountNamesEntity.isSuccess()) {
-                            List<String> accountNames = Arrays.asList(accountNamesEntity.data.split(","));
-                            AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
-                        } else {
-                            AccountHelperUtils.setCurrentAccountName("");
+                    public void run() {
+                        BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
+                        NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+                        if (!resultEntity.isSuccess()) {
+                            init(selectedNodeModel);
+                            ToastUtils.showShort(R.string.module_mine_node_connect_failed);
+                            dismissDialog();
+                            return;
                         }
+                        dismissDialog();
+                        ToastUtils.showShort(R.string.module_mine_node_connect_success);
+                        // 保存当前节点信息
+                        SPUtils.putObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED, dataBean);
+                        SPUtils.putString(Utils.getContext(), SPKeyGlobal.NET_TYPE, dataBean.type);
+                        // 显示主测网
+                        if (!TextUtils.isEmpty(dataBean.type)) {
+                            viewModel.netType.set(TextUtils.equals("0", dataBean.type) ? Utils.getString(R.string.module_mine_net_test_text) : Utils.getString(R.string.module_mine_net_main_text));
+                        } else {
+                            viewModel.netType.set("");
+                        }
+                        // 获取当前链账户
+                        CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                            @SuppressLint("LongLogTag")
+                            @Override
+                            public void onReceiveValue(String s) {
+                                Log.i("reconnectqueryAccountNamesByChainId", s);
+                                AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                                if (accountNamesEntity.isSuccess()) {
+                                    List<String> accountNames = Arrays.asList(accountNamesEntity.data.split(","));
+                                    AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
+                                } else {
+                                    AccountHelperUtils.setCurrentAccountName("");
+                                }
+                            }
+                        });
                     }
                 });
             }

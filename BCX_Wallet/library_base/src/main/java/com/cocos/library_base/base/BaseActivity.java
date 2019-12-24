@@ -266,16 +266,26 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     }
 
     public void showDialog() {
-        if (dialog == null) {
-            dialog = new ZLoadingDialog(this);
-            LoadingDialogUtils.showIndeterminateProgressDialog(dialog, Z_TYPE.SINGLE_CIRCLE);
+        try {
+            if (dialog == null) {
+                dialog = new ZLoadingDialog(this);
+                LoadingDialogUtils.showIndeterminateProgressDialog(dialog, Z_TYPE.SINGLE_CIRCLE);
+            } else {
+                LoadingDialogUtils.showIndeterminateProgressDialog(dialog, Z_TYPE.SINGLE_CIRCLE);
+            }
+        } catch (Exception e) {
         }
     }
 
     public void showDialog(String customText) {
-        if (dialog == null) {
-            dialog = new ZLoadingDialog(this);
-            LoadingDialogUtils.showIndeterminateProgressDialog(dialog, customText, Z_TYPE.SINGLE_CIRCLE);
+        try {
+            if (dialog == null) {
+                dialog = new ZLoadingDialog(this);
+                LoadingDialogUtils.showIndeterminateProgressDialog(dialog, customText, Z_TYPE.SINGLE_CIRCLE);
+            } else {
+                LoadingDialogUtils.showIndeterminateProgressDialog(dialog, customText, Z_TYPE.SINGLE_CIRCLE);
+            }
+        } catch (Exception e) {
         }
     }
 

@@ -122,41 +122,42 @@ public class RegisterViewModel extends BaseViewModel {
     });
 
     private void register(AccountType accountType) {
-        if (TextUtils.isEmpty(accountName.get())) {
-            ToastUtils.showShort(R.string.module_login_account_name_hint);
-            return;
-        }
-        if (!RegexUtils.isAccountName(accountName.get())) {
-            accountNameErrorTipVisible.set(View.VISIBLE);
-            return;
-        }
-        if (TextUtils.isEmpty(password.get())) {
-            ToastUtils.showShort(R.string.module_login_password_empty);
-            return;
-        }
-        if (TextUtils.isEmpty(confirmPassword.get())) {
-            ToastUtils.showShort(R.string.module_login_password_confirm_empty);
-            return;
-        }
-        if (!TextUtils.equals(password.get(), confirmPassword.get())) {
-            ToastUtils.showShort(R.string.module_login_password_confirm_failure);
-            return;
-        }
-        if (!RegexUtils.isLegalPassword(password.get())) {
-            ToastUtils.showShort(R.string.module_login_password_illegal);
-            return;
-        }
+        try {
+            if (TextUtils.isEmpty(accountName.get())) {
+                ToastUtils.showShort(R.string.module_login_account_name_hint);
+                return;
+            }
+            if (!RegexUtils.isAccountName(accountName.get())) {
+                accountNameErrorTipVisible.set(View.VISIBLE);
+                return;
+            }
+            if (TextUtils.isEmpty(password.get())) {
+                ToastUtils.showShort(R.string.module_login_password_empty);
+                return;
+            }
+            if (TextUtils.isEmpty(confirmPassword.get())) {
+                ToastUtils.showShort(R.string.module_login_password_confirm_empty);
+                return;
+            }
+            if (!TextUtils.equals(password.get(), confirmPassword.get())) {
+                ToastUtils.showShort(R.string.module_login_password_confirm_failure);
+                return;
+            }
+            if (!RegexUtils.isLegalPassword(password.get())) {
+                ToastUtils.showShort(R.string.module_login_password_illegal);
+                return;
+            }
 
-        showDialog();
+            showDialog();
 
-        CocosBcxApiWrapper.getBcxInstance().create_account(accountName.get(), password.get(), accountType, true, new IBcxCallBack() {
-            @Override
-            public void onReceiveValue(final String s) {
-                Log.d("create_account", s);
-                MainHandler.getInstance().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
+            CocosBcxApiWrapper.getBcxInstance().create_account(accountName.get(), password.get(), accountType, true, new IBcxCallBack() {
+                @Override
+                public void onReceiveValue(final String s) {
+                    Log.d("create_account", s);
+                    MainHandler.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+
                             RegisterModel registerModel = GsonSingleInstance.getGsonInstance().fromJson(s, RegisterModel.class);
                             if (registerModel.code == 159) {
                                 ToastUtils.showShort(R.string.module_login_account_exist);
@@ -210,15 +211,15 @@ public class RegisterViewModel extends BaseViewModel {
                             finish();
                             dismissDialog();
                             ToastUtils.showShort(R.string.module_login_register_success);
-                        } catch (Exception e) {
-                            dismissDialog();
-                            ToastUtils.showShort(R.string.net_work_failed);
+
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
 
-
+        } catch (Exception e) {
+            dismissDialog();
+            ToastUtils.showShort(R.string.net_work_failed);
+        }
     }
 }

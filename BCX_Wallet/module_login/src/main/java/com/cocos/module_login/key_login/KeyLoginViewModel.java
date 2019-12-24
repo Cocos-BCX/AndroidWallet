@@ -5,12 +5,12 @@ import android.app.Application;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.bcx_sdk.bcx_entity.AccountType;
-import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -93,40 +93,43 @@ public class KeyLoginViewModel extends BaseViewModel {
             return;
         }
         showDialog();
-        CocosBcxApiWrapper.getBcxInstance().import_wif_key(privateKey.get(), password.get(), AccountType.WALLET.name(),
-                new IBcxCallBack() {
-                    @Override
-                    public void onReceiveValue(final String s) {
-                        MainHandler.getInstance().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                KeyLoginModel keyLoginModel = GsonSingleInstance.getGsonInstance().fromJson(s, KeyLoginModel.class);
-                                if (keyLoginModel.code == 109 || keyLoginModel.code == 1011 || keyLoginModel.code == 135) {
-                                    LogUtils.i("import_wif_key", s);
-                                    ToastUtils.showShort(R.string.module_login_key_format_error);
-                                    dismissDialog();
-                                    return;
-                                }
-                                if (keyLoginModel.code == 110) {
-                                    ToastUtils.showShort(R.string.module_login_private_key_no_account_info);
-                                    dismissDialog();
-                                    return;
-                                }
+        try {
+            CocosBcxApiWrapper.getBcxInstance().import_wif_key(privateKey.get(), password.get(), AccountType.WALLET.name(),
+                    new IBcxCallBack() {
+                        @Override
+                        public void onReceiveValue(final String s) {
+                            MainHandler.getInstance().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.i("import_wif_key", s);
+                                    KeyLoginModel keyLoginModel = GsonSingleInstance.getGsonInstance().fromJson(s, KeyLoginModel.class);
+                                    if (keyLoginModel.code == 109 || keyLoginModel.code == 1011 || keyLoginModel.code == 135) {
+                                        ToastUtils.showShort(R.string.module_login_key_format_error);
+                                        dismissDialog();
+                                        return;
+                                    }
+                                    if (keyLoginModel.code == 110) {
+                                        ToastUtils.showShort(R.string.module_login_private_key_no_account_info);
+                                        dismissDialog();
+                                        return;
+                                    }
 
-                                if (!keyLoginModel.isSuccess()) {
-                                    ToastUtils.showShort(R.string.net_work_failed);
+                                    if (!keyLoginModel.isSuccess()) {
+                                        ToastUtils.showShort(R.string.net_work_failed);
+                                        dismissDialog();
+                                        return;
+                                    }
+                                    AccountHelperUtils.setCurrentAccountName(keyLoginModel.data.get(0));
+                                    ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
+                                    ToastUtils.showShort(R.string.module_login_key_login_success);
+                                    finish();
                                     dismissDialog();
-                                    return;
                                 }
-                                AccountHelperUtils.setCurrentAccountName(keyLoginModel.data.get(0));
-                                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
-                                ToastUtils.showShort(R.string.module_login_key_login_success);
-                                finish();
-                                dismissDialog();
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
+        } catch (Exception e) {
+        }
     }
 
 
