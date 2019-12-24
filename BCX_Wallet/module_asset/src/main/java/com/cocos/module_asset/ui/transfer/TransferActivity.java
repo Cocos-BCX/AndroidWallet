@@ -131,8 +131,8 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                                     ToastUtils.showShort(R.string.net_work_failed);
                                                     return;
                                                 }
-                                                finish();
                                                 ToastUtils.showShort(R.string.module_asset_transfer_success);
+                                                finish();
                                             } catch (Exception e) {
                                                 ToastUtils.showShort(R.string.net_work_failed);
                                             }

@@ -33,21 +33,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:paddingStart="@dimen/dp_11"
-                        android:paddingRight="@dimen/dp_16"
-                        binding:onClickCommand="@{viewModel.backOnClickCommand}">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_16"
-                            android:layout_height="@dimen/dp_18"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/arrow_left_white" />
-                    </LinearLayout>
-
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_marginLeft="@dimen/dp_11"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/arrow_left_white"
+                        binding:onClickCommand="@{viewModel.backOnClickCommand}" />
                 </RelativeLayout>
             </LinearLayout>
 
