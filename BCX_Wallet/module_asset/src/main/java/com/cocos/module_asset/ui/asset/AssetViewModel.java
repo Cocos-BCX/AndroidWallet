@@ -230,24 +230,24 @@ public class AssetViewModel extends BaseViewModel {
         CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
-                LogUtils.d("lookup_asset_symbols", s);
-                final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
-                if (null != assetModel && assetModel.code != 1) {
-                    if (tryCount < 5) {
-                        get_asset_detail(dataBean);
-                        ++tryCount;
-                        LogUtils.d("hasTryAgain", "hasTryAgain");
-                    } else {
-                        dismissDialog();
-                        emptyViewVisible.set(View.VISIBLE);
-                        recyclerViewVisible.set(View.GONE);
-                        LoginViewVisible.set(View.GONE);
-                    }
-                    return;
-                }
                 MainHandler.getInstance().post(new Runnable() {
                     @Override
                     public void run() {
+                        LogUtils.d("lookup_asset_symbols", s);
+                        final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
+                        if (null != assetModel && assetModel.code != 1) {
+                            if (tryCount < 5) {
+                                get_asset_detail(dataBean);
+                                ++tryCount;
+                                LogUtils.d("hasTryAgain", "hasTryAgain");
+                            } else {
+                                dismissDialog();
+                                emptyViewVisible.set(View.VISIBLE);
+                                recyclerViewVisible.set(View.GONE);
+                                LoginViewVisible.set(View.GONE);
+                            }
+                            return;
+                        }
                         AssetsModel.AssetModel assetModel1 = assetModel.getData();
                         assetModel1.amount = dataBean.getAmount();
                         assetModel1.frozen_asset = assetModel1.getFrozen_asset(assetModel1.id);

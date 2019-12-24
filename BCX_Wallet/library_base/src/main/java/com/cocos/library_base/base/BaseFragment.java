@@ -196,6 +196,26 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
             if (dialog == null) {
                 dialog = new ZLoadingDialog(getActivity());
                 LoadingDialogUtils.showIndeterminateProgressDialog(dialog, Z_TYPE.SINGLE_CIRCLE);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void showDialog(String customText) {
+        try {
+            if (dialog == null) {
+                dialog = new ZLoadingDialog(getActivity());
+                LoadingDialogUtils.showIndeterminateProgressDialog(dialog, customText, Z_TYPE.SINGLE_CIRCLE);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void showDialogEachTime() {
+        try {
+            if (dialog == null) {
+                dialog = new ZLoadingDialog(getActivity());
+                LoadingDialogUtils.showIndeterminateProgressDialog(dialog, Z_TYPE.SINGLE_CIRCLE);
             } else {
                 LoadingDialogUtils.showIndeterminateProgressDialog(dialog, Z_TYPE.SINGLE_CIRCLE);
             }
@@ -203,7 +223,8 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         }
     }
 
-    public void showDialog(String customText) {
+
+    public void showDialogEachTime(String customText) {
         try {
             if (dialog == null) {
                 dialog = new ZLoadingDialog(getActivity());

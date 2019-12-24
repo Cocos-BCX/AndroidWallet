@@ -110,6 +110,8 @@ public class AccountManagerListViewModel extends BaseViewModel {
                 ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
             } catch (AccountNotFoundException e) {
                 ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
+            } catch (Exception e) {
+                ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
             }
         }
     }

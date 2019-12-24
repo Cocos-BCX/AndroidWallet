@@ -81,7 +81,7 @@ public class SystemSettingActivity extends BaseActivity<ActivitySystemSettingBin
                 ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
             } else if (TextUtils.equals(EventTypeGlobal.SWITCH_NODE_WORK, busCarrier.getEventType())) {
                 NodeInfoModel.DataBean dataBean = (NodeInfoModel.DataBean) busCarrier.getObject();
-                showDialog(Utils.getString(R.string.module_mine_node_switching));
+                showDialogEachTime(Utils.getString(R.string.module_mine_node_switching));
                 reconnect(dataBean);
             } else if (TextUtils.equals(EventTypeGlobal.SWITCH_COIN_TYPE, busCarrier.getEventType())) {
                 int coinType = (int) busCarrier.getObject();
