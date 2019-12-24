@@ -4,33 +4,26 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
 import com.cocos.bcx_wallet.databinding.ActivityMainBinding;
 import com.cocos.library_base.base.BaseActivity;
-import com.cocos.library_base.entity.NodeInfoModel;
-import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
-import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ActivityContainer;
-import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
-import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.VersionUtil;
+import com.cocos.library_base.utils.node.NodeConnectUtil;
 import com.cocos.module_asset.ui.asset.AssetFragment;
 import com.cocos.module_found.fragment.FoundFragment;
 import com.cocos.module_mine.mine_fragment.MineFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author ningkang.guo
@@ -113,6 +106,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onResume() {
         super.onResume();
+        NodeConnectUtil.testNetStatus();
     }
 
     @Override

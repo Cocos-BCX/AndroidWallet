@@ -30,6 +30,23 @@ import io.reactivex.Observable;
 public class NodeConnectUtil {
 
 
+    public static void testNetStatus() {
+        try {
+            NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
+            if (null != selectedNodeModel) {
+                // 初始化bcx节点连接
+                List<String> nodeUrls = new ArrayList<>();
+                nodeUrls.add(selectedNodeModel.ws);
+                nodeUrls.add(selectedNodeModel.ws);
+                nodeUrls.add(selectedNodeModel.ws);
+                CocosBcxApiWrapper.getBcxInstance().connect(Utils.getContext(), selectedNodeModel.chainId, nodeUrls, selectedNodeModel.faucetUrl, selectedNodeModel.coreAsset, true, s -> {
+                });
+            }
+        } catch (Exception e) {
+        }
+    }
+
+
     /**
      * 请求并加载节点数据
      */
