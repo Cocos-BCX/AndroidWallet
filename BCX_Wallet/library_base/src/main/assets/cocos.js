@@ -486,8 +486,8 @@ function inject() {
             hookFunction.initConnect().then(async res => {
              console.log('initConnect-----configParams ', res.ws);
                 var _configParams = {
-                    ws_node_list: [res.ws],
-                    faucet_url: res.faucet_url,
+                    ws_node_list: [{url:res.ws,name:res.name}],
+                    faucet_url: res.faucetUrl,
                     networks: [{
                         core_asset: res.coreAsset,
                         chain_id: res.chainId
