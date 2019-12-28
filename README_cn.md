@@ -20,4 +20,43 @@
 
 #### 如果编译出现问题可在 issues 中提出，会得到及时回复。
 
+NOTE1: When compiling on Android, you may got a similar error in `Error: Cannot fit requested classes in a single dex file (# methods: 149346 > 65536). This is because Android has a limit on the number of methods in a single jar.
+
+you can fix it with the solution below:
+
+build.gradle
+
+...
+dependencies {
+    ...
+
+    implementation 'com.android.support:multidex:1.0.3' //add
+}
+...
+android {
+
+	defaultConfig {
+        ...
+
+		multiDexEnabled true //add
+	}
+}
+...
+ref url: https://stackoverflow.com/questions/48249633/errorcannot-fit-requested-classes-in-a-single-dex-file-try-supplying-a-main-dex .
+
+NOTE2: if your application is target Android 9 (API level 28) or higher, you might got "RPC Connect failed", when connect to BCX blockchain. one possible reason is "CLEARTEXT communication is not permitted". you can modify AndroidManifest.xml like below:
+
+AndroidManifest.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest ...>
+    <application
+        ...
+        android:usesCleartextTraffic="true" //add
+        ...>
+        ...
+    </application>
+</manifest>
+ref url: https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted
+
 附： 项目中 cocos-sdk moudle [源码地址](https://github.com/Cocos-BCX/AndroidSdk),同上可编译运行。
