@@ -61,12 +61,18 @@ public class SpinnerAdapter<String> extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if (null == mObjects) {
+            return 0;
+        }
         return mObjects.size();
     }
 
     @Override
     public NodeInfoModel.DataBean getItem(int pos) {
-        return mObjects.get(pos);
+        if (null != mObjects) {
+            return mObjects.get(pos);
+        }
+        return null;
     }
 
     @Override
@@ -76,7 +82,6 @@ public class SpinnerAdapter<String> extends BaseAdapter {
 
     @Override
     public View getView(int pos, View convertView, ViewGroup arg2) {
-
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.spiner_item_layout, null);
@@ -87,11 +92,13 @@ public class SpinnerAdapter<String> extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         NodeInfoModel.DataBean item = getItem(pos);
-        viewHolder.mTextView.setText(item.name);
-        if (TextUtils.equals(item.toString(), selectedNodeModel.toString())) {
-            viewHolder.mTextView.setTextColor(Utils.getColor(R.color.color_4868DC));
-        } else {
-            viewHolder.mTextView.setTextColor(Utils.getColor(R.color.color_666666));
+        if (null != item) {
+            viewHolder.mTextView.setText(item.name);
+            if (TextUtils.equals(item.toString(), selectedNodeModel.toString())) {
+                viewHolder.mTextView.setTextColor(Utils.getColor(R.color.color_4868DC));
+            } else {
+                viewHolder.mTextView.setTextColor(Utils.getColor(R.color.color_666666));
+            }
         }
         return convertView;
     }

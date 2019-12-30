@@ -205,23 +205,17 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             });
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.CALLCONTRACTFUNCTION)) {
 
-            Log.i("callContractFunction--param", params.param);
             /**
              *  callContractFunction
              */
-            JsContractParamsModel jsContractParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, JsContractParamsModel.class);
-            StringBuffer str5 = new StringBuffer();
-            for (String s : jsContractParamsModel.valueList) {
-                str5.append(s);
-                str5.append(",");
-            }
+            JsContractParamsModel jsContractParamsModel = GsonSingleInstance.buildGson().fromJson(params.param, JsContractParamsModel.class);
 
+            Log.i("callContractFunction--param", params.param);
             /**
              *  invoking contract method
              */
             if (!TextUtils.isEmpty(password)) {
-                Log.i("callContractFunction--valueList", String.valueOf(str5.toString()));
-                invoking_contract(password, jsContractParamsModel, str5, params);
+                invoking_contract(password, jsContractParamsModel, jsContractParamsModel.valueList, params);
                 return;
             }
 
@@ -230,8 +224,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
                 @Override
                 public void onFinish(String password) {
-                    Log.i("callContractFunction--valueList", String.valueOf(str5.toString()));
-                    invoking_contract(password, jsContractParamsModel, str5, params);
+                    invoking_contract(password, jsContractParamsModel, jsContractParamsModel.valueList, params);
                 }
 
                 @Override
@@ -665,8 +658,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      * @param str5
      * @param params
      */
-    private void invoking_contract(String password, JsContractParamsModel jsContractParamsModel, StringBuffer str5, JsParamsEventModel params) {
-        CocosBcxApiWrapper.getBcxInstance().invoking_contract(AccountHelperUtils.getCurrentAccountName(), password, jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5.toString(), new IBcxCallBack() {
+    private void invoking_contract(String password, JsContractParamsModel jsContractParamsModel, List str5, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().invoking_contract(AccountHelperUtils.getCurrentAccountName(), password, jsContractParamsModel.nameOrId, jsContractParamsModel.functionName, str5, new IBcxCallBack() {
             @Override
             public void onReceiveValue(String s) {
                 BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
