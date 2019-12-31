@@ -25,7 +25,7 @@ public class JoinCommunityViewModel extends BaseViewModel {
         super(application);
     }
 
-    public ObservableField<String> officialWechat = new ObservableField<>("Cocos-BCX");
+    public ObservableField<String> officialWechat = new ObservableField<>("cocosbcx03");
     public ObservableField<String> officialWechatAccount = new ObservableField<>("CocosBCX");
     public ObservableField<String> discord = new ObservableField<>("Cocos-BCX");
     public ObservableField<String> telegram = new ObservableField<>("Cocos-BCX Official (EN)");
