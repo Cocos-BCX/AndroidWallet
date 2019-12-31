@@ -69,7 +69,7 @@ public class AccountHelperUtils {
             SPUtils.putString(Utils.getContext(), ACCOUNT_ID, accountId);
             Log.i("setCurrentAccountId:", accountId);
         } catch (NetworkStatusException e) {
-            ToastUtils.showShort(R.string.net_work_failed);
+         //   ToastUtils.showShort(R.string.net_work_failed);
         } catch (AccountNotFoundException e) {
             ToastUtils.showShort(R.string.account_not_found);
         }
@@ -100,7 +100,7 @@ public class AccountHelperUtils {
                 return entry.getKey().toString();
             }
         } catch (NetworkStatusException e) {
-            ToastUtils.showShort(R.string.net_work_failed);
+//            ToastUtils.showShort(R.string.net_work_failed);
         } catch (AccountNotFoundException e) {
             ToastUtils.showShort(R.string.account_not_found);
         }

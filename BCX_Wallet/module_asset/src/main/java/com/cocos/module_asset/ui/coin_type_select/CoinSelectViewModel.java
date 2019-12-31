@@ -165,7 +165,7 @@ public class CoinSelectViewModel extends BaseViewModel {
                 }
             }
         } catch (NetworkStatusException e) {
-            ToastUtils.showShort(R.string.net_work_failed);
+//            ToastUtils.showShort(R.string.net_work_failed);
         }
     }
 

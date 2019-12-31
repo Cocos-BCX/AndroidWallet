@@ -283,7 +283,7 @@ public class AssetViewModel extends BaseViewModel {
             public void onReceiveValue(String s) {
                 Log.i("get_full_accounts", s);
                 final FullAccountsDataModel fullAccountsDataModel = GsonSingleInstance.getGsonInstance().fromJson(s, FullAccountsDataModel.class);
-                if (fullAccountsDataModel.isSuccess() && !TextUtils.isEmpty(fullAccountsDataModel.getData())) {
+                if (fullAccountsDataModel.code == 1 && !TextUtils.isEmpty(fullAccountsDataModel.getData())) {
                     final FullAccountsDataModel.FullAccountModel fullAccountModel = GsonSingleInstance.getGsonInstance().fromJson(fullAccountsDataModel.getData(), FullAccountsDataModel.FullAccountModel.class);
                     if (null != fullAccountModel && null != fullAccountModel.getAccount() && null != fullAccountModel.getAccount().getAsset_locked() && null != fullAccountModel.getAccount().getAsset_locked().getLocked_total() && fullAccountModel.getAccount().getAsset_locked().getLocked_total().size() > 0) {
                         List<FullAccountsDataModel.AssetModel> assetModels = new ArrayList<>();

@@ -68,7 +68,7 @@ public class AccountManageActivity extends BaseActivity<ActivityAccountManageBin
             accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(daoAccount.getName());
             viewModel.requestAccountManagerData(accountId);
         } catch (NetworkStatusException e) {
-            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
+//            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
         } catch (AccountNotFoundException e) {
             ToastUtils.showShort(com.cocos.library_base.R.string.account_not_found);
         }
