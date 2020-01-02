@@ -474,7 +474,6 @@ class Index {
               });
           });
        }
-
 }
 
 
@@ -497,11 +496,12 @@ function inject() {
                     check_cached_nodes_data:false
                 };
                 console.log('initConnect-----configParams ', res);
-                window.BcxWeb = new Index();
-                window.BcxWeb.bcx = new BCX(_configParams);
+                BcxWeb = new Index();
+                BcxWeb.bcx = new BCX(_configParams);
                 let getAccountInfoRes = await window.BcxWeb.getAccountInfo()
-                window.BcxWeb.account_name = getAccountInfoRes.account_name
+                BcxWeb.account_name = getAccountInfoRes.account_name
                 if (BcxWeb.bcx) {
+                    window.BcxWeb = BcxWeb;
                     clearInterval(timer);
                     console.log('inject ----- success ', BcxWeb);
                 }
