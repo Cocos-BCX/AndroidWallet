@@ -228,7 +228,6 @@ class Index {
         return new Promise((resolve, reject) => {
             hookFunction.walletLanguage().then((res) => {
                 resolve(res)
-                console.log('walletLanguage', res);
             })
         })
     }
@@ -318,7 +317,6 @@ class Index {
     queryVestingBalance(params) {
         return new Promise((resolve, reject) => {
             BcxWeb.bcx.queryVestingBalance(params).then((res) => {
-             console.log("queryVestingBalance ", BcxWeb.bcx);
                 resolve(res);
             });
         });
@@ -327,7 +325,6 @@ class Index {
     queryVotes(params) {
         return new Promise((resolve, reject) => {
             BcxWeb.bcx.queryVotes(params).then((res) => {
-              console.log("queryVotes--res-", res);
               resolve(res);
             });
         });
@@ -377,7 +374,6 @@ class Index {
         return new Promise((resolve, reject) => {
             BcxWeb.bcx.queryAccountNHAssets(params).then((res) => {
                 resolve(res);
-                console.log("queryAccountNHAssets---", res);
             });
         });
     }
@@ -469,7 +465,6 @@ class Index {
      queryVestingBalance(params) {
               return new Promise((resolve, reject) => {
                   BcxWeb.bcx.queryVestingBalance(params).then((res) => {
-                     console.log('queryVestingBalance--android -- result ', res);
                      resolve(res);
               });
           });
@@ -483,7 +478,6 @@ function inject() {
     timer = setInterval(() => {
         try {
             hookFunction.initConnect().then(async res => {
-             console.log('initConnect-----configParams ', res.ws);
                 var _configParams = {
                     ws_node_list: [{url:res.ws,name:res.name}],
                     faucet_url: res.faucetUrl,
@@ -495,10 +489,9 @@ function inject() {
                      real_sub:true,
                     check_cached_nodes_data:false
                 };
-                console.log('initConnect-----configParams ', res);
-                BcxWeb = new Index();
+                let BcxWeb = new Index();
                 BcxWeb.bcx = new BCX(_configParams);
-                let getAccountInfoRes = await window.BcxWeb.getAccountInfo()
+                let getAccountInfoRes = await BcxWeb.bcx.getAccountInfo()
                 BcxWeb.account_name = getAccountInfoRes.account_name
                 if (BcxWeb.bcx) {
                     window.BcxWeb = BcxWeb;
@@ -509,7 +502,7 @@ function inject() {
              console.log('BCX not found error', error);
             });
         } catch (error) {
-            console.log('initConnect', error);
+            console.log('inject -- error', error);
         }
     }, 500)
     console.log('Release-V 2.0.2');
