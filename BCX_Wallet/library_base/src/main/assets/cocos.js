@@ -491,7 +491,7 @@ function inject() {
                 };
                 let BcxWeb = new Index();
                 BcxWeb.bcx = new BCX(_configParams);
-                let getAccountInfoRes = await BcxWeb.bcx.getAccountInfo()
+                let getAccountInfoRes = await BcxWeb.getAccountInfo()
                 BcxWeb.account_name = getAccountInfoRes.account_name
                 if (BcxWeb.bcx) {
                     window.BcxWeb = BcxWeb;
