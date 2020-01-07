@@ -2,12 +2,13 @@ package com.cocos.library_base.base;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
@@ -15,7 +16,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -26,27 +26,28 @@ public class BaseWebView extends WebView {
 
     private boolean mIsError;
     private View mErrorView;
+    private Context context;
 
     // TAG
     private static final String TAG = "BaseWebView";
 
     public BaseWebView(Context context) {
         super(context);
-        initialize();
+        initialize(context);
     }
 
     public BaseWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize();
+        initialize(context);
     }
 
     public BaseWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize();
+        initialize(context);
     }
 
-    private void initialize() {
-
+    private void initialize(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -138,6 +139,15 @@ public class BaseWebView extends WebView {
             super.onLoadResource(view, url);
             if (mClient == null) {
                 return;
+            }
+            if (url.endsWith(".apk")) {
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                context.startActivity(intent);
+            } else if (url.contains(".apk?")) {
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                context.startActivity(intent);
             }
             mClient.onLoadResource(view, url);
         }
