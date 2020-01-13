@@ -15,6 +15,9 @@
             android:process=":error_activity" />
         <activity android:name=".base.HtmlWebViewActivity" />
         <activity android:name=".base.JsWebViewActivity" />
+        <activity
+            android:name=".invokedpages.InvokeLoginActivity"
+            android:launchMode="singleTask" />
 
         <receiver android:name=".receiver.NetStateChangeReceiver">
             <intent-filter>

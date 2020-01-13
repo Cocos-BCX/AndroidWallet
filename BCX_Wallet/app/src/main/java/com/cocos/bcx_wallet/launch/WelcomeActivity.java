@@ -1,18 +1,20 @@
 package com.cocos.bcx_wallet.launch;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.databinding.ActivityWelcomeBinding;
-import com.cocos.bcx_wallet.main.MainActivity;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.base.BaseInvokeModel;
 import com.cocos.library_base.base.BaseViewModel;
-import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import io.reactivex.functions.Consumer;
+import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.router.RouterActivityPath;
 
 /**
  * @author ningkang.guo
@@ -33,15 +35,24 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding, BaseVi
     @SuppressLint("CheckResult")
     @Override
     public void initData() {
-        RxPermissions rxPermissions = new RxPermissions(WelcomeActivity.this);
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) {
-                        startActivity(MainActivity.class);
-                        finish();
-                    }
-                });
+        try {
+            Intent intent = getIntent();
+            BaseInvokeModel baseInvokeModel = new BaseInvokeModel();
+            baseInvokeModel.setPackageName(intent.getStringExtra("packageName"));
+            baseInvokeModel.setClassName(intent.getStringExtra("className"));
+            baseInvokeModel.setAppName(intent.getStringExtra("appName"));
+            baseInvokeModel.setAction(intent.getStringExtra("action"));
+            Uri uri = intent.getData();
+            if (uri != null) {
+                baseInvokeModel.setParam(uri.getQueryParameter("param"));
+            }
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO, baseInvokeModel);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).with(bundle).navigation();
+            finish();
+        } catch (Exception e) {
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
+            finish();
+        }
     }
-
 }

@@ -3,6 +3,7 @@ package com.cocos.library_base.binding.viewadapter.image;
 
 import android.databinding.BindingAdapter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,7 @@ public final class ViewAdapter {
                         .into(imageView);
             }
         } catch (Exception e) {
+            Log.i("setImageUri--error", e.getMessage());
         }
     }
 }

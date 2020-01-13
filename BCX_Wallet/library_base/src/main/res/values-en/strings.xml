@@ -30,4 +30,5 @@
     <string name="operate_failed">operate failed</string>
     <string name="secret_free_tip">No More Input Before Exit DApp</string>
     <string name="not_upgrade_text">Not Updated</string>
+    <string name="warm_prompt">温馨提示：</string>
 </resources>

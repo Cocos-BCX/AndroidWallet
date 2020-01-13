@@ -4,24 +4,32 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
 import com.cocos.bcx_wallet.databinding.ActivityMainBinding;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.base.BaseInvokeModel;
+import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.VersionUtil;
 import com.cocos.library_base.utils.node.NodeConnectUtil;
+import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.module_asset.ui.asset.AssetFragment;
 import com.cocos.module_found.fragment.FoundFragment;
 import com.cocos.module_mine.mine_fragment.MineFragment;
+import com.cocosbcx.invokesdk.dapp_client.model.Authorize;
+import com.cocosbcx.invokesdk.dapp_client.model.Contract;
+import com.cocosbcx.invokesdk.dapp_client.model.Transfer;
 
 import java.util.ArrayList;
 
@@ -107,6 +115,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     protected void onResume() {
         super.onResume();
         NodeConnectUtil.testNetStatus();
+        parseInvokeIntent();
     }
 
     @Override
@@ -122,5 +131,48 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
 
+    }
+
+    private void parseInvokeIntent() {
+        try {
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+            BaseInvokeModel baseInvokeModel = null;
+            if (bundle != null) {
+                baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
+            }
+            if (null != baseInvokeModel) {
+                String param = baseInvokeModel.getParam();
+                Bundle bundle1 = new Bundle();
+                switch (baseInvokeModel.getAction()) {
+                    case "login":
+                        Authorize authorize = GsonSingleInstance.getGsonInstance().fromJson(param, Authorize.class);
+                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_AUTHORIZE_INFO, authorize);
+                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel);
+                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_LOGIN).with(bundle1).navigation();
+                        break;
+                    case "transfer":
+                        Transfer transfer = GsonSingleInstance.getGsonInstance().fromJson(param, Transfer.class);
+                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_TRANSFER_INFO, transfer);
+                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel);
+                        break;
+                    case "callContract":
+                        Contract contract = GsonSingleInstance.getGsonInstance().fromJson(param, Contract.class);
+                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_CONTRACT_INFO, contract);
+                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel);
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + baseInvokeModel.getAction());
+                }
+                intent.removeExtra(IntentKeyGlobal.INVOKE_SENDER_INFO);
+            }
+        } catch (Exception e) {
+            Log.i("parseInvokeIntent-e", e.getMessage());
+        }
+    }
 }

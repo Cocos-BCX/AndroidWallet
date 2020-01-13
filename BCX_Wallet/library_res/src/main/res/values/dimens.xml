@@ -37,4 +37,5 @@
     <dimen name="sp_13">13sp</dimen>
     <dimen name="dp_11">11dp</dimen>
     <dimen name="dp_44">44dp</dimen>
+    <dimen name="dp_27">27dp</dimen>
 </resources>

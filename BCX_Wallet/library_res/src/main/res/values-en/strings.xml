@@ -55,4 +55,12 @@
     <string name="module_mine_confirm_password">Enter new passcode again</string>
     <string name="module_mine_reset_failed">Reset failed!</string>
     <string name="module_login_private_key_no_account_info">The private key has no account info</string>
+    <string name="invoke_login_title">请求登录</string>
+    <string name="invoked_login_account">授权账号：</string>
+    <string name="invoke_login_switch">切换</string>
+    <string name="request_login_desc">请求执行操作：</string>
+    <string name="invoke_login_action">登录</string>
+    <string name="invoke_login_prompt">登陆操作仅进行身份确认，此操作不会传输私钥</string>
+    <string name="invoke_login_confirm">确认登录</string>
+    <string name="invoke_login_cancel">取消</string>
 </resources>

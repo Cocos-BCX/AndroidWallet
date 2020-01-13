@@ -29,4 +29,5 @@
     <string name="operate_failed">操作失败</string>
     <string name="secret_free_tip">退出DApp前不用再次确认</string>
     <string name="not_upgrade_text">暂不更新</string>
+    <string name="warm_prompt">温馨提示：</string>
 </resources>

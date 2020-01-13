@@ -80,6 +80,7 @@ dependencies {
 
     // module
     api project(':bcx_sdk')
+    api project(':invoke_sdk')
     api project(':library_res')
 
     //network

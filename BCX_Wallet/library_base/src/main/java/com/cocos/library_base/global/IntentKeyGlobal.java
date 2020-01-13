@@ -53,4 +53,9 @@ public final class IntentKeyGlobal {
 
     public static final String PRICE_SYMBOL = "PRICE_SYMBOL";
     public static final String DAO_ACCOUNT_MODEL = "DAO_ACCOUNT_MODEL";
+    public static final String INVOKE_BASE_INFO = "INVOKE_BASE_INFO";
+    public static final String INVOKE_SENDER_INFO = "INVOKE_SENDER_INFO";
+    public static final String INVOKE_AUTHORIZE_INFO = "INVOKE_AUTHORIZE_INFO";
+    public static final String INVOKE_CONTRACT_INFO = "INVOKE_CONTRACT_INFO";
+    public static final String INVOKE_TRANSFER_INFO = "INVOKE_TRANSFER_INFO";
 }
