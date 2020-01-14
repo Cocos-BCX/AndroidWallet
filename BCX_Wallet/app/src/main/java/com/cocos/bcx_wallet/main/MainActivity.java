@@ -16,8 +16,11 @@ import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
 import com.cocos.bcx_wallet.databinding.ActivityMainBinding;
 import com.cocos.library_base.base.BaseActivity;
-import com.cocos.library_base.base.BaseInvokeModel;
+import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.invokedpages.model.Authorize;
+import com.cocos.library_base.invokedpages.model.Contract;
+import com.cocos.library_base.invokedpages.model.Transfer;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.StatusBarUtils;
@@ -27,9 +30,6 @@ import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.module_asset.ui.asset.AssetFragment;
 import com.cocos.module_found.fragment.FoundFragment;
 import com.cocos.module_mine.mine_fragment.MineFragment;
-import com.cocosbcx.invokesdk.dapp_client.model.Authorize;
-import com.cocosbcx.invokesdk.dapp_client.model.Contract;
-import com.cocosbcx.invokesdk.dapp_client.model.Transfer;
 
 import java.util.ArrayList;
 

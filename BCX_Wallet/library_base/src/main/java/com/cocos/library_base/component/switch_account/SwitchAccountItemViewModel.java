@@ -1,4 +1,4 @@
-package com.cocos.module_asset.switch_account;
+package com.cocos.library_base.component.switch_account;
 
 import android.content.ClipData;
 import android.databinding.ObservableField;
@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.cocos.library_base.R;
 import com.cocos.library_base.base.ItemViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -15,7 +16,6 @@ import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
-import com.cocos.module_asset.R;
 
 import org.greenrobot.eventbus.EventBus;
 

@@ -4,14 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.databinding.ActivityWelcomeBinding;
 import com.cocos.library_base.base.BaseActivity;
-import com.cocos.library_base.base.BaseInvokeModel;
+import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;

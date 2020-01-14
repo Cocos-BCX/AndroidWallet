@@ -3,11 +3,11 @@
 
     <data>
 
-        <import type="com.cocos.module_asset.switch_account.SwitchAccountItemViewModel" />
+        <import type="com.cocos.library_base.component.switch_account.SwitchAccountItemViewModel" />
 
         <variable
             name="viewModel"
-            type="com.cocos.module_asset.switch_account.SwitchAccountItemViewModel" />
+            type="com.cocos.library_base.component.switch_account.SwitchAccountItemViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

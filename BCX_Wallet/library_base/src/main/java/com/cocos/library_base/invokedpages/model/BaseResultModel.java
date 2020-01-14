@@ -1,4 +1,4 @@
-package com.cocos.library_base.base;
+package com.cocos.library_base.invokedpages.model;
 
 import java.io.Serializable;
 
@@ -11,9 +11,9 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class BaseInvokeResultModel implements Serializable {
+public class BaseResultModel<T> implements Serializable {
     private int code;
-    private String data;
+    private T data;
     private String message;
     private String actionId;
 }

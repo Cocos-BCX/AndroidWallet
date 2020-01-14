@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/invoke_login_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -65,10 +66,12 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginEnd="@dimen/dp_10"
+                    android:gravity="center"
                     android:text="@={viewModel.invokeLoginDappDesc}"
                     android:textColor="@color/color_666666"
                     android:textSize="@dimen/sp_14" />

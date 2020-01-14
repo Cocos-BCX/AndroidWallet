@@ -10,4 +10,6 @@
     <dimen name="dp_9">9dp</dimen>
     <dimen name="dp_100">100dp</dimen>
     <dimen name="alert_width">200dp</dimen>
+    <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
 </resources>

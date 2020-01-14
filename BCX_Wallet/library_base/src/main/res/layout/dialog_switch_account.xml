@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.cocos.module_asset.switch_account.SwitchAccountViewModel" />
+        <import type="com.cocos.library_base.component.switch_account.SwitchAccountViewModel" />
 
         <variable
             name="viewModel"
-            type="com.cocos.module_asset.switch_account.SwitchAccountViewModel" />
+            type="com.cocos.library_base.component.switch_account.SwitchAccountViewModel" />
 
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 

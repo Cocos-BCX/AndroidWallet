@@ -1,8 +1,13 @@
 package com.cocos.library_base.utils;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
+import com.cocos.library_base.invokedpages.model.BaseInvokeResultModel;
+import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 
 /**
  * @author ningkang.guo
@@ -35,6 +40,31 @@ public class IntentUtils {
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
+        }
+    }
+
+
+    public static void jumpToDapp(Context context, BaseInvokeResultModel baseInvokeResultModel, BaseInvokeModel baseInfo) {
+        ComponentName component = new ComponentName(baseInfo.getPackageName(), baseInfo.getClassName());
+        Intent intent = new Intent();
+        intent.setComponent(component);
+        intent.putExtra("result", GsonSingleInstance.getGsonInstance().toJson(baseInvokeResultModel));
+        context.startActivity(intent);
+    }
+
+    public static void jumpToDappWithCancel(Context context, BaseInvokeModel baseInfo, String actionId) {
+        try {
+            ComponentName component = new ComponentName(baseInfo.getPackageName(), baseInfo.getClassName());
+            BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
+            baseInvokeResultModel.setCode(0);
+            baseInvokeResultModel.setMessage("canceled");
+            baseInvokeResultModel.setActionId(actionId);
+            Intent intent = new Intent();
+            intent.setComponent(component);
+            intent.putExtra("result", GsonSingleInstance.getGsonInstance().toJson(baseInvokeResultModel));
+            context.startActivity(intent);
+        } catch (Exception e) {
+
         }
     }
 }

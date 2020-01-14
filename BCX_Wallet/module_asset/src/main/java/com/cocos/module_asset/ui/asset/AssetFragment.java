@@ -17,6 +17,8 @@ import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.base.BaseFragment;
 import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.component.switch_account.SwitchAccountViewModel;
+import com.cocos.library_base.databinding.DialogSwitchAccountBinding;
 import com.cocos.library_base.entity.AccountNamesEntity;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.utils.AccountHelperUtils;
@@ -28,9 +30,7 @@ import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
-import com.cocos.module_asset.databinding.DialogSwitchAccountBinding;
 import com.cocos.module_asset.databinding.FragmentAssetBinding;
-import com.cocos.module_asset.switch_account.SwitchAccountViewModel;
 
 import java.util.Arrays;
 import java.util.List;

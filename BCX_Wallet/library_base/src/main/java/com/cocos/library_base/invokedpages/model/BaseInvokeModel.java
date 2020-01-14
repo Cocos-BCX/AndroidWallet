@@ -1,4 +1,4 @@
-package com.cocos.library_base.base;
+package com.cocos.library_base.invokedpages.model;
 
 import java.io.Serializable;
 

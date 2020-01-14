@@ -1,4 +1,4 @@
-package com.cocos.module_asset.switch_account;
+package com.cocos.library_base.component.switch_account;
 
 import android.app.Application;
 import android.databinding.ObservableArrayList;
@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.library_base.BR;
+import com.cocos.library_base.R;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
@@ -21,8 +23,6 @@ import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocos.module_asset.BR;
-import com.cocos.module_asset.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -88,7 +88,7 @@ public class SwitchAccountViewModel extends BaseViewModel {
 
     public ObservableList<SwitchAccountItemViewModel> accountObservableList = new ObservableArrayList<>();
     public final BindingRecyclerViewAdapter<SwitchAccountItemViewModel> accountAdapter = new BindingRecyclerViewAdapter<>();
-    public ItemBinding<SwitchAccountItemViewModel> accountItemBinding = ItemBinding.of(BR.viewModel, R.layout.module_asset_item_account);
+    public ItemBinding<SwitchAccountItemViewModel> accountItemBinding = ItemBinding.of(com.cocos.library_base.BR.viewModel, R.layout.module_asset_item_account);
 
     public void requestAccountListData(List<String> accountNames) {
         for (String accountName : accountNames) {

@@ -1,23 +1,34 @@
 package com.cocos.library_base.invokedpages;
 
-import android.content.ComponentName;
-import android.content.Intent;
+import android.app.Application;
+import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.design.widget.BottomSheetDialog;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.library_base.BR;
 import com.cocos.library_base.R;
 import com.cocos.library_base.base.BaseActivity;
-import com.cocos.library_base.base.BaseInvokeModel;
-import com.cocos.library_base.base.BaseInvokeResultModel;
+import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.component.switch_account.SwitchAccountViewModel;
 import com.cocos.library_base.databinding.ActivityInvokeLoginBinding;
+import com.cocos.library_base.databinding.DialogSwitchAccountBinding;
+import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.invokedpages.model.Authorize;
+import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
+import com.cocos.library_base.invokedpages.model.BaseInvokeResultModel;
 import com.cocos.library_base.invokedpages.viewmodel.InvokeLoginViewModel;
 import com.cocos.library_base.router.RouterActivityPath;
-import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocosbcx.invokesdk.dapp_client.model.Authorize;
+import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.utils.DensityUtils;
+import com.cocos.library_base.utils.IntentUtils;
+import com.cocos.library_base.utils.StatusBarUtils;
+import com.cocos.library_base.utils.Utils;
 
 /**
  * @author ningkang.guo
@@ -29,6 +40,7 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
 
     private Authorize authorize;
     private BaseInvokeModel baseInvokeModel;
+    private BottomSheetDialog dialog;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -52,7 +64,19 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
 
     @Override
     public void initData() {
+        int statusHeight = StatusBarUtils.getStatusBarHeight(Utils.getContext());
+        binding.invokeLoginTitle.setPadding(0, statusHeight, DensityUtils.dip2px(Utils.getContext(), 0), 0);
         viewModel.setAuthorizeData(authorize, baseInvokeModel);
+    }
+
+
+    @Override
+    public void onHandleEvent(EventBusCarrier busCarrier) {
+        if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
+            dialog.dismiss();
+        } else if (TextUtils.equals(EventTypeGlobal.SWITCH_ACCOUNT, busCarrier.getEventType())) {
+            viewModel.invokeLoginAccount.set(AccountHelperUtils.getCurrentAccountName());
+        }
     }
 
 
@@ -61,41 +85,33 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
         viewModel.uc.invokeLoginCancelObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                Log.i("baseInvokeModel", baseInvokeModel.getPackageName());
-                Log.i("baseInvokeModel", baseInvokeModel.getClassName());
-                ComponentName component = new ComponentName(baseInvokeModel.getPackageName(), baseInvokeModel.getClassName());
-                Intent intent = new Intent();
-                intent.setComponent(component);
-                BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
-                baseInvokeResultModel.setCode(0);
-                baseInvokeResultModel.setMessage("canceled");
-                baseInvokeResultModel.setActionId(authorize.getActionId());
-                intent.putExtra("result", GsonSingleInstance.getGsonInstance().toJson(baseInvokeResultModel));
-                InvokeLoginActivity.this.startActivity(intent);
-                onBackPressed();
+                finish();
+                IntentUtils.jumpToDappWithCancel(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId());
             }
         });
 
         viewModel.uc.invokeLoginConfirmObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                ComponentName component = new ComponentName(baseInvokeModel.getPackageName(), baseInvokeModel.getClassName());
-                Intent intent = new Intent();
-                intent.setComponent(component);
+                finish();
                 BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
                 baseInvokeResultModel.setCode(1);
                 baseInvokeResultModel.setData(viewModel.invokeLoginAccount.get());
                 baseInvokeResultModel.setActionId(authorize.getActionId());
-                intent.putExtra("result", GsonSingleInstance.getGsonInstance().toJson(baseInvokeResultModel));
-                startActivity(intent);
-                onBackPressed();
+                IntentUtils.jumpToDapp(InvokeLoginActivity.this, baseInvokeResultModel, baseInvokeModel);
             }
         });
 
         viewModel.uc.invokeLoginSwitchObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-
+                dialog = new BottomSheetDialog(InvokeLoginActivity.this);
+                DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_switch_account, null, false);
+                binding.addAccount.setVisibility(View.INVISIBLE);
+                dialog.setContentView(binding.getRoot());
+                binding.setViewModel(new SwitchAccountViewModel((Application) Utils.getContext()));
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
             }
         });
     }
@@ -103,5 +119,15 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        IntentUtils.jumpToDappWithCancel(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (null != dialog && dialog.isShowing()) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 }

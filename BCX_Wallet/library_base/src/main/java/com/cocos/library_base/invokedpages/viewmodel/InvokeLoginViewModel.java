@@ -1,20 +1,17 @@
 package com.cocos.library_base.invokedpages.viewmodel;
 
 import android.app.Application;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.cocos.library_base.base.BaseInvokeModel;
-import com.cocos.library_base.base.BaseInvokeResultModel;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
-import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocosbcx.invokesdk.dapp_client.model.Authorize;
+import com.cocos.library_base.invokedpages.model.Authorize;
+import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
+import com.cocos.library_base.utils.AccountHelperUtils;
 
 /**
  * @author ningkang.guo
@@ -39,7 +36,7 @@ public class InvokeLoginViewModel extends BaseViewModel {
     public ObservableField<String> invokeLoginDappDesc = new ObservableField<>("");
 
     //login account
-    public ObservableField<String> invokeLoginAccount = new ObservableField<>("");
+    public ObservableField<String> invokeLoginAccount = new ObservableField<>(AccountHelperUtils.getCurrentAccountName());
 
 
     public UIChangeObservable uc = new UIChangeObservable();
@@ -78,14 +75,14 @@ public class InvokeLoginViewModel extends BaseViewModel {
     public void setAuthorizeData(Authorize authorize, BaseInvokeModel baseInfo) {
         this.authorize = authorize;
         this.baseInfo = baseInfo;
-        if (!TextUtils.isEmpty(authorize.getDappName())) {
+        if (!TextUtils.isEmpty(authorize.getDappIcon())) {
             invokeLoginDappIconUrl.set(authorize.getDappIcon());
         }
         if (!TextUtils.isEmpty(authorize.getDappName())) {
             invokeLoginDappName.set(authorize.getDappName());
         }
         if (!TextUtils.isEmpty(authorize.getDesc())) {
-            invokeLoginDappDesc.set("操作描述：" + authorize.getDesc());
+            invokeLoginDappDesc.set(authorize.getDesc());
         }
     }
 
