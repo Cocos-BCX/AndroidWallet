@@ -16,9 +16,9 @@ import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
 import com.cocos.bcx_wallet.databinding.ActivityMainBinding;
 import com.cocos.library_base.base.BaseActivity;
-import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.invokedpages.model.Authorize;
+import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.invokedpages.model.Contract;
 import com.cocos.library_base.invokedpages.model.Transfer;
 import com.cocos.library_base.router.RouterActivityPath;
@@ -160,11 +160,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         Transfer transfer = GsonSingleInstance.getGsonInstance().fromJson(param, Transfer.class);
                         bundle1.putSerializable(IntentKeyGlobal.INVOKE_TRANSFER_INFO, transfer);
                         bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel);
+                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_TRANSFER).with(bundle1).navigation();
                         break;
                     case "callContract":
                         Contract contract = GsonSingleInstance.getGsonInstance().fromJson(param, Contract.class);
                         bundle1.putSerializable(IntentKeyGlobal.INVOKE_CONTRACT_INFO, contract);
                         bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel);
+                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_CONTRACT).with(bundle1).navigation();
                         break;
                     default:
                         throw new IllegalStateException("Unexpected value: " + baseInvokeModel.getAction());

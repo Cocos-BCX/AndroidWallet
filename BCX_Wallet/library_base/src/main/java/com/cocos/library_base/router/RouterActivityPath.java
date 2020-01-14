@@ -54,6 +54,8 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_HTML_WEB = "/library_base/HtmlWebViewActivity";
     public static final String ACTIVITY_JS_WEB = "/library_base/JsWebViewActivity";
     public static final String ACTIVITY_INVOKE_LOGIN = "/library_base/InvokeLoginActivity";
+    public static final String ACTIVITY_INVOKE_TRANSFER = "/library_base/InvokeTransferActivity";
+    public static final String ACTIVITY_INVOKE_CONTRACT = "/library_base/InvokeContractActivity";
     //found
     public static final String ACTIVITY_SEARCH = "/module_found/SearchActivity";
 

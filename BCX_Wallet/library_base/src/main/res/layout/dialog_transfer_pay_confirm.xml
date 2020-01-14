@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.cocos.module_asset.ui.transfer.OrderConfirmViewModel" />
+        <import type="com.cocos.library_base.component.transfer.OrderConfirmViewModel" />
 
         <variable
             name="viewModel"
-            type="com.cocos.module_asset.ui.transfer.OrderConfirmViewModel" />
+            type="com.cocos.library_base.component.transfer.OrderConfirmViewModel" />
     </data>
 
     <LinearLayout

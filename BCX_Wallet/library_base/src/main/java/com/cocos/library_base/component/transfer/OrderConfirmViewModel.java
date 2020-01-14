@@ -1,23 +1,17 @@
-package com.cocos.module_asset.ui.transfer;
+package com.cocos.library_base.component.transfer;
 
 import android.app.Application;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
-import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
-import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.library_base.R;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
 import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.entity.TransferParamsModel;
 import com.cocos.library_base.global.EventTypeGlobal;
-import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
-import com.cocos.library_base.utils.singleton.GsonSingleInstance;
-import com.cocos.library_base.utils.singleton.MainHandler;
-import com.cocos.module_asset.R;
-import com.cocos.module_asset.entity.TransferModel;
-import com.cocos.module_asset.entity.TransferParamsModel;
 
 import org.greenrobot.eventbus.EventBus;
 

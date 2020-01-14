@@ -35,8 +35,8 @@ import com.cocos.library_base.utils.Utils;
  * @Date 2020/1/13
  */
 
-@Route(path = RouterActivityPath.ACTIVITY_INVOKE_LOGIN)
-public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding, InvokeLoginViewModel> {
+@Route(path = RouterActivityPath.ACTIVITY_INVOKE_CONTRACT)
+public class InvokeContractActivity extends BaseActivity<ActivityInvokeLoginBinding, InvokeLoginViewModel> {
 
     private Authorize authorize;
     private BaseInvokeModel baseInvokeModel;
@@ -86,7 +86,7 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 finish();
-                IntentUtils.jumpToDappWithCancel(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId());
+                IntentUtils.jumpToDappWithCancel(InvokeContractActivity.this, baseInvokeModel, authorize.getActionId());
             }
         });
 
@@ -94,22 +94,18 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 finish();
-                if (System.currentTimeMillis() > authorize.getExpired()) {
-                    IntentUtils.jumpToDappWithExpirted(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId());
-                    return;
-                }
                 BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
                 baseInvokeResultModel.setCode(1);
                 baseInvokeResultModel.setData(viewModel.invokeLoginAccount.get());
                 baseInvokeResultModel.setActionId(authorize.getActionId());
-                IntentUtils.jumpToDapp(InvokeLoginActivity.this, baseInvokeResultModel, baseInvokeModel);
+                IntentUtils.jumpToDapp(InvokeContractActivity.this, baseInvokeResultModel, baseInvokeModel);
             }
         });
 
         viewModel.uc.invokeLoginSwitchObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                dialog = new BottomSheetDialog(InvokeLoginActivity.this);
+                dialog = new BottomSheetDialog(InvokeContractActivity.this);
                 DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_switch_account, null, false);
                 binding.addAccount.setVisibility(View.INVISIBLE);
                 dialog.setContentView(binding.getRoot());
@@ -123,7 +119,7 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        IntentUtils.jumpToDappWithCancel(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId());
+        IntentUtils.jumpToDappWithCancel(InvokeContractActivity.this, baseInvokeModel, authorize.getActionId());
     }
 
     @Override

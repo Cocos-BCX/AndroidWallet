@@ -1,6 +1,4 @@
-package com.cocos.module_asset.entity;
-
-import com.cocos.library_base.entity.BaseResult;
+package com.cocos.library_base.entity;
 
 import lombok.Getter;
 import lombok.Setter;

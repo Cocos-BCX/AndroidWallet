@@ -63,4 +63,11 @@
     <string name="invoke_login_prompt">登陆操作仅进行身份确认，此操作不会传输私钥</string>
     <string name="invoke_login_confirm">确认登录</string>
     <string name="invoke_login_cancel">取消</string>
+    <string name="invoke_transfer_from">付款账号</string>
+    <string name="invoke_transfer_to">收款账号</string>
+    <string name="invoke_transfer_order_id">订单编号</string>
+    <string name="invoke_transfer_memo">Memo</string>
+    <string name="invoke_transfer_Desc">详情</string>
+    <string name="invoke_transfer_confirm">确认支付</string>
+    <string name="op_expirted">操作已过时</string>
 </resources>

@@ -18,6 +18,9 @@
         <activity
             android:name=".invokedpages.InvokeLoginActivity"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".invokedpages.InvokeTransferActivity"
+            android:launchMode="singleTask" />
 
         <receiver android:name=".receiver.NetStateChangeReceiver">
             <intent-filter>

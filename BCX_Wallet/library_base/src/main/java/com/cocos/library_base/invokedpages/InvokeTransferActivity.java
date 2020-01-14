@@ -1,15 +1,11 @@
-package com.cocos.module_asset.ui.transfer;
+package com.cocos.library_base.invokedpages;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,54 +13,50 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.library_base.BR;
+import com.cocos.library_base.R;
 import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.component.transfer.OrderConfirmViewModel;
+import com.cocos.library_base.databinding.ActivityInvokeTransferBinding;
 import com.cocos.library_base.databinding.DialogTransferPayConfirmBinding;
-import com.cocos.library_base.entity.AssetsModel;
-import com.cocos.library_base.entity.ContactModel;
+import com.cocos.library_base.entity.TransferModel;
+import com.cocos.library_base.entity.TransferParamsModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
+import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
+import com.cocos.library_base.invokedpages.model.BaseInvokeResultModel;
+import com.cocos.library_base.invokedpages.model.Transfer;
+import com.cocos.library_base.invokedpages.viewmodel.InvokeTransferViewModel;
 import com.cocos.library_base.router.RouterActivityPath;
-import com.cocos.library_base.utils.AccountHelperUtils;
-import com.cocos.library_base.utils.DecimalDigitsInputFilter;
-import com.cocos.library_base.utils.NumberUtil;
+import com.cocos.library_base.utils.DensityUtils;
+import com.cocos.library_base.utils.IntentUtils;
+import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
-import com.cocos.module_asset.BR;
-import com.cocos.module_asset.R;
-import com.cocos.module_asset.databinding.ActivityTransferBinding;
-import com.cocos.library_base.entity.TransferModel;
-import com.cocos.library_base.entity.TransferParamsModel;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.math.BigDecimal;
-
-import io.reactivex.functions.Consumer;
+import java.text.NumberFormat;
 
 /**
  * @author ningkang.guo
- * @Date 2019/2/18
+ * @Date 2020/1/13
  */
-@Route(path = RouterActivityPath.ACTIVITY_TRANSFER)
-public class TransferActivity extends BaseActivity<ActivityTransferBinding, TransferViewModel> {
 
-    private String accountName = AccountHelperUtils.getCurrentAccountName();
+@Route(path = RouterActivityPath.ACTIVITY_INVOKE_TRANSFER)
+public class InvokeTransferActivity extends BaseActivity<ActivityInvokeTransferBinding, InvokeTransferViewModel> {
+
+    private Transfer transferInvokeModel;
+    private BaseInvokeModel baseInvokeModel;
     private BottomSheetDialog dialog;
-    private AssetsModel.AssetModel assetModel;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        return R.layout.activity_transfer;
+        return R.layout.activity_invoke_transfer;
     }
 
     @Override
@@ -75,17 +67,18 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
     @Override
     public void initParam() {
         try {
-            assetModel = (AssetsModel.AssetModel) getIntent().getExtras().getSerializable(IntentKeyGlobal.ASSET_MODEL);
+            Bundle bundle = getIntent().getExtras();
+            transferInvokeModel = (Transfer) bundle.getSerializable(IntentKeyGlobal.INVOKE_TRANSFER_INFO);
+            baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_BASE_INFO);
         } catch (Exception e) {
         }
     }
 
-
     @Override
     public void initData() {
-        viewModel.setTransferAssetModel(assetModel);
-        binding.edtAmount.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(assetModel.precision)});
-        NumberUtil.setPricePoint1(binding.edtAmount);
+        int statusHeight = StatusBarUtils.getStatusBarHeight(Utils.getContext());
+        binding.invokeLoginTitle.setPadding(0, statusHeight, DensityUtils.dip2px(Utils.getContext(), 0), 0);
+        viewModel.setTransferData(transferInvokeModel, baseInvokeModel);
     }
 
 
@@ -134,6 +127,11 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
                                                 }
                                                 ToastUtils.showShort(R.string.module_asset_transfer_success);
                                                 finish();
+                                                BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
+                                                baseInvokeResultModel.setCode(1);
+                                                baseInvokeResultModel.setData(baseResult.data);
+                                                baseInvokeResultModel.setActionId(transferInvokeModel.getActionId());
+                                                IntentUtils.jumpToDapp(InvokeTransferActivity.this, baseInvokeResultModel, baseInvokeModel);
                                             } catch (Exception e) {
                                                 ToastUtils.showShort(R.string.net_work_failed);
                                             }
@@ -151,33 +149,10 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == IntentKeyGlobal.REQ_CONTACT_CODE) {
-                Bundle bundle = data.getExtras();
-                ContactModel contactModel = (ContactModel) bundle.getSerializable(IntentKeyGlobal.CONTACT_ENTITY);
-                viewModel.receivablesAccountName.set(contactModel.accountName);
-            } else if (requestCode == IntentKeyGlobal.REQ_CAPTURE_CODE) {
-                try {
-                    Bundle bundle = data.getExtras();
-                    String captureResult = bundle.getString(IntentKeyGlobal.CAPTURE_RESULT);
-                    JSONObject jsonObject = new JSONObject(captureResult);
-                    if (jsonObject.has("address")) {
-                        viewModel.receivablesAccountName.set(String.valueOf(jsonObject.get("address")));
-                        viewModel.transferAmount.set(String.valueOf(jsonObject.get("amount")));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     @Override
     public void initViewObservable() {
-        dialog = new BottomSheetDialog(this);
+        dialog = new BottomSheetDialog(InvokeTransferActivity.this);
         DialogTransferPayConfirmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_transfer_pay_confirm, null, false);
         dialog.setContentView(binding.getRoot());
         // 设置dialog 完全显示
@@ -191,71 +166,60 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
         dialog.setCanceledOnTouchOutside(false);
         final OrderConfirmViewModel orderConfirmViewModel = new OrderConfirmViewModel(getApplication());
         binding.setViewModel(orderConfirmViewModel);
-        viewModel.uc.transferBtnObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        viewModel.uc.invokeTransferConfirmObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                if (TextUtils.isEmpty(viewModel.receivablesAccountName.get())) {
+                if (System.currentTimeMillis() > transferInvokeModel.getExpired()) {
+                    finish();
+                    IntentUtils.jumpToDappWithExpirted(InvokeTransferActivity.this, baseInvokeModel, transferInvokeModel.getActionId());
+                    return;
+                }
+
+                if (TextUtils.isEmpty(transferInvokeModel.getFrom())) {
+                    ToastUtils.showShort(R.string.transferAccountName_empty);
+                    return;
+                }
+
+                if (TextUtils.isEmpty(transferInvokeModel.getTo())) {
                     ToastUtils.showShort(R.string.module_asset_receivablesAccountName_empty);
                     return;
                 }
 
-                if (TextUtils.isEmpty(viewModel.transferAmount.get())) {
+                if (TextUtils.isEmpty(String.valueOf(transferInvokeModel.getAmount()))) {
                     ToastUtils.showShort(R.string.module_asset_transfer_amount_empty);
                     return;
                 }
 
-                if (TextUtils.equals(accountName, viewModel.receivablesAccountName.get())) {
+                if (TextUtils.equals(transferInvokeModel.getFrom(), transferInvokeModel.getTo())) {
                     ToastUtils.showShort(R.string.module_asset_transfer_account_can_not_yourself);
                     return;
                 }
-
-                final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
+                NumberFormat instance = NumberFormat.getInstance();
+                instance.setGroupingUsed(false);
+                instance.setMaximumFractionDigits(transferInvokeModel.getPrecision());
                 TransferParamsModel transferParamsModel = new TransferParamsModel();
-                transferParamsModel.setAccountName(accountName);
-                transferParamsModel.setReceivablesAccountName(viewModel.receivablesAccountName.get());
-                transferParamsModel.setAccountBalance(viewModel.accountBalance.get());
-                transferParamsModel.setTransferAmount(String.valueOf(transferAmount.add(BigDecimal.ZERO)));
-                transferParamsModel.setTransferMemo(viewModel.transferMemo.get());
-                transferParamsModel.setTransferSymbol(assetModel.symbol);
+                transferParamsModel.setAccountName(transferInvokeModel.getFrom());
+                transferParamsModel.setReceivablesAccountName(transferInvokeModel.getTo());
+                transferParamsModel.setTransferAmount(instance.format(transferInvokeModel.getAmount()));
+                transferParamsModel.setTransferMemo(transferInvokeModel.getMemo());
+                transferParamsModel.setTransferSymbol(transferInvokeModel.getSymbol());
                 orderConfirmViewModel.setTransferInfoData(transferParamsModel);
                 dialog.show();
             }
         });
 
-        viewModel.uc.toContact.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        viewModel.uc.invokeTransferCancelObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                Bundle bundle = new Bundle();
-                bundle.putInt(IntentKeyGlobal.TRANSFER_TO_CONTACT, IntentKeyGlobal.GET_CONTACT);
-                ARouter.getInstance().
-                        build(RouterActivityPath.ACTIVITY_CONTACT).
-                        with(bundle).
-                        navigation(TransferActivity.this, IntentKeyGlobal.REQ_CONTACT_CODE);
-            }
-        });
-
-        viewModel.uc.toCaptureActivity.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @SuppressLint("CheckResult")
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                RxPermissions rxPermissions = new RxPermissions(TransferActivity.this);
-                rxPermissions.request(Manifest.permission.CAMERA)
-                        .subscribe(new Consumer<Boolean>() {
-                            @Override
-                            public void accept(Boolean aBoolean) {
-                                if (aBoolean) {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt(IntentKeyGlobal.TO_CAPTURE, IntentKeyGlobal.GET_CAPTURE_RESULT);
-                                    ARouter.getInstance().
-                                            build(RouterActivityPath.ACTIVITY_CAPTURE).
-                                            with(bundle).
-                                            navigation(TransferActivity.this, IntentKeyGlobal.REQ_CAPTURE_CODE);
-                                }
-                            }
-                        });
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                finish();
+                IntentUtils.jumpToDappWithCancel(InvokeTransferActivity.this, baseInvokeModel, transferInvokeModel.getActionId());
             }
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        IntentUtils.jumpToDappWithCancel(InvokeTransferActivity.this, baseInvokeModel, transferInvokeModel.getActionId());
+    }
 }

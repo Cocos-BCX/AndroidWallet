@@ -67,4 +67,20 @@ public class IntentUtils {
 
         }
     }
+
+    public static void jumpToDappWithExpirted(Context context, BaseInvokeModel baseInfo, String actionId) {
+        try {
+            ComponentName component = new ComponentName(baseInfo.getPackageName(), baseInfo.getClassName());
+            BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
+            baseInvokeResultModel.setCode(-1);
+            baseInvokeResultModel.setMessage("request expired!");
+            baseInvokeResultModel.setActionId(actionId);
+            Intent intent = new Intent();
+            intent.setComponent(component);
+            intent.putExtra("result", GsonSingleInstance.getGsonInstance().toJson(baseInvokeResultModel));
+            context.startActivity(intent);
+        } catch (Exception e) {
+
+        }
+    }
 }

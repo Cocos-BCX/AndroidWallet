@@ -8,8 +8,22 @@
     <string name="customactivityoncrash_error_activity_error_details_copy" tools:ignore="MissingTranslation">复制日志</string>
     <string name="customactivityoncrash_error_activity_error_details_copied" tools:ignore="MissingTranslation">复制日志</string>
     <string name="customactivityoncrash_error_activity_error_details_clipboard_label" tools:ignore="MissingTranslation">错误信息</string>
-    <string name="language_cn">中文</string>
+    <string name="module_asset_transfer_title">转账</string>
+    <string name="module_asset_transfer_deal_detail">交易详情</string>
+    <string name="module_asset_transfer_account_name">转出账号</string>
+    <string name="module_asset_receivable_account_name">转入账号</string>
+    <string name="module_asset_transfer_order_info">订单信息</string>
+    <string name="module_asset_transfer_amount_info">数量</string>
+    <string name="module_asset_transfer_memo_info">备注</string>
+    <string name="module_asset_transfer_pay_confirm_btn">确认支付</string>
+    <string name="module_asset_receivablesAccountName_empty">收款人不能为空</string>
+    <string name="module_asset_transfer_amount_empty">请输入转账数量</string>
+    <string name="module_asset_transfer_account_can_not_yourself" tools:ignore="ExtraTranslation">不能转账给自己</string>
+    <string name="module_asset_wrong_password">密码不正确</string>
+    <string name="module_asset_account_not_found">收款账户不存在</string>
+    <string name="module_asset_transfer_success">转账成功</string>
     <string name="language_en">English</string>
+    <string name="language_cn">中文</string>
     <string name="net_work_failed">网络繁忙，请检查你的网络连接</string>
     <string name="title_verify_password_text">验证密码</string>
     <string name="verify_password_hint">请输入钱包密码/临时密码</string>
@@ -30,4 +44,6 @@
     <string name="secret_free_tip">退出DApp前不用再次确认</string>
     <string name="not_upgrade_text">暂不更新</string>
     <string name="warm_prompt">温馨提示：</string>
+    <string name="invoke_transfer_title">订单支付</string>
+    <string name="transferAccountName_empty">付款方不能为空</string>
 </resources>

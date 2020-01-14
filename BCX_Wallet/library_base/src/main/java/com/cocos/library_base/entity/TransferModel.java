@@ -1,6 +1,5 @@
-package com.cocos.module_asset.entity;
+package com.cocos.library_base.entity;
 
-import com.cocos.library_base.entity.BaseResult;
 
 /**
  * @author ningkang.guo
