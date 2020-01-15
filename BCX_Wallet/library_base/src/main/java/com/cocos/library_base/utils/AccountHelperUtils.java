@@ -2,7 +2,6 @@ package com.cocos.library_base.utils;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_error.AccountNotFoundException;
@@ -31,18 +30,23 @@ public class AccountHelperUtils {
      */
     public static void setCurrentAccountName(String accountName) {
         try {
-            Log.i("setCurrentAccountName:", accountName);
             if (TextUtils.isEmpty(accountName)) {
                 SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, "");
-                setCurrentAccountId("");
+                SPUtils.putString(Utils.getContext(), ACCOUNT_ID, "");
                 SPUtils.putString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00");
                 return;
             }
-            SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, accountName);
-            setCurrentAccountId(accountName);
+            account_object account_object = CocosBcxApiWrapper.getBcxInstance().get_account_object_sync(accountName);
+            if (null == account_object) {
+                ToastUtils.showShort(R.string.operate_failed);
+                return;
+            }
+            SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, account_object.name);
+            SPUtils.putString(Utils.getContext(), ACCOUNT_ID, account_object.id.toString());
         } catch (Exception e) {
             SPUtils.putString(Utils.getContext(), ACCOUNT_NAME, "");
-            setCurrentAccountId("");
+            SPUtils.putString(Utils.getContext(), ACCOUNT_ID, "");
+            SPUtils.putString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00");
         }
     }
 
@@ -53,27 +57,6 @@ public class AccountHelperUtils {
         return SPUtils.getString(Utils.getContext(), ACCOUNT_NAME);
     }
 
-    /**
-     * setCurrentAccountId
-     *
-     * @param accountName
-     */
-    private static void setCurrentAccountId(String accountName) {
-        if (TextUtils.isEmpty(accountName)) {
-            SPUtils.putString(Utils.getContext(), ACCOUNT_ID, "");
-            return;
-        }
-        String accountId = null;
-        try {
-            accountId = CocosBcxApiWrapper.getBcxInstance().get_account_id_by_name_sync(accountName);
-            SPUtils.putString(Utils.getContext(), ACCOUNT_ID, accountId);
-            Log.i("setCurrentAccountId:", accountId);
-        } catch (NetworkStatusException e) {
-         //   ToastUtils.showShort(R.string.net_work_failed);
-        } catch (AccountNotFoundException e) {
-            ToastUtils.showShort(R.string.account_not_found);
-        }
-    }
 
     /**
      * getCurrentAccountId

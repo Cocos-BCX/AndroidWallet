@@ -42,8 +42,6 @@ public class SwitchAccountItemViewModel extends ItemViewModel<SwitchAccountViewM
         public void call() {
             checkedVisible.set(View.VISIBLE);
             AccountHelperUtils.setCurrentAccountName(accountName);
-
-            AccountHelperUtils.setCurrentAccountName(accountName);
             EventBusCarrier eventBusCarrier1 = new EventBusCarrier();
             eventBusCarrier1.setEventType(EventTypeGlobal.DIALOG_DISMISS_TYPE);
             eventBusCarrier1.setObject(null);

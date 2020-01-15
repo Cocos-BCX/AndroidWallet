@@ -101,6 +101,13 @@ public class ModifyPasswordViewModel extends BaseViewModel {
                             ToastUtils.showShort(R.string.module_asset_private_key_author_failed_owner);
                             return;
                         }
+
+                        if (baseResult.getMessage().contains("Insufficient Balance")) {
+                            dismissDialog();
+                            ToastUtils.showShort(R.string.module_asset_operate_fee_not_much);
+                            return;
+                        }
+
                         if (!baseResult.isSuccess()) {
                             dismissDialog();
                             return;
