@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
-import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.invokedpages.model.Transfer;
 import com.cocos.library_base.utils.AccountHelperUtils;
 
@@ -22,7 +21,6 @@ import java.text.NumberFormat;
 public class InvokeTransferViewModel extends BaseViewModel {
 
     private Transfer transfer;
-    private BaseInvokeModel baseInfo;
 
     public InvokeTransferViewModel(@NonNull Application application) {
         super(application);
@@ -70,9 +68,8 @@ public class InvokeTransferViewModel extends BaseViewModel {
     });
 
 
-    public void setTransferData(Transfer transfer, BaseInvokeModel baseInfo) {
+    public void setTransferData(Transfer transfer) {
         this.transfer = transfer;
-        this.baseInfo = baseInfo;
         if (!TextUtils.isEmpty(transfer.getDappIcon())) {
             invokeTransferDappIconUrl.set(transfer.getDappIcon());
         }

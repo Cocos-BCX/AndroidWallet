@@ -3,12 +3,11 @@
     xmlns:binding="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="com.cocos.library_base.invokedpages.viewmodel.InvokeLoginViewModel" />
+        <import type="com.cocos.library_base.invokedpages.viewmodel.InvokeContractViewModel" />
 
         <variable
             name="viewModel"
-            type="com.cocos.library_base.invokedpages.viewmodel.InvokeLoginViewModel" />
+            type="com.cocos.library_base.invokedpages.viewmodel.InvokeContractViewModel" />
     </data>
 
     <ScrollView
@@ -41,7 +40,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="16dp"
-                        android:text="@string/invoke_login_title"
+                        android:text="@string/invoke_contract_title"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/sp_16"
                         android:typeface="@{@string/TOTAL_ASSET}" />
@@ -54,27 +53,17 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dp_26"
                     android:src="@drawable/logo"
-                    binding:url="@{viewModel.invokeLoginDappIconUrl}" />
+                    binding:url="@{viewModel.invokeContractDappIconUrl}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:text="@={viewModel.invokeLoginDappName}"
+                    android:text="@={viewModel.invokeContractDappName}"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_14" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:gravity="center"
-                    android:text="@={viewModel.invokeLoginDappDesc}"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -84,61 +73,59 @@
                 android:orientation="vertical"
                 android:paddingTop="@dimen/dp_22">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_50"
-                    android:paddingStart="@dimen/dp_20"
-                    android:paddingEnd="@dimen/dp_20">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/invoked_login_account"
-                        android:textColor="@color/color_9B9B9B"
-                        android:textSize="@dimen/sp_14" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="4dp"
-                        android:text="@={viewModel.invokeLoginAccount}"
-                        android:textColor="@color/color_333333"
-                        android:textSize="@dimen/sp_14" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/btn_stroke_blue"
-                        android:paddingLeft="@dimen/dp_27"
-                        android:paddingTop="@dimen/dp_5"
-                        android:paddingRight="@dimen/dp_27"
-                        android:paddingBottom="@dimen/dp_5"
-                        android:text="@string/invoke_login_switch"
-                        android:textColor="@color/color_ff007aff"
-                        binding:onClickCommand="@{viewModel.invokeLoginSwitch}" />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_1"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_2"
-                    android:layout_marginEnd="@dimen/dp_20"
-                    android:background="@color/color_E0E0E0" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_14"
-                    android:text="@string/request_login_desc"
+                    android:layout_marginEnd="@dimen/dp_20"
+                    android:text="@string/invoked_login_account"
                     android:textColor="@color/color_9B9B9B"
                     android:textSize="@dimen/sp_14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_20"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="@dimen/dp_20"
+                    android:text="@={viewModel.invokeContractAccount}"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_marginStart="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:layout_marginEnd="@dimen/dp_20"
+                    android:background="@color/color_E0E0E0" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_20"
+                    android:layout_marginEnd="@dimen/dp_20">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_14"
+                        android:text="@string/request_login_desc"
+                        android:textColor="@color/color_9B9B9B"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_14"
+                        android:layout_marginEnd="@dimen/dp_50"
+                        android:gravity="right"
+                        android:text="@string/invoke_contract_detail"
+                        android:textColor="@color/color_9B9B9B"
+                        android:textSize="@dimen/sp_14"
+                        binding:onClickCommand="@{viewModel.invokeContractDetail}" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -150,7 +137,7 @@
                     android:paddingTop="@dimen/dp_5"
                     android:paddingRight="@dimen/dp_20"
                     android:paddingBottom="@dimen/dp_5"
-                    android:text="@string/invoke_login_action"
+                    android:text="@={viewModel.invokeContractNameAndAction}"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_14" />
 
@@ -159,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="17dp"
                     android:layout_marginTop="@dimen/dp_30"
-                    android:text="@string/warm_prompt"
+                    android:text="@string/invoke_transfer_Desc"
                     android:textColor="@color/color_9B9B9B"
                     android:textSize="@dimen/sp_14" />
 
@@ -168,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="17dp"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:text="@string/invoke_login_prompt"
+                    android:text="@={viewModel.invokeContractDesc}"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_14" />
 
@@ -182,10 +169,10 @@
                     android:gravity="center"
                     android:paddingTop="@dimen/dp_12"
                     android:paddingBottom="@dimen/dp_12"
-                    android:text="@string/invoke_login_confirm"
+                    android:text="@string/invoke_contract_confirm"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_14"
-                    binding:onClickCommand="@{viewModel.invokeLoginConfirm}" />
+                    binding:onClickCommand="@{viewModel.invokeContractConfirm}" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -200,7 +187,7 @@
                     android:text="@string/invoke_login_cancel"
                     android:textColor="@color/color_9B9B9B"
                     android:textSize="@dimen/sp_14"
-                    binding:onClickCommand="@{viewModel.invokeLoginCancel}" />
+                    binding:onClickCommand="@{viewModel.invokeContractCancel}" />
             </LinearLayout>
 
         </LinearLayout>

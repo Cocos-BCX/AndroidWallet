@@ -6,12 +6,12 @@ import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.cocos.library_base.R;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
-import com.cocos.library_base.invokedpages.model.Authorize;
-import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
-import com.cocos.library_base.utils.AccountHelperUtils;
+import com.cocos.library_base.invokedpages.model.Contract;
+import com.cocos.library_base.utils.Utils;
 
 /**
  * @author ningkang.guo
@@ -19,70 +19,76 @@ import com.cocos.library_base.utils.AccountHelperUtils;
  */
 public class InvokeContractViewModel extends BaseViewModel {
 
-    private Authorize authorize;
-    private BaseInvokeModel baseInfo;
+    private Contract contract;
 
     public InvokeContractViewModel(@NonNull Application application) {
         super(application);
     }
 
     //dapp icon url
-    public ObservableField<String> invokeLoginDappIconUrl = new ObservableField<>("");
+    public ObservableField<String> invokeContractDappIconUrl = new ObservableField<>("");
 
     //dapp name
-    public ObservableField<String> invokeLoginDappName = new ObservableField<>("");
+    public ObservableField<String> invokeContractDappName = new ObservableField<>("");
 
-    //dapp desc
-    public ObservableField<String> invokeLoginDappDesc = new ObservableField<>("");
+    public ObservableField<String> invokeContractNameAndAction = new ObservableField<>(Utils.getString(R.string.invoke_contract_defalut));
+
+    public ObservableField<String> invokeContractDesc = new ObservableField<>("");
 
     //login account
-    public ObservableField<String> invokeLoginAccount = new ObservableField<>(AccountHelperUtils.getCurrentAccountName());
+    public ObservableField<String> invokeContractAccount = new ObservableField<>();
 
 
     public UIChangeObservable uc = new UIChangeObservable();
 
     public class UIChangeObservable {
-        public ObservableBoolean invokeLoginSwitchObservable = new ObservableBoolean(false);
-        public ObservableBoolean invokeLoginConfirmObservable = new ObservableBoolean(false);
-        public ObservableBoolean invokeLoginCancelObservable = new ObservableBoolean(false);
+        public ObservableBoolean invokeContractConfirmObservable = new ObservableBoolean(false);
+        public ObservableBoolean invokeContractCancelObservable = new ObservableBoolean(false);
+        public ObservableBoolean invokeContractDetailObservable = new ObservableBoolean(false);
     }
 
 
-    //切换账号
-    public BindingCommand invokeLoginSwitch = new BindingCommand(new BindingAction() {
+    //查看详情
+    public BindingCommand invokeContractDetail = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            uc.invokeLoginSwitchObservable.set(!uc.invokeLoginSwitchObservable.get());
+            uc.invokeContractDetailObservable.set(!uc.invokeContractDetailObservable.get());
         }
     });
 
-    //确认登录请求
-    public BindingCommand invokeLoginConfirm = new BindingCommand(new BindingAction() {
+    //调用合约
+    public BindingCommand invokeContractConfirm = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            uc.invokeLoginConfirmObservable.set(!uc.invokeLoginConfirmObservable.get());
+            uc.invokeContractConfirmObservable.set(!uc.invokeContractConfirmObservable.get());
         }
     });
 
-    //取消登录请求
-    public BindingCommand invokeLoginCancel = new BindingCommand(new BindingAction() {
+    //取消调用
+    public BindingCommand invokeContractCancel = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            uc.invokeLoginCancelObservable.set(!uc.invokeLoginCancelObservable.get());
+            uc.invokeContractCancelObservable.set(!uc.invokeContractCancelObservable.get());
         }
     });
 
-    public void setAuthorizeData(Authorize authorize, BaseInvokeModel baseInfo) {
-        this.authorize = authorize;
-        this.baseInfo = baseInfo;
-        if (!TextUtils.isEmpty(authorize.getDappIcon())) {
-            invokeLoginDappIconUrl.set(authorize.getDappIcon());
+
+    public void setAuthorizeData(Contract contract) {
+        this.contract = contract;
+        if (!TextUtils.isEmpty(contract.getDappIcon())) {
+            invokeContractDappIconUrl.set(contract.getDappIcon());
         }
-        if (!TextUtils.isEmpty(authorize.getDappName())) {
-            invokeLoginDappName.set(authorize.getDappName());
+        if (!TextUtils.isEmpty(contract.getDappName())) {
+            invokeContractDappName.set(contract.getDappName());
         }
-        if (!TextUtils.isEmpty(authorize.getDesc())) {
-            invokeLoginDappDesc.set(authorize.getDesc());
+        if (!TextUtils.isEmpty(contract.getDesc())) {
+            invokeContractDesc.set(contract.getDesc());
+        }
+        if (!TextUtils.isEmpty(contract.getContractNameOrId()) && !TextUtils.isEmpty(contract.getFunctionName())) {
+            invokeContractNameAndAction.set(contract.getContractNameOrId() + ">" + contract.getFunctionName());
+        }
+        if (!TextUtils.isEmpty(contract.getAuthorizedAccount())) {
+            invokeContractAccount.set(contract.getAuthorizedAccount());
         }
     }
 

@@ -13,6 +13,8 @@ import lombok.Setter;
 @Getter
 public class Contract extends BaseInfo {
 
+    private String authorizedAccount;
+
     private String contractNameOrId;
 
     private String functionName;

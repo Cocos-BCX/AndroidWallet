@@ -66,7 +66,7 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
     public void initData() {
         int statusHeight = StatusBarUtils.getStatusBarHeight(Utils.getContext());
         binding.invokeLoginTitle.setPadding(0, statusHeight, DensityUtils.dip2px(Utils.getContext(), 0), 0);
-        viewModel.setAuthorizeData(authorize, baseInvokeModel);
+        viewModel.setAuthorizeData(authorize);
     }
 
 
@@ -94,7 +94,7 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 finish();
-                if (System.currentTimeMillis() > authorize.getExpired()) {
+                if (authorize.getExpired() > 0 && System.currentTimeMillis() > authorize.getExpired()) {
                     IntentUtils.jumpToDappWithExpirted(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId());
                     return;
                 }

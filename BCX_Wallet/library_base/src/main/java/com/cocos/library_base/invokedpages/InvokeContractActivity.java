@@ -1,34 +1,33 @@
 package com.cocos.library_base.invokedpages;
 
-import android.app.Application;
-import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.BR;
 import com.cocos.library_base.R;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.base.BaseVerifyPasswordDialog;
 import com.cocos.library_base.bus.event.EventBusCarrier;
-import com.cocos.library_base.component.switch_account.SwitchAccountViewModel;
-import com.cocos.library_base.databinding.ActivityInvokeLoginBinding;
-import com.cocos.library_base.databinding.DialogSwitchAccountBinding;
+import com.cocos.library_base.databinding.ActivityInvokeContractBinding;
+import com.cocos.library_base.entity.BaseResultModel;
 import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.IntentKeyGlobal;
-import com.cocos.library_base.invokedpages.model.Authorize;
 import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.invokedpages.model.BaseInvokeResultModel;
-import com.cocos.library_base.invokedpages.viewmodel.InvokeLoginViewModel;
+import com.cocos.library_base.invokedpages.model.Contract;
+import com.cocos.library_base.invokedpages.viewmodel.InvokeContractViewModel;
 import com.cocos.library_base.router.RouterActivityPath;
-import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.DensityUtils;
 import com.cocos.library_base.utils.IntentUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
+import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 
 /**
  * @author ningkang.guo
@@ -36,15 +35,15 @@ import com.cocos.library_base.utils.Utils;
  */
 
 @Route(path = RouterActivityPath.ACTIVITY_INVOKE_CONTRACT)
-public class InvokeContractActivity extends BaseActivity<ActivityInvokeLoginBinding, InvokeLoginViewModel> {
+public class InvokeContractActivity extends BaseActivity<ActivityInvokeContractBinding, InvokeContractViewModel> {
 
-    private Authorize authorize;
+    private Contract contract;
     private BaseInvokeModel baseInvokeModel;
     private BottomSheetDialog dialog;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
-        return R.layout.activity_invoke_login;
+        return R.layout.activity_invoke_contract;
     }
 
     @Override
@@ -56,7 +55,7 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeLoginBind
     public void initParam() {
         try {
             Bundle bundle = getIntent().getExtras();
-            authorize = (Authorize) bundle.getSerializable(IntentKeyGlobal.INVOKE_AUTHORIZE_INFO);
+            contract = (Contract) bundle.getSerializable(IntentKeyGlobal.INVOKE_CONTRACT_INFO);
             baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_BASE_INFO);
         } catch (Exception e) {
         }
@@ -66,7 +65,7 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeLoginBind
     public void initData() {
         int statusHeight = StatusBarUtils.getStatusBarHeight(Utils.getContext());
         binding.invokeLoginTitle.setPadding(0, statusHeight, DensityUtils.dip2px(Utils.getContext(), 0), 0);
-        viewModel.setAuthorizeData(authorize, baseInvokeModel);
+        viewModel.setAuthorizeData(contract);
     }
 
 
@@ -74,44 +73,62 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeLoginBind
     public void onHandleEvent(EventBusCarrier busCarrier) {
         if (TextUtils.equals(EventTypeGlobal.DIALOG_DISMISS_TYPE, busCarrier.getEventType())) {
             dialog.dismiss();
-        } else if (TextUtils.equals(EventTypeGlobal.SWITCH_ACCOUNT, busCarrier.getEventType())) {
-            viewModel.invokeLoginAccount.set(AccountHelperUtils.getCurrentAccountName());
         }
     }
 
 
     @Override
     public void initViewObservable() {
-        viewModel.uc.invokeLoginCancelObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        viewModel.uc.invokeContractCancelObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 finish();
-                IntentUtils.jumpToDappWithCancel(InvokeContractActivity.this, baseInvokeModel, authorize.getActionId());
+                IntentUtils.jumpToDappWithCancel(InvokeContractActivity.this, baseInvokeModel, contract.getActionId());
             }
         });
 
-        viewModel.uc.invokeLoginConfirmObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        viewModel.uc.invokeContractConfirmObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                finish();
-                BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
-                baseInvokeResultModel.setCode(1);
-                baseInvokeResultModel.setData(viewModel.invokeLoginAccount.get());
-                baseInvokeResultModel.setActionId(authorize.getActionId());
-                IntentUtils.jumpToDapp(InvokeContractActivity.this, baseInvokeResultModel, baseInvokeModel);
-            }
-        });
+                if (contract.getExpired() > 0 && System.currentTimeMillis() > contract.getExpired()) {
+                    finish();
+                    IntentUtils.jumpToDappWithExpirted(InvokeContractActivity.this, baseInvokeModel, contract.getActionId());
+                    return;
+                }
+                BaseVerifyPasswordDialog passwordDialog = new BaseVerifyPasswordDialog();
+                passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+                passwordDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
+                    @Override
+                    public void onFinish(String password) {
+                        CocosBcxApiWrapper.getBcxInstance().invoking_contract(contract.getAuthorizedAccount(), password, contract.getContractNameOrId(), contract.getFunctionName(), contract.getValueList(), new IBcxCallBack() {
+                            @Override
+                            public void onReceiveValue(String s) {
+                                BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                                finish();
+                                BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
+                                if (baseResult.getCode() == 105) {
+                                    ToastUtils.showShort(R.string.module_asset_wrong_password);
+                                    return;
+                                }
+                                if (baseResult.isSuccess()) {
+                                    baseInvokeResultModel.setCode(1);
+                                    baseInvokeResultModel.setData(baseResult.getData());
+                                    baseInvokeResultModel.setActionId(contract.getActionId());
+                                } else {
+                                    baseInvokeResultModel.setCode(2);
+                                    baseInvokeResultModel.setMessage(baseResult.getMessage());
+                                    baseInvokeResultModel.setActionId(contract.getActionId());
+                                }
+                                IntentUtils.jumpToDapp(InvokeContractActivity.this, baseInvokeResultModel, baseInvokeModel);
+                            }
+                        });
+                    }
 
-        viewModel.uc.invokeLoginSwitchObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable sender, int propertyId) {
-                dialog = new BottomSheetDialog(InvokeContractActivity.this);
-                DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_switch_account, null, false);
-                binding.addAccount.setVisibility(View.INVISIBLE);
-                dialog.setContentView(binding.getRoot());
-                binding.setViewModel(new SwitchAccountViewModel((Application) Utils.getContext()));
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.show();
+                    @Override
+                    public void cancel() {
+                    }
+                });
+
             }
         });
     }
@@ -119,7 +136,7 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeLoginBind
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        IntentUtils.jumpToDappWithCancel(InvokeContractActivity.this, baseInvokeModel, authorize.getActionId());
+        IntentUtils.jumpToDappWithCancel(InvokeContractActivity.this, baseInvokeModel, contract.getActionId());
     }
 
     @Override

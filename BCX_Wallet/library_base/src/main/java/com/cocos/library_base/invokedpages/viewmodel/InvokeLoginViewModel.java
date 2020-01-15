@@ -20,7 +20,6 @@ import com.cocos.library_base.utils.AccountHelperUtils;
 public class InvokeLoginViewModel extends BaseViewModel {
 
     private Authorize authorize;
-    private BaseInvokeModel baseInfo;
 
     public InvokeLoginViewModel(@NonNull Application application) {
         super(application);
@@ -72,9 +71,8 @@ public class InvokeLoginViewModel extends BaseViewModel {
         }
     });
 
-    public void setAuthorizeData(Authorize authorize, BaseInvokeModel baseInfo) {
+    public void setAuthorizeData(Authorize authorize) {
         this.authorize = authorize;
-        this.baseInfo = baseInfo;
         if (!TextUtils.isEmpty(authorize.getDappIcon())) {
             invokeLoginDappIconUrl.set(authorize.getDappIcon());
         }

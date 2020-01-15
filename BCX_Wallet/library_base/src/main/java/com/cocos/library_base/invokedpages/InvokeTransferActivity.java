@@ -78,7 +78,7 @@ public class InvokeTransferActivity extends BaseActivity<ActivityInvokeTransferB
     public void initData() {
         int statusHeight = StatusBarUtils.getStatusBarHeight(Utils.getContext());
         binding.invokeLoginTitle.setPadding(0, statusHeight, DensityUtils.dip2px(Utils.getContext(), 0), 0);
-        viewModel.setTransferData(transferInvokeModel, baseInvokeModel);
+        viewModel.setTransferData(transferInvokeModel);
     }
 
 
@@ -169,7 +169,7 @@ public class InvokeTransferActivity extends BaseActivity<ActivityInvokeTransferB
         viewModel.uc.invokeTransferConfirmObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                if (System.currentTimeMillis() > transferInvokeModel.getExpired()) {
+                if (transferInvokeModel.getExpired() > 0 && System.currentTimeMillis() > transferInvokeModel.getExpired()) {
                     finish();
                     IntentUtils.jumpToDappWithExpirted(InvokeTransferActivity.this, baseInvokeModel, transferInvokeModel.getActionId());
                     return;
