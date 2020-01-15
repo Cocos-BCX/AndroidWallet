@@ -69,6 +69,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
      */
     private boolean mInjection = false;
 
+    private String solidPassworld;
 
     private WebViewModel webViewModel;
 
@@ -180,14 +181,13 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             return;
         }
         JsParamsEventModel params = (JsParamsEventModel) busCarrier.getObject();
-        String password = SPUtils.getString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT);
 
         if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.TRANSFERASSET)) {
             /**
              *  transferAsset
              */
-            if (!TextUtils.isEmpty(password)) {
-                transferAssets(password, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                transferAssets(solidPassworld, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -214,8 +214,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             /**
              *  invoking contract method
              */
-            if (!TextUtils.isEmpty(password)) {
-                invoking_contract(password, jsContractParamsModel, jsContractParamsModel.valueList, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                invoking_contract(solidPassworld, jsContractParamsModel, jsContractParamsModel.valueList, params);
                 return;
             }
 
@@ -245,8 +245,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             /**
              * decodeMemo
              */
-            if (!TextUtils.isEmpty(password)) {
-                decryptMemo(password, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                decryptMemo(solidPassworld, params);
                 return;
             }
 
@@ -270,8 +270,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              */
             TransferNHAssetParamModel transferNHAssetParamModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, TransferNHAssetParamModel.class);
 
-            if (!TextUtils.isEmpty(password)) {
-                transferNhAssets(password, transferNHAssetParamModel, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                transferNhAssets(solidPassworld, transferNHAssetParamModel, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -302,8 +302,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              * delete nh asset
              */
             DeleteNHAssetParamsModel transferNHAssetParamModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, DeleteNHAssetParamsModel.class);
-            if (!TextUtils.isEmpty(password)) {
-                deleteNhAssets(password, transferNHAssetParamModel, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                deleteNhAssets(solidPassworld, transferNHAssetParamModel, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -326,8 +326,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              * create nh asset order
              */
             CreateNHAssetOrderParamsModel createNHAssetOrderParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, CreateNHAssetOrderParamsModel.class);
-            if (!TextUtils.isEmpty(password)) {
-                createNhAssetsOrder(password, createNHAssetOrderParamsModel, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                createNhAssetsOrder(solidPassworld, createNHAssetOrderParamsModel, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -351,8 +351,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              * fill nh asset order
              */
             FillNHAssetOrderParamsModel fillNHAssetOrderParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, FillNHAssetOrderParamsModel.class);
-            if (!TextUtils.isEmpty(password)) {
-                fillNhAssetsOrder(password, fillNHAssetOrderParamsModel, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                fillNhAssetsOrder(solidPassworld, fillNHAssetOrderParamsModel, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -375,8 +375,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              * cancel nh asset order
              */
             CancelNHAssetOrderParamsModel cancelNHAssetOrderParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, CancelNHAssetOrderParamsModel.class);
-            if (!TextUtils.isEmpty(password)) {
-                cancelNhAssetsOrder(password, cancelNHAssetOrderParamsModel, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                cancelNhAssetsOrder(solidPassworld, cancelNHAssetOrderParamsModel, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -399,8 +399,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              * updateCollateralForGas
              */
             UpdateGasParamsModel updateGasParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, UpdateGasParamsModel.class);
-            if (!TextUtils.isEmpty(password)) {
-                updateGas(password, updateGasParamsModel, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                updateGas(solidPassworld, updateGasParamsModel, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -422,8 +422,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              * claimVestingBalance
              */
             ClaimVestingBalanceParamModle claimVestingBalancePrams = GsonSingleInstance.getGsonInstance().fromJson(params.param, ClaimVestingBalanceParamModle.class);
-            if (!TextUtils.isEmpty(password)) {
-                claimVestingBalance(claimVestingBalancePrams.id, password, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                claimVestingBalance(claimVestingBalancePrams.id, solidPassworld, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -446,8 +446,8 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
              * publishVotes
              */
             PublishVotesParamsModel publishVotesParamsModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, PublishVotesParamsModel.class);
-            if (!TextUtils.isEmpty(password)) {
-                publishVotes(password, publishVotesParamsModel, params);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                publishVotes(solidPassworld, publishVotesParamsModel, params);
                 return;
             }
             JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
@@ -624,7 +624,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
 
     private void remeberPwd(String password, boolean b) {
         if (b && JsWebVerifyPasswordDialog.isChecked) {
-            SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, password);
+            solidPassworld = password;
         }
     }
 
@@ -761,8 +761,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             binding.jsWebView.clearFormData();
             SPUtils.putBoolean(Utils.getContext(), SPKeyGlobal.WEB_CACHE_CLEAR, true);
         }
-        SPUtils.putString(Utils.getContext(), SPKeyGlobal.KEY_FOR_VERIFY_ACCOUNT, "");
-        SPUtils.putBoolean(Utils.getContext(), SPKeyGlobal.SECRET_FREE_CHECK_STATUS, false);
         binding.jsWebView.destroy();
         super.onDestroy();
     }

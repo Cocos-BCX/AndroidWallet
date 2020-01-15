@@ -24,10 +24,7 @@ public final class SPKeyGlobal {
     public static final String WEB_CACHE_CLEAR = "web_cache_clear";
     public static final String SYSTEM_LANGUAGE = "system_language";
     public static final String FOUND_DIALOG_SHOWED_MARK = "found_dialog_showed_mark";
-    public static final String KEY_FOR_VERIFY_ACCOUNT = "key_for_verify_account";
-    public static final String SECRET_FREE_CHECK_STATUS = "secret_free_check_status";
     public static final String SYMBOL_SELECTED = "SYMBOL_SELECTED";
-
     public static final String NET_TYPE = "net_type";
     public static final String IS_FIRST_CONNECT = "is_first_connect";
     public static final String CURRENCY_TYPE = "currency_type";
