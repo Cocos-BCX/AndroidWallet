@@ -1,6 +1,8 @@
 package com.cocos.module_mine.reset_password;
 
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.bcx_sdk.bcx_entity.AccountEntity;
@@ -44,5 +46,16 @@ public class ResetPasswordActivity extends BaseActivity<ActivityResetPasswordBin
     @Override
     public void initData() {
         viewModel.setDaoAccountModel(daoAccountModel);
+        binding.etResetPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        binding.etResetConfirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        pwdVisibleControl(binding.etResetPassword, binding.ivPwdVisible);
+        pwdVisibleControl(binding.etResetConfirmPassword, binding.ivPwdVisible);
+        binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdVisibleControl(binding.etResetPassword, binding.ivPwdVisible);
+                pwdVisibleControl(binding.etResetConfirmPassword, binding.ivPwdVisible);
+            }
+        });
     }
 }

@@ -71,5 +71,5 @@
     <string name="module_asset_order_not_exist">The order has expired</string>
     <string name="module_asset_sources_url">https://gas.cocosbcx.net/</string>
     <string name="module_asset_vote_url">https://vote.cocosbcx.net/</string>
-    <string name="check_transfer_info_in_browser"><![CDATA[到浏览器中查看详细信息>]]></string>
+    <string name="check_transfer_info_in_browser"><![CDATA[Go to browser for more details>]]></string>
 </resources>

@@ -120,12 +120,15 @@ public class DealRecordViewModel extends BaseViewModel {
 
     public void setAssetModel(AssetsModel.AssetModel assetModel) {
         this.assetModel = assetModel;
-        tokenSymbol.set(assetModel.symbol);
-        nf.setGroupingUsed(false);
-        nf.setMaximumFractionDigits(5);
-        totalAsset.set(nf.format(assetModel.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
-        totalAssetValue.set(CurrencyUtils.getSingleCurrencyType() + (TextUtils.equals(assetModel.symbol, "COCOS") ? SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00") : "0.00"));
-        accountName.set(String.valueOf(AccountHelperUtils.getCurrentAccountName()));
+        try {
+            tokenSymbol.set(assetModel.symbol);
+            nf.setGroupingUsed(false);
+            nf.setMaximumFractionDigits(5);
+            totalAsset.set(nf.format(assetModel.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+            totalAssetValue.set(CurrencyUtils.getSingleCurrencyType() + (TextUtils.equals(assetModel.symbol, "COCOS") ? SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00") : "0.00"));
+            accountName.set(String.valueOf(AccountHelperUtils.getCurrentAccountName()));
+        } catch (Exception e) {
+        }
     }
 
     public ObservableList<DealRecordItemViewModel> observableList = new ObservableArrayList<>();
@@ -135,65 +138,70 @@ public class DealRecordViewModel extends BaseViewModel {
     public final BindingRecyclerViewAdapter<DealRecordItemViewModel> adapter = new BindingRecyclerViewAdapter<>();
 
     public void requestDealRecordList() {
-        showDialog();
-        CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 50, new IBcxCallBack() {
-            @Override
-            public void onReceiveValue(final String value) {
-                MainHandler.getInstance().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i("get_account_history", value);
-                        DealRecordModel dealRecordModel = global_config_object.getInstance().getGsonBuilder().create().fromJson(value, DealRecordModel.class);
-                        observableList.clear();
-                        if (!dealRecordModel.isSuccess() || dealRecordModel.data.size() <= 0) {
-                            return;
-                        }
-                        for (DealRecordModel.DealRecordItemModel recordItemModel : dealRecordModel.getData()) {
-                            double option = (double) recordItemModel.op.get(0);
-                            if (option == 0 || option == 35 || option == 42) {
-                                DealRecordItemViewModel itemViewModel = new DealRecordItemViewModel(DealRecordViewModel.this, recordItemModel);
-                                observableList.add(itemViewModel);
+        try {
+            showDialog();
+            CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 50, new IBcxCallBack() {
+                @Override
+                public void onReceiveValue(final String value) {
+                    MainHandler.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.i("get_account_history", value);
+                            DealRecordModel dealRecordModel = global_config_object.getInstance().getGsonBuilder().create().fromJson(value, DealRecordModel.class);
+                            observableList.clear();
+                            if (!dealRecordModel.isSuccess() || dealRecordModel.data.size() <= 0) {
+                                return;
                             }
+                            for (DealRecordModel.DealRecordItemModel recordItemModel : dealRecordModel.getData()) {
+                                double option = (double) recordItemModel.op.get(0);
+                                if (option == 0 || option == 35 || option == 42) {
+                                    DealRecordItemViewModel itemViewModel = new DealRecordItemViewModel(DealRecordViewModel.this, recordItemModel);
+                                    observableList.add(itemViewModel);
+                                }
+                            }
+                            dismissDialog();
                         }
-                        dismissDialog();
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        } catch (Exception e) {
+        }
     }
 
 
     public void requestAssetsListData() {
-        final String accountId = AccountHelperUtils.getCurrentAccountId();
-        if (TextUtils.isEmpty(accountId)) {
-            return;
-        }
-        CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
-            @Override
-            public void onReceiveValue(final String s) {
-                LogUtils.d("get_account_balances", s);
-                MainHandler.getInstance().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
-                        if (!balanceEntity.isSuccess() || balanceEntity.getData().size() <= 0) {
-                            return;
-                        }
-                        final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
-                        for (int i = 0; i < dataBeans.size(); i++) {
-                            final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
-                            if (TextUtils.equals(dataBean.getAsset_id(), assetModel.id)) {
-                                nf.setGroupingUsed(false);
-                                nf.setMaximumFractionDigits(5);
-                                totalAsset.set(nf.format(dataBean.getAmount().setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+        try {
+            final String accountId = AccountHelperUtils.getCurrentAccountId();
+            if (TextUtils.isEmpty(accountId)) {
+                return;
+            }
+            CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
+                @Override
+                public void onReceiveValue(final String s) {
+                    LogUtils.d("get_account_balances", s);
+                    MainHandler.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            AllAssetBalanceModel balanceEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AllAssetBalanceModel.class);
+                            if (!balanceEntity.isSuccess() || balanceEntity.getData().size() <= 0) {
                                 return;
                             }
+                            final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
+                            for (int i = 0; i < dataBeans.size(); i++) {
+                                final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
+                                if (TextUtils.equals(dataBean.getAsset_id(), assetModel.id)) {
+                                    nf.setGroupingUsed(false);
+                                    nf.setMaximumFractionDigits(5);
+                                    totalAsset.set(nf.format(dataBean.getAmount().setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+                                    return;
+                                }
+                            }
                         }
-                    }
-                });
-            }
-        });
-
+                    });
+                }
+            });
+        } catch (Exception e) {
+        }
     }
 }
 
