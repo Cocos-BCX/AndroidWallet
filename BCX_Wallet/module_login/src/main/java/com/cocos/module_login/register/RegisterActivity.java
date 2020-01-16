@@ -1,6 +1,8 @@
 package com.cocos.module_login.register;
 
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -40,6 +42,21 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
             from = Objects.requireNonNull(getIntent().getExtras()).getInt(IntentKeyGlobal.FROM);
         } catch (Exception e) {
         }
+    }
+
+    @Override
+    public void initData() {
+        binding.edtRegisterPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        binding.edtRegisterConfirmPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        pwdVisibleControl(binding.edtRegisterPwd, binding.ivPwdVisible);
+        pwdVisibleControl(binding.edtRegisterConfirmPwd, binding.ivPwdVisible);
+        binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdVisibleControl(binding.edtRegisterPwd, binding.ivPwdVisible);
+                pwdVisibleControl(binding.edtRegisterConfirmPwd, binding.ivPwdVisible);
+            }
+        });
     }
 
     @Override

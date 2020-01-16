@@ -73,7 +73,7 @@ public class DealRecordViewModel extends BaseViewModel {
     //总资产
     public ObservableField<String> totalAsset = new ObservableField<>();
 
-    public ObservableField<String> totalAssetValue = new ObservableField<>(CurrencyUtils.getSingleCurrencyType() + SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00"));
+    public ObservableField<String> totalAssetValue = new ObservableField<>();
 
     public ObservableField<String> accountName = new ObservableField<>("");
 
@@ -124,6 +124,7 @@ public class DealRecordViewModel extends BaseViewModel {
         nf.setGroupingUsed(false);
         nf.setMaximumFractionDigits(5);
         totalAsset.set(nf.format(assetModel.amount.setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));
+        totalAssetValue.set(CurrencyUtils.getSingleCurrencyType() + (TextUtils.equals(assetModel.symbol, "COCOS") ? SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00") : "0.00"));
         accountName.set(String.valueOf(AccountHelperUtils.getCurrentAccountName()));
     }
 
@@ -135,7 +136,7 @@ public class DealRecordViewModel extends BaseViewModel {
 
     public void requestDealRecordList() {
         showDialog();
-        CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 100, new IBcxCallBack() {
+        CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 50, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String value) {
                 MainHandler.getInstance().post(new Runnable() {
@@ -167,7 +168,6 @@ public class DealRecordViewModel extends BaseViewModel {
         if (TextUtils.isEmpty(accountId)) {
             return;
         }
-        showDialog();
         CocosBcxApiWrapper.getBcxInstance().get_all_account_balances(accountId, new IBcxCallBack() {
             @Override
             public void onReceiveValue(final String s) {
@@ -182,7 +182,7 @@ public class DealRecordViewModel extends BaseViewModel {
                         final List<AllAssetBalanceModel.DataBean> dataBeans = balanceEntity.getData();
                         for (int i = 0; i < dataBeans.size(); i++) {
                             final AllAssetBalanceModel.DataBean dataBean = dataBeans.get(i);
-                            if (TextUtils.equals(dataBean.getAsset_id(), "1.3.0")) {
+                            if (TextUtils.equals(dataBean.getAsset_id(), assetModel.id)) {
                                 nf.setGroupingUsed(false);
                                 nf.setMaximumFractionDigits(5);
                                 totalAsset.set(nf.format(dataBean.getAmount().setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO)));

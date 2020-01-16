@@ -7,6 +7,7 @@ import com.cocos.library_base.base.BaseActivity;
 import com.cocos.library_base.entity.AssetsModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.BR;
 import com.cocos.module_asset.R;
 import com.cocos.module_asset.databinding.ActivityDealRecordBinding;
@@ -54,7 +55,7 @@ public class DealRecordActivity extends BaseActivity<ActivityDealRecordBinding, 
             isFirst = false;
             return;
         }
-        viewModel.requestDealRecordList();
+//        viewModel.requestDealRecordList();
         viewModel.requestAssetsListData();
     }
 }

@@ -63,7 +63,7 @@
                     android:layout_height="@dimen/dp_16"
                     android:layout_marginStart="@dimen/dp_16"
                     android:background="@color/color_ffd8dbe1"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/login_title"
@@ -73,8 +73,8 @@
                     android:text="@string/module_login_wallet_title"
                     android:textColor="@{viewModel.walletModelTitleColor}"
                     android:textSize="@dimen/sp_22"
-                    android:visibility="gone"
                     android:typeface="@{@string/TOTAL_ASSET}"
+                    android:visibility="gone"
                     binding:onClickCommand="@{viewModel.walletTitleOnClickCommand}" />
 
             </LinearLayout>
@@ -116,7 +116,7 @@
                 android:textSize="@dimen/sp_12"
                 android:visibility="@{viewModel.accountNameErrorTipVisible}" />
 
-            <com.cocos.library_base.widget.LinearLinearLayout
+            <com.cocos.library_base.widget.LinearRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_20"
@@ -128,7 +128,24 @@
                 br:needLeftAndRigtBorder="false"
                 br:needTopBorder="false">
 
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12">
+
+                    <ImageView
+                        android:id="@+id/iv_pwd_visible"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@drawable/hidden_pwd" />
+                </LinearLayout>
+
                 <EditText
+                    android:id="@+id/edt_register_pwd"
                     style="@style/editText_style"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -138,8 +155,7 @@
                     android:paddingBottom="@dimen/dp_16"
                     android:text="@={viewModel.password}"
                     android:textSize="@dimen/sp_15" />
-
-            </com.cocos.library_base.widget.LinearLinearLayout>
+            </com.cocos.library_base.widget.LinearRelativeLayout>
 
 
             <com.cocos.library_base.widget.LinearLinearLayout
@@ -155,6 +171,7 @@
                 br:needTopBorder="false">
 
                 <EditText
+                    android:id="@+id/edt_register_confirm_pwd"
                     style="@style/editText_style"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

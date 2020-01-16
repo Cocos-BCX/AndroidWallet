@@ -1,6 +1,8 @@
 package com.cocos.module_mine.modify_password;
 
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.bcx_sdk.bcx_entity.AccountEntity;
@@ -31,6 +33,7 @@ public class ModifyPasswordActivity extends BaseActivity<ActivityModifyPasswordB
         return BR.viewModel;
     }
 
+
     @Override
     public void initParam() {
         try {
@@ -42,5 +45,16 @@ public class ModifyPasswordActivity extends BaseActivity<ActivityModifyPasswordB
     @Override
     public void initData() {
         viewModel.setAccountName(daoAccountModel.getName());
+        binding.etModifyPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        binding.etModifyConfirm.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        pwdVisibleControl(binding.etModifyPassword, binding.ivPwdVisible);
+        pwdVisibleControl(binding.etModifyConfirm, binding.ivPwdVisible);
+        binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdVisibleControl(binding.etModifyPassword, binding.ivPwdVisible);
+                pwdVisibleControl(binding.etModifyConfirm, binding.ivPwdVisible);
+            }
+        });
     }
 }
