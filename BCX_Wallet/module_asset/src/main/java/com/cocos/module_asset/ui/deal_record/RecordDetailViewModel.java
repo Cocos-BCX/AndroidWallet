@@ -5,14 +5,19 @@ import android.content.ClipData;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.entity.WebViewModel;
+import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
+import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
@@ -87,6 +92,18 @@ public class RecordDetailViewModel extends BaseViewModel {
         @Override
         public void call() {
             uc.checkMemoObservable.set(!uc.checkMemoObservable.get());
+        }
+    });
+
+    //区块按钮的点击事件
+    public BindingCommand onSquareHeightClick = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            WebViewModel webViewModel = new WebViewModel();
+            webViewModel.setUrl(Utils.getString(R.string.module_asset_block_head_address) + dealDetailModel.block_header);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
         }
     });
 

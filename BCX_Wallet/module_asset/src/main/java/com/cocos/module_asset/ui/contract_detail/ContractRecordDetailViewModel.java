@@ -3,13 +3,18 @@ package com.cocos.module_asset.ui.contract_detail;
 import android.app.Application;
 import android.content.ClipData;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.binding.command.BindingAction;
 import com.cocos.library_base.binding.command.BindingCommand;
+import com.cocos.library_base.entity.WebViewModel;
+import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
+import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
@@ -29,6 +34,7 @@ public class ContractRecordDetailViewModel extends BaseViewModel {
         symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
     }
 
+    private DealDetailModel dealDetailModel;
     public ObservableField<String> dealType = new ObservableField<>("");
     public ObservableField<String> symbolType = new ObservableField<>("");
     public ObservableField<String> contractAuthor = new ObservableField<>("");
@@ -58,7 +64,20 @@ public class ContractRecordDetailViewModel extends BaseViewModel {
         }
     });
 
+    //区块按钮的点击事件
+    public BindingCommand onSquareHeightClick = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            WebViewModel webViewModel = new WebViewModel();
+            webViewModel.setUrl(Utils.getString(R.string.module_asset_block_head_address) + dealDetailModel.block_header);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
+        }
+    });
+
     public void setDealDetailData(DealDetailModel dealDetailModel) {
+        this.dealDetailModel = dealDetailModel;
         dealType.set(dealDetailModel.deal_type);
         contractAuthor.set(dealDetailModel.caller);
         contractName.set(dealDetailModel.contract_name);

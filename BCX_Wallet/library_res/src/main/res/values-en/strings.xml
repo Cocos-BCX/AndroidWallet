@@ -74,4 +74,5 @@
     <string name="invoke_contract_detail">查看详情</string>
     <string name="invoke_contract_confirm">确认执行</string>
     <string name="invoke_contract_defalut">合约</string>
+    <string name="module_asset_block_head_address">https://www.cocosabc.com/blocks/block/</string>
 </resources>

@@ -25,7 +25,7 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_CONTRACT_RECORD_DETAIL = "/module_asset/ContractRecordDetailActivity";
     public static final String ACTIVITY_CREATE_ACCOUNT = "/module_asset/CreateAccountActivity";
     public static final String ACTIVITY_COIN_SELECT = "/module_asset/CoinSelectActivity";
-    public static final String ACTIVITY_NH_TRANSFER_RECORD_DETAIL = "/module_asset/NhTransferRecordDetailActivity";
+    public static final String ACTIVITY_NH_TRANSFER_RECORD_DETAIL = "/module_asset/NHTransferDealDetailActivity";
     public static final String ACTIVITY_ORDER_MANAGE = "/module_asset/OrderManageActivity";
     public static final String ACTIVITY_NH_ORDER_DETAIL = "/module_asset/NhOrderDetailActivity";
 

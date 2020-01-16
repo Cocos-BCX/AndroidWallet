@@ -50,12 +50,12 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -336,6 +336,14 @@
 
         </ScrollView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/check_transfer_info_in_browser"
+            android:textColor="@color/color_4868DC"
+            binding:onClickCommand="@{viewModel.onSquareHeightClick}" />
     </LinearLayout>
 
 </layout>
