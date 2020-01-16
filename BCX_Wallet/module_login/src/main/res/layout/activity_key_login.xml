@@ -140,9 +140,11 @@
                     android:paddingStart="@dimen/dp_14"
                     android:singleLine="true"
                     android:text="@={viewModel.password}"
+                    android:layout_toStartOf="@+id/lv_pwd_visible"
                     tools:ignore="RtlSymmetry" />
 
                 <LinearLayout
+                    android:id="@+id/lv_pwd_visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

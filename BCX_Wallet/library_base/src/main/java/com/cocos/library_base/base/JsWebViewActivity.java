@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.library_base.BR;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.databinding.ActivityJsWebviewBindingImpl;
@@ -53,7 +54,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import me.tatarka.bindingcollectionadapter2.BR;
 
 
 /**

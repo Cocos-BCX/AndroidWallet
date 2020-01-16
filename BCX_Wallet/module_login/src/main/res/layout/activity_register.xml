@@ -62,7 +62,8 @@
                     android:layout_width="1dp"
                     android:layout_height="@dimen/dp_16"
                     android:layout_marginStart="@dimen/dp_16"
-                    android:background="@color/color_ffd8dbe1" />
+                    android:background="@color/color_ffd8dbe1"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/login_title"
@@ -72,6 +73,7 @@
                     android:text="@string/module_login_wallet_title"
                     android:textColor="@{viewModel.walletModelTitleColor}"
                     android:textSize="@dimen/sp_22"
+                    android:visibility="gone"
                     android:typeface="@{@string/TOTAL_ASSET}"
                     binding:onClickCommand="@{viewModel.walletTitleOnClickCommand}" />
 
