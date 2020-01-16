@@ -48,13 +48,11 @@ public class RegisterActivity extends BaseActivity<ActivityRegisterBinding, Regi
     public void initData() {
         binding.edtRegisterPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         binding.edtRegisterConfirmPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-        pwdVisibleControl(binding.edtRegisterPwd, binding.ivPwdVisible);
-        pwdVisibleControl(binding.edtRegisterConfirmPwd, binding.ivPwdVisible);
+        pwdVisibleControl2(binding.edtRegisterPwd, binding.edtRegisterConfirmPwd, binding.ivPwdVisible);
         binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pwdVisibleControl(binding.edtRegisterPwd, binding.ivPwdVisible);
-                pwdVisibleControl(binding.edtRegisterConfirmPwd, binding.ivPwdVisible);
+                pwdVisibleControl2(binding.edtRegisterPwd, binding.edtRegisterConfirmPwd, binding.ivPwdVisible);
             }
         });
     }

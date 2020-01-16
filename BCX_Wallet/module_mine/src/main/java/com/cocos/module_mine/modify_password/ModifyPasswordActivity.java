@@ -47,13 +47,11 @@ public class ModifyPasswordActivity extends BaseActivity<ActivityModifyPasswordB
         viewModel.setAccountName(daoAccountModel.getName());
         binding.etModifyPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         binding.etModifyConfirm.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-        pwdVisibleControl(binding.etModifyPassword, binding.ivPwdVisible);
-        pwdVisibleControl(binding.etModifyConfirm, binding.ivPwdVisible);
+        pwdVisibleControl2(binding.etModifyPassword, binding.etModifyConfirm, binding.ivPwdVisible);
         binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pwdVisibleControl(binding.etModifyPassword, binding.ivPwdVisible);
-                pwdVisibleControl(binding.etModifyConfirm, binding.ivPwdVisible);
+                pwdVisibleControl2(binding.etModifyConfirm, binding.etModifyPassword, binding.ivPwdVisible);
             }
         });
     }

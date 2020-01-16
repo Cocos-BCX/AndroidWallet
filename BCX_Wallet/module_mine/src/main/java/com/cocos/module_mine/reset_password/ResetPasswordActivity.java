@@ -48,13 +48,11 @@ public class ResetPasswordActivity extends BaseActivity<ActivityResetPasswordBin
         viewModel.setDaoAccountModel(daoAccountModel);
         binding.etResetPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         binding.etResetConfirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-        pwdVisibleControl(binding.etResetPassword, binding.ivPwdVisible);
-        pwdVisibleControl(binding.etResetConfirmPassword, binding.ivPwdVisible);
+        pwdVisibleControl2(binding.etResetPassword, binding.etResetConfirmPassword, binding.ivPwdVisible);
         binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pwdVisibleControl(binding.etResetPassword, binding.ivPwdVisible);
-                pwdVisibleControl(binding.etResetConfirmPassword, binding.ivPwdVisible);
+                pwdVisibleControl2(binding.etResetPassword, binding.etResetConfirmPassword, binding.ivPwdVisible);
             }
         });
     }

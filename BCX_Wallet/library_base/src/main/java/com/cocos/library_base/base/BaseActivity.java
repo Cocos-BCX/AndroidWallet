@@ -441,4 +441,24 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         String pwd = editText.getText().toString().trim();
         editText.setSelection(pwd.length());
     }
+
+    /**
+     * 密码输入框右边的眼睛点击改变状态逻辑
+     */
+    public void pwdVisibleControl2(EditText editText1, EditText editText2, ImageView imageView) {
+        if (isPwdCancel) {
+            editText1.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            editText2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            imageView.setImageResource(R.drawable.hidden_pwd);
+        } else {
+            editText1.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            editText2.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            imageView.setImageResource(R.drawable.show_pwd);
+        }
+        isPwdCancel = !isPwdCancel;
+        String pwd = editText1.getText().toString().trim();
+        String newpwd = editText2.getText().toString().trim();
+        editText1.setSelection(pwd.length());
+        editText2.setSelection(newpwd.length());
+    }
 }
