@@ -3,6 +3,7 @@ package com.cocos.module_login.password_login;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,10 +59,17 @@ public class PasswordLoginActivity extends BaseActivity<ActivityPasswordLoginBin
         //空实现,不加入ActivityContainer
     }
 
-
     @Override
     public void initData() {
         VersionUtil.updateVersion(viewModel, PasswordLoginActivity.this);
+        binding.etConfirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        pwdVisibleControl(binding.etConfirmPassword, binding.ivPwdVisible);
+        binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdVisibleControl(binding.etConfirmPassword, binding.ivPwdVisible);
+            }
+        });
     }
 
     @Override

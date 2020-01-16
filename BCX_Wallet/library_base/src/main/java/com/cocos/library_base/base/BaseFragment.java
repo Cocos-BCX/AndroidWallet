@@ -9,10 +9,14 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.cocos.library_base.R;
 import com.cocos.library_base.bus.Messenger;
 import com.cocos.library_base.bus.event.EventBusCarrier;
 import com.cocos.library_base.utils.LoadingDialogUtils;
@@ -361,5 +365,23 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      */
     public <T extends ViewModel> T createViewModel(Fragment fragment, Class<T> cls) {
         return ViewModelProviders.of(fragment).get(cls);
+    }
+
+    private boolean isPwdCancel = true;
+
+    /**
+     * 密码输入框右边的眼睛点击改变状态逻辑
+     */
+    public void pwdVisibleControl(EditText editText, ImageView imageView) {
+        if (isPwdCancel) {
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            imageView.setImageResource(R.drawable.hidden_pwd);
+        } else {
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            imageView.setImageResource(R.drawable.show_pwd);
+        }
+        isPwdCancel = !isPwdCancel;
+        String pwd = editText.getText().toString().trim();
+        editText.setSelection(pwd.length());
     }
 }

@@ -37,6 +37,7 @@
                     android:scaleType="centerInside"
                     android:src="@drawable/arrow_left_black" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,20 +105,23 @@
 
             </com.cocos.library_base.widget.LinearLinearLayout>
 
-            <com.cocos.library_base.widget.LinearLinearLayout
+            <com.cocos.library_base.widget.LinearRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/dp_22"
+                android:paddingBottom="@dimen/dp_22"
                 br:borderColor="@color/color_D8DBE1"
                 br:borderStrokeWidth="6"
                 br:needLeftAndRigtBorder="false"
                 br:needTopBorder="false">
 
                 <TextView
+                    android:id="@+id/tv_pwd_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text="@string/module_login_password"
@@ -125,20 +129,35 @@
                     android:textSize="@dimen/sp_15" />
 
                 <EditText
-                    android:id="@+id/et_information_tips"
+                    android:id="@+id/et_temp_pwd"
                     style="@style/editText_style"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv_pwd_title"
                     android:hint="@string/module_login_temporary_password_hint"
                     android:inputType="textPassword"
                     android:maxLength="63"
-                    android:paddingLeft="@dimen/dp_14"
-                    android:paddingTop="@dimen/dp_22"
-                    android:paddingBottom="@dimen/dp_22"
-                    android:text="@={viewModel.password}" />
+                    android:paddingStart="@dimen/dp_14"
+                    android:singleLine="true"
+                    android:text="@={viewModel.password}"
+                    tools:ignore="RtlSymmetry" />
 
-            </com.cocos.library_base.widget.LinearLinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12">
+
+                    <ImageView
+                        android:id="@+id/iv_pwd_visible"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@drawable/hidden_pwd" />
+                </LinearLayout>
+
+            </com.cocos.library_base.widget.LinearRelativeLayout>
         </LinearLayout>
 
         <LinearLayout

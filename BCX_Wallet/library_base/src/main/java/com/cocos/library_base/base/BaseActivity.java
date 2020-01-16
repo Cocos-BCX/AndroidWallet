@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.Messenger;
@@ -419,5 +422,23 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
             return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
         return super.onTouchEvent(event);
+    }
+
+    private boolean isPwdCancel = true;
+
+    /**
+     * 密码输入框右边的眼睛点击改变状态逻辑
+     */
+    public void pwdVisibleControl(EditText editText, ImageView imageView) {
+        if (isPwdCancel) {
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            imageView.setImageResource(R.drawable.hidden_pwd);
+        } else {
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            imageView.setImageResource(R.drawable.show_pwd);
+        }
+        isPwdCancel = !isPwdCancel;
+        String pwd = editText.getText().toString().trim();
+        editText.setSelection(pwd.length());
     }
 }

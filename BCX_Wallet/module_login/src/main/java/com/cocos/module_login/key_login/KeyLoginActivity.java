@@ -1,6 +1,8 @@
 package com.cocos.module_login.key_login;
 
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -44,6 +46,14 @@ public class KeyLoginActivity extends BaseActivity<ActivityKeyLoginBinding, KeyL
     @Override
     public void initData() {
         viewModel.setFrom(from);
+        binding.etTempPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        pwdVisibleControl(binding.etTempPwd, binding.ivPwdVisible);
+        binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdVisibleControl(binding.etTempPwd, binding.ivPwdVisible);
+            }
+        });
     }
 
     @Override

@@ -7,18 +7,24 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.cocos.library_base.R;
 
 import java.util.Objects;
 
 public abstract class BaseDialogFragment extends DialogFragment {
 
     private View mainView;
+    private boolean isPwdCancel = true;
 
     @Nullable
     @Override
@@ -83,7 +89,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected abstract boolean isCancelableTouchOutSide();
 
 
-
     /**
      * 初始化弹窗数据
      */
@@ -135,5 +140,21 @@ public abstract class BaseDialogFragment extends DialogFragment {
         } catch (RuntimeException e) {
         }
 
+    }
+
+    /**
+     * 密码输入框右边的眼睛点击改变状态逻辑
+     */
+    public void pwdVisibleControl(EditText editText, ImageView imageView) {
+        if (isPwdCancel) {
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            imageView.setImageResource(R.drawable.hidden_pwd);
+        } else {
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            imageView.setImageResource(R.drawable.show_pwd);
+        }
+        isPwdCancel = !isPwdCancel;
+        String pwd = editText.getText().toString().trim();
+        editText.setSelection(pwd.length());
     }
 }

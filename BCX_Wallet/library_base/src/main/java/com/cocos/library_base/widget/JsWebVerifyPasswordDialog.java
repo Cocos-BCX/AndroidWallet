@@ -1,8 +1,10 @@
 package com.cocos.library_base.widget;
 
+import android.text.InputType;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.cocos.library_base.R;
 import com.cocos.library_base.base.BaseVerifyPasswordDialog;
@@ -28,7 +30,10 @@ public class JsWebVerifyPasswordDialog extends BaseVerifyPasswordDialog {
 
     @Override
     protected void initView(View mainView) {
+        ImageView ivPwdVisible = mainView.findViewById(R.id.iv_pwd_visible);
         EditText editText = mainView.findViewById(R.id.edt_password);
+        editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        pwdVisibleControl(editText, ivPwdVisible);
         CheckBox checkBox = mainView.findViewById(R.id.cb_secret_free_check);
         mainView.findViewById(R.id.btn_password_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +55,12 @@ public class JsWebVerifyPasswordDialog extends BaseVerifyPasswordDialog {
                 dismiss();
             }
         });
-
+        ivPwdVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdVisibleControl(editText, ivPwdVisible);
+            }
+        });
     }
 
     @Override
