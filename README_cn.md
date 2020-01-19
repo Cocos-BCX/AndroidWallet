@@ -38,6 +38,7 @@ android {
 }
 
 参考链接
+
 https://stackoverflow.com/questions/48249633/errorcannot-fit-requested-classes-in-a-single-dex-file-try-supplying-a-main-dex .
 
 2.网络权限的问题
@@ -58,13 +59,16 @@ AndroidManifest.xml :
         ...
     </application>
 </manifest>
+
 参考链接
+
 https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted
 
 3.relase 编译问题
+
 编译可能会出现没有配置Relaese_key 的错误提示，去app模块的build.gradle下注释release 配置即可。
 
-### 4.编译结束后即可运行项目到虚拟机或手机上；
+### 3.编译结束后即可运行项目到虚拟机或手机上；
 
 #### 如果编译出现问题可在 issues 中提出。
 
