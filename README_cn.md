@@ -13,8 +13,10 @@
 ##### Android Studio中 [配置 SDK、JDK 路径](https://www.cnblogs.com/lzwangshubo/p/10165064.html) 
 
 ### 2.编译
+
 clone 项目代码到本地，使用 Android Studio 导入项目，编译器会自动编译，编译会下载编译工具和项目中的依赖库，时间可能较长。
 编译可能遇到的问题：
+
 1.64K问题:
 
 build.gradle
