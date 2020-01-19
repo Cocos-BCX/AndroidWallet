@@ -34,9 +34,12 @@ android {
 		multiDexEnabled true //add
 	}
 }
-...
-ref url: https://stackoverflow.com/questions/48249633/errorcannot-fit-requested-classes-in-a-single-dex-file-try-supplying-a-main-dex .
+
+参考链接
+https://stackoverflow.com/questions/48249633/errorcannot-fit-requested-classes-in-a-single-dex-file-try-supplying-a-main-dex .
+
 2.网络权限的问题
+
 Android P(版本27以上) 对网络请求http限制，SDK中有使用http请求； 如果项目的 compileSdkVersion是 28 及以上, 修改 AndroidManifest.xml 如下:
 
 AndroidManifest.xml :
@@ -53,9 +56,11 @@ AndroidManifest.xml :
         ...
     </application>
 </manifest>
-ref url: https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted
-### 3.注意
-编译可能会出现没有配置Relaese_key 的错误提示，去app模块的build.gradle下删除release 配置即可。
+参考链接
+https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted
+
+3.relase 编译问题
+编译可能会出现没有配置Relaese_key 的错误提示，去app模块的build.gradle下注释release 配置即可。
 
 ### 4.编译结束后即可运行项目到虚拟机或手机上；
 
