@@ -31,4 +31,8 @@ public class EventTypeGlobal {
     public static final String SHOW_TRANSFER_NH_ASSET_PASSWORD_VERIFY_DIALOG = "show_transfer_nh_asset_password_verify_dialog";
     public static final String SHOW_SALE_NH_ASSET_PASSWORD_VERIFY_DIALOG = "show_sale_nh_asset_password_verify_dialog";
     public static final String SWITCH_COIN_TYPE = "switch_coin_type";
+    public static final String JSWEB_REFRESH_TYPE = "jsweb_refresh_type";
+    public static final String JSWEB_COPYURL_TYPE = "jsweb_copyurl_type";
+    public static final String JSWEB_SHARE_TYPE = "jsweb_share_type";
+    public static final String JSWEB_BROWSER_TYPE = "jsweb_browser_type";
 }

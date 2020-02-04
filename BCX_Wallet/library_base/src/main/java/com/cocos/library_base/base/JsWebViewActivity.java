@@ -1,13 +1,23 @@
 package com.cocos.library_base.base;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -17,7 +27,10 @@ import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.BR;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.event.EventBusCarrier;
+import com.cocos.library_base.component.transfer.OrderConfirmViewModel;
 import com.cocos.library_base.databinding.ActivityJsWebviewBindingImpl;
+import com.cocos.library_base.databinding.DialogJswebviewMoreBinding;
+import com.cocos.library_base.databinding.DialogTransferPayConfirmBinding;
 import com.cocos.library_base.entity.BaseResultModel;
 import com.cocos.library_base.entity.NodeInfoModel;
 import com.cocos.library_base.entity.WebViewModel;
@@ -36,6 +49,7 @@ import com.cocos.library_base.entity.js_response.SelectLanguageModel;
 import com.cocos.library_base.entity.js_response.TransferNHAssetParamModel;
 import com.cocos.library_base.entity.js_response.TransferParamModel;
 import com.cocos.library_base.entity.js_response.UpdateGasParamsModel;
+import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.GlobalConstants;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
@@ -43,17 +57,20 @@ import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.JSTools;
 import com.cocos.library_base.utils.SPUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.multi_language.SPUtil;
+import com.cocos.library_base.utils.singleton.BottomDialogSingleInstance;
+import com.cocos.library_base.utils.singleton.ClipboardManagerInstance;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
+import com.cocos.library_base.viewmodel.JsWebMoreViewModel;
 import com.cocos.library_base.widget.JsWebVerifyPasswordDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 
 
 /**
@@ -72,6 +89,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     private String solidPassworld;
 
     private WebViewModel webViewModel;
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     public int initContentView(Bundle bundle) {
@@ -180,7 +198,47 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         if (null == busCarrier) {
             return;
         }
+
         JsParamsEventModel params = (JsParamsEventModel) busCarrier.getObject();
+        if (null == params) {
+            if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_REFRESH_TYPE)) {
+                if (null != binding.jsWebView) {
+                    binding.jsWebView.reload();
+                }
+                if (null != bottomSheetDialog) {
+                    bottomSheetDialog.dismiss();
+                }
+            } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_COPYURL_TYPE)) {
+                ClipData mClipData = ClipData.newPlainText("Label", webViewModel.getUrl());
+                ClipboardManagerInstance.getClipboardManager().setPrimaryClip(mClipData);
+                ToastUtils.showShort(R.string.copy_success);
+                if (null != bottomSheetDialog) {
+                    bottomSheetDialog.dismiss();
+                }
+            } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_SHARE_TYPE)) {
+
+            } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_BROWSER_TYPE)) {
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri content_url = Uri.parse(webViewModel.getUrl());
+                    intent.setData(content_url);
+                    intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+                    startActivity(intent);
+                    if (null != bottomSheetDialog) {
+                        bottomSheetDialog.dismiss();
+                    }
+                } catch (Exception e) {
+
+                }
+            } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.DIALOG_DISMISS_TYPE)) {
+                if (null != bottomSheetDialog) {
+                    bottomSheetDialog.dismiss();
+                }
+            }
+
+            return;
+        }
 
         if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.TRANSFERASSET)) {
             /**
@@ -750,6 +808,31 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 finish();
             }
         });
+
+        try {
+            viewModel.uc.moreObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                @Override
+                public void onPropertyChanged(Observable sender, int propertyId) {
+                    bottomSheetDialog = new BottomSheetDialog(JsWebViewActivity.this);
+                    DialogJswebviewMoreBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_jswebview_more, null, false);
+                    bottomSheetDialog.setContentView(binding.getRoot());
+                    // 设置dialog 完全显示
+                    View parent = (View) binding.getRoot().getParent();
+                    BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+                    binding.getRoot().measure(0, 0);
+                    behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
+                    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
+                    params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+                    parent.setLayoutParams(params);
+                    bottomSheetDialog.setCanceledOnTouchOutside(true);
+                    final JsWebMoreViewModel jsWebMoreViewModel = new JsWebMoreViewModel(getApplication());
+                    binding.setViewModel(jsWebMoreViewModel);
+                    bottomSheetDialog.show();
+                }
+            });
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

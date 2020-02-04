@@ -1,16 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:binding="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <import type="com.cocos.library_base.base.JsWebViewViewModel" />
-
-        <variable
-            name="viewModel"
-            type="JsWebViewViewModel" />
-
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,16 +26,6 @@
                     android:src="@drawable/arrow_left_black" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="@={viewModel.webTitle}"
-                android:textColor="@color/color_262A33"
-                android:textSize="@dimen/sp_18"
-                android:typeface="@{@string/TOTAL_ASSET}" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,8 +37,19 @@
 
                 <ImageView
                     android:layout_width="@dimen/dp_18"
-                    android:layout_height="@dimen/dp_18" />
+                    android:layout_height="@dimen/dp_18"
+                    android:src="@drawable/more_icon" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@={viewModel.webTitle}"
+                android:textColor="@color/color_262A33"
+                android:textSize="@dimen/sp_18"
+                android:typeface="@{@string/TOTAL_ASSET}" />
 
         </RelativeLayout>
 
@@ -69,5 +60,15 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <data>
+
+        <import type="com.cocos.library_base.base.JsWebViewViewModel" />
+
+        <variable
+            name="viewModel"
+            type="JsWebViewViewModel" />
+
+    </data>
 
 </layout>

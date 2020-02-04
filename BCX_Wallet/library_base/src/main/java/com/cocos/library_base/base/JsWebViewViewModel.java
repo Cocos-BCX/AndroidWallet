@@ -27,6 +27,7 @@ public class JsWebViewViewModel extends BaseViewModel {
 
     public class UIChangeObservable {
         public ObservableBoolean backObservable = new ObservableBoolean(false);
+        public ObservableBoolean moreObservable = new ObservableBoolean(false);
     }
 
     public BindingCommand backOnClickCommand = new BindingCommand(new BindingAction() {
@@ -39,7 +40,7 @@ public class JsWebViewViewModel extends BaseViewModel {
     public BindingCommand rightIconClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-
+            uc.moreObservable.set(!uc.moreObservable.get());
         }
     });
 
