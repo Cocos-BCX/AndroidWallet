@@ -140,7 +140,7 @@ public class DealRecordViewModel extends BaseViewModel {
     public void requestDealRecordList() {
         try {
             showDialog();
-            CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 50, new IBcxCallBack() {
+            CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 100, new IBcxCallBack() {
                 @Override
                 public void onReceiveValue(final String value) {
                     MainHandler.getInstance().post(new Runnable() {
