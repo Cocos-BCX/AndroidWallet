@@ -1,5 +1,6 @@
 package com.cocos.library_base.base;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
@@ -20,8 +21,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.library_base.BR;
@@ -53,6 +56,7 @@ import com.cocos.library_base.global.EventTypeGlobal;
 import com.cocos.library_base.global.GlobalConstants;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
+import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.JSTools;
@@ -67,10 +71,19 @@ import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.library_base.viewmodel.JsWebMoreViewModel;
 import com.cocos.library_base.widget.JsWebVerifyPasswordDialog;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.editorpage.ShareActivity;
+import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -90,6 +103,47 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
 
     private WebViewModel webViewModel;
     private BottomSheetDialog bottomSheetDialog;
+
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(JsWebViewActivity.this, "成功了", Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(JsWebViewActivity.this, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(JsWebViewActivity.this, "取消了", Toast.LENGTH_LONG).show();
+
+        }
+    };
+
 
     @Override
     public int initContentView(Bundle bundle) {
@@ -192,7 +246,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         }
     }
 
-    @SuppressLint("LongLogTag")
+    @SuppressLint({"LongLogTag", "CheckResult"})
     @Override
     public void onHandleEvent(EventBusCarrier busCarrier) {
         if (null == busCarrier) {
@@ -216,7 +270,23 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     bottomSheetDialog.dismiss();
                 }
             } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_SHARE_TYPE)) {
-
+                RxPermissions rxPermissions = new RxPermissions(JsWebViewActivity.this);
+                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) {
+                        if (aBoolean) {
+                            new ShareAction(JsWebViewActivity.this).withText(webViewModel.getDesc())
+                                    .withMedia(new UMImage(JsWebViewActivity.this, webViewModel.getIconUrl()))
+                                    .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
+                                    .setCallback(shareListener).open();
+                            if (null != bottomSheetDialog) {
+                                bottomSheetDialog.dismiss();
+                            }
+                        }else
+                    }
+                });
             } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_BROWSER_TYPE)) {
                 try {
                     Intent intent = new Intent();
@@ -794,6 +864,12 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 Log.i("javascript", sb.toString().replace("\\", "\\\\"));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

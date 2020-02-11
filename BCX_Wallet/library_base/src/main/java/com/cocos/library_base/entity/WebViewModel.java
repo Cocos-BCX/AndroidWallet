@@ -14,4 +14,6 @@ import lombok.Setter;
 public class WebViewModel implements Serializable {
     private String title;
     private String url;
+    private String iconUrl;
+    private String desc;
 }

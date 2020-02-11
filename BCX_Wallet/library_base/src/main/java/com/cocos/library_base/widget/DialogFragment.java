@@ -51,6 +51,8 @@ public class DialogFragment extends BaseDialogFragment {
                         WebViewModel webViewModel = new WebViewModel();
                         webViewModel.setTitle(foundListModel.getListTitle());
                         webViewModel.setUrl(foundListModel.getLinkUrl());
+                        webViewModel.setIconUrl(foundListModel.getImageUrl());
+                        webViewModel.setDesc(foundListModel.getListDesc());
                         urls.add(foundListModel.getLinkUrl());
                         SPUtils.setDataList(SPKeyGlobal.FOUND_DIALOG_SHOWED_MARK, urls);
                         Bundle bundle = new Bundle();
