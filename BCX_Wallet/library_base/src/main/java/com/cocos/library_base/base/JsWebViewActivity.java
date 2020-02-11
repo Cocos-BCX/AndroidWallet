@@ -284,7 +284,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                             if (null != bottomSheetDialog) {
                                 bottomSheetDialog.dismiss();
                             }
-                        }else
+                        }
                     }
                 });
             } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_BROWSER_TYPE)) {
