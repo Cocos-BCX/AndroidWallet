@@ -208,9 +208,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                             @Override
                             public void onReceiveValue(String s) {
                                 Log.i("callContractresult", s);
-                                if (null == contract.getAuthorizedAccount()) {
-                                    Log.i("getAuthorizedAccount", "getAuthorizedAccount is null");
-                                }
                                 AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
                                 if (accountNamesEntity.isSuccess()) {
                                     if (null != contract.getAuthorizedAccount() && accountNamesEntity.data.contains(contract.getAuthorizedAccount())) {
