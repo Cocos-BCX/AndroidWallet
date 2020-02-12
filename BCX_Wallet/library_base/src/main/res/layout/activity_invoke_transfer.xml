@@ -14,12 +14,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/color_f6f6f6"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_f6f6f6"
             android:orientation="vertical"
             android:paddingStart="@dimen/dp_20"
             android:paddingEnd="@dimen/dp_20">
@@ -251,9 +251,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_15"
-                    android:layout_marginEnd="@dimen/dp_20"
                     android:background="@drawable/btn_bg_gray_no_corner"
                     android:gravity="center"
                     android:paddingTop="@dimen/dp_12"

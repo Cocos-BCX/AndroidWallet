@@ -176,22 +176,30 @@ public class InvokeTransferActivity extends BaseActivity<ActivityInvokeTransferB
                 }
 
                 if (TextUtils.isEmpty(transferInvokeModel.getFrom())) {
-                    ToastUtils.showShort(R.string.transferAccountName_empty);
+                    finish();
+                    IntentUtils.jumpToDappWithError(InvokeTransferActivity.this, baseInvokeModel,
+                            transferInvokeModel.getActionId(), Utils.getString(R.string.transferAccountName_empty));
                     return;
                 }
 
                 if (TextUtils.isEmpty(transferInvokeModel.getTo())) {
-                    ToastUtils.showShort(R.string.module_asset_receivablesAccountName_empty);
+                    finish();
+                    IntentUtils.jumpToDappWithError(InvokeTransferActivity.this, baseInvokeModel,
+                            transferInvokeModel.getActionId(), Utils.getString(R.string.module_asset_receivablesAccountName_empty));
                     return;
                 }
 
                 if (TextUtils.isEmpty(String.valueOf(transferInvokeModel.getAmount()))) {
-                    ToastUtils.showShort(R.string.module_asset_transfer_amount_empty);
+                    finish();
+                    IntentUtils.jumpToDappWithError(InvokeTransferActivity.this, baseInvokeModel,
+                            transferInvokeModel.getActionId(), Utils.getString(R.string.module_asset_transfer_amount_empty));
                     return;
                 }
 
                 if (TextUtils.equals(transferInvokeModel.getFrom(), transferInvokeModel.getTo())) {
-                    ToastUtils.showShort(R.string.module_asset_transfer_account_can_not_yourself);
+                    finish();
+                    IntentUtils.jumpToDappWithError(InvokeTransferActivity.this, baseInvokeModel,
+                            transferInvokeModel.getActionId(), Utils.getString(R.string.module_asset_transfer_account_can_not_yourself));
                     return;
                 }
                 NumberFormat instance = NumberFormat.getInstance();

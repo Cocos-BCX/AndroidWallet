@@ -1,5 +1,6 @@
 package com.cocos.bcx_wallet.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,19 +12,24 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
+import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
 import com.cocos.bcx_wallet.databinding.ActivityMainBinding;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.entity.AccountNamesEntity;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.invokedpages.model.Authorize;
 import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.invokedpages.model.Contract;
 import com.cocos.library_base.invokedpages.model.Transfer;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.StatusBarUtils;
+import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.VersionUtil;
 import com.cocos.library_base.utils.node.NodeConnectUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
@@ -32,6 +38,8 @@ import com.cocos.module_found.fragment.FoundFragment;
 import com.cocos.module_mine.mine_fragment.MineFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author ningkang.guo
@@ -151,22 +159,72 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 Bundle bundle1 = new Bundle();
                 switch (baseInvokeModel.getAction()) {
                     case "login":
-                        Authorize authorize = GsonSingleInstance.getGsonInstance().fromJson(param, Authorize.class);
-                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_AUTHORIZE_INFO, authorize);
-                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel);
-                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_LOGIN).with(bundle1).navigation();
+                        BaseInvokeModel finalBaseInvokeModel = baseInvokeModel;
+                        CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                            @SuppressLint("LongLogTag")
+                            @Override
+                            public void onReceiveValue(String s) {
+                                Log.i("loginresult", s);
+                                AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                                if (accountNamesEntity.isSuccess()) {
+                                    Authorize authorize = GsonSingleInstance.getGsonInstance().fromJson(param, Authorize.class);
+                                    bundle1.putSerializable(IntentKeyGlobal.INVOKE_AUTHORIZE_INFO, authorize);
+                                    bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, finalBaseInvokeModel);
+                                    ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_LOGIN).with(bundle1).navigation();
+                                } else {
+                                    ToastUtils.showShort(R.string.account_empty);
+                                }
+                            }
+                        });
                         break;
                     case "transfer":
                         Transfer transfer = GsonSingleInstance.getGsonInstance().fromJson(param, Transfer.class);
-                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_TRANSFER_INFO, transfer);
-                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel);
-                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_TRANSFER).with(bundle1).navigation();
+                        BaseInvokeModel finalBaseInvokeModel2 = baseInvokeModel;
+                        CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                            @SuppressLint("LongLogTag")
+                            @Override
+                            public void onReceiveValue(String s) {
+                                Log.i("transferresult", s);
+                                AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                                if (accountNamesEntity.isSuccess()) {
+                                    if (null != transfer.getFrom() && accountNamesEntity.data.contains(transfer.getFrom())) {
+                                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_TRANSFER_INFO, transfer);
+                                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, finalBaseInvokeModel2);
+                                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_TRANSFER).with(bundle1).navigation();
+                                    } else {
+                                        ToastUtils.showShort(R.string.author_account_not_exist);
+                                    }
+                                } else {
+                                    ToastUtils.showShort(R.string.account_empty);
+                                }
+                            }
+                        });
                         break;
                     case "callContract":
                         Contract contract = GsonSingleInstance.getGsonInstance().fromJson(param, Contract.class);
-                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_CONTRACT_INFO, contract);
-                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel);
-                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_CONTRACT).with(bundle1).navigation();
+                        BaseInvokeModel finalBaseInvokeModel1 = baseInvokeModel;
+                        CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                            @SuppressLint("LongLogTag")
+                            @Override
+                            public void onReceiveValue(String s) {
+                                Log.i("callContractresult", s);
+                                if (null == contract.getAuthorizedAccount()) {
+                                    Log.i("getAuthorizedAccount", "getAuthorizedAccount is null");
+                                }
+                                AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                                if (accountNamesEntity.isSuccess()) {
+                                    if (null != contract.getAuthorizedAccount() && accountNamesEntity.data.contains(contract.getAuthorizedAccount())) {
+                                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_CONTRACT_INFO, contract);
+                                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, finalBaseInvokeModel1);
+                                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_CONTRACT).with(bundle1).navigation();
+                                    } else {
+                                        ToastUtils.showShort(R.string.author_account_not_exist);
+                                    }
+                                } else {
+                                    ToastUtils.showShort(R.string.account_empty);
+                                }
+                            }
+                        });
                         break;
                     default:
                         throw new IllegalStateException("Unexpected value: " + baseInvokeModel.getAction());

@@ -29,6 +29,7 @@ import com.cocos.library_base.utils.DensityUtils;
 import com.cocos.library_base.utils.IntentUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.Utils;
+import com.umeng.commonsdk.statistics.common.HelperUtils;
 
 /**
  * @author ningkang.guo
@@ -93,15 +94,17 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
         viewModel.uc.invokeLoginConfirmObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                finish();
                 if (authorize.getExpired() > 0 && System.currentTimeMillis() > authorize.getExpired()) {
-                    IntentUtils.jumpToDappWithError(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId(),"request expired!");
+                    finish();
+                    IntentUtils.jumpToDappWithError(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId(), "request expired!");
                     return;
                 }
+                finish();
                 BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
                 baseInvokeResultModel.setCode(1);
                 baseInvokeResultModel.setData(viewModel.invokeLoginAccount.get());
                 baseInvokeResultModel.setActionId(authorize.getActionId());
+                AccountHelperUtils.setCurrentAccountName(viewModel.invokeLoginAccount.get());
                 IntentUtils.jumpToDapp(InvokeLoginActivity.this, baseInvokeResultModel, baseInvokeModel);
             }
         });

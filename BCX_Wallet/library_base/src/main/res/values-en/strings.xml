@@ -46,4 +46,6 @@
     <string name="warm_prompt">温馨提示：</string>
     <string name="invoke_transfer_title">订单支付</string>
     <string name="transferAccountName_empty">付款方不能为空</string>
+    <string name="account_empty">Please log in or create an account first</string>
+    <string name="author_account_not_exist">Authorized account doesn‘t exist, please re-authorize</string>
 </resources>

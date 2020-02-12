@@ -104,7 +104,6 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeContractB
                             @Override
                             public void onReceiveValue(String s) {
                                 BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
-                                finish();
                                 BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
                                 if (baseResult.getCode() == 105) {
                                     ToastUtils.showShort(R.string.module_asset_wrong_password);
@@ -114,12 +113,12 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeContractB
                                     baseInvokeResultModel.setCode(1);
                                     baseInvokeResultModel.setData(baseResult.getData());
                                     baseInvokeResultModel.setActionId(contract.getActionId());
-                                } else {
-                                    baseInvokeResultModel.setCode(2);
-                                    baseInvokeResultModel.setMessage(baseResult.getMessage());
-                                    baseInvokeResultModel.setActionId(contract.getActionId());
+                                    finish();
+                                    IntentUtils.jumpToDapp(InvokeContractActivity.this, baseInvokeResultModel, baseInvokeModel);
+                                    return;
                                 }
-                                IntentUtils.jumpToDapp(InvokeContractActivity.this, baseInvokeResultModel, baseInvokeModel);
+                                finish();
+                                IntentUtils.jumpToDappWithError(InvokeContractActivity.this, baseInvokeModel, contract.getActionId(), baseResult.getMessage());
                             }
                         });
                     }
