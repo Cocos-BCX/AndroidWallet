@@ -68,12 +68,12 @@ public class IntentUtils {
         }
     }
 
-    public static void jumpToDappWithExpirted(Context context, BaseInvokeModel baseInfo, String actionId) {
+    public static void jumpToDappWithError(Context context, BaseInvokeModel baseInfo, String actionId, String message) {
         try {
             ComponentName component = new ComponentName(baseInfo.getPackageName(), baseInfo.getClassName());
             BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
             baseInvokeResultModel.setCode(-1);
-            baseInvokeResultModel.setMessage("request expired!");
+            baseInvokeResultModel.setMessage(message);
             baseInvokeResultModel.setActionId(actionId);
             Intent intent = new Intent();
             intent.setComponent(component);

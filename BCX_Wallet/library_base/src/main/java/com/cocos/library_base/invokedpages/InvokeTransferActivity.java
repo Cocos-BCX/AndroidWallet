@@ -171,7 +171,7 @@ public class InvokeTransferActivity extends BaseActivity<ActivityInvokeTransferB
             public void onPropertyChanged(Observable observable, int i) {
                 if (transferInvokeModel.getExpired() > 0 && System.currentTimeMillis() > transferInvokeModel.getExpired()) {
                     finish();
-                    IntentUtils.jumpToDappWithExpirted(InvokeTransferActivity.this, baseInvokeModel, transferInvokeModel.getActionId());
+                    IntentUtils.jumpToDappWithError(InvokeTransferActivity.this, baseInvokeModel, transferInvokeModel.getActionId(), "request expired!");
                     return;
                 }
 

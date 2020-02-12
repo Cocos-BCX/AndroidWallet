@@ -92,7 +92,7 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeContractB
             public void onPropertyChanged(Observable sender, int propertyId) {
                 if (contract.getExpired() > 0 && System.currentTimeMillis() > contract.getExpired()) {
                     finish();
-                    IntentUtils.jumpToDappWithExpirted(InvokeContractActivity.this, baseInvokeModel, contract.getActionId());
+                    IntentUtils.jumpToDappWithError(InvokeContractActivity.this, baseInvokeModel, contract.getActionId(), "request expired!");
                     return;
                 }
                 BaseVerifyPasswordDialog passwordDialog = new BaseVerifyPasswordDialog();

@@ -95,7 +95,7 @@ public class InvokeLoginActivity extends BaseActivity<ActivityInvokeLoginBinding
             public void onPropertyChanged(Observable sender, int propertyId) {
                 finish();
                 if (authorize.getExpired() > 0 && System.currentTimeMillis() > authorize.getExpired()) {
-                    IntentUtils.jumpToDappWithExpirted(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId());
+                    IntentUtils.jumpToDappWithError(InvokeLoginActivity.this, baseInvokeModel, authorize.getActionId(),"request expired!");
                     return;
                 }
                 BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
