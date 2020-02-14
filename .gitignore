@@ -1,2 +1,4 @@
 BCX_Wallet/build/intermediates/lint-cache/sdk-registry.xml/sdk-registry.xml
 BCX_Wallet/build/intermediates/lint-cache/maven.google/master-index.xml
+BCX_Wallet/local.properties
+BCX_Wallet/gradle/wrapper/gradle-wrapper.properties
