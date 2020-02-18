@@ -4,5 +4,4 @@
     <string name="main_tab_found">Space</string>
     <string name="main_tab_mine">Me</string>
     <string name="system_exit">back twice to exist</string>
-    <string name="account_empty">请先登录或创建账户</string>
 </resources>
