@@ -61,6 +61,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private long mExitTime;
     private BottomSheetDialog bottomSheetDialog;
     BaseInvokeModel baseInvokeModel;
+    private boolean isFirst = true;
+    private long runIntent;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -135,6 +137,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     protected void onResume() {
         super.onResume();
         NodeConnectUtil.testNetStatus();
+        if (isFirst){
+            parseInvokeIntent();
+            isFirst = false;
+            return;
+        }
+        if (System.currentTimeMillis()- runIntent >= 1500){
+            parseInvokeIntent();
+        }
 
     }
 
@@ -154,6 +164,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        runIntent = System.currentTimeMillis();
         setIntent(intent);
         parseInvokeIntent();
         Log.i("onNewIntent","onNewIntent");
