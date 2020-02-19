@@ -80,4 +80,7 @@
     <string name="share_text">Share</string>
     <string name="browser_text">Open in browser</string>
     <string name="contract_detail">Details</string>
+    <string name="share_success">share success</string>
+    <string name="share_failed">share failed</string>
+    <string name="share_cancel">share canceled</string>
 </resources>

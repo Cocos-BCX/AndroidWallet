@@ -80,4 +80,7 @@
     <string name="share_text">分享</string>
     <string name="browser_text">浏览器打开</string>
     <string name="contract_detail">合约详情</string>
+    <string name="share_success">分享成功</string>
+    <string name="share_failed">分享失败</string>
+    <string name="share_cancel">分享取消了</string>
 </resources>

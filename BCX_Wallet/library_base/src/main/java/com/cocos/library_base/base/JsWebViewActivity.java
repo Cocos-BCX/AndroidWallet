@@ -121,7 +121,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(JsWebViewActivity.this, "成功了", Toast.LENGTH_LONG).show();
+            Toast.makeText(JsWebViewActivity.this, Utils.getString(R.string.share_success), Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -131,7 +131,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(JsWebViewActivity.this, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(JsWebViewActivity.this, Utils.getString(R.string.share_failed), Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -140,8 +140,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(JsWebViewActivity.this, "取消了", Toast.LENGTH_LONG).show();
-
+            Toast.makeText(JsWebViewActivity.this, Utils.getString(R.string.share_cancel), Toast.LENGTH_LONG).show();
         }
     };
 
@@ -218,6 +217,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 super.onPageFinished(view, url);
                 String title = view.getTitle();
                 if (!TextUtils.isEmpty(title) && TextUtils.isEmpty(viewModel.webTitle.get())) {
+                    webViewModel.title = title;
                     viewModel.webTitle.set(title);
                 }
             }
@@ -271,30 +271,32 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     bottomSheetDialog.dismiss();
                 }
             } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_SHARE_TYPE)) {
-                RxPermissions rxPermissions = new RxPermissions(JsWebViewActivity.this);
-                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) {
-                        if (aBoolean) {
-                            UMImage image = new UMImage(JsWebViewActivity.this, webViewModel.iconUrl);//网络图片
-                            UMWeb web = new UMWeb(webViewModel.url);
-                            web.setTitle(webViewModel.title);//标题
-                            web.setThumb(image);//缩略图
-                            web.setDescription(webViewModel.desc);//描述
-
-                            new ShareAction(JsWebViewActivity.this)
-                                    .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                                    .withMedia(web)//分享内容
-                                    .setCallback(shareListener)//回调监听器
-                                    .share();
-                            if (null != bottomSheetDialog) {
-                                bottomSheetDialog.dismiss();
+                try {
+                    RxPermissions rxPermissions = new RxPermissions(JsWebViewActivity.this);
+                    rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) {
+                            if (aBoolean) {
+                                UMImage image = new UMImage(JsWebViewActivity.this, webViewModel.iconUrl);//网络图片
+                                UMWeb web = new UMWeb(webViewModel.url);
+                                web.setTitle(webViewModel.title);//标题
+                                web.setThumb(image);//缩略图
+                                web.setDescription(TextUtils.isEmpty(webViewModel.desc) ? webViewModel.url : webViewModel.desc);//描述
+                                new ShareAction(JsWebViewActivity.this)
+                                        .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
+                                        .withMedia(web)//分享内容
+                                        .setCallback(shareListener)//回调监听器
+                                        .share();
+                                if (null != bottomSheetDialog) {
+                                    bottomSheetDialog.dismiss();
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                } catch (Exception e) {
+                }
             } else if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_BROWSER_TYPE)) {
                 try {
                     Intent intent = new Intent();
