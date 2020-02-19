@@ -218,6 +218,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 String title = view.getTitle();
                 if (!TextUtils.isEmpty(title) && TextUtils.isEmpty(viewModel.webTitle.get())) {
                     webViewModel.title = title;
+                    webViewModel.desc = url;
                     viewModel.webTitle.set(title);
                 }
             }
@@ -283,7 +284,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                                 UMWeb web = new UMWeb(webViewModel.url);
                                 web.setTitle(webViewModel.title);//标题
                                 web.setThumb(image);//缩略图
-                                web.setDescription(TextUtils.isEmpty(webViewModel.desc) ? webViewModel.url : webViewModel.desc);//描述
+                                web.setDescription(webViewModel.desc);//描述
                                 new ShareAction(JsWebViewActivity.this)
                                         .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
                                         .withMedia(web)//分享内容
