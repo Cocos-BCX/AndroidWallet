@@ -8,7 +8,6 @@ import lombok.Setter;
 /**
  * 合约信息
  */
-
 @Setter
 @Getter
 public class Contract extends BaseInfo {

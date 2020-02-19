@@ -49,8 +49,8 @@ public class BCXApplication extends BaseApplication {
         super.onCreate();
         // 友盟社会化分享初始化
         UMConfigure.init(this, "5d00ea860cafb258a10004d2", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setWeixin("wx9e2b84f3fb522466", "8d769e483ab92fc2562aad91b79f386c");
+//        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         // 初始化sdk
         CocosBcxApiWrapper.getBcxInstance().init(this);
         //是否开启日志打印

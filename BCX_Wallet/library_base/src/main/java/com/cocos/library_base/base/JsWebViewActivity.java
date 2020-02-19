@@ -78,6 +78,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.editorpage.ShareActivity;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -277,10 +278,17 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     @Override
                     public void accept(Boolean aBoolean) {
                         if (aBoolean) {
-                            new ShareAction(JsWebViewActivity.this).withText(webViewModel.getDesc())
-                                    .withMedia(new UMImage(JsWebViewActivity.this, webViewModel.getIconUrl()))
-                                    .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
-                                    .setCallback(shareListener).open();
+                            UMImage image = new UMImage(JsWebViewActivity.this, webViewModel.iconUrl);//网络图片
+                            UMWeb web = new UMWeb(webViewModel.url);
+                            web.setTitle(webViewModel.title);//标题
+                            web.setThumb(image);//缩略图
+                            web.setDescription(webViewModel.desc);//描述
+
+                            new ShareAction(JsWebViewActivity.this)
+                                    .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
+                                    .withMedia(web)//分享内容
+                                    .setCallback(shareListener)//回调监听器
+                                    .share();
                             if (null != bottomSheetDialog) {
                                 bottomSheetDialog.dismiss();
                             }

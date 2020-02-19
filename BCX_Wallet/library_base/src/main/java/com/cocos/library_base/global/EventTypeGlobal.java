@@ -10,6 +10,7 @@ public class EventTypeGlobal {
      */
     public static final String ACCOUNT_NAME_TYPE = "account_name";
     public static final String DIALOG_DISMISS_TYPE = "dismiss_dialog";
+    public static final String DIALOG_CONFIRMED_TYPE = "confirmed";
     public static final String SWITCH_ACCOUNT = "switch_account";
     public static final String CONTACT_CHANGED_TYPE = "contact_changed";
     public static final String SWITCH_LANGUAGE = "language_switch";

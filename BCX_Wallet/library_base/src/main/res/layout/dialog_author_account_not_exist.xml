@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/dp_30"
+            android:text="@string/author_account_not_exist"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_16" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:paddingLeft="@dimen/dp_26"
+            android:paddingRight="@dimen/dp_26"
+            android:paddingBottom="@dimen/dp_28">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_16"
+                android:paddingRight="@dimen/dp_16"
+                android:paddingTop="@dimen/dp_12"
+                android:paddingBottom="@dimen/dp_12"
+                android:background="@drawable/blue_stroke_btn"
+                android:text="@string/cancel_text"
+                android:textColor="@color/color_4868DC"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginEnd="@dimen/dp_6"
+                binding:onClickCommand="@{viewModel.cancelOnClickCommand}" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_16"
+                android:paddingRight="@dimen/dp_16"
+                android:paddingTop="@dimen/dp_12"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="@string/confirm_text"
+                android:background="@drawable/shape_create_wallet_bg"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginStart="@dimen/dp_6"
+                binding:onClickCommand="@{viewModel.confirmOnClickCommand}" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cocos.library_base.base.ConfrimDialogViewModel" />
+    </data>
+</layout>
