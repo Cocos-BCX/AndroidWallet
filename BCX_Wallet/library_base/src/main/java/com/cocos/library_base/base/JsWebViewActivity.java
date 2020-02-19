@@ -282,9 +282,9 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                             if (aBoolean) {
                                 UMImage image = new UMImage(JsWebViewActivity.this, webViewModel.iconUrl);//网络图片
                                 UMWeb web = new UMWeb(webViewModel.url);
-                                web.setTitle(webViewModel.title);//标题
+                                web.setTitle(TextUtils.isEmpty(webViewModel.title) ? "DApp" : webViewModel.title);//标题
                                 web.setThumb(image);//缩略图
-                                web.setDescription(webViewModel.desc);//描述
+                                web.setDescription(TextUtils.isEmpty(webViewModel.desc) ? webViewModel.url : webViewModel.desc);//描述
                                 new ShareAction(JsWebViewActivity.this)
                                         .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
                                         .withMedia(web)//分享内容
