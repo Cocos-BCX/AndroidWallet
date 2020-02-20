@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
-    <dimen name="sp_38" tools:ignore="ResourceName">38sp</dimen>
+    <dimen name="sp_38">38dp</dimen>
     <dimen name="dp_4">4dp</dimen>
     <dimen name="dp_27">27dp</dimen>
     <dimen name="dp_21">21dp</dimen>
