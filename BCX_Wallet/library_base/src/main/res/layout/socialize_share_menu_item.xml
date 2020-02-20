@@ -20,6 +20,6 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="未知"
-        android:textSize="12sp" />
+        android:textSize="@dimen/sp_12" />
 
 </LinearLayout>

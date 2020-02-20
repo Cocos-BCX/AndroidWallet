@@ -18,7 +18,7 @@
             android:layout_centerInParent="true"
             android:text=""
             android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:textSize="@dimen/sp_18" />
 
         <RelativeLayout
             android:id="@+id/umeng_back"
@@ -76,7 +76,7 @@
             android:layout_toRightOf="@id/umeng_socialize_follow_check"
             android:text="关注官方微博"
             android:textColor="#f8f8f8"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:visibility="gone" />
     </RelativeLayout>
 

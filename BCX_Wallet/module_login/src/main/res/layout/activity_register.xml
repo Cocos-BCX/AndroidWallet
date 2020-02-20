@@ -36,7 +36,7 @@
                     android:paddingRight="@dimen/dp_20"
                     android:text="@string/module_login_login_title"
                     android:textColor="@color/color_262A33"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/sp_16"
                     binding:onClickCommand="@{viewModel.accountLoginClickCommand}" />
             </LinearLayout>
 

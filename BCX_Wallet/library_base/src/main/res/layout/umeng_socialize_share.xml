@@ -19,7 +19,7 @@
             android:layout_centerInParent="true"
             android:text=""
             android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:textSize="@dimen/sp_18" />
 
         <RelativeLayout
             android:id="@+id/umeng_back"
@@ -49,7 +49,7 @@
             android:paddingRight="15dp"
             android:text="分享"
             android:textColor="#ffffff"
-            android:textSize="15sp" />
+            android:textSize="@dimen/sp_15" />
     </RelativeLayout>
 
     <EditText
@@ -67,7 +67,7 @@
         android:lineSpacingExtra="3dp"
         android:paddingBottom="10dp"
         android:textColor="#000000"
-        android:textSize="15sp" />
+        android:textSize="@dimen/sp_15" />
 
     <TextView
         android:id="@+id/umeng_socialize_share_word_num"
@@ -81,7 +81,7 @@
         android:gravity="right"
         android:singleLine="true"
         android:textColor="#98999B"
-        android:textSize="14sp" />
+        android:textSize="@dimen/sp_14" />
 
     <RelativeLayout
         android:id="@+id/umeng_socialize_share_bottom_area"
@@ -117,7 +117,7 @@
         android:layout_marginTop="20dp"
         android:textColor="#575A5C"
         android:singleLine="true"
-        android:textSize="14sp"
+        android:textSize="@dimen/sp_14"
         android:visibility="gone"
         android:layout_height="wrap_content" />
 

@@ -23,7 +23,7 @@
         android:layout_marginTop="@dimen/customactivityoncrash_activity_vertical_margin"
         android:gravity="center"
         android:text="@string/customactivityoncrash_error_activity_error_occurred_explanation"
-        android:textSize="18sp"
+        android:textSize="@dimen/sp_18"
         android:textStyle="bold" />
 
     <Button

@@ -89,7 +89,7 @@
                         android:paddingTop="@dimen/dp_22"
                         android:text="@={viewModel.assetPrivateKey}"
                         android:textColor="@color/color_262A33"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/sp_15" />
 
                     <Button
                         android:layout_width="match_parent"
@@ -139,7 +139,7 @@
                         android:paddingTop="@dimen/dp_22"
                         android:text="@={viewModel.accountPrivateKey}"
                         android:textColor="@color/color_262A33"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/sp_15" />
 
                     <Button
                         android:layout_width="match_parent"

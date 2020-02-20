@@ -107,7 +107,7 @@
                         android:paddingTop="@dimen/dp_22"
                         android:text="@={viewModel.assetPrivateKey}"
                         android:textColor="@color/color_262A33"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/sp_15"
                         binding:onClickCommand="@{viewModel.assetPrivateKeyCopyOnClickCommand}" />
 
                 </LinearLayout>
@@ -149,7 +149,7 @@
                         android:paddingTop="@dimen/dp_22"
                         android:text="@={viewModel.accountPrivateKey}"
                         android:textColor="@color/color_262A33"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/sp_15"
                         binding:onClickCommand="@{viewModel.accountPrivateKeyCopyOnClickCommand}" />
 
                 </LinearLayout>

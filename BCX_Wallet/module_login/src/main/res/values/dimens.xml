@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <dimen name="dp_20" tools:ignore="ResourceName">20dp</dimen>
-    <dimen name="sp_26" tools:ignore="ResourceName">26sp</dimen>
-    <dimen name="dp_44" tools:ignore="ResourceName">44dp</dimen>
-    <dimen name="dp_48" tools:ignore="ResourceName">48dp</dimen>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="sp_26">26dp</dimen>
+    <dimen name="dp_44">44dp</dimen>
+    <dimen name="dp_48">48dp</dimen>
     <dimen name="dp_120">120dp</dimen>
     <dimen name="dp_4">4dp</dimen>
     <dimen name="dp_24">24dp</dimen>

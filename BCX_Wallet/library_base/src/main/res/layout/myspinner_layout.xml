@@ -25,7 +25,7 @@
             android:paddingStart="10dp"
             android:singleLine="true"
             android:textColor="@color/color_4868DC"
-            android:textSize="15sp"
+            android:textSize="@dimen/sp_15"
             tools:ignore="RtlSymmetry,SmallSp" />
 
         <ImageView

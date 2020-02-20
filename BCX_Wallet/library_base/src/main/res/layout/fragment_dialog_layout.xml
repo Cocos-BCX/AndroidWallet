@@ -16,7 +16,7 @@
             android:paddingTop="@dimen/dp_25"
             android:text="@string/title_warning_text"
             android:textColor="@color/color_262A33"
-            android:textSize="17sp" />
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/tv_content"
@@ -46,7 +46,7 @@
                 android:text="@string/cancel_text"
                 android:textAllCaps="false"
                 android:textColor="@color/color_4868DC"
-                android:textSize="17sp" />
+                android:textSize="@dimen/sp_16" />
 
             <View
                 android:layout_width="@dimen/dp_1"
@@ -63,7 +63,7 @@
                 android:text="@string/confirm_text"
                 android:textAllCaps="false"
                 android:textColor="@color/color_F56151"
-                android:textSize="17sp" />
+                android:textSize="@dimen/sp_16" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

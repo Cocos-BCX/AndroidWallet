@@ -36,7 +36,7 @@
                 android:layout_centerInParent="true"
                 android:text="@string/scan_title"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="@dimen/sp_18" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -112,7 +112,7 @@
                         android:layout_marginTop="20dp"
                         android:text="@string/scan_desc"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/sp_14" />
                 </LinearLayout>
 
                 <ImageView
