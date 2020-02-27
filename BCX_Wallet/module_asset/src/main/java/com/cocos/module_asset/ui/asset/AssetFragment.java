@@ -71,50 +71,53 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
     }
 
     public void initAccountData(long delayTime) {
-        Log.i("initAccountData:", String.valueOf(delayTime));
-        MainHandler.getInstance().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
-                    @Override
-                    public void onReceiveValue(String s) {
-                        Log.i("refreshAssetData:", s);
-                        AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
-                        if (accountNamesEntity.isSuccess()) {
-                            List<String> accountNames = Arrays.asList(accountNamesEntity.data.split(","));
-                            if (!accountNames.contains(AccountHelperUtils.getCurrentAccountName())) {
-                                AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
-                            }
-                            viewModel.setAccountName();
-                            viewModel.requestAssetsListData();
-                            isFirst = false;
-                        } else if (accountNamesEntity.code == 0) {
-                            //todo 显示创建和登录按钮
-                            viewModel.emptyViewVisible.set(View.GONE);
-                            viewModel.recyclerViewVisible.set(View.GONE);
-                            viewModel.LoginViewVisible.set(View.VISIBLE);
-                            viewModel.accountViewVisible.set(View.INVISIBLE);
-                            AccountHelperUtils.setCurrentAccountName("");
-                            viewModel.setAccountName();
-                            isFirst = false;
-                        } else if (accountNamesEntity.code == 177) {
-                            if (tryCount > 8) {
-                                viewModel.emptyViewVisible.set(View.VISIBLE);
+        try {
+            Log.i("initAccountData:", String.valueOf(delayTime));
+            MainHandler.getInstance().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                        @Override
+                        public void onReceiveValue(String s) {
+                            Log.i("refreshAssetData:", s);
+                            AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                            if (accountNamesEntity.isSuccess()) {
+                                List<String> accountNames = Arrays.asList(accountNamesEntity.data.split(","));
+                                if (!accountNames.contains(AccountHelperUtils.getCurrentAccountName())) {
+                                    AccountHelperUtils.setCurrentAccountName(accountNames.get(0));
+                                }
+                                viewModel.setAccountName();
+                                viewModel.requestAssetsListData();
+                                isFirst = false;
+                            } else if (accountNamesEntity.code == 0) {
+                                //todo 显示创建和登录按钮
+                                viewModel.emptyViewVisible.set(View.GONE);
                                 viewModel.recyclerViewVisible.set(View.GONE);
-                                viewModel.LoginViewVisible.set(View.GONE);
-                                viewModel.accountViewVisible.set(View.GONE);
+                                viewModel.LoginViewVisible.set(View.VISIBLE);
+                                viewModel.accountViewVisible.set(View.INVISIBLE);
+                                AccountHelperUtils.setCurrentAccountName("");
                                 viewModel.setAccountName();
                                 isFirst = false;
-                                return;
+                            } else if (accountNamesEntity.code == 177) {
+                                if (tryCount > 8) {
+                                    viewModel.emptyViewVisible.set(View.VISIBLE);
+                                    viewModel.recyclerViewVisible.set(View.GONE);
+                                    viewModel.LoginViewVisible.set(View.GONE);
+                                    viewModel.accountViewVisible.set(View.GONE);
+                                    viewModel.setAccountName();
+                                    isFirst = false;
+                                    return;
+                                }
+                                initAccountData(100);
+                                tryCount++;
+                                isFirst = false;
                             }
-                            initAccountData(100);
-                            tryCount++;
-                            isFirst = false;
                         }
-                    }
-                });
-            }
-        }, delayTime);
+                    });
+                }
+            }, delayTime);
+        }catch ( Exception e){
+        }
     }
 
     /**

@@ -36,6 +36,7 @@ import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.R;
+import com.umeng.commonsdk.debug.E;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,12 +68,15 @@ public class AssetViewModel extends BaseViewModel {
     public String accountName;
 
     public void setAccountName() {
-        this.accountName = AccountHelperUtils.getCurrentAccountName();
-        currentAccountName.set(accountName);
-        accountViewVisible.set(TextUtils.isEmpty(accountName) ? View.INVISIBLE : View.VISIBLE);
-        totalAssetCurrencyUnit.set(CurrencyUtils.getTotalCurrencyType());
-        totalAsset.set(SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00"));
-        getLockAsset(accountName);
+        try {
+            this.accountName = AccountHelperUtils.getCurrentAccountName();
+            currentAccountName.set(accountName);
+            accountViewVisible.set(TextUtils.isEmpty(accountName) ? View.INVISIBLE : View.VISIBLE);
+            totalAssetCurrencyUnit.set(CurrencyUtils.getTotalCurrencyType());
+            totalAsset.set(SPUtils.getString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, "0.00"));
+            getLockAsset(accountName);
+        }catch (Exception e){
+        }
     }
 
     //当前帐户名户名的绑定
@@ -227,53 +231,58 @@ public class AssetViewModel extends BaseViewModel {
     }
 
     private void get_asset_detail(final AllAssetBalanceModel.DataBean dataBean) {
-        CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
-            @Override
-            public void onReceiveValue(final String s) {
-                MainHandler.getInstance().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        LogUtils.d("lookup_asset_symbols", s);
-                        final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
-                        if (null != assetModel && assetModel.code != 1) {
-                            if (tryCount < 5) {
-                                get_asset_detail(dataBean);
-                                ++tryCount;
-                                LogUtils.d("hasTryAgain", "hasTryAgain");
-                            } else {
-                                dismissDialog();
-                                emptyViewVisible.set(View.VISIBLE);
-                                recyclerViewVisible.set(View.GONE);
-                                LoginViewVisible.set(View.GONE);
+        try {
+            CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
+                @Override
+                public void onReceiveValue(final String s) {
+                    MainHandler.getInstance().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            LogUtils.d("lookup_asset_symbols", s);
+                            final AssetsModel assetModel = GsonSingleInstance.getGsonInstance().fromJson(s, AssetsModel.class);
+                            if (null != assetModel && assetModel.code != 1) {
+                                if (tryCount < 5) {
+                                    get_asset_detail(dataBean);
+                                    ++tryCount;
+                                    LogUtils.d("hasTryAgain", "hasTryAgain");
+                                } else {
+                                    dismissDialog();
+                                    emptyViewVisible.set(View.VISIBLE);
+                                    recyclerViewVisible.set(View.GONE);
+                                    LoginViewVisible.set(View.GONE);
+                                }
+                                return;
                             }
-                            return;
+                            AssetsModel.AssetModel assetModel1 = assetModel.getData();
+                            assetModel1.amount = dataBean.getAmount();
+                            assetModel1.frozen_asset = assetModel1.getFrozen_asset(assetModel1.id);
+                            Log.i("frozen_asset",assetModel1.frozen_asset);
+                            AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
+                            if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
+                                observableList.add(0, itemViewModel);
+                                String totalAssets = CurrencyUtils.getTotalCocosPrice(String.valueOf(assetModel1.amount));
+                                Log.d("totalAssets", String.valueOf(assetModel1.amount));
+                                Log.d("totalAssets", totalAssets);
+                                totalAsset.set(totalAssets);
+                                SPUtils.putString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, totalAssets);
+                            } else {
+                                observableList.add(itemViewModel);
+                            }
+                            dismissDialog();
+                            emptyViewVisible.set(View.GONE);
+                            recyclerViewVisible.set(View.VISIBLE);
+                            LoginViewVisible.set(View.GONE);
                         }
-                        AssetsModel.AssetModel assetModel1 = assetModel.getData();
-                        assetModel1.amount = dataBean.getAmount();
-                        assetModel1.frozen_asset = assetModel1.getFrozen_asset(assetModel1.id);
-                        AssetItemViewModel itemViewModel = new AssetItemViewModel(AssetViewModel.this, assetModel1);
-                        if (TextUtils.equals(assetModel1.symbol, "COCOS")) {
-                            observableList.add(0, itemViewModel);
-                            String totalAssets = CurrencyUtils.getTotalCocosPrice(String.valueOf(assetModel1.amount));
-                            Log.d("totalAssets", String.valueOf(assetModel1.amount));
-                            Log.d("totalAssets", totalAssets);
-                            totalAsset.set(totalAssets);
-                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.TOTAL_ASSET_VALUE, totalAssets);
-                        } else {
-                            observableList.add(itemViewModel);
-                        }
-                        dismissDialog();
-                        emptyViewVisible.set(View.GONE);
-                        recyclerViewVisible.set(View.VISIBLE);
-                        LoginViewVisible.set(View.GONE);
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }catch (Exception e){
+        }
     }
 
 
     public void getLockAsset(String accountName) {
+        try {
         if (TextUtils.isEmpty(accountName)) {
             SPUtils.setDataList(SPKeyGlobal.TOTAL_LOCK_ASSET, null);
             return;
@@ -281,6 +290,7 @@ public class AssetViewModel extends BaseViewModel {
         CocosBcxApiWrapper.getBcxInstance().get_full_accounts(accountName, true, new IBcxCallBack() {
             @Override
             public void onReceiveValue(String s) {
+                try {
                 Log.i("get_full_accounts", s);
                 final FullAccountsDataModel fullAccountsDataModel = GsonSingleInstance.getGsonInstance().fromJson(s, FullAccountsDataModel.class);
                 if (fullAccountsDataModel.code == 1 && !TextUtils.isEmpty(fullAccountsDataModel.getData())) {
@@ -288,23 +298,26 @@ public class AssetViewModel extends BaseViewModel {
                     if (null != fullAccountModel && null != fullAccountModel.getAccount() && null != fullAccountModel.getAccount().getAsset_locked() && null != fullAccountModel.getAccount().getAsset_locked().getLocked_total() && fullAccountModel.getAccount().getAsset_locked().getLocked_total().size() > 0) {
                         List<FullAccountsDataModel.AssetModel> assetModels = new ArrayList<>();
                         for (List<String> locked_total : fullAccountModel.getAccount().getAsset_locked().getLocked_total()) {
-                            try {
-                                asset_object asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(locked_total.get(0));
-                                FullAccountsDataModel.AssetModel assetModel = new FullAccountsDataModel.AssetModel();
+                            asset_object  asset_object = CocosBcxApiWrapper.getBcxInstance().get_asset_object(locked_total.get(0));
+                            FullAccountsDataModel.AssetModel assetModel = new FullAccountsDataModel.AssetModel();
                                 assetModel.amount = String.valueOf(Double.valueOf(locked_total.get(1)) / (Math.pow(10, asset_object.precision)));
                                 assetModel.asset_id = locked_total.get(0);
                                 assetModel.precision = asset_object.precision;
                                 assetModels.add(assetModel);
                                 SPUtils.setDataList(SPKeyGlobal.TOTAL_LOCK_ASSET, assetModels);
-                            } catch (NetworkStatusException e) {
-                                e.printStackTrace();
-                            }
                         }
                     } else {
                         SPUtils.setDataList(SPKeyGlobal.TOTAL_LOCK_ASSET, null);
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             }
         });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }

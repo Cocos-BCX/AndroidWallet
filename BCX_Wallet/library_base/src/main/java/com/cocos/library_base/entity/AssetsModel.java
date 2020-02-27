@@ -1,6 +1,7 @@
 package com.cocos.library_base.entity;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.utils.SPUtils;
@@ -52,6 +53,7 @@ public class AssetsModel extends BaseResult {
         public String getFrozen_asset(String asset_id) {
             try {
                 NumberFormat nf = NumberFormat.getInstance();
+                nf.setGroupingUsed(false);
                 List<FullAccountsDataModel.AssetModel> locked_asset = SPUtils.getLockedAssetInfo(SPKeyGlobal.TOTAL_LOCK_ASSET);
                 if (null == locked_asset || locked_asset.size() <= 0) {
                     return "0.00";
@@ -59,6 +61,7 @@ public class AssetsModel extends BaseResult {
                 for (FullAccountsDataModel.AssetModel assetModel : locked_asset) {
                     if (TextUtils.equals(assetModel.asset_id, asset_id)) {
                         if (assetModel.precision > 5) {
+                            Log.i("assetModel.amount",assetModel.amount);
                             return nf.format(Double.valueOf(new BigDecimal(assetModel.amount).setScale(5, BigDecimal.ROUND_HALF_UP).toString()));
                         }
                         return nf.format(Double.valueOf(assetModel.amount));

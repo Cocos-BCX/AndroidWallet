@@ -96,7 +96,7 @@ public class BCXApplication extends BaseApplication {
                 .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
                 .enabled(true) //是否启动全局异常捕获
                 .showRestartButton(true) //是否显示重启按钮
-                .showErrorDetails(BuildConfig.IS_TEST_ENV)
+                .showErrorDetails(true)
                 .trackActivities(true) //是否跟踪Activity
                 .restartActivity(WelcomeActivity.class) //重新启动后的activity
                 .errorActivity(DefaultErrorActivity.class) //崩溃后的错误activity

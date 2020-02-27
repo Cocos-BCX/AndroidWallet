@@ -36,18 +36,22 @@ public class NumberAssetItemViewModel extends ItemViewModel {
 
     public NumberAssetItemViewModel(@NonNull NumberAssetViewModel viewModel, AssetsModel.AssetModel entity) {
         super(viewModel);
-        String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
-        symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
-        this.entity.set(entity);
-        drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_number_asset_bcx_icon);
-        totalValue.set(TextUtils.equals(entity.symbol, "COCOS") ? CurrencyUtils.getSingleCurrencyType() + CurrencyUtils.getCocosPrice() : CurrencyUtils.getSingleCurrencyType() + "0.00");
-        NumberFormat nf = NumberFormat.getInstance();
-        nf.setMaximumFractionDigits(5);
-        nf.setGroupingUsed(false);
-        frozenAmountViewVisible.set(new BigDecimal(entity.frozen_asset).compareTo(BigDecimal.ZERO) <= 0 ? View.GONE : View.VISIBLE);
-        frozenAmount.set(Utils.getString(R.string.module_mine_frozen_text) + entity.frozen_asset);
-        BigDecimal usedAsset = entity.amount.subtract(new BigDecimal(entity.frozen_asset)).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO);
-        amount.set(nf.format(usedAsset));
+        try {
+            String netType = SPUtils.getString(Utils.getContext(), SPKeyGlobal.NET_TYPE, "");
+            symbolType.set(TextUtils.equals(netType, "0") ? Utils.getString(R.string.module_asset_coin_type_test) : "");
+            this.entity.set(entity);
+            drawableImg = ContextCompat.getDrawable(viewModel.getApplication(), R.drawable.fragment_number_asset_bcx_icon);
+            totalValue.set(TextUtils.equals(entity.symbol, "COCOS") ? CurrencyUtils.getSingleCurrencyType() + CurrencyUtils.getCocosPrice() : CurrencyUtils.getSingleCurrencyType() + "0.00");
+            NumberFormat nf = NumberFormat.getInstance();
+            nf.setMaximumFractionDigits(5);
+            nf.setGroupingUsed(false);
+            frozenAmountViewVisible.set(new BigDecimal(entity.frozen_asset).compareTo(BigDecimal.ZERO) <= 0 ? View.GONE : View.VISIBLE);
+            frozenAmount.set(Utils.getString(R.string.module_mine_frozen_text) + entity.frozen_asset);
+            BigDecimal usedAsset = entity.amount.subtract(new BigDecimal(entity.frozen_asset)).setScale(5, RoundingMode.HALF_UP).add(BigDecimal.ZERO);
+            amount.set(nf.format(usedAsset));
+        }catch (Exception e){
+
+        }
     }
 }
 
