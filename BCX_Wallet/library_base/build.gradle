@@ -79,8 +79,8 @@ dependencies {
     }
 
     // module
-//    api project(':bcx_sdk')
-    api 'com.cocosbcx.androidsdk:bcx_sdk:1.0.0'
+    api project(':bcx_sdk')
+//    api 'com.cocosbcx.androidsdk:bcx_sdk:1.0.0'
     api project(':library_res')
 
     //network
