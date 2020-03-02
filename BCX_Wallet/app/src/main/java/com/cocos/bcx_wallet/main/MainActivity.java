@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onResume() {
         super.onResume();
-        NodeConnectUtil.testNetStatus();
+//        NodeConnectUtil.testNetStatus();
         if (isFirst){
             parseInvokeIntent();
             isFirst = false;
