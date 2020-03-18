@@ -120,9 +120,7 @@ public class AllNhOrderViewModel extends BaseViewModel {
                                     emptyViewVisible.set(View.GONE);
                                     recyclerViewVisible.set(View.VISIBLE);
                                 }
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            } catch (NetworkStatusException e) {
+                            } catch (Exception e) {
                                 ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
                             }
                         }

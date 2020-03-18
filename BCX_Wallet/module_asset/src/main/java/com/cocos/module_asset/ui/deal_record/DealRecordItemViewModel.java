@@ -110,16 +110,20 @@ public class DealRecordItemViewModel extends ItemViewModel<DealRecordViewModel> 
                         MainHandler.getInstance().post(new Runnable() {
                             @Override
                             public void run() {
-                                if (!assetModel.isSuccess()) {
-                                    return;
+                                try {
+                                    if (!assetModel.isSuccess()) {
+                                        return;
+                                    }
+                                    // precision
+                                    BigDecimal ratio = new BigDecimal(Math.pow(10, assetModel.getData().precision));
+                                    nf.setGroupingUsed(false);
+                                    nf.setMaximumFractionDigits(5);
+                                    String dealAmount = nf.format(opBean.amount.amount.divide(ratio)) + assetModel.getData().symbol;
+                                    operationAmount.set(isTransferAccount ? "-" + dealAmount : "+" + dealAmount);
+                                    dealDetailModel.amount = dealAmount;
+                                } catch (Exception e) {
+
                                 }
-                                // precision
-                                BigDecimal ratio = new BigDecimal(Math.pow(10, assetModel.getData().precision));
-                                nf.setGroupingUsed(false);
-                                nf.setMaximumFractionDigits(5);
-                                String dealAmount = nf.format(opBean.amount.amount.divide(ratio)) + assetModel.getData().symbol;
-                                operationAmount.set(isTransferAccount ? "-" + dealAmount : "+" + dealAmount);
-                                dealDetailModel.amount = dealAmount;
                             }
                         });
                     }

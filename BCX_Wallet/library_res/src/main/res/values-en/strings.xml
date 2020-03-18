@@ -83,4 +83,5 @@
     <string name="share_success">share success</string>
     <string name="share_failed">share failed</string>
     <string name="share_cancel">share canceled</string>
+    <string name="price_get_error">fail to get cocos price</string>
 </resources>

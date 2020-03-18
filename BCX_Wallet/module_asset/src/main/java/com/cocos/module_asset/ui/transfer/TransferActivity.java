@@ -194,31 +194,36 @@ public class TransferActivity extends BaseActivity<ActivityTransferBinding, Tran
         viewModel.uc.transferBtnObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                if (TextUtils.isEmpty(viewModel.receivablesAccountName.get())) {
-                    ToastUtils.showShort(R.string.module_asset_receivablesAccountName_empty);
-                    return;
-                }
+                try {
 
-                if (TextUtils.isEmpty(viewModel.transferAmount.get())) {
-                    ToastUtils.showShort(R.string.module_asset_transfer_amount_empty);
-                    return;
-                }
+                    if (TextUtils.isEmpty(viewModel.receivablesAccountName.get())) {
+                        ToastUtils.showShort(R.string.module_asset_receivablesAccountName_empty);
+                        return;
+                    }
 
-                if (TextUtils.equals(accountName, viewModel.receivablesAccountName.get())) {
-                    ToastUtils.showShort(R.string.module_asset_transfer_account_can_not_yourself);
-                    return;
-                }
+                    if (TextUtils.isEmpty(viewModel.transferAmount.get())) {
+                        ToastUtils.showShort(R.string.module_asset_transfer_amount_empty);
+                        return;
+                    }
 
-                final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
-                TransferParamsModel transferParamsModel = new TransferParamsModel();
-                transferParamsModel.setAccountName(accountName);
-                transferParamsModel.setReceivablesAccountName(viewModel.receivablesAccountName.get());
-                transferParamsModel.setAccountBalance(viewModel.accountBalance.get());
-                transferParamsModel.setTransferAmount(String.valueOf(transferAmount.add(BigDecimal.ZERO)));
-                transferParamsModel.setTransferMemo(viewModel.transferMemo.get());
-                transferParamsModel.setTransferSymbol(assetModel.symbol);
-                orderConfirmViewModel.setTransferInfoData(transferParamsModel);
-                dialog.show();
+                    if (TextUtils.equals(accountName, viewModel.receivablesAccountName.get())) {
+                        ToastUtils.showShort(R.string.module_asset_transfer_account_can_not_yourself);
+                        return;
+                    }
+
+                    final BigDecimal transferAmount = new BigDecimal(viewModel.transferAmount.get());
+                    TransferParamsModel transferParamsModel = new TransferParamsModel();
+                    transferParamsModel.setAccountName(accountName);
+                    transferParamsModel.setReceivablesAccountName(viewModel.receivablesAccountName.get());
+                    transferParamsModel.setAccountBalance(viewModel.accountBalance.get());
+                    transferParamsModel.setTransferAmount(String.valueOf(transferAmount.add(BigDecimal.ZERO)));
+                    transferParamsModel.setTransferMemo(viewModel.transferMemo.get());
+                    transferParamsModel.setTransferSymbol(assetModel.symbol);
+                    orderConfirmViewModel.setTransferInfoData(transferParamsModel);
+                    dialog.show();
+                } catch (Exception e) {
+
+                }
             }
         });
 

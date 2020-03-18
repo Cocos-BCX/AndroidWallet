@@ -24,9 +24,13 @@ public class NumberUtil {
      * @param
      */
     public static double add(double v1, double v2) {
-        BigDecimal b1 = new BigDecimal(Double.toString(v1));
-        BigDecimal b2 = new BigDecimal(Double.toString(v2));
-        return b1.add(b2).doubleValue();
+        try {
+            BigDecimal b1 = new BigDecimal(Double.toString(v1));
+            BigDecimal b2 = new BigDecimal(Double.toString(v2));
+            return b1.add(b2).doubleValue();
+        } catch (Exception e) {
+            return 0.00;
+        }
     }
 
     /**
@@ -35,9 +39,13 @@ public class NumberUtil {
      * @param
      */
     public static double sub(double v1, double v2) {
-        BigDecimal b1 = new BigDecimal(Double.toString(v1));
-        BigDecimal b2 = new BigDecimal(Double.toString(v2));
-        return b1.subtract(b2).doubleValue();
+        try {
+            BigDecimal b1 = new BigDecimal(Double.toString(v1));
+            BigDecimal b2 = new BigDecimal(Double.toString(v2));
+            return b1.subtract(b2).doubleValue();
+        } catch (Exception e) {
+            return 0.00;
+        }
     }
 
 

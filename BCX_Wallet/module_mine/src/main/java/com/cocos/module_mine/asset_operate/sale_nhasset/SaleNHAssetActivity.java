@@ -159,37 +159,40 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
         viewModel.uc.saleNHNBtnObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                if (TextUtils.isEmpty(viewModel.salePricesAmount.get())) {
-                    ToastUtils.showShort(R.string.module_mine_nh_asset_sale_price_hint);
-                    return;
-                }
-                if (TextUtils.isEmpty(viewModel.saleValidTime.get())) {
-                    ToastUtils.showShort(R.string.module_mine_nh_asset_sale_valid_time_hint);
-                    return;
-                }
+                try {
+                    if (TextUtils.isEmpty(viewModel.salePricesAmount.get())) {
+                        ToastUtils.showShort(R.string.module_mine_nh_asset_sale_price_hint);
+                        return;
+                    }
+                    if (TextUtils.isEmpty(viewModel.saleValidTime.get())) {
+                        ToastUtils.showShort(R.string.module_mine_nh_asset_sale_valid_time_hint);
+                        return;
+                    }
 
-                if (TextUtils.equals(viewModel.saleValidTime.get(), "0")) {
-                    ToastUtils.showShort(R.string.module_mine_nh_asset_sale_valid_time_less_than_one);
-                    return;
-                }
+                    if (TextUtils.equals(viewModel.saleValidTime.get(), "0")) {
+                        ToastUtils.showShort(R.string.module_mine_nh_asset_sale_valid_time_less_than_one);
+                        return;
+                    }
 
-                if (Long.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())) > viewModel.saleValidTimeMax) {
-                    viewModel.saleValidTime.set(String.valueOf(viewModel.saleValidTimeMax));
-                    return;
-                }
+                    if (Long.valueOf(Objects.requireNonNull(viewModel.saleValidTime.get())) > viewModel.saleValidTimeMax) {
+                        viewModel.saleValidTime.set(String.valueOf(viewModel.saleValidTimeMax));
+                        return;
+                    }
 
-                if (new BigDecimal(viewModel.salePricesAmount.get()).compareTo(BigDecimal.ZERO) < 0) {
-                    ToastUtils.showShort(R.string.module_mine_sale_nh_price_error);
-                    return;
+                    if (new BigDecimal(viewModel.salePricesAmount.get()).compareTo(BigDecimal.ZERO) < 0) {
+                        ToastUtils.showShort(R.string.module_mine_sale_nh_price_error);
+                        return;
+                    }
+                    SaleNHAssetParamsModel saleNHAssetParamsModel = new SaleNHAssetParamsModel();
+                    saleNHAssetParamsModel.setNhAssetId(nhAssetModelBean.id);
+                    saleNHAssetParamsModel.setPriceAmount(viewModel.salePricesAmount.get());
+                    saleNHAssetParamsModel.setPriceSymbol(viewModel.salePricesSymbol.get());
+                    saleNHAssetParamsModel.setOrderMemo(viewModel.saleMemo.get());
+                    saleNHAssetParamsModel.setValidTime(Long.parseLong(viewModel.saleValidTime.get()));
+                    orderConfirmViewModel.setSaleInfoData(saleNHAssetParamsModel);
+                    dialog.show();
+                } catch (Exception e) {
                 }
-                SaleNHAssetParamsModel saleNHAssetParamsModel = new SaleNHAssetParamsModel();
-                saleNHAssetParamsModel.setNhAssetId(nhAssetModelBean.id);
-                saleNHAssetParamsModel.setPriceAmount(viewModel.salePricesAmount.get());
-                saleNHAssetParamsModel.setPriceSymbol(viewModel.salePricesSymbol.get());
-                saleNHAssetParamsModel.setOrderMemo(viewModel.saleMemo.get());
-                saleNHAssetParamsModel.setValidTime(Long.parseLong(viewModel.saleValidTime.get()));
-                orderConfirmViewModel.setSaleInfoData(saleNHAssetParamsModel);
-                dialog.show();
             }
         });
 

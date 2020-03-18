@@ -126,10 +126,8 @@ public class MineNhOrderViewModel extends BaseViewModel {
                                     emptyViewVisible.set(View.GONE);
                                     recyclerViewVisible.set(View.VISIBLE);
                                 }
-                            } catch (NetworkStatusException e) {
+                            } catch (Exception e) {
 //                                ToastUtils.showShort(R.string.net_work_failed);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
                             }
                         }
                         dismissDialog();
