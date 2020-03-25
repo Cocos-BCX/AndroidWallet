@@ -102,16 +102,20 @@ public class ModifyPasswordViewModel extends BaseViewModel {
                             return;
                         }
 
-                        if (baseResult.getMessage().contains("Insufficient Balance")) {
+                        if (!TextUtils.isEmpty(baseResult.getMessage())
+                                && (baseResult.getMessage().contains("insufficient_balance")
+                                || baseResult.getMessage().contains("Insufficient Balance"))) {
                             dismissDialog();
-                            ToastUtils.showShort(R.string.module_asset_operate_fee_not_much);
+                            ToastUtils.showShort(R.string.insufficient_balance);
                             return;
                         }
 
-                        if (!baseResult.isSuccess()) {
+                        if (baseResult.code != 1) {
                             dismissDialog();
+                            ToastUtils.showShort(com.cocos.library_base.R.string.net_work_failed);
                             return;
                         }
+
                         ToastUtils.showShort(R.string.module_mine_modify_passcode_success);
                         dismissDialog();
                         finish();
