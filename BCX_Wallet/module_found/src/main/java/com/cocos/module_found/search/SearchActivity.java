@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.library_base.base.BaseActivity;
+import com.cocos.library_base.entity.WebViewModel;
+import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.global.SPKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.SPUtils;
@@ -20,8 +24,11 @@ import com.cocos.module_found.databinding.ActivitySearchBinding;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
+
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,7 +39,6 @@ import java.util.Set;
  */
 @Route(path = RouterActivityPath.ACTIVITY_SEARCH)
 public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchViewModel> {
-
 
 
     @Override
@@ -48,6 +54,14 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchVi
     @Override
     public void initData() {
         setSearchData();
+        binding.tvClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SPUtils.remove(SearchActivity.this, SPKeyGlobal.SEARCH_INFO);
+                binding.llEmpty.setVisibility(View.VISIBLE);
+                binding.llHistory.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
@@ -58,21 +72,22 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchVi
 
     private void setSearchData() {
         try {
-            Map<String, String>  searchInfo = SPUtils.getMap(SPKeyGlobal.SEARCH_INFO);
+            LinkedHashMap<String, String> searchInfo = SPUtils.getMap(SPKeyGlobal.SEARCH_INFO);
             final List<String> mTitles = new ArrayList<>();
             final List<String> mUrls = new ArrayList<>();
             if (null == searchInfo || searchInfo.size() <= 0) {
                 binding.llEmpty.setVisibility(View.VISIBLE);
-                binding.idFlowlayout.setVisibility(View.INVISIBLE);
+                binding.llHistory.setVisibility(View.INVISIBLE);
                 return;
             }
-            for (Map.Entry<String, String> entry : searchInfo.entrySet()) {
-                mTitles.add(entry.getKey());
-                mUrls.add(entry.getValue());
+            ListIterator<Map.Entry<String, String>> i = new ArrayList<>(searchInfo.entrySet()).listIterator(searchInfo.size());
+            while (i.hasPrevious()) {
+                Map.Entry<String, String> entry = i.previous();
+                mTitles.add(entry.getValue());
+                mUrls.add(entry.getKey());
             }
             binding.llEmpty.setVisibility(View.INVISIBLE);
-            binding.idFlowlayout.setVisibility(View.VISIBLE);
-
+            binding.llHistory.setVisibility(View.VISIBLE);
             final LayoutInflater mInflater = LayoutInflater.from(SearchActivity.this);
             binding.idFlowlayout.setAdapter(new TagAdapter<String>(mTitles) {
 
@@ -91,7 +106,14 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchVi
             binding.idFlowlayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
-                    binding.edtSearchContent.setText(mUrls.get(position));
+                    binding.edtSearchContent.setText(mTitles.get(position));
+                    WebViewModel webViewModel = new WebViewModel();
+                    webViewModel.setUrl(mUrls.get(position));
+                    webViewModel.setTitle(mTitles.get(position));
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+                    bundle.putBoolean(IntentKeyGlobal.FROM_SEARCH, true);
+                    ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
                     return true;
                 }
             });

@@ -20,6 +20,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,18 @@ public class SPUtils {
         SharedPreferences preferences = getSp(context);
         return preferences.getString(key, "");
     }
+
+
+    /**
+     * 移除某个key值已经对应的值
+     */
+    public static void remove(Context context, String key) {
+        SharedPreferences preferences = getSp(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(key);
+        editor.apply();
+    }
+
 
     /**
      * 获取字符串
@@ -307,7 +320,7 @@ public class SPUtils {
      * @param <T> 指定Map的值
      */
 
-    public static <K, T> void setMap(String key, Map<K, T> map) {
+    public static <K, T> void setMap(String key, LinkedHashMap<K, T> map) {
         if (map == null || map.isEmpty() || map.size() < 1) {
             return;
         }
@@ -321,14 +334,14 @@ public class SPUtils {
     /**
      * 获取Map集合
      */
-    public static <K, T> Map<K, T> getMap(String key) {
-        Map<K, T> map = new HashMap<>();
+    public static <K, T> LinkedHashMap<K, T> getMap(String key) {
+        LinkedHashMap<K, T> map = new LinkedHashMap<>();
         String strJson = sp.getString(key, null);
         if (strJson == null) {
             return map;
         }
         Gson gson = new Gson();
-        map = gson.fromJson(strJson, new TypeToken<Map<K, T>>() {
+        map = gson.fromJson(strJson, new TypeToken<LinkedHashMap<K, T>>() {
         }.getType());
         return map;
     }

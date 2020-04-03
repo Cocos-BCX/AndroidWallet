@@ -86,4 +86,6 @@
     <string name="price_get_error">fail to get cocos price</string>
     <string name="web_not_open">Not found</string>
     <string name="delete_search_title">Sure to delete？</string>
+    <string name="history_title">History</string>
+    <string name="clear_history">Clear All</string>
 </resources>

@@ -118,13 +118,40 @@
 
             </LinearLayout>
 
-            <com.zhy.view.flowlayout.TagFlowLayout
-                android:id="@+id/id_flowlayout"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:visibility="invisible"
-                android:padding="20dp"
-                zhy:max_select="1" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:text="@string/history_title"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/id_flowlayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    zhy:max_select="1" />
+
+                <TextView
+                    android:id="@+id/tv_clear"
+                    android:layout_width="match_parent"
+                    android:text="@string/clear_history"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/color_9B9B9B"
+                    android:textSize="@dimen/sp_14"
+                    android:gravity="center_horizontal"/>
+
+            </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 </layout>

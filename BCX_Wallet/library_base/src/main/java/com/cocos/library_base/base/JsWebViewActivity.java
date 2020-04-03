@@ -82,6 +82,7 @@ import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -145,7 +146,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             Toast.makeText(JsWebViewActivity.this, Utils.getString(R.string.share_cancel), Toast.LENGTH_LONG).show();
         }
     };
-    private boolean fromSearch;
 
 
     @Override
@@ -174,7 +174,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         try {
             Bundle bundle = getIntent().getExtras();
             webViewModel = (WebViewModel) bundle.getSerializable(IntentKeyGlobal.WEB_MODEL);
-            fromSearch = bundle.getBoolean(IntentKeyGlobal.FROM_SEARCH, false);
         } catch (Exception e) {
         }
     }
@@ -183,11 +182,20 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
     @SuppressLint({"SetJavaScriptEnabled", "CheckResult"})
     @Override
     public void initData() {
+        LinkedHashMap<String, String> searchInfo = SPUtils.getMap(SPKeyGlobal.SEARCH_INFO);
+        if (null == searchInfo || searchInfo.size() <= 0) {
+            searchInfo = new LinkedHashMap<>();
+        }
         viewModel.setWebData(webViewModel);
+
         if (!TextUtils.isEmpty(webViewModel.getUrl())) {
             binding.jsWebView.loadUrl(webViewModel.getUrl());
         }
-
+        if (!TextUtils.isEmpty(webViewModel.getTitle()) && !TextUtils.isEmpty(webViewModel.getUrl())) {
+            searchInfo.put(webViewModel.getUrl(), webViewModel.getTitle());
+            SPUtils.setMap(SPKeyGlobal.SEARCH_INFO, searchInfo);
+        }
+        LinkedHashMap<String, String> finalSearchInfo = searchInfo;
         binding.jsWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -219,18 +227,15 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 String title = view.getTitle();
-                Map<String, String> searchInfo = SPUtils.getMap(SPKeyGlobal.SEARCH_INFO);
-                if (null == searchInfo || searchInfo.size() <= 0) {
-                    searchInfo = new HashMap<>();
-                }
                 if (!TextUtils.isEmpty(title) && TextUtils.isEmpty(viewModel.webTitle.get())) {
                     webViewModel.title = title;
                     webViewModel.desc = url;
                     viewModel.webTitle.set(title);
-                    if (fromSearch && !TextUtils.equals(title,Utils.getString(R.string.web_not_open))) {
-                        searchInfo.put(title, url);
-                        SPUtils.setMap(SPKeyGlobal.SEARCH_INFO, searchInfo);
-                    }
+                }
+
+                if (!TextUtils.equals(title, Utils.getString(R.string.web_not_open)) && !TextUtils.isEmpty(title) && TextUtils.isEmpty(webViewModel.getTitle())) {
+                    finalSearchInfo.put(url, title);
+                    SPUtils.setMap(SPKeyGlobal.SEARCH_INFO, finalSearchInfo);
                 }
             }
         });
