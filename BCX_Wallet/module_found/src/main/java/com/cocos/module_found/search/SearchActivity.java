@@ -106,7 +106,7 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchVi
             binding.idFlowlayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
-                    binding.edtSearchContent.setText(mTitles.get(position));
+                    binding.edtSearchContent.setText(mUrls.get(position));
                     WebViewModel webViewModel = new WebViewModel();
                     webViewModel.setUrl(mUrls.get(position));
                     webViewModel.setTitle(mTitles.get(position));
