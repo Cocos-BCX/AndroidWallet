@@ -81,7 +81,9 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import io.reactivex.functions.Consumer;
@@ -143,6 +145,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             Toast.makeText(JsWebViewActivity.this, Utils.getString(R.string.share_cancel), Toast.LENGTH_LONG).show();
         }
     };
+    private boolean fromSearch;
 
 
     @Override
@@ -171,6 +174,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         try {
             Bundle bundle = getIntent().getExtras();
             webViewModel = (WebViewModel) bundle.getSerializable(IntentKeyGlobal.WEB_MODEL);
+            fromSearch = bundle.getBoolean(IntentKeyGlobal.FROM_SEARCH, false);
         } catch (Exception e) {
         }
     }
@@ -185,7 +189,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         }
 
         binding.jsWebView.setWebViewClient(new WebViewClient() {
-
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -216,10 +219,18 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 String title = view.getTitle();
+                Map<String, String> searchInfo = SPUtils.getMap(SPKeyGlobal.SEARCH_INFO);
+                if (null == searchInfo || searchInfo.size() <= 0) {
+                    searchInfo = new HashMap<>();
+                }
                 if (!TextUtils.isEmpty(title) && TextUtils.isEmpty(viewModel.webTitle.get())) {
                     webViewModel.title = title;
                     webViewModel.desc = url;
                     viewModel.webTitle.set(title);
+                    if (fromSearch && !TextUtils.equals(title,Utils.getString(R.string.web_not_open))) {
+                        searchInfo.put(title, url);
+                        SPUtils.setMap(SPKeyGlobal.SEARCH_INFO, searchInfo);
+                    }
                 }
             }
         });
@@ -438,7 +449,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.DELETENHASSET)) {
             Log.i(GlobalConstants.DELETENHASSET, params.param);
             /**
-             * delete nh asset
+             * search_delete nh asset
              */
             DeleteNHAssetParamsModel transferNHAssetParamModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, DeleteNHAssetParamsModel.class);
             if (!TextUtils.isEmpty(solidPassworld)) {

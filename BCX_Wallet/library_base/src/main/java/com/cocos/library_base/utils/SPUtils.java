@@ -307,7 +307,7 @@ public class SPUtils {
      * @param <T> 指定Map的值
      */
 
-    public <K, T> void setMap(String key, Map<K, T> map) {
+    public static <K, T> void setMap(String key, Map<K, T> map) {
         if (map == null || map.isEmpty() || map.size() < 1) {
             return;
         }
@@ -321,7 +321,7 @@ public class SPUtils {
     /**
      * 获取Map集合
      */
-    public <K, T> Map<K, T> getMap(String key) {
+    public static <K, T> Map<K, T> getMap(String key) {
         Map<K, T> map = new HashMap<>();
         String strJson = sp.getString(key, null);
         if (strJson == null) {

@@ -49,6 +49,7 @@ public class SearchViewModel extends BaseViewModel {
             webViewModel.setUrl(linkUrl.get());
             Bundle bundle = new Bundle();
             bundle.putSerializable(IntentKeyGlobal.WEB_MODEL, webViewModel);
+            bundle.putBoolean(IntentKeyGlobal.FROM_SEARCH, true);
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_JS_WEB).with(bundle).navigation();
         }
     });

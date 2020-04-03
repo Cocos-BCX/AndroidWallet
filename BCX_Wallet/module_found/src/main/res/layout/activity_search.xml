@@ -3,6 +3,7 @@
     xmlns:binding="http://schemas.android.com/apk/res-auto"
     xmlns:br="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
     tools:ignore="ResourceName">
 
     <data>
@@ -67,6 +68,7 @@
                 br:needTopBorder="true">
 
                 <EditText
+                    android:id="@+id/edt_search_content"
                     style="@style/editText_style"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -89,26 +91,39 @@
                 binding:onClickCommand="@{viewModel.confirmOnClickCommand}" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/dp_44">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:id="@+id/ll_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/dp_44">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/empty_view" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_24"
+                    android:gravity="center"
+                    android:text="@string/module_found_search_tips" />
+
+            </LinearLayout>
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/id_flowlayout"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/empty_view" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_24"
-                android:gravity="center"
-                android:text="@string/module_found_search_tips" />
-
-        </LinearLayout>
-
+                android:padding="20dp"
+                zhy:max_select="1" />
+        </RelativeLayout>
     </LinearLayout>
 </layout>

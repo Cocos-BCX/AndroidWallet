@@ -31,5 +31,6 @@ public final class SPKeyGlobal {
     public static final String CURRENCY_RATE = "currency_rate";
     public static final String COCOS_PRICE = "cocos_price";
     public static final String TOTAL_ASSET_VALUE = "total_asset_value";
+    public static final String SEARCH_INFO = "SEARCH_INFO";
     public static String TOTAL_LOCK_ASSET = AccountHelperUtils.getCurrentAccountName() + AccountHelperUtils.getCurrentAccountId() + CocosBcxApiWrapper.chainId;
 }

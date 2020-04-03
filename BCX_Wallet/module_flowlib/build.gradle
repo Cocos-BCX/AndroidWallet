@@ -1,11 +1,10 @@
 apply from: "../module.build.gradle"
 
 android {
-
     defaultConfig {
         //如果是独立模块，则使用当前组件的包名
         if (isBuildModule.toBoolean()) {
-            applicationId 'com.cocos.module_found'
+            applicationId 'com.cocos.module_flowlib'
         }
     }
 
@@ -22,18 +21,10 @@ android {
     }
 
     //统一资源前缀，规范资源引用
-    resourcePrefix "module_found_"
+    resourcePrefix "module_flowlib_"
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':library_base')
-    implementation project(':library_res')
-    implementation project(':module_flowlib')
-    //lombok
-    compileOnly 'org.projectlombok:lombok:1.18.2'
-    annotationProcessor "org.projectlombok:lombok:1.18.2"
-    //ARouter
-    annotationProcessor rootProject.ext.dependencies["arouter-annotationProcessor"]
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api rootProject.ext.support["appcompat-v7"]
 }

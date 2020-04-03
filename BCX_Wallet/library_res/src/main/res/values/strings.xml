@@ -84,4 +84,6 @@
     <string name="share_failed">分享失败</string>
     <string name="share_cancel">分享取消了</string>
     <string name="price_get_error">获取cocos价格失败</string>
+    <string name="web_not_open">网页无法打开</string>
+    <string name="delete_search_title">确定要删除该条历史记录？</string>
 </resources>
