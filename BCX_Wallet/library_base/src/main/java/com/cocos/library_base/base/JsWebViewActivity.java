@@ -192,6 +192,9 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             binding.jsWebView.loadUrl(webViewModel.getUrl());
         }
         if (!TextUtils.isEmpty(webViewModel.getTitle()) && !TextUtils.isEmpty(webViewModel.getUrl())) {
+            if (searchInfo.containsKey(webViewModel.getUrl())) {
+                searchInfo.remove(webViewModel.getUrl());
+            }
             searchInfo.put(webViewModel.getUrl(), webViewModel.getTitle());
             SPUtils.setMap(SPKeyGlobal.SEARCH_INFO, searchInfo);
         }
@@ -227,15 +230,18 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 String title = view.getTitle();
+                if (!TextUtils.equals(title, Utils.getString(R.string.web_not_open)) && !TextUtils.isEmpty(title) && TextUtils.isEmpty(webViewModel.getTitle())) {
+                    if (finalSearchInfo.containsKey(url)) {
+                        finalSearchInfo.remove(url);
+                    }
+                    finalSearchInfo.put(url, title);
+                    SPUtils.setMap(SPKeyGlobal.SEARCH_INFO, finalSearchInfo);
+                }
+
                 if (!TextUtils.isEmpty(title) && TextUtils.isEmpty(viewModel.webTitle.get())) {
                     webViewModel.title = title;
                     webViewModel.desc = url;
                     viewModel.webTitle.set(title);
-                }
-
-                if (!TextUtils.equals(title, Utils.getString(R.string.web_not_open)) && !TextUtils.isEmpty(title) && TextUtils.isEmpty(webViewModel.getTitle())) {
-                    finalSearchInfo.put(url, title);
-                    SPUtils.setMap(SPKeyGlobal.SEARCH_INFO, finalSearchInfo);
                 }
             }
         });
