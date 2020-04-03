@@ -122,6 +122,7 @@
                 android:id="@+id/id_flowlayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 android:padding="20dp"
                 zhy:max_select="1" />
         </RelativeLayout>

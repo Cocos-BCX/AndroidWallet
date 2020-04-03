@@ -33,7 +33,7 @@ import java.util.Set;
 @Route(path = RouterActivityPath.ACTIVITY_SEARCH)
 public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchViewModel> {
 
-    private Map<String, String> searchInfo;
+
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchVi
 
     private void setSearchData() {
         try {
-            searchInfo = SPUtils.getMap(SPKeyGlobal.SEARCH_INFO);
+            Map<String, String>  searchInfo = SPUtils.getMap(SPKeyGlobal.SEARCH_INFO);
             final List<String> mTitles = new ArrayList<>();
             final List<String> mUrls = new ArrayList<>();
             if (null == searchInfo || searchInfo.size() <= 0) {
@@ -79,9 +79,8 @@ public class SearchActivity extends BaseActivity<ActivitySearchBinding, SearchVi
                 @Override
                 public View getView(FlowLayout parent, final int position, String s) {
                     try {
-                        View view = mInflater.inflate(R.layout.search_item, binding.idFlowlayout, false);
-                        TextView textView = view.findViewById(R.id.tv_text);
-                        textView.setText(s);
+                        TextView view = (TextView) mInflater.inflate(R.layout.search_item, binding.idFlowlayout, false);
+                        view.setText(s);
                         return view;
                     } catch (Exception e) {
                     }

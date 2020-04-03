@@ -94,43 +94,48 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
         passwordVerifyDialog.setPasswordListener(new BaseVerifyPasswordDialog.IPasswordListener() {
             @Override
             public void onFinish(final String password) {
-                Log.i("saleMemo", saleAssetParamsModel.getOrderMemo());
-                CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("syling1", AccountHelperUtils.getCurrentAccountName(),
-                        password, saleAssetParamsModel.getNhAssetId(), "0",
-                        "COCOS", saleAssetParamsModel.getOrderMemo(), saleAssetParamsModel.getPriceAmount(),
-                        saleAssetParamsModel.getPriceSymbol(), saleAssetParamsModel.getValidTime(), new IBcxCallBack() {
-                            @Override
-                            public void onReceiveValue(final String s) {
-                                Log.i("create_nh_asset_order", s);
-                                MainHandler.getInstance().post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            final OperateResultModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
-                                            if (feeModel.code == 105) {
-                                                ToastUtils.showShort(R.string.module_mine_wrong_password);
-                                                return;
-                                            }
-                                            if (!TextUtils.isEmpty(feeModel.message)
-                                                    && (feeModel.message.contains("insufficient_balance")
-                                                    || feeModel.message.contains("Insufficient Balance"))) {
-                                                ToastUtils.showShort(R.string.insufficient_balance);
-                                                return;
-                                            }
-                                            if (!feeModel.isSuccess()) {
+                try {
+                    Log.i("saleMemo", saleAssetParamsModel.getOrderMemo());
+                    Double aDouble = Double.valueOf(saleAssetParamsModel.getPriceAmount()) * 0.1;
+                    CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("otcaccount", AccountHelperUtils.getCurrentAccountName(),
+                            password, saleAssetParamsModel.getNhAssetId(), aDouble.toString(),
+                            "COCOS", saleAssetParamsModel.getOrderMemo(), saleAssetParamsModel.getPriceAmount(),
+                            saleAssetParamsModel.getPriceSymbol(), saleAssetParamsModel.getValidTime(), new IBcxCallBack() {
+                                @Override
+                                public void onReceiveValue(final String s) {
+                                    Log.i("create_nh_asset_order", s);
+                                    MainHandler.getInstance().post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                final OperateResultModel feeModel = GsonSingleInstance.getGsonInstance().fromJson(s, OperateResultModel.class);
+                                                if (feeModel.code == 105) {
+                                                    ToastUtils.showShort(R.string.module_mine_wrong_password);
+                                                    return;
+                                                }
+                                                if (!TextUtils.isEmpty(feeModel.message)
+                                                        && (feeModel.message.contains("insufficient_balance")
+                                                        || feeModel.message.contains("Insufficient Balance"))) {
+                                                    ToastUtils.showShort(R.string.insufficient_balance);
+                                                    return;
+                                                }
+                                                if (!feeModel.isSuccess()) {
+                                                    ToastUtils.showShort(R.string.net_work_failed);
+                                                    return;
+                                                }
+                                                ToastUtils.showShort(R.string.module_mine_sale_nh_success);
+                                                dialog.dismiss();
+                                                finish();
+                                            } catch (Exception e) {
                                                 ToastUtils.showShort(R.string.net_work_failed);
-                                                return;
                                             }
-                                            ToastUtils.showShort(R.string.module_mine_sale_nh_success);
-                                            dialog.dismiss();
-                                            finish();
-                                        } catch (Exception e) {
-                                            ToastUtils.showShort(R.string.net_work_failed);
                                         }
-                                    }
-                                });
-                            }
-                        });
+                                    });
+                                }
+                            });
+                } catch (Exception e) {
+
+                }
             }
 
             @Override
