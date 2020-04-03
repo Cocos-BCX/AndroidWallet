@@ -122,8 +122,8 @@
                 android:id="@+id/ll_history"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="invisible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,9 +131,9 @@
                     android:layout_marginStart="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_20"
                     android:text="@string/history_title"
-                    android:textStyle="bold"
                     android:textColor="@color/color_333333"
-                    android:textSize="@dimen/sp_16" />
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold" />
 
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/id_flowlayout"
@@ -144,12 +144,12 @@
 
                 <TextView
                     android:id="@+id/tv_clear"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="@string/clear_history"
-                    android:layout_height="match_parent"
                     android:textColor="@color/color_9B9B9B"
-                    android:textSize="@dimen/sp_14"
-                    android:gravity="center_horizontal"/>
+                    android:textSize="@dimen/sp_14" />
 
             </LinearLayout>
         </RelativeLayout>
