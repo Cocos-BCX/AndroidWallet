@@ -116,7 +116,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
                     });
                 }
             }, delayTime);
-        }catch ( Exception e){
+        } catch (Exception e) {
         }
     }
 
@@ -193,7 +193,7 @@ public class AssetFragment extends BaseFragment<FragmentAssetBinding, AssetViewM
         viewModel.uc.accountItemObservable.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                dialog = new BottomSheetDialog(activity);
+                dialog = new BottomSheetDialog(activity,R.style.BottomSheetDialog);
                 DialogSwitchAccountBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_switch_account, null, false);
                 dialog.setContentView(binding.getRoot());
                 binding.setViewModel(new SwitchAccountViewModel((Application) Utils.getContext()));
