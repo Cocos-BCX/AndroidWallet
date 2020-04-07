@@ -37,7 +37,6 @@
     <string name="module_login_temp_password_empty">请设置临时密码</string>
     <string name="module_login_password_error">请输入正确的账户名称或者密码</string>
     <string name="module_login_account_exist">账户已存在</string>
-    <string name="register_pwd_title">密码要求：</string>
-    <string name="module_login_password_rule">12位以上，包含数字、大小写字母和!@#$%^&amp;*.特殊符号</string>
+
 
 </resources>

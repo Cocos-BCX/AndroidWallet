@@ -37,7 +37,5 @@
     <string name="module_login_temp_password_empty">Please set temporary passcode</string>
     <string name="module_login_password_error">Please enter valid account name or passcode</string>
     <string name="module_login_account_exist">Account already exists</string>
-    <string name="register_pwd_title">Passcode Rule：</string>
-    <string name="module_login_password_rule">12位以上，包含数字、大小写字母和!@#$%^&amp;*.特殊符号</string>
 
 </resources>

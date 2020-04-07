@@ -52,6 +52,8 @@ public class RegisterViewModel extends BaseViewModel {
 
     public ObservableInt accountNameErrorTipVisible = new ObservableInt(View.INVISIBLE);
 
+    public ObservableInt pwdErrorTipVisible = new ObservableInt(View.INVISIBLE);
+
     public RegisterViewModel(@NonNull Application application) {
         super(application);
     }
@@ -157,11 +159,12 @@ public class RegisterViewModel extends BaseViewModel {
                             RegisterModel registerModel = GsonSingleInstance.getGsonInstance().fromJson(s, RegisterModel.class);
 
                             if (registerModel.code == 178) {
+                                pwdErrorTipVisible.set(View.VISIBLE);
                                 ToastUtils.showShort(R.string.module_login_password_illegal);
                                 dismissDialog();
                                 return;
                             }
-
+                            pwdErrorTipVisible.set(View.INVISIBLE);
                             if (registerModel.code == 159) {
                                 ToastUtils.showShort(R.string.module_login_account_exist);
                                 dismissDialog();

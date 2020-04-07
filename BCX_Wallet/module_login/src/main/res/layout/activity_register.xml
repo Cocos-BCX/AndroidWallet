@@ -74,7 +74,6 @@
                     android:textColor="@{viewModel.walletModelTitleColor}"
                     android:textSize="@dimen/sp_22"
                     android:typeface="@{@string/TOTAL_ASSET}"
-                    android:visibility="gone"
                     binding:onClickCommand="@{viewModel.walletTitleOnClickCommand}" />
 
             </LinearLayout>
@@ -160,12 +159,22 @@
 
             </com.cocos.library_base.widget.LinearLinearLayout>
 
+            <TextView
+                android:id="@+id/pwd_error_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:text="@string/module_login_password_rule"
+                android:textColor="@color/color_F56151"
+                android:textSize="@dimen/sp_12"
+                android:visibility="@{viewModel.pwdErrorTipVisible}" />
+
 
             <com.cocos.library_base.widget.LinearLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_20"
                 android:orientation="vertical"
                 br:borderColor="@color/color_ffd8dbe1"
@@ -294,6 +303,7 @@
                 android:text="@={viewModel.registerModelTips}"
                 android:textColor="@color/color_F56151"
                 android:textSize="@dimen/sp_12"
+                android:layout_marginBottom="@dimen/dp_30"
                 tools:ignore="SpUsage" />
         </LinearLayout>
     </ScrollView>

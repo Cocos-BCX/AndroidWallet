@@ -2,7 +2,7 @@
     <string name="TOTAL_ASSET">fonts/TOTAL_ASSET.ttf</string>
     <string name="FUTURAMEDIUMBT">fonts/FUTURAMEDIUMBT.ttf</string>
     <string name="CENTURY_GOTHIC_BOLD">fonts/CENTURY_GOTHIC_BOLD.ttf</string>
-    <string name="module_login_password_hint" tools:ignore="MissingTranslation">8–12 digits composed of two among numbers, letters and special characters</string>
+    <string name="module_login_password_hint" tools:ignore="MissingTranslation">Enter passcode</string>
     <string name="copy_success">Copied</string>
     <string name="copy">Copy</string>
     <string name="logout_warning_text">Please make sure to have saved your private key before logging out</string>
@@ -89,4 +89,6 @@
     <string name="delete_search_title">Sure to delete？</string>
     <string name="history_title">History</string>
     <string name="clear_history">Clear All</string>
+    <string name="register_pwd_title">Passcode Rule：</string>
+    <string name="module_login_password_rule">At least 12 digits,must contain numbers, uppercase and lowercase letters, and special symbols .!@#$%^&amp;*</string>
 </resources>
