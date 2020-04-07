@@ -1,5 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="module_login_username_hint" tools:ignore="MissingTranslation">Begin with 5-63 lowercase letters</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName" >
+    <string name="module_login_username_hint">Begin with 5-63 lowercase letters</string>
     <string name="module_login_btn_register" tools:ignore="MissingTranslation">Register Wallet</string>
     <string name="module_login_btn_login" tools:ignore="ExtraTranslation,MissingTranslation">Log in to wallet</string>
     <string name="module_login_btn_key_login" tools:ignore="MissingTranslation">Start Importing</string>
@@ -16,7 +16,6 @@
     <string name="module_login_account_name_hint">Enter account name</string>
     <string name="module_login_password_hint_login" tools:ignore="DuplicateDefinition">Enter passcode</string>
     <string name="module_login_illegal_username">Passcode does not meet requirements</string>
-    <string name="module_login_password_illegal" tools:ignore="MissingTranslation">Passcode does not meet requirements</string>
     <string name="module_login_register_success">Registered</string>
     <string name="module_login_account_info">Please enter account info</string>
     <string name="module_login_key_login_success">Imported</string>
@@ -34,9 +33,11 @@
     <string name="private_key_function_tips" tools:ignore="ResourceName">Private key is for recover wallet or reset wallet password, long press to copy, keep your private key safe</string>
     <string name="asset_private_key_text" tools:ignore="ResourceName">Asset private key</string>
     <string name="account_private_key_text" tools:ignore="ResourceName">Account private key</string>
-    <string name="module_mine_btn_next" tools:ignore="ResourceName">Next</string>
+    <string name="module_mine_btn_next" >Next</string>
     <string name="module_login_temp_password_empty">Please set temporary passcode</string>
     <string name="module_login_password_error">Please enter valid account name or passcode</string>
     <string name="module_login_account_exist">Account already exists</string>
+    <string name="register_pwd_title">Passcode Rule：</string>
+    <string name="module_login_password_rule">12位以上，包含数字、大小写字母和!@#$%^&amp;*.特殊符号</string>
 
 </resources>

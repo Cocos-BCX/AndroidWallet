@@ -7,6 +7,7 @@
     <string name="copy">Copy</string>
     <string name="logout_warning_text">Please make sure to have saved your private key before logging out</string>
     <string name="title_warning_text" tools:ignore="ResourceName">Take Attention</string>
+    <string name="module_login_password_illegal" tools:ignore="MissingTranslation">Passcode does not meet requirements</string>
     <string name="confirm_text" tools:ignore="MissingTranslation">Confirm</string>
     <string name="cancel_text" tools:ignore="MissingTranslation">Cancel</string>
     <string name="asset_private_key_detail" tools:ignore="ResourceName,StringEscaping">The “active” authority is used to set the account name or public key that has the right to spend money of the account.</string>

@@ -103,6 +103,14 @@ public class KeyLoginViewModel extends BaseViewModel {
                                 public void run() {
                                     Log.i("import_wif_key", s);
                                     KeyLoginModel keyLoginModel = GsonSingleInstance.getGsonInstance().fromJson(s, KeyLoginModel.class);
+
+                                    if (keyLoginModel.code == 178) {
+                                        ToastUtils.showShort(R.string.module_login_password_illegal);
+                                        dismissDialog();
+                                        return;
+                                    }
+
+
                                     if (keyLoginModel.code == 109 || keyLoginModel.code == 1011 || keyLoginModel.code == 135) {
                                         ToastUtils.showShort(R.string.module_login_key_format_error);
                                         dismissDialog();

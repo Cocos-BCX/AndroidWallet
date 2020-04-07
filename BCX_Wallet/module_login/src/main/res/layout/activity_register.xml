@@ -260,6 +260,24 @@
                     android:textSize="@dimen/sp_12"
                     tools:ignore="SpUsage" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_pwd_title"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_12"
+                    android:typeface="@{@string/TOTAL_ASSET}"
+                    android:layout_marginTop="@dimen/dp_10"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:text="@string/module_login_password_rule"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_12"
+                    tools:ignore="SpUsage" />
             </LinearLayout>
 
             <TextView

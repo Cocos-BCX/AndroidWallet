@@ -2,7 +2,7 @@
     <string name="TOTAL_ASSET">fonts/TOTAL_ASSET.ttf</string>
     <string name="FUTURAMEDIUMBT">fonts/FUTURAMEDIUMBT.ttf</string>
     <string name="CENTURY_GOTHIC_BOLD">fonts/CENTURY_GOTHIC_BOLD.ttf</string>
-    <string name="module_login_password_hint" tools:ignore="MissingTranslation">8-12位，数字、字母和特殊符号任两种</string>
+    <string name="module_login_password_hint" tools:ignore="MissingTranslation">12位以上，包含数字、大小写字母和!@#$%^&amp;*.符号</string>
     <string name="copy_success">复制成功</string>
     <string name="copy">复制</string>
     <string name="title_warning_text" tools:ignore="MissingTranslation">注意</string>
@@ -88,4 +88,5 @@
     <string name="delete_search_title">确定要删除该条历史记录？</string>
     <string name="history_title">浏览历史记录</string>
     <string name="clear_history">清除全部历史记录</string>
+    <string name="module_login_password_illegal" tools:ignore="MissingTranslation">密码设置不符合规则</string>
 </resources>

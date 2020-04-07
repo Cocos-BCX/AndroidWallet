@@ -1,14 +1,12 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
     <string name="module_login_username_hint" tools:ignore="MissingTranslation">5-63位小写字母开头</string>
     <string name="module_login_confirm_password_hint" tools:ignore="MissingTranslation">请再次输入密码</string>
     <string name="module_login_btn_register" tools:ignore="MissingTranslation">注册</string>
     <string name="module_login_btn_login" tools:ignore="ExtraTranslation,MissingTranslation">登录钱包</string>
     <string name="module_login_btn_key_login" tools:ignore="MissingTranslation">开始导入</string>
-
     <string name="module_login_import_wallet">导入钱包</string>
     <string name="module_login_password_empty">请输入密码</string>
     <string name="module_login_password_confirm_empty">请确认设置密码</string>
-    <string name="module_login_password_illegal" tools:ignore="MissingTranslation">密码设置不符合规则</string>
     <string name="module_login_register_title">注册</string>
     <string name="module_login_account_name">账户名称</string>
     <string name="module_login_password">密码</string>
@@ -39,5 +37,7 @@
     <string name="module_login_temp_password_empty">请设置临时密码</string>
     <string name="module_login_password_error">请输入正确的账户名称或者密码</string>
     <string name="module_login_account_exist">账户已存在</string>
+    <string name="register_pwd_title">密码要求：</string>
+    <string name="module_login_password_rule">12位以上，包含数字、大小写字母和!@#$%^&amp;*.特殊符号</string>
 
 </resources>

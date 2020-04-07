@@ -143,10 +143,7 @@ public class RegisterViewModel extends BaseViewModel {
                 ToastUtils.showShort(R.string.module_login_password_confirm_failure);
                 return;
             }
-            if (!RegexUtils.isLegalPassword(password.get())) {
-                ToastUtils.showShort(R.string.module_login_password_illegal);
-                return;
-            }
+
 
             showDialog();
 
@@ -157,8 +154,14 @@ public class RegisterViewModel extends BaseViewModel {
                     MainHandler.getInstance().post(new Runnable() {
                         @Override
                         public void run() {
-
                             RegisterModel registerModel = GsonSingleInstance.getGsonInstance().fromJson(s, RegisterModel.class);
+
+                            if (registerModel.code == 178) {
+                                ToastUtils.showShort(R.string.module_login_password_illegal);
+                                dismissDialog();
+                                return;
+                            }
+
                             if (registerModel.code == 159) {
                                 ToastUtils.showShort(R.string.module_login_account_exist);
                                 dismissDialog();

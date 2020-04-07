@@ -67,11 +67,6 @@ public class ModifyPasswordViewModel extends BaseViewModel {
             return;
         }
 
-        if (!RegexUtils.isLegalPassword(newPassword.get())) {
-            ToastUtils.showShort(R.string.module_mine_modify_password_illegal);
-            return;
-        }
-
         showDialog();
         CocosBcxApiWrapper.getBcxInstance().modify_password(accountNameStr, currentPassword.get(), confirmPassword.get(), new IBcxCallBack() {
             @Override
@@ -81,6 +76,13 @@ public class ModifyPasswordViewModel extends BaseViewModel {
                     public void run() {
                         KLog.i("changePassword", s);
                         BaseResult baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
+
+                        if (baseResult.code == 178) {
+                            ToastUtils.showShort(R.string.module_login_password_illegal);
+                            dismissDialog();
+                            return;
+                        }
+
                         if (baseResult.getCode() == 105) {
                             dismissDialog();
                             ToastUtils.showShort(R.string.module_mine_wrong_password);
