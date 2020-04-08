@@ -50,36 +50,38 @@ public class ModifyPasswordActivity extends BaseActivity<ActivityModifyPasswordB
         binding.etModifyPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         binding.etModifyConfirm.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         binding.etSetPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-        pwdVisibleControl(binding.etModifyPassword, binding.etModifyConfirm, binding.etSetPassword, binding.ivPwdVisible);
+        pwdVisibleControl( binding.etSetPassword, binding.ivOldPwdVisible);
+        pwdVisibleControl2(binding.etModifyPassword, binding.etModifyConfirm, binding.ivPwdVisible);
         binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pwdVisibleControl(binding.etModifyConfirm, binding.etModifyPassword, binding.etSetPassword,binding.ivPwdVisible);
+                pwdVisibleControl2(binding.etModifyPassword, binding.etModifyConfirm,binding.ivPwdVisible);
+            }
+        });
+        binding.ivOldPwdVisible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdVisibleControl(binding.etSetPassword, binding.ivOldPwdVisible);
             }
         });
     }
 
+    protected boolean isOldVisible = true;
+
     /**
      * 密码输入框右边的眼睛点击改变状态逻辑
      */
-    public void pwdVisibleControl(EditText editText1, EditText editText2, EditText editText3, ImageView imageView) {
-        if (isPwdCancel) {
-            editText1.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
-            editText2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
-            editText3.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+    public void pwdVisibleControl(EditText editText, ImageView imageView) {
+        if (isOldVisible) {
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
             imageView.setImageResource(com.cocos.library_base.R.drawable.hidden_pwd);
         } else {
-            editText1.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
-            editText2.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
-            editText3.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            editText.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT);
             imageView.setImageResource(com.cocos.library_base.R.drawable.show_pwd);
         }
-        isPwdCancel = !isPwdCancel;
-        String pwd = editText1.getText().toString().trim();
-        String newpwd = editText2.getText().toString().trim();
-        String oldPwd = editText3.getText().toString().trim();
-        editText1.setSelection(pwd.length());
-        editText2.setSelection(newpwd.length());
-        editText3.setSelection(oldPwd.length());
+        isOldVisible = !isOldVisible;
+        String pwd = editText.getText().toString().trim();
+        editText.setSelection(pwd.length());
     }
+
 }
