@@ -136,9 +136,8 @@
                     android:layout_toEndOf="@+id/tv_pwd_title"
                     android:hint="@string/module_login_temporary_password_hint"
                     android:inputType="textPassword"
-                    android:maxLength="63"
                     android:paddingStart="@dimen/dp_14"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:text="@={viewModel.password}"
                     android:layout_toStartOf="@+id/lv_pwd_visible"
                     tools:ignore="RtlSymmetry" />
