@@ -54,7 +54,7 @@ public class ModifyPasswordActivity extends BaseActivity<ActivityModifyPasswordB
         binding.ivPwdVisible.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pwdVisibleControl2(binding.etModifyConfirm, binding.etModifyPassword, binding.ivPwdVisible);
+                pwdVisibleControl(binding.etModifyConfirm, binding.etModifyPassword, binding.etSetPassword,binding.ivPwdVisible);
             }
         });
     }
