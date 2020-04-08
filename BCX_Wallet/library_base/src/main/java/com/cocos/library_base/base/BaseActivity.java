@@ -424,7 +424,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         return super.onTouchEvent(event);
     }
 
-    private boolean isPwdCancel = true;
+    protected boolean isPwdCancel = true;
 
     /**
      * 密码输入框右边的眼睛点击改变状态逻辑

@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.ClipData;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -52,9 +54,11 @@ public class AccountManageViewModel extends BaseViewModel {
         this.daoAccount = account;
         accountName.set(daoAccount.getName());
         if (TextUtils.equals(daoAccount.getAccount_type(), "ACCOUNT")) {
+            modifyPwdVisible.set(View.VISIBLE);
             passwordText.set(Utils.getString(R.string.fragment_mine_account_manage_modify_password));
         } else {
-            passwordText.set(Utils.getString(R.string.reset_password_title));
+            modifyPwdVisible.set(View.GONE);
+//            passwordText.set(Utils.getString(R.string.reset_password_title));
         }
     }
 
@@ -70,6 +74,8 @@ public class AccountManageViewModel extends BaseViewModel {
     public ObservableField<String> totalAsset = new ObservableField<>("0.00");
 
     public ObservableField<String> assetSymbol = new ObservableField<>("COCOS");
+
+    public ObservableInt modifyPwdVisible = new ObservableInt(View.VISIBLE);
 
     public ObservableField<String> accountName = new ObservableField<>("");
 

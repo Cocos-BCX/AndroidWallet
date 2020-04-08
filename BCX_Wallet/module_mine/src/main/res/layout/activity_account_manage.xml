@@ -132,7 +132,7 @@
                     android:layout_marginTop="@dimen/dp_22"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="visible"
+                    android:visibility="@{viewModel.modifyPwdVisible}"
                     binding:onClickCommand="@{viewModel.modifyPasswordOnClickCommand}">
 
                     <TextView
