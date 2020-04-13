@@ -36,4 +36,8 @@ public class GlobalConstants {
 
     public static final String WALLETLANGUAGE = "walletLanguage";
 
+    public static final String SIGNSTRING = "signString";
+
+    public static final String CHECKINGSIGNSTRING = "checkingSignString";
+
 }

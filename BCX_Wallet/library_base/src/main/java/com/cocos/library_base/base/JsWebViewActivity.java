@@ -27,6 +27,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_wallet.chain.signed_message;
 import com.cocos.library_base.BR;
 import com.cocos.library_base.R;
 import com.cocos.library_base.bus.event.EventBusCarrier;
@@ -36,6 +37,8 @@ import com.cocos.library_base.databinding.DialogJswebviewMoreBinding;
 import com.cocos.library_base.databinding.DialogTransferPayConfirmBinding;
 import com.cocos.library_base.entity.BaseResultModel;
 import com.cocos.library_base.entity.NodeInfoModel;
+import com.cocos.library_base.entity.PrivateKeyModel;
+import com.cocos.library_base.entity.SignModel;
 import com.cocos.library_base.entity.WebViewModel;
 import com.cocos.library_base.entity.js_params.GetAccountInfoModel;
 import com.cocos.library_base.entity.js_params.JsParamsEventModel;
@@ -624,8 +627,83 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                     onCancel(params);
                 }
             });
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.SIGNSTRING)) {
+            SignModel signModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, SignModel.class);
+            if (!TextUtils.isEmpty(solidPassworld)) {
+                signString(solidPassworld, signModel, params);
+                return;
+            }
+            JsWebVerifyPasswordDialog passwordDialog = new JsWebVerifyPasswordDialog();
+            passwordDialog.show(getSupportFragmentManager(), "passwordDialog");
+            passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
+                @Override
+                public void onFinish(String password) {
+                    signString(solidPassworld, signModel, params);
+                }
+
+                @Override
+                public void cancel() {
+                    onCancel(params);
+                }
+            });
+        } else if (TextUtils.equals(busCarrier.getEventType(), GlobalConstants.CHECKINGSIGNSTRING)) {
+            SignReversModel signReversModel = GsonSingleInstance.getGsonInstance().fromJson(params.param, SignReversModel.class);
+            checkingSignString(signReversModel, params);
         }
     }
+
+    private void checkingSignString(SignReversModel signReversModel, JsParamsEventModel params) {
+        BaseResultModel baseResult = new BaseResultModel();
+        String verifyResult = CocosBcxApiWrapper.getBcxInstance().recoverMessage(signReversModel.getSignContent(), signReversModel.getCheckingSignContent());
+        baseResult.setCode(1);
+        baseResult.setData(verifyResult);
+        onJSCallback(params.serialNumber, baseResult);
+    }
+
+    private void signString(String password, SignModel signModel, JsParamsEventModel params) {
+        CocosBcxApiWrapper.getBcxInstance().export_private_key(AccountHelperUtils.getCurrentAccountName(), password, new IBcxCallBack() {
+            @Override
+            public void onReceiveValue(String value) {
+                MainHandler.getInstance().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            final PrivateKeyModel keyModel = GsonSingleInstance.getGsonInstance().fromJson(value, PrivateKeyModel.class);
+                            if (keyModel.code == 105) {
+                                ToastUtils.showShort(R.string.module_asset_wrong_password);
+                                return;
+                            }
+                            if (!keyModel.isSuccess()) {
+                                return;
+                            }
+                            keyModel.setAccountName(AccountHelperUtils.getCurrentAccountName());
+                            Map<String, String> keys = keyModel.getData();
+                            BaseResultModel baseResult = new BaseResultModel();
+                            for (Map.Entry<String, String> public_keys : keys.entrySet()) {
+                                if (TextUtils.equals(public_keys.getKey(), AccountHelperUtils.getActivePublicKey(keyModel.getAccountName()))) {
+                                    signed_message signed_message = CocosBcxApiWrapper.getBcxInstance().signMessage(public_keys.getValue(), signModel.signContent);
+                                    baseResult.setCode(1);
+                                    baseResult.setData(signed_message);
+                                    baseResult.setMessage("active");
+                                    return;
+                                } else {
+                                    signed_message signed_message = CocosBcxApiWrapper.getBcxInstance().signMessage(public_keys.getValue(), signModel.signContent);
+                                    baseResult.setCode(1);
+                                    baseResult.setData(signed_message);
+                                    baseResult.setMessage("owner");
+                                }
+                            }
+                            remeberPwd(password, baseResult.getCode() != 105);
+                            onJSCallback(params.serialNumber, baseResult);
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
 
     private void publishVotes(String password, PublishVotesParamsModel publishVotes, JsParamsEventModel params) {
         if (TextUtils.equals(publishVotes.votes, "0")) {
@@ -880,6 +958,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         transactionModel.message = baseResult.getMessage();
         onJSCallback(params.serialNumber, transactionModel);
     }
+
 
     /**
      * 执行JS回调，用于关闭web支付对话框

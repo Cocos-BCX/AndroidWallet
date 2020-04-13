@@ -175,7 +175,31 @@ class ClientFunction {
         })
     }
 
+    signString(params) {
+        const serialNumber = serialNumberFn();
+        _sendPeRequest(serialNumber, params, 'signString');
+        return new Promise((resolve, reject) => {
+            window.callbackResult = function (returnSerialNumber, result) {
+                if (returnSerialNumber == serialNumber) {
+                    resolve(JSON.parse(result))
+                }
+            }
+        })
+    }
+
+      checkingSignString(params) {
+            const serialNumber = serialNumberFn();
+            _sendPeRequest(serialNumber, params, 'checkingSignString');
+            return new Promise((resolve, reject) => {
+                window.callbackResult = function (returnSerialNumber, result) {
+                    if (returnSerialNumber == serialNumber) {
+                        resolve(JSON.parse(result))
+                    }
+                }
+            })
+        }
 }
+
 const hookFunction = new ClientFunction();
 const checkForExtension = (resolve, tries = 0) => {
     if (tries > 20) return;
@@ -305,6 +329,22 @@ class Index {
             })
         })
     }
+
+    signString(params) {
+        return new Promise((resolve, reject) => {
+            hookFunction.signString(params).then((res) => {
+                resolve(res)
+            })
+        })
+    }
+
+     checkingSignString(params) {
+            return new Promise((resolve, reject) => {
+                hookFunction.checkingSignString(params).then((res) => {
+                    resolve(res)
+                })
+            })
+      }
 
     queryGas(params) {
         return new Promise((resolve, reject) => {
