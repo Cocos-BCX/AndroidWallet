@@ -91,4 +91,5 @@
     <string name="module_login_password_illegal" tools:ignore="MissingTranslation">密码设置不符合规则</string>
     <string name="register_pwd_title">密码要求：</string>
     <string name="module_login_password_rule">12位以上，包含数字、大小写字母和!@#$%^&amp;*.特殊符号</string>
+    <string name="invoke_signmessage_title">消息签名</string>
 </resources>

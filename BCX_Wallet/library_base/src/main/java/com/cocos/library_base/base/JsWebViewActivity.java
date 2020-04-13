@@ -685,7 +685,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                                     baseResult.setCode(1);
                                     baseResult.setData(signed_message);
                                     baseResult.setMessage("active");
-                                    return;
+                                    break;
                                 } else {
                                     signed_message signed_message = CocosBcxApiWrapper.getBcxInstance().signMessage(public_keys.getValue(), signModel.signContent);
                                     baseResult.setCode(1);

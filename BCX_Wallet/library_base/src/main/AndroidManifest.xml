@@ -26,6 +26,10 @@
             android:name=".invokedpages.InvokeContractActivity"
             android:launchMode="singleTask" />
 
+        <activity
+            android:name=".invokedpages.InvokeSignMessageActivity"
+            android:launchMode="singleTask" />
+
         <receiver android:name=".receiver.NetStateChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

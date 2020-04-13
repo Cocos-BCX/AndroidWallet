@@ -56,6 +56,7 @@ public final class RouterActivityPath {
     public static final String ACTIVITY_INVOKE_LOGIN = "/library_base/InvokeLoginActivity";
     public static final String ACTIVITY_INVOKE_TRANSFER = "/library_base/InvokeTransferActivity";
     public static final String ACTIVITY_INVOKE_CONTRACT = "/library_base/InvokeContractActivity";
+    public static final String ACTIVITY_INVOKE_SIGNMESSAGE = "/library_base/InvokeSignMessageActivity";
     //found
     public static final String ACTIVITY_SEARCH = "/module_found/SearchActivity";
 

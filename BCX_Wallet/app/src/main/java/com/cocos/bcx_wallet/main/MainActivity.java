@@ -35,8 +35,10 @@ import com.cocos.library_base.invokedpages.model.Authorize;
 import com.cocos.library_base.invokedpages.model.BaseInfo;
 import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.invokedpages.model.Contract;
+import com.cocos.library_base.invokedpages.model.SignMessage;
 import com.cocos.library_base.invokedpages.model.Transfer;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ActivityContainer;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.ToastUtils;
@@ -137,12 +139,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     protected void onResume() {
         super.onResume();
 //        NodeConnectUtil.testNetStatus();
-        if (isFirst){
+        if (isFirst) {
             parseInvokeIntent();
             isFirst = false;
             return;
         }
-        if (System.currentTimeMillis()- runIntent >= 1500){
+        if (System.currentTimeMillis() - runIntent >= 1500) {
             parseInvokeIntent();
         }
 
@@ -167,7 +169,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         runIntent = System.currentTimeMillis();
         setIntent(intent);
         parseInvokeIntent();
-        Log.i("onNewIntent","onNewIntent");
+        Log.i("onNewIntent", "onNewIntent");
     }
 
     private void parseInvokeIntent() {
@@ -260,6 +262,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                                 });
                             }
                         });
+                        break;
+
+                    case "signmessage":
+                        SignMessage signMessage = GsonSingleInstance.getGsonInstance().fromJson(param, SignMessage.class);
+                        BaseInvokeModel baseInvokeModel1 = baseInvokeModel;
+                        if (TextUtils.isEmpty(AccountHelperUtils.getCurrentAccountName())){
+                            ToastUtils.showShort(R.string.account_empty);
+                            return;
+                        }
+                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_SIGNMESSAGE, signMessage);
+                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel1);
+                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_SIGNMESSAGE).with(bundle1).navigation();
                         break;
                     default:
                         throw new IllegalStateException("Unexpected value: " + baseInvokeModel.getAction());

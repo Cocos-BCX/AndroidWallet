@@ -48,4 +48,5 @@
     <string name="transferAccountName_empty">Payer cannot be empty</string>
     <string name="account_empty">Please log in or create an account first</string>
     <string name="author_account_not_exist">Authorized account doesn‘t exist, please re-authorize</string>
+    <string name="sign_info">Sign content：</string>
 </resources>

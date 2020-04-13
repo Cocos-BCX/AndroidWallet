@@ -48,4 +48,5 @@
     <string name="transferAccountName_empty">付款方不能为空</string>
     <string name="account_empty">请先登录或创建账户</string>
     <string name="author_account_not_exist">授权账户不存在，请重新授权</string>
+    <string name="sign_info">签名信息：</string>
 </resources>

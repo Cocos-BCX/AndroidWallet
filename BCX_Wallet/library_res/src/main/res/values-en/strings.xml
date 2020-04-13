@@ -91,4 +91,5 @@
     <string name="clear_history">Clear All</string>
     <string name="register_pwd_title">Passcode Rule：</string>
     <string name="module_login_password_rule">At least 12 digits,must contain numbers, uppercase and lowercase letters, and special symbols .!@#$%^&amp;*</string>
+    <string name="invoke_signmessage_title">Sign Info</string>
 </resources>

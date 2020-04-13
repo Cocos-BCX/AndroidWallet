@@ -15,7 +15,12 @@ public enum ActionEnum {
     /**
      * 授权账户
      */
-    Authorize("login");
+    Authorize("login"),
+
+    /**
+     * 消息签名
+     */
+    SignMessage("signmessage");
 
 
     private String value;

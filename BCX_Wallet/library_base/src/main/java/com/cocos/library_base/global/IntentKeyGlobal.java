@@ -58,5 +58,6 @@ public final class IntentKeyGlobal {
     public static final String INVOKE_AUTHORIZE_INFO = "INVOKE_AUTHORIZE_INFO";
     public static final String INVOKE_CONTRACT_INFO = "INVOKE_CONTRACT_INFO";
     public static final String INVOKE_TRANSFER_INFO = "INVOKE_TRANSFER_INFO";
+    public static final String INVOKE_SIGNMESSAGE = "INVOKE_SIGNMESSAGE";
     public static final String FROM_SEARCH = "FROM_SEARCH";
 }
