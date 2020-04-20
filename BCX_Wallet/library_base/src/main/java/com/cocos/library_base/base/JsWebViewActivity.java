@@ -638,7 +638,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             passwordDialog.setPasswordListener(new JsWebVerifyPasswordDialog.IPasswordListener() {
                 @Override
                 public void onFinish(String password) {
-                    signString(solidPassworld, signModel, params);
+                    signString(password, signModel, params);
                 }
 
                 @Override
@@ -682,14 +682,20 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                             for (Map.Entry<String, String> public_keys : keys.entrySet()) {
                                 if (TextUtils.equals(public_keys.getKey(), AccountHelperUtils.getActivePublicKey(keyModel.getAccountName()))) {
                                     signed_message signed_message = CocosBcxApiWrapper.getBcxInstance().signMessage(public_keys.getValue(), signModel.signContent);
+                                    signed_message signed_message1 = new signed_message();
+                                    signed_message1.signature = signed_message.signature.replace("\"","").toString();
+                                    signed_message1.message = signed_message.message;
                                     baseResult.setCode(1);
-                                    baseResult.setData(signed_message);
+                                    baseResult.setData(signed_message1);
                                     baseResult.setMessage("active");
                                     break;
                                 } else {
                                     signed_message signed_message = CocosBcxApiWrapper.getBcxInstance().signMessage(public_keys.getValue(), signModel.signContent);
+                                    signed_message signed_message1 = new signed_message();
+                                    signed_message1.signature = signed_message.signature.replace("\"","").toString();
+                                    signed_message1.message = signed_message.message;
                                     baseResult.setCode(1);
-                                    baseResult.setData(signed_message);
+                                    baseResult.setData(signed_message1);
                                     baseResult.setMessage("owner");
                                 }
                             }
