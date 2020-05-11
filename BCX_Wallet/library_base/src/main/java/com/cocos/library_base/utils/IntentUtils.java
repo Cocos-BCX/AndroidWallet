@@ -43,6 +43,13 @@ public class IntentUtils {
         }
     }
 
+    public static void jumpToDapp(Context context, String result, BaseInvokeModel baseInfo) {
+        ComponentName component = new ComponentName(baseInfo.getPackageName(), baseInfo.getClassName());
+        Intent intent = new Intent();
+        intent.setComponent(component);
+        intent.putExtra("result", result);
+        context.startActivity(intent);
+    }
 
     public static void jumpToDapp(Context context, BaseInvokeResultModel baseInvokeResultModel, BaseInvokeModel baseInfo) {
         ComponentName component = new ComponentName(baseInfo.getPackageName(), baseInfo.getClassName());

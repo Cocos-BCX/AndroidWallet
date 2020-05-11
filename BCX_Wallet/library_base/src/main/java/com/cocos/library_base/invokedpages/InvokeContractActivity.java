@@ -137,22 +137,29 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeContractB
                         CocosBcxApiWrapper.getBcxInstance().invoking_contract(contract.getAuthorizedAccount(), password, contract.getContractNameOrId(), contract.getFunctionName(), contract.getValueList(), new IBcxCallBack() {
                             @Override
                             public void onReceiveValue(String s) {
-                                BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
-                                BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
-                                if (baseResult.getCode() == 105) {
-                                    ToastUtils.showShort(R.string.module_asset_wrong_password);
-                                    return;
-                                }
-                                if (baseResult.isSuccess()) {
-                                    baseInvokeResultModel.setCode(1);
+                                try {
+                                    BaseResultModel<String> baseResult = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResultModel.class);
+                                    BaseInvokeResultModel baseInvokeResultModel = new BaseInvokeResultModel();
+                                    if (baseResult.getCode() == 105) {
+                                        ToastUtils.showShort(R.string.module_asset_wrong_password);
+                                        return;
+                                    }
+                                    if (TextUtils.equals(baseResult.getMessage(), "It doesnt connect to the server.")) {
+                                        ToastUtils.showShort(R.string.net_work_failed);
+                                        return;
+                                    }
+                                    if (baseResult.getCode() == 1) {
+                                        finish();
+                                        IntentUtils.jumpToDapp(InvokeContractActivity.this, s, baseInvokeModel);
+                                        return;
+                                    }
+                                    baseInvokeResultModel.setCode(baseResult.getCode());
                                     baseInvokeResultModel.setData(baseResult.getData());
                                     baseInvokeResultModel.setActionId(contract.getActionId());
                                     finish();
-                                    IntentUtils.jumpToDapp(InvokeContractActivity.this, baseInvokeResultModel, baseInvokeModel);
-                                    return;
+                                    IntentUtils.jumpToDappWithError(InvokeContractActivity.this, baseInvokeModel, contract.getActionId(), baseResult.getMessage());
+                                } catch (Exception e) {
                                 }
-                                finish();
-                                IntentUtils.jumpToDappWithError(InvokeContractActivity.this, baseInvokeModel, contract.getActionId(), baseResult.getMessage());
                             }
                         });
                     }
@@ -161,7 +168,6 @@ public class InvokeContractActivity extends BaseActivity<ActivityInvokeContractB
                     public void cancel() {
                     }
                 });
-
             }
         });
     }

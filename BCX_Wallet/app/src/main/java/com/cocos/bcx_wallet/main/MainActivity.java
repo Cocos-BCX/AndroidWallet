@@ -40,6 +40,7 @@ import com.cocos.library_base.invokedpages.model.Transfer;
 import com.cocos.library_base.router.RouterActivityPath;
 import com.cocos.library_base.utils.AccountHelperUtils;
 import com.cocos.library_base.utils.ActivityContainer;
+import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
@@ -125,6 +126,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         return super.onKeyDown(keyCode, event);
     }
 
+
     public void exit() {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
             Toast.makeText(MainActivity.this, getResources().getString(R.string.system_exit), Toast.LENGTH_SHORT).show();
@@ -176,9 +178,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         try {
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
+            if (null == bundle) {
+                return;
             }
+            baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
             if (null != baseInvokeModel) {
                 String param = baseInvokeModel.getParam();
                 Bundle bundle1 = new Bundle();
@@ -236,6 +239,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         });
                         break;
                     case "callContract":
+
                         Contract contract = GsonSingleInstance.getGsonInstance().fromJson(param, Contract.class);
                         BaseInvokeModel finalBaseInvokeModel1 = baseInvokeModel;
                         CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
@@ -267,13 +271,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                     case "signmessage":
                         SignMessage signMessage = GsonSingleInstance.getGsonInstance().fromJson(param, SignMessage.class);
                         BaseInvokeModel baseInvokeModel1 = baseInvokeModel;
-                        if (TextUtils.isEmpty(AccountHelperUtils.getCurrentAccountName())){
-                            ToastUtils.showShort(R.string.account_empty);
-                            return;
-                        }
-                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_SIGNMESSAGE, signMessage);
-                        bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel1);
-                        ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_SIGNMESSAGE).with(bundle1).navigation();
+                        String accountName = AccountHelperUtils.getCurrentAccountName();
+                        MainHandler.getInstance().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (TextUtils.isEmpty(accountName)) {
+                                    ToastUtils.showShort(R.string.account_empty);
+                                    return;
+                                }
+                                bundle1.putSerializable(IntentKeyGlobal.INVOKE_SIGNMESSAGE, signMessage);
+                                bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, baseInvokeModel1);
+                                ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_SIGNMESSAGE).with(bundle1).navigation();
+                            }
+                        }, 1000);
                         break;
                     default:
                         throw new IllegalStateException("Unexpected value: " + baseInvokeModel.getAction());

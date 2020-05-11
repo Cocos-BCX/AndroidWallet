@@ -23,7 +23,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            buildConfigField 'String', 'API_BASE', '"https://api-cocosbcx.cocosbcx.net/backend/"'
+            buildConfigField 'String', 'API_BASE', '"https://api.cocosbcx.net/backend/"'
             buildConfigField 'String', 'COCOS_PRICE_BASE', '"http://fxhapi.feixiaohao.com/public/"'
             buildConfigField 'String', 'EXCHANGE_CURRENCY', '"http://op.juhe.cn/onebox/exchange/"'
             buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'
@@ -33,7 +33,7 @@ android {
 
         debug {
             minifyEnabled false
-            buildConfigField 'String', 'API_BASE', '"https://api-cocosbcx.cocosbcx.net/backend/"'
+            buildConfigField 'String', 'API_BASE', '"https://api.cocosbcx.net/backend/"'
             buildConfigField 'String', 'COCOS_PRICE_BASE', '"http://fxhapi.feixiaohao.com/public/"'
             buildConfigField 'String', 'EXCHANGE_CURRENCY', '"http://op.juhe.cn/onebox/exchange/"'
             buildConfigField 'String', 'DOWN_LOAD_URL', '"https://cocosbcx.oss-cn-beijing.aliyuncs.com"'

@@ -6,12 +6,14 @@ ext {
             minSdkVersion    : 21,
             targetSdkVersion : 28,
             versionCode      : 1,
-            versionName      : "2.2.2",
+            versionName      : "2.2.4",
     ]
+
     //version配置
     versions = [
             "support-version": "28.0.0",
     ]
+
     //support配置
     support = [
             "constraint-layout"       : "1.0.0-beta2",
@@ -24,6 +26,7 @@ ext {
             'animated-vector-drawable': "com.android.support:animated-vector-drawable:${versions["support-version"]}",
             'junit'                   : "junit:junit:${versions["junit-version"]}",
     ]
+
     //依赖第三方配置
     dependencies = [
             //rxjava

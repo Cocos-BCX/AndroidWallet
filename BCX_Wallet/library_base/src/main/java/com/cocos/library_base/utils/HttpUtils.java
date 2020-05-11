@@ -30,12 +30,15 @@ public class HttpUtils {
             HttpMethods.toSubscribe(observable, new BaseObserver<CurrencyRateModel>() {
                 @Override
                 protected void onBaseNext(CurrencyRateModel data) {
-                    if (null != data && data.getStatus() == 200) {
-                        for (CurrencyRateModel.CurrencyRateBean.CurrencyRateBeanResult resultBean : data.getData().getResult()) {
-                            if (TextUtils.equals(resultBean.getCurrencyF(), "USD")) {
-                                SPUtils.putString(Utils.getContext(), SPKeyGlobal.CURRENCY_RATE, resultBean.getExchange());
+                    try {
+                        if (null != data && data.getStatus() == 200) {
+                            for (CurrencyRateModel.CurrencyRateBean.CurrencyRateBeanResult resultBean : data.getData().getResult()) {
+                                if (TextUtils.equals(resultBean.getCurrencyF(), "USD")) {
+                                    SPUtils.putString(Utils.getContext(), SPKeyGlobal.CURRENCY_RATE, resultBean.getExchange());
+                                }
                             }
                         }
+                    } catch (Exception e) {
                     }
                 }
             });
@@ -52,11 +55,14 @@ public class HttpUtils {
             HttpMethods.toSubscribe(observable, new BaseObserver<List<PriceModel>>() {
                 @Override
                 protected void onBaseNext(List<PriceModel> data) {
-                    if (null != data && data.size() > 0) {
-                        PriceModel priceModel = data.get(0);
-                        BigDecimal price = priceModel.getPrice_usd();
-                        String cocosPrice = price.compareTo(BigDecimal.ZERO) == 0 ? price.setScale(2, BigDecimal.ROUND_HALF_UP).toString() : price.setScale(6, BigDecimal.ROUND_HALF_UP).toString();
-                        SPUtils.putString(Utils.getContext(), SPKeyGlobal.COCOS_PRICE, cocosPrice);
+                    try {
+                        if (null != data && data.size() > 0) {
+                            PriceModel priceModel = data.get(0);
+                            BigDecimal price = priceModel.getPrice_usd();
+                            String cocosPrice = price.compareTo(BigDecimal.ZERO) == 0 ? price.setScale(2, BigDecimal.ROUND_HALF_UP).toString() : price.setScale(6, BigDecimal.ROUND_HALF_UP).toString();
+                            SPUtils.putString(Utils.getContext(), SPKeyGlobal.COCOS_PRICE, cocosPrice);
+                        }
+                    } catch (Exception e) {
                     }
                 }
             });

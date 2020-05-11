@@ -74,14 +74,15 @@
 
                         <TextView
                             android:id="@+id/tv_item_dapp_desc"
-                            android:layout_width="@dimen/dp_220"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_4"
                             android:ellipsize="end"
-                            android:singleLine="true"
+                            android:maxLines="2"
+                            android:paddingRight="@dimen/dp_15"
                             android:text="@={viewModel.listDesc}"
                             android:textColor="@color/color_666666"
-                            android:textSize="@dimen/sp_15" />
+                            android:textSize="@dimen/sp_13" />
                     </LinearLayout>
 
                 </LinearLayout>

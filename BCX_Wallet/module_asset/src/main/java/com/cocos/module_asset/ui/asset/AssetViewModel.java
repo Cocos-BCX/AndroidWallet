@@ -163,10 +163,6 @@ public class AssetViewModel extends BaseViewModel {
     public BindingCommand OrderManageCentersItemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            if (TextUtils.isEmpty(accountName)) {
-                ToastUtils.showShort(R.string.module_asset_try_after_login);
-                return;
-            }
             WebViewModel webViewModel = new WebViewModel();
             webViewModel.setUrl(Utils.getString(R.string.module_asset_vote_url));
             Bundle bundle = new Bundle();
