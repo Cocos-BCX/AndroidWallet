@@ -188,27 +188,32 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 switch (baseInvokeModel.getAction()) {
                     case "login":
                         BaseInvokeModel finalBaseInvokeModel = baseInvokeModel;
-                        CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
-                            @SuppressLint("LongLogTag")
+                        MainHandler.getInstance().postDelayed(new Runnable() {
                             @Override
-                            public void onReceiveValue(String s) {
-                                MainHandler.getInstance().post(new Runnable() {
+                            public void run() {
+                                CocosBcxApiWrapper.getBcxInstance().queryAccountNamesByChainId(new IBcxCallBack() {
+                                    @SuppressLint("LongLogTag")
                                     @Override
-                                    public void run() {
-                                        Log.i("loginresult", s);
-                                        AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
-                                        if (accountNamesEntity.isSuccess()) {
-                                            Authorize authorize = GsonSingleInstance.getGsonInstance().fromJson(param, Authorize.class);
-                                            bundle1.putSerializable(IntentKeyGlobal.INVOKE_AUTHORIZE_INFO, authorize);
-                                            bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, finalBaseInvokeModel);
-                                            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_LOGIN).with(bundle1).navigation();
-                                        } else {
-                                            ToastUtils.showShort(R.string.account_empty);
-                                        }
+                                    public void onReceiveValue(String s) {
+                                        MainHandler.getInstance().post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Log.i("loginresult", s);
+                                                AccountNamesEntity accountNamesEntity = GsonSingleInstance.getGsonInstance().fromJson(s, AccountNamesEntity.class);
+                                                if (accountNamesEntity.isSuccess()) {
+                                                    Authorize authorize = GsonSingleInstance.getGsonInstance().fromJson(param, Authorize.class);
+                                                    bundle1.putSerializable(IntentKeyGlobal.INVOKE_AUTHORIZE_INFO, authorize);
+                                                    bundle1.putSerializable(IntentKeyGlobal.INVOKE_BASE_INFO, finalBaseInvokeModel);
+                                                    ARouter.getInstance().build(RouterActivityPath.ACTIVITY_INVOKE_LOGIN).with(bundle1).navigation();
+                                                } else {
+                                                    ToastUtils.showShort(R.string.account_empty);
+                                                }
+                                            }
+                                        });
                                     }
                                 });
                             }
-                        });
+                        }, 1000);
                         break;
                     case "transfer":
                         Transfer transfer = GsonSingleInstance.getGsonInstance().fromJson(param, Transfer.class);

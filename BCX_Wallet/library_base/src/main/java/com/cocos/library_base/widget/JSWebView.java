@@ -63,6 +63,7 @@ public class JSWebView extends BaseWebView {
         }
 
         WebView.setWebContentsDebuggingEnabled(true);
+        getSettings().setUseWideViewPort(true);
         settings.setDomStorageEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setAppCacheEnabled(true);
