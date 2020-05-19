@@ -29,7 +29,9 @@
         <ImageView
             android:layout_width="@dimen/dp_44"
             android:layout_height="@dimen/dp_44"
-            android:src="@{viewModel.nhAssetIcon}" />
+            binding:url="@{viewModel.nhAssetIconUrl}"
+            binding:placeholderRes="@{viewModel.placeholderRes}"
+             />
 
         <RelativeLayout
             android:layout_width="match_parent"
