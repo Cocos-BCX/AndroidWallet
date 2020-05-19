@@ -53,9 +53,9 @@ public class NHAssetItemViewModel extends ItemViewModel {
                 if (!TextUtils.isEmpty(kittyBase.icon)) {
                     nhAssetIconUrl.set(kittyBase.icon);
                 }
-
             }
         } catch (Exception e) {
+            placeholderRes.set(R.drawable.nh_asset_icon);
         }
     }
 
