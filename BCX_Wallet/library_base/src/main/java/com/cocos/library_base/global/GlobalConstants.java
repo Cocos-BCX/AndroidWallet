@@ -12,7 +12,7 @@ public class GlobalConstants {
     public static final String CALLCONTRACTFUNCTION = "callContractFunction";
     public static final String GETACCOUNTINFO = "getAccountInfo";
     public static final String DECODEMEMO = "decodeMemo";
-    public static final String INITCONNECT = "initCocosbcxConnect";
+    public static final String INITCONNECT = "initConnect";
 
     /**
      * NH asset
