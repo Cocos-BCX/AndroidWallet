@@ -42,13 +42,12 @@ class ClientFunction {
         })
     }
 
-    initConnect() {
+    initCocosbcxConnect() {
         const serialNumber = serialNumberFn();
-        _sendPeRequest(serialNumber, '', 'initConnect');
+        _sendPeRequest(serialNumber, '', 'initCocosbcxConnect');
         return new Promise((resolve, reject) => {
             window.callbackResult = function (returnSerialNumber, result) {
                 if (returnSerialNumber == serialNumber) {
-                    console.log('initConnect--android', JSON.parse(result));
                     resolve(JSON.parse(result))
                 }
             }
@@ -240,9 +239,9 @@ class Index {
         })
     }
 
-    initConnect() {
+    initCocosbcxConnect() {
         return new Promise((resolve, reject) => {
-            hookFunction.initConnect().then((res) => {
+            hookFunction.initCocosbcxConnect().then((res) => {
                 resolve(res)
             })
         })
@@ -511,33 +510,18 @@ class Index {
        }
 }
 
-
 function inject() {
     let timer = null
     clearInterval(timer)
     timer = setInterval(() => {
         try {
-            hookFunction.initConnect().then(async res => {
-                var _configParams = {
-                    ws_node_list: [{url:res.ws,name:res.name}],
-                    faucet_url: res.faucetUrl,
-                    networks: [{
-                        core_asset: res.coreAsset,
-                        chain_id: res.chainId
-                    }],
-                     auto_reconnect:true,
-                     real_sub:true,
-                    check_cached_nodes_data:false
-                };
+            hookFunction.initCocosbcxConnect().then(async res => {
                 let BcxWeb = new Index();
-                BcxWeb.bcx = new BCX(_configParams);
                 let getAccountInfoRes = await BcxWeb.getAccountInfo()
                 BcxWeb.account_name = getAccountInfoRes.account_name
-                if (BcxWeb.bcx) {
-                    window.BcxWeb = BcxWeb;
-                    clearInterval(timer);
-                    console.log('inject ----- success ', BcxWeb);
-                }
+                window.BcxWeb = BcxWeb;
+                clearInterval(timer);
+
             }).catch(error => {
              console.log('BCX not found error', error);
             });
@@ -545,7 +529,7 @@ function inject() {
             console.log('inject -- error', error);
         }
     }, 500)
-    console.log('Release-V 2.0.2');
+    console.log('Release-V 2.1.0');
     document.dispatchEvent(new CustomEvent('scatterLoaded'))
 }
 inject();
