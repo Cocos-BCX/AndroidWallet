@@ -45,12 +45,14 @@ import com.cocos.library_base.utils.StatusBarUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.VersionUtil;
-import com.cocos.library_base.utils.node.NodeConnectUtil;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
 import com.cocos.library_base.utils.singleton.MainHandler;
 import com.cocos.module_asset.ui.asset.AssetFragment;
 import com.cocos.module_found.fragment.FoundFragment;
 import com.cocos.module_mine.mine_fragment.MineFragment;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -66,6 +68,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     BaseInvokeModel baseInvokeModel;
     private boolean isFirst = true;
     private long runIntent;
+    private String TAG = "加载数据===";
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -84,6 +87,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         binding.assetRb.setOnClickListener(this);
         binding.foundRb.setOnClickListener(this);
         binding.mineRb.setOnClickListener(this);
+        boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
+        if (loadComplete) {
+            parseInvokeIntent();
+            SPUtils.putBoolean(this, "loadComplete", false);
+        }
     }
 
     private void initFragment() {
@@ -138,21 +146,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
-//        NodeConnectUtil.testNetStatus();
-        if (isFirst) {
-            parseInvokeIntent();
-            isFirst = false;
-            return;
-        }
-        if (System.currentTimeMillis() - runIntent >= 1500) {
-            parseInvokeIntent();
-        }
-
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10086) {
@@ -170,8 +163,43 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         super.onNewIntent(intent);
         runIntent = System.currentTimeMillis();
         setIntent(intent);
+        initIntent(intent);
         parseInvokeIntent();
-        Log.i("onNewIntent", "onNewIntent");
+
+        Log.d("重新获取==", baseInvokeModel != null ? baseInvokeModel.toString() + "" : "sss");
+    }
+
+    //数据请求成功
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(Object event) {
+        Log.d("请求数据了===", "sss");
+        boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
+        if (loadComplete) {
+            parseInvokeIntent();
+            SPUtils.putBoolean(this, "loadComplete", false);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
+        if (loadComplete) {
+            parseInvokeIntent();
+            SPUtils.putBoolean(this, "loadComplete", false);
+        }
+    }
+
+    private void initIntent(Intent intent) {
+        if (intent == null) return;
+        BaseInvokeModel baseInvokeModel = new BaseInvokeModel();
+        baseInvokeModel.setPackageName(intent.getStringExtra("packageName"));
+        baseInvokeModel.setClassName(intent.getStringExtra("className"));
+        baseInvokeModel.setAppName(intent.getStringExtra("appName"));
+        baseInvokeModel.setAction(intent.getStringExtra("action"));
     }
 
     private void parseInvokeIntent() {
@@ -182,7 +210,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 return;
             }
             baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
+
             if (null != baseInvokeModel) {
+                Log.d(TAG, "方法===" + baseInvokeModel.toString());
                 String param = baseInvokeModel.getParam();
                 Bundle bundle1 = new Bundle();
                 switch (baseInvokeModel.getAction()) {

@@ -1,6 +1,7 @@
 package com.cocos.library_base.utils.node;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -17,6 +18,8 @@ import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,14 +55,16 @@ public class NodeConnectUtil {
      */
     public static void requestNodeListData(Context context) {
         try {
+
             Observable<NodeInfoModel> observable = BaseUrlApi.getApiBaseService().getNodeInfo();
             HttpMethods.toSubscribe(observable, new BaseObserver<NodeInfoModel>() {
                 @Override
                 protected void onBaseNext(NodeInfoModel data) {
                     NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
                     boolean is_first_connect = SPUtils.getBoolean(context, SPKeyGlobal.IS_FIRST_CONNECT, true);
+                    Log.d("请求节点===", data.data.toString() + "");
                     if (data.status != 200) {
-                        onErrorInit(selectedNodeModel);
+                        onErrorInit(selectedNodeModel, context);
                         return;
                     }
                     for (NodeInfoModel.DataBean dataBean : data.data) {
@@ -73,7 +78,7 @@ public class NodeConnectUtil {
                                 } else {
                                     ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
                                 }
-                            });
+                            }, context);
                             return;
                         } else {
                             // 之前无选中的节点
@@ -88,7 +93,7 @@ public class NodeConnectUtil {
                                     } else {
                                         ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
                                     }
-                                });
+                                }, context);
                                 return;
                             } else {
                                 // 之前有选中的节点
@@ -98,11 +103,11 @@ public class NodeConnectUtil {
                                         SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, selectedNodeModel);
                                         SPUtils.putString(context, SPKeyGlobal.NET_TYPE, selectedNodeModel.type);
                                         Log.i("init_node_connect---2", s + ":" + selectedNodeModel.ws);
+
                                     } else {
                                         ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
                                     }
-                                });
-
+                                }, context);
                             }
                         }
                     }
@@ -111,12 +116,13 @@ public class NodeConnectUtil {
                 @Override
                 protected void onBaseError(Throwable t) {
                     NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-                    onErrorInit(selectedNodeModel);
+                    onErrorInit(selectedNodeModel, context);
+                    Log.d("请求节点", t.getMessage() + "");
                 }
             });
         } catch (Exception e) {
             NodeInfoModel.DataBean selectedNodeModel = SPUtils.getObject(Utils.getContext(), SPKeyGlobal.NODE_WORK_MODEL_SELECTED);
-            onErrorInit(selectedNodeModel);
+            onErrorInit(selectedNodeModel, context);
         }
     }
 
@@ -124,12 +130,12 @@ public class NodeConnectUtil {
     /**
      * 连接错误/失败/出现异常时的初始化方法
      */
-    private static void onErrorInit(NodeInfoModel.DataBean selectedNodeModel) {
+    private static void onErrorInit(NodeInfoModel.DataBean selectedNodeModel, Context context) {
         if (null == selectedNodeModel) {
             init(new NodeInfoModel.DataBean(), s -> {
                 BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
                 resultEntity.isSuccess();
-            });
+            }, context);
             return;
         }
         init(selectedNodeModel, s -> {
@@ -139,18 +145,32 @@ public class NodeConnectUtil {
                 SPUtils.putString(Utils.getContext(), SPKeyGlobal.NET_TYPE, selectedNodeModel.type);
                 LogUtils.i("init_node_connect---4", s + ":" + selectedNodeModel.ws);
             }
-        });
+        }, context);
     }
 
     /**
      * 切换节点
      */
-    private static void init(final NodeInfoModel.DataBean dataBean, IBcxCallBack iBcxCallBack) {
-        // 初始化bcx节点连接
+    private static boolean canT = true;
+    private static void init(final NodeInfoModel.DataBean dataBean, IBcxCallBack iBcxCallBack, Context context) {
+        // 初始化bcx节点连接|
+        Log.d("请求数据处理==","桑少丽");
         List<String> nodeUrls = new ArrayList<>();
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         CocosBcxApiWrapper.getBcxInstance().connect(Utils.getContext(), dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
+
+        if (canT) {
+            SPUtils.putBoolean(context, "loadComplete", true);
+            EventBus.getDefault().post(new Object());
+            canT = false;
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                canT = true;
+            }
+        },2000);
     }
 }

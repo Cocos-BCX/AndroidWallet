@@ -146,9 +146,17 @@
                 android:paddingBottom="@dimen/dp_12"
                 android:text="@={viewModel.salePricesAmount}" />
 
+
         </com.cocos.library_base.widget.LinearRelativeLayout>
 
-
+        <TextView
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_below="@+id/edt_price_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_10"
+            android:text="@string/module_mine_hint_money"
+            android:textColor="@color/color_EF5E4B"/>
         <com.cocos.library_base.widget.LinearRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_88"

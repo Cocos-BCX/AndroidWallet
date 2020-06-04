@@ -144,5 +144,5 @@
     <string name="order_manage_text">Orders</string>
     <string name="module_mine_reset_password_success">Success</string>
     <string name="module_mine_node_switching">Switching</string>
-
+    <string name="module_mine_hint_money">10% commission to be paid</string>
 </resources>
