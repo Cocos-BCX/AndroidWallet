@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_mine/src/androidTest/androidTest.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_mine/src/androidTest/androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_flowlib/src/androidTest/androidTest1.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_flowlib/src/androidTest/androidTest1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_found/src/androidTest/androidTest2.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_found/src/androidTest/androidTest2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_login/src/main/main.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_login/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_found/src/main/main1.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_found/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/app/src/main/main2.iml" filepath="$PROJECT_DIR$/BCX_Wallet/app/src/main/main2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_flowlib/src/main/main3.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_flowlib/src/main/main3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_zxing/src/main/main4.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_zxing/src/main/main4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_asset/src/main/main5.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_asset/src/main/main5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_mine/src/main/main6.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_mine/src/main/main6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/library_base/src/main/main7.iml" filepath="$PROJECT_DIR$/BCX_Wallet/library_base/src/main/main7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_found/src/test/test.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_found/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/library_res/src/test/test1.iml" filepath="$PROJECT_DIR$/BCX_Wallet/library_res/src/test/test1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BCX_Wallet/module_mine/src/test/test2.iml" filepath="$PROJECT_DIR$/BCX_Wallet/module_mine/src/test/test2.iml" />
+    </modules>
+  </component>
+</project>

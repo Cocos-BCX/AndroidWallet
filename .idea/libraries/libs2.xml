@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BCX_Wallet/library_base/libs/umeng-share-QQ-simplify-6.9.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BCX_Wallet/library_base/libs/umeng-share-wechat-simplify-6.9.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BCX_Wallet/library_base/libs/umeng-sharetool-6.9.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BCX_Wallet/library_base/libs/bcprov-jdk15on-159.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BCX_Wallet/library_base/libs/umeng-share-core-6.9.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
