@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.WebSettings;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.library_base.R;
 import com.cocos.library_base.databinding.ActivityHtmlWebviewBindingImpl;
 import com.cocos.library_base.entity.WebViewModel;
@@ -59,7 +61,10 @@ public class HtmlWebViewActivity extends BaseActivity<ActivityHtmlWebviewBinding
 
     @Override
     public void initData() {
+
         viewModel.setWebData(webViewModel);
+
+
         if (!TextUtils.isEmpty(webViewModel.getUrl())) {
             binding.htmlWebView.loadUrl(webViewModel.getUrl());
         }

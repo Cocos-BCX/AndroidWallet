@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.bcx_sdk.bcx_wallet.chain.signed_message;
 import com.cocos.library_base.BR;
 import com.cocos.library_base.R;
@@ -190,7 +192,12 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
             searchInfo = new LinkedHashMap<>();
         }
         viewModel.setWebData(webViewModel);
-
+        WebSettings settings = binding.jsWebView.getSettings();
+        //设置自适应屏幕，两者合用
+        //将图片调整到适合webview的大小
+        settings.setUseWideViewPort(true);
+        //缩放至屏幕的大小
+        settings.setLoadWithOverviewMode(true);
         if (!TextUtils.isEmpty(webViewModel.getUrl())) {
             binding.jsWebView.loadUrl(webViewModel.getUrl());
         }
