@@ -22,7 +22,7 @@ android {
     signingConfigs {
         debug {
             try {
-                storeFile file('C\\:\\\\Users\\\\Administrator\\\\Desktop\\\\cocos_bcx.jks')
+//                storeFile file('C\\:\\\\Users\\\\Administrator\\\\Desktop\\\\cocos_bcx.jks')
                 keyAlias RELEASE_KEY_ALIAS
                 keyPassword RELEASE_KEY_PASSWORD
                 storeFile file(RELEASE_STORE_FILE)
