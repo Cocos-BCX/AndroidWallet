@@ -286,7 +286,6 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
         if (null == busCarrier) {
             return;
         }
-
         JsParamsEventModel params = (JsParamsEventModel) busCarrier.getObject();
         if (null == params) {
             if (TextUtils.equals(busCarrier.getEventType(), EventTypeGlobal.JSWEB_REFRESH_TYPE)) {

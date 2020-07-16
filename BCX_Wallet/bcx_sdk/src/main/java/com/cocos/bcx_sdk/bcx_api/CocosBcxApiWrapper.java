@@ -37,6 +37,7 @@ import com.cocos.bcx_sdk.bcx_utils.bitlib.crypto.SignedMessage;
 import com.cocos.bcx_sdk.bcx_utils.bitlib.crypto.WrongSignatureException;
 import com.cocos.bcx_sdk.bcx_utils.bitlib.crypto.ec.Point;
 import com.cocos.bcx_sdk.bcx_version.VersionManager;
+import com.cocos.bcx_sdk.bcx_wallet.chain.RecallbackJsModel;
 import com.cocos.bcx_sdk.bcx_wallet.chain.signed_message;
 import com.cocos.bcx_sdk.bcx_wallet.chain.verify_result;
 import com.cocos.bcx_sdk.bcx_wallet.chain.account_object;
@@ -58,10 +59,14 @@ import com.cocos.bcx_sdk.bcx_wallet.chain.operations;
 import com.cocos.bcx_sdk.bcx_wallet.chain.signed_operate;
 import com.cocos.bcx_sdk.bcx_wallet.chain.transaction_in_block_info;
 import com.cocos.bcx_sdk.bcx_wallet.chain.transactions_object;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 
 import org.bitcoinj.core.AddressFormatException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.spongycastle.crypto.Signer;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 
@@ -1665,6 +1670,7 @@ public class CocosBcxApiWrapper {
 
 
     /**
+     * 哦 这个解析呀 费死老劲了
      * @param strAccount
      * @param password
      * @param contractNameOrId
@@ -1678,7 +1684,7 @@ public class CocosBcxApiWrapper {
 
         get_invoking_contract_tx_id(strAccount, password, contractNameOrId, functionName, params, new IBcxCallBack() {
 
-            private object_id<account_object> caller = null;
+            private String caller = null;
 
             @Override
             public void onReceiveValue(String text) {
@@ -1702,125 +1708,282 @@ public class CocosBcxApiWrapper {
                         transactionInBlockInfo = cocosBcxApi.get_transaction_in_block_info(baseResult.getData().toString());
                     } while (transactionInBlockInfo == null);
                     final transaction_in_block_info finalTransactionInBlockInfo = transactionInBlockInfo;
-                    block_info block = cocosBcxApi.get_block(String.valueOf(transactionInBlockInfo.getBlock_num()));
+//                    block_info block = cocosBcxApi.get_block(String.valueOf(transactionInBlockInfo.getBlock_num()));
+                    Object callBackData = cocosBcxApi.getBlockNumber(String.valueOf(transactionInBlockInfo.getBlock_num()));
+
+                    Gson gson2 = new Gson();
+                    String s = gson2.toJson(callBackData);
+                    JSONObject jsonObject = new JSONObject(s);
+
+                    JSONArray transactionArray = jsonObject.getJSONArray("transactions");
                     contract_callback contractCallback = new contract_callback();
                     contractCallback.code = 1;
                     contract_callback.TrxDataBean trxData = new contract_callback.TrxDataBean();
                     trxData.trx_id = finalTransactionInBlockInfo.getTrx_hash();
                     trxData.block_num = finalTransactionInBlockInfo.getBlock_num();
                     contractCallback.trx_data = trxData;
-                    List<contract_callback.DataBean> data = new ArrayList<>();
+                    List<RecallbackJsModel> data = new ArrayList<>();
+                    RecallbackJsModel dataBean = new RecallbackJsModel();
                     List<contract_callback.DataBean.ContractAffectedsBean> contract_affecteds = new ArrayList<>();
-                    contract_callback.DataBean dataBean = new contract_callback.DataBean();
-                    HashMap<String, transactions_object> transactions = block.transactions;
-                    for (Map.Entry<String, transactions_object> transaction : transactions.entrySet()) {
-                        transactions_object transactions_object = transaction.getValue();
-                        String transactionKey = transaction.getKey();
-                        for (Map.Entry<Integer, contract_operations> operation : transactions_object.operations.entrySet()) {
-                            Integer operationType = operation.getKey();
-                            contract_operations operationValue = operation.getValue();
-                            if (operationType == operations.ID_CALCULATE_INVOKING_CONTRACT_OPERATION) {
-                                dataBean.contract_id = operationValue.contract_id;
-                                caller = operationValue.caller;
-                            }
-                        }
-                        for (Map.Entry<Integer, operation_results_object> operation_results : transactions_object.operation_results.entrySet()) {
-                            operation_results_object operationValue = operation_results.getValue();
-                            if (TextUtils.equals(trxData.trx_id, transactionKey)) {
-                                dataBean.real_running_time = operationValue.real_running_time;
-                                dataBean.process_value = operationValue.process_value;
-                                dataBean.existed_pv = operationValue.existed_pv;
-                                dataBean.additional_cost = operationValue.additional_cost;
+                    for (int i = 0; i < transactionArray.length(); i++) {
+                        JSONArray valueTransaction = transactionArray.getJSONArray(i);
+                        for (int j = 0; j < valueTransaction.length(); j++) {
+                            Object o = valueTransaction.get(j);
+                            String transactionKey="";
+                            if (o instanceof String) {
+                                 transactionKey = (String) o;
+                            } else {
+                                JSONObject ob_transaction = new JSONObject(o.toString());
+                                JSONArray arry_operation = ob_transaction.getJSONArray("operations");
+                                for (int k = 0; k < arry_operation.length(); k++) {
+                                    JSONArray ao_array = arry_operation.getJSONArray(k);
+                                    for (int l = 0; l < ao_array.length(); l++) {
+                                        Integer operationType=0;
+                                        Object o1 = ao_array.get(l);
+                                        if (o1 instanceof Integer){
+                                            operationType = (Integer) o1;
+                                        }else {
+                                            if (operationType==operations.ID_CALCULATE_INVOKING_CONTRACT_OPERATION){
+                                                JSONObject jsonObject1 = new JSONObject(o1.toString());
+                                                dataBean.contract_id =   jsonObject1.getString("contract_id");
+                                                caller =  jsonObject1.getString("caller");
+                                            }
 
-                                for (Object o : operationValue.contract_affecteds) {
-                                    ArrayList arrayList = (ArrayList) o;
-                                    double type = (double) arrayList.get(0);
-                                    LinkedTreeMap linkedTreeMap = (LinkedTreeMap) arrayList.get(1);
-                                    String affected_account = (String) linkedTreeMap.get("affected_account");
-                                    contract_callback.DataBean.ContractAffectedsBean.RawDataBean rawDataBean = new contract_callback.DataBean.ContractAffectedsBean.RawDataBean();
-                                    contract_callback.DataBean.ContractAffectedsBean.RawDataBean.AffectedAssetBean affectedAssetBean = new contract_callback.DataBean.ContractAffectedsBean.RawDataBean.AffectedAssetBean();
-                                    contract_callback.DataBean.ContractAffectedsBean contractAffectedsBean = new contract_callback.DataBean.ContractAffectedsBean();
-                                    contract_callback.DataBean.ContractAffectedsBean.ResultBean resultBean = new contract_callback.DataBean.ContractAffectedsBean.ResultBean();
-                                    contractAffectedsBean.block_num = trxData.block_num;
-                                    contractAffectedsBean.type_name = contractAffectedsBean.getTypeName(type, -11d);
-                                    contractAffectedsBean.type = contractAffectedsBean.getType(type, -11d);
-                                    rawDataBean.affected_account = affected_account;
-                                    String accountName = get_account_name_by_id_sync(affected_account);
-                                    resultBean.affected_account = accountName;
-                                    if (type == 0) {
-                                        LinkedTreeMap affected_asset = (LinkedTreeMap) linkedTreeMap.get("affected_asset");
-                                        Double amount;
-                                        String amountStr;
-                                        String asset_id = (String) affected_asset.get("asset_id");
-                                        affectedAssetBean.asset_id = asset_id;
-                                        asset_object asset_object = get_asset_object(asset_id);
-                                        try {
-                                            amount = (Double) affected_asset.get("amount");
-                                            affectedAssetBean.amount = amount;
-                                            resultBean.aseet_amount = (amount > 0 ? "+" : "") + amount / (Math.pow(10, asset_object.precision)) + asset_object.symbol;
-                                        } catch (ClassCastException ea) {
-                                            amountStr = (String) affected_asset.get("amount");
-                                            affectedAssetBean.amount = Double.valueOf(amountStr);
-                                            resultBean.aseet_amount = (Double.valueOf(amountStr) > 0 ? "+" : "") + Double.valueOf(amountStr) / (Math.pow(10, asset_object.precision)) + asset_object.symbol;
                                         }
-                                        rawDataBean.affected_asset = affectedAssetBean;
-                                        contractAffectedsBean.raw_data = rawDataBean;
-                                        contractAffectedsBean.result = resultBean;
-                                        contractAffectedsBean.result_text = accountName + " " + resultBean.aseet_amount;
-                                    } else if (type == 1) {
-                                        Double action = (Double) linkedTreeMap.get("action");
-                                        String affected_item = (String) linkedTreeMap.get("affected_item");
-                                        contractAffectedsBean.type_name = contractAffectedsBean.getTypeName(type, action);
-                                        contractAffectedsBean.type = contractAffectedsBean.getType(type, action);
-                                        rawDataBean.affected_item = affected_item;
-                                        rawDataBean.action = action;
-                                        contractAffectedsBean.raw_data = rawDataBean;
-                                        resultBean.affected_item = affected_item;
-                                        contractAffectedsBean.result = resultBean;
-                                        if (action == 0) {
-                                            contractAffectedsBean.result_text = accountName + "的NH资产 " + affected_item + " 转出";
-                                        } else if (action == 1) {
-                                            contractAffectedsBean.result_text = "NH资产 " + affected_item + " 转入 " + accountName;
-                                        } else if (action == 2) {
-                                            List<String> modifieds = (List<String>) linkedTreeMap.get("modified");
-                                            contractAffectedsBean.raw_data.modified = modifieds;
-                                            JsonObject stringHashMap = new JsonObject();
-                                            stringHashMap.addProperty(modifieds.get(0), modifieds.get(1));
-                                            contractAffectedsBean.result.modified = stringHashMap.toString();
-                                            contractAffectedsBean.result_text = accountName + "的NH资产 " + affected_item + " 修改数据 ";
-                                        } else if (action == 3) {
-                                            contractAffectedsBean.result_text = accountName + " 创建了NH资产 " + affected_item;
-                                        } else if (action == 4) {
-                                            if (null == caller) {
-                                                contractAffectedsBean.result_text = accountName + " 拥有NH资产 " + affected_item;
-                                            } else {
-                                                String callerName = get_account_name_by_id_sync(caller.toString());
-                                                contractAffectedsBean.result_text = callerName + " 创建了NH资产 " + affected_item + ",该拥有者是 " + accountName;
+                                    }
+                                }
+
+                                JSONArray array_result = ob_transaction.getJSONArray("operation_results");
+                                for (int k = 0; k < array_result.length(); k++) {
+                                    JSONArray ao_array = array_result.getJSONArray(k);
+                                    for (int l = 0; l < ao_array.length(); l++) {
+                                        Integer operationType=0;
+                                        Object o1 = ao_array.get(l);
+                                        if (o1 instanceof Integer){
+                                            operationType = (Integer) o1;
+                                        }else {
+                                            JSONObject jsonObject1 = new JSONObject(o1.toString());
+
+                                            if (TextUtils.equals(trxData.trx_id, transactionKey)) {
+                                                dataBean.real_running_time = jsonObject1.getLong("real_running_time");
+                                                dataBean.process_value = jsonObject1.getString("process_value");
+                                                dataBean.existed_pv = jsonObject1.getBoolean("existed_pv");
+                                                dataBean.additional_cost = jsonObject1.getJSONObject("additional_cost");
+                                                JSONArray contract_affecteds1 = jsonObject1.getJSONArray("contract_affecteds");
+                                                for (int m = 0; m < contract_affecteds1.length(); m++) {
+                                                    Integer type=0;
+                                                    Object o2 = contract_affecteds1.get(m);
+                                                    if (o2 instanceof Integer){
+                                                         type = (Integer) o2;
+                                                    }else {
+                                                        JSONObject jsonObject2 = new JSONObject(o2.toString());
+                                                        String affected_account = jsonObject2.getString("affected_account");
+                                                        contract_callback.DataBean.ContractAffectedsBean.RawDataBean rawDataBean = new contract_callback.DataBean.ContractAffectedsBean.RawDataBean();
+                                                        contract_callback.DataBean.ContractAffectedsBean.RawDataBean.AffectedAssetBean affectedAssetBean = new contract_callback.DataBean.ContractAffectedsBean.RawDataBean.AffectedAssetBean();
+                                                        contract_callback.DataBean.ContractAffectedsBean contractAffectedsBean = new contract_callback.DataBean.ContractAffectedsBean();
+                                                        contract_callback.DataBean.ContractAffectedsBean.ResultBean resultBean = new contract_callback.DataBean.ContractAffectedsBean.ResultBean();
+                                                        contractAffectedsBean.block_num = trxData.block_num;
+                                                        contractAffectedsBean.type_name = contractAffectedsBean.getTypeName(type, -11d);
+                                                        contractAffectedsBean.type = contractAffectedsBean.getType(type, -11d);
+                                                        rawDataBean.affected_account = affected_account;
+                                                        String accountName = get_account_name_by_id_sync(affected_account);
+                                                        resultBean.affected_account = accountName;
+
+                                                        if (type == 0) {
+                                                            Object ob = jsonObject2.get("affected_asset");
+                                                            Gson gson4 = new Gson();
+                                                            String s3 = gson4.toJson(ob);
+                                                            JSONObject affected_asset = new JSONObject(s3);
+                                                            Double amount;
+                                                            String amountStr;
+                                                            String asset_id = (String) affected_asset.get("asset_id");
+                                                            affectedAssetBean.asset_id = asset_id;
+                                                            asset_object asset_object = get_asset_object(asset_id);
+                                                            try {
+                                                                amount = (Double) affected_asset.get("amount");
+                                                                affectedAssetBean.amount = amount;
+                                                                resultBean.aseet_amount = (amount > 0 ? "+" : "") + amount / (Math.pow(10, asset_object.precision)) + asset_object.symbol;
+                                                            } catch (ClassCastException ea) {
+                                                                amountStr = (String) affected_asset.get("amount");
+                                                                affectedAssetBean.amount = Double.valueOf(amountStr);
+                                                                resultBean.aseet_amount = (Double.valueOf(amountStr) > 0 ? "+" : "") + Double.valueOf(amountStr) / (Math.pow(10, asset_object.precision)) + asset_object.symbol;
+                                                            }
+                                                            rawDataBean.affected_asset = affectedAssetBean;
+                                                            contractAffectedsBean.raw_data = rawDataBean;
+                                                            contractAffectedsBean.result = resultBean;
+                                                            contractAffectedsBean.result_text = accountName + " " + resultBean.aseet_amount;
+                                                        } else if (type == 1) {
+                                                            Double action = (Double) jsonObject2.get("action");
+                                                            String affected_item = (String) jsonObject2.get("affected_item");
+                                                            contractAffectedsBean.type_name = contractAffectedsBean.getTypeName(type, action);
+                                                            contractAffectedsBean.type = contractAffectedsBean.getType(type, action);
+                                                            rawDataBean.affected_item = affected_item;
+                                                            rawDataBean.action = action;
+                                                            contractAffectedsBean.raw_data = rawDataBean;
+                                                            resultBean.affected_item = affected_item;
+                                                            contractAffectedsBean.result = resultBean;
+                                                            if (action == 0) {
+                                                                contractAffectedsBean.result_text = accountName + "的NH资产 " + affected_item + " 转出";
+                                                            } else if (action == 1) {
+                                                                contractAffectedsBean.result_text = "NH资产 " + affected_item + " 转入 " + accountName;
+                                                            } else if (action == 2) {
+                                                                JSONArray modifieds =  jsonObject2.getJSONArray("modified");
+                                                                List<String> listModi = new ArrayList<>();
+                                                                for (int n = 0; n < modifieds.length(); n++) {
+                                                                    listModi.add((String) modifieds.get(n));
+                                                                }
+                                                                contractAffectedsBean.raw_data.modified = listModi;
+                                                                JsonObject stringHashMap = new JsonObject();
+                                                                stringHashMap.addProperty(listModi.get(0), listModi.get(1));
+                                                                contractAffectedsBean.result.modified = stringHashMap.toString();
+                                                                contractAffectedsBean.result_text = accountName + "的NH资产 " + affected_item + " 修改数据 ";
+                                                            } else if (action == 3) {
+                                                                contractAffectedsBean.result_text = accountName + " 创建了NH资产 " + affected_item;
+                                                            } else if (action == 4) {
+                                                                if (null == caller) {
+                                                                    contractAffectedsBean.result_text = accountName + " 拥有NH资产 " + affected_item;
+                                                                } else {
+                                                                    String callerName = get_account_name_by_id_sync(caller.toString());
+                                                                    contractAffectedsBean.result_text = callerName + " 创建了NH资产 " + affected_item + ",该拥有者是 " + accountName;
+                                                                }
+                                                            }
+                                                            contractAffectedsBean.result_text = action == 0 ? accountName + " 的NH资产 " + affected_item + " 转出" : "NH资产 " + affected_item + " 转入 " + accountName;
+                                                        } else if (type == 2) {
+
+
+                                                        } else if (type == 3) {
+                                                            String message = (String) jsonObject2.get("message");
+                                                            rawDataBean.message = message;
+                                                            resultBean.message = message;
+                                                            contractAffectedsBean.raw_data = rawDataBean;
+                                                            contractAffectedsBean.result = resultBean;
+                                                            contractAffectedsBean.result_text = affected_account + " " + message;
+                                                        }
+                                                        contract_affecteds.add(contractAffectedsBean);
+                                                    }
+                                                }
                                             }
                                         }
-                                        contractAffectedsBean.result_text = action == 0 ? accountName + " 的NH资产 " + affected_item + " 转出" : "NH资产 " + affected_item + " 转入 " + accountName;
-                                    } else if (type == 2) {
-
-
-                                    } else if (type == 3) {
-                                        String message = (String) linkedTreeMap.get("message");
-                                        rawDataBean.message = message;
-                                        resultBean.message = message;
-                                        contractAffectedsBean.raw_data = rawDataBean;
-                                        contractAffectedsBean.result = resultBean;
-                                        contractAffectedsBean.result_text = affected_account + " " + message;
                                     }
-                                    contract_affecteds.add(contractAffectedsBean);
+
                                 }
                             }
+
                         }
                     }
+
+//                    for (Map.Entry<String, transactions_object> transaction : transactions.entrySet()) {
+//                        transactions_object transactions_object = transaction.getValue();
+//                        String transactionKey = transaction.getKey();
+//                        for (Map.Entry<Integer, contract_operations> operation : transactions_object.operations.entrySet()) {
+//                            Integer operationType = operation.getKey();
+//                            contract_operations operationValue = operation.getValue();
+//                            if (operationType == operations.ID_CALCULATE_INVOKING_CONTRACT_OPERATION) {
+//                                dataBean.contract_id = operationValue.contract_id;
+//                                caller = operationValue.caller;
+//                            }
+//                        }
+//                        for (Map.Entry<Integer, operation_results_object> operation_results : transactions_object.operation_results.entrySet()) {
+//                            operation_results_object operationValue = operation_results.getValue();
+//                            if (TextUtils.equals(trxData.trx_id, transactionKey)) {
+//                                dataBean.real_running_time = operationValue.real_running_time;
+//                                dataBean.process_value = operationValue.process_value;
+//                                dataBean.existed_pv = operationValue.existed_pv;
+//                                dataBean.additional_cost = operationValue.additional_cost;
+//
+//                                for (Object o : operationValue.contract_affecteds) {
+//                                    ArrayList arrayList = (ArrayList) o;
+//                                    double type = (double) arrayList.get(0);
+//                                    LinkedTreeMap linkedTreeMap = (LinkedTreeMap) arrayList.get(1);
+//                                    String affected_account = (String) linkedTreeMap.get("affected_account");
+//                                    contract_callback.DataBean.ContractAffectedsBean.RawDataBean rawDataBean = new contract_callback.DataBean.ContractAffectedsBean.RawDataBean();
+//                                    contract_callback.DataBean.ContractAffectedsBean.RawDataBean.AffectedAssetBean affectedAssetBean = new contract_callback.DataBean.ContractAffectedsBean.RawDataBean.AffectedAssetBean();
+//                                    contract_callback.DataBean.ContractAffectedsBean contractAffectedsBean = new contract_callback.DataBean.ContractAffectedsBean();
+//                                    contract_callback.DataBean.ContractAffectedsBean.ResultBean resultBean = new contract_callback.DataBean.ContractAffectedsBean.ResultBean();
+//                                    contractAffectedsBean.block_num = trxData.block_num;
+//                                    contractAffectedsBean.type_name = contractAffectedsBean.getTypeName(type, -11d);
+//                                    contractAffectedsBean.type = contractAffectedsBean.getType(type, -11d);
+//                                    rawDataBean.affected_account = affected_account;
+//                                    String accountName = get_account_name_by_id_sync(affected_account);
+//                                    resultBean.affected_account = accountName;
+//                                    if (type == 0) {
+//                                        LinkedTreeMap affected_asset = (LinkedTreeMap) linkedTreeMap.get("affected_asset");
+//                                        Double amount;
+//                                        String amountStr;
+//                                        String asset_id = (String) affected_asset.get("asset_id");
+//                                        affectedAssetBean.asset_id = asset_id;
+//                                        asset_object asset_object = get_asset_object(asset_id);
+//                                        try {
+//                                            amount = (Double) affected_asset.get("amount");
+//                                            affectedAssetBean.amount = amount;
+//                                            resultBean.aseet_amount = (amount > 0 ? "+" : "") + amount / (Math.pow(10, asset_object.precision)) + asset_object.symbol;
+//                                        } catch (ClassCastException ea) {
+//                                            amountStr = (String) affected_asset.get("amount");
+//                                            affectedAssetBean.amount = Double.valueOf(amountStr);
+//                                            resultBean.aseet_amount = (Double.valueOf(amountStr) > 0 ? "+" : "") + Double.valueOf(amountStr) / (Math.pow(10, asset_object.precision)) + asset_object.symbol;
+//                                        }
+//                                        rawDataBean.affected_asset = affectedAssetBean;
+//                                        contractAffectedsBean.raw_data = rawDataBean;
+//                                        contractAffectedsBean.result = resultBean;
+//                                        contractAffectedsBean.result_text = accountName + " " + resultBean.aseet_amount;
+//                                    } else if (type == 1) {
+//                                        Double action = (Double) linkedTreeMap.get("action");
+//                                        String affected_item = (String) linkedTreeMap.get("affected_item");
+//                                        contractAffectedsBean.type_name = contractAffectedsBean.getTypeName(type, action);
+//                                        contractAffectedsBean.type = contractAffectedsBean.getType(type, action);
+//                                        rawDataBean.affected_item = affected_item;
+//                                        rawDataBean.action = action;
+//                                        contractAffectedsBean.raw_data = rawDataBean;
+//                                        resultBean.affected_item = affected_item;
+//                                        contractAffectedsBean.result = resultBean;
+//                                        if (action == 0) {
+//                                            contractAffectedsBean.result_text = accountName + "的NH资产 " + affected_item + " 转出";
+//                                        } else if (action == 1) {
+//                                            contractAffectedsBean.result_text = "NH资产 " + affected_item + " 转入 " + accountName;
+//                                        } else if (action == 2) {
+//                                            List<String> modifieds = (List<String>) linkedTreeMap.get("modified");
+//                                            contractAffectedsBean.raw_data.modified = modifieds;
+//                                            JsonObject stringHashMap = new JsonObject();
+//                                            stringHashMap.addProperty(modifieds.get(0), modifieds.get(1));
+//                                            contractAffectedsBean.result.modified = stringHashMap.toString();
+//                                            contractAffectedsBean.result_text = accountName + "的NH资产 " + affected_item + " 修改数据 ";
+//                                        } else if (action == 3) {
+//                                            contractAffectedsBean.result_text = accountName + " 创建了NH资产 " + affected_item;
+//                                        } else if (action == 4) {
+//                                            if (null == caller) {
+//                                                contractAffectedsBean.result_text = accountName + " 拥有NH资产 " + affected_item;
+//                                            } else {
+//                                                String callerName = get_account_name_by_id_sync(caller.toString());
+//                                                contractAffectedsBean.result_text = callerName + " 创建了NH资产 " + affected_item + ",该拥有者是 " + accountName;
+//                                            }
+//                                        }
+//                                        contractAffectedsBean.result_text = action == 0 ? accountName + " 的NH资产 " + affected_item + " 转出" : "NH资产 " + affected_item + " 转入 " + accountName;
+//                                    } else if (type == 2) {
+//
+//
+//                                    } else if (type == 3) {
+//                                        String message = (String) linkedTreeMap.get("message");
+//                                        rawDataBean.message = message;
+//                                        resultBean.message = message;
+//                                        contractAffectedsBean.raw_data = rawDataBean;
+//                                        contractAffectedsBean.result = resultBean;
+//                                        contractAffectedsBean.result_text = affected_account + " " + message;
+//                                    }
+//                                    contract_affecteds.add(contractAffectedsBean);
+//                                }
+//                            }
+//                        }
+//                    }
                     dataBean.contract_affecteds = contract_affecteds;
                     data.add(dataBean);
                     contractCallback.data = data;
                     rspText = new ResponseData(OPERATE_SUCCESS, "success", contractCallback).toString();
                     callBack.onReceiveValue(rspText);
                 } catch (NetworkStatusException e) {
+                    rspText = new ResponseData(OPERATE_FAILED, e.getMessage(), null).toString();
+                    callBack.onReceiveValue(rspText);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     rspText = new ResponseData(OPERATE_FAILED, e.getMessage(), null).toString();
                     callBack.onReceiveValue(rspText);
                 } catch (AccountNotFoundException e) {

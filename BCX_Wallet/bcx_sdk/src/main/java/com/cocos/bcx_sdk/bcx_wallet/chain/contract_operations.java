@@ -14,6 +14,6 @@ public class contract_operations {
     public object_id<contract_object> contract_id;
     public String function_name;
     public List<List<Object>> value_list;
-    public Set<types.void_t> extensions;
+//    public Set<types.void_t> extensions;
 
 }

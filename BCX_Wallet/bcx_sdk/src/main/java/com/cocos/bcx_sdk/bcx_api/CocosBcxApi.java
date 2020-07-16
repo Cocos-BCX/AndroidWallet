@@ -1924,6 +1924,9 @@ public class CocosBcxApi {
     public block_info get_block(String nBlockNumber) throws NetworkStatusException {
         return mWebSocketApi.get_block(nBlockNumber);
     }
+    public Object getBlockNumber(String nBlockNumber) throws NetworkStatusException {
+        return mWebSocketApi.getBlockNumber(nBlockNumber);
+    }
 
     /**
      * get transaction in block info

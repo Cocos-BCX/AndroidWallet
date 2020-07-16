@@ -11,6 +11,16 @@ public class transaction_in_block_info {
     private String trx_in_block;
     private String trx_hash;
 
+    @Override
+    public String toString() {
+        return "transaction_in_block_info{" +
+                "id='" + id + '\'' +
+                ", block_num=" + block_num +
+                ", trx_in_block='" + trx_in_block + '\'' +
+                ", trx_hash='" + trx_hash + '\'' +
+                '}';
+    }
+
     public String getId() {
         return id;
     }

@@ -10,8 +10,9 @@ public class contract_callback {
 
     public int code;
     public TrxDataBean trx_data;
-    public List<DataBean> data;
+//    public List<DataBean> data;
 
+    public List<RecallbackJsModel> data;
     public static class TrxDataBean {
         public String trx_id;
         public long block_num;
