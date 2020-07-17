@@ -18,6 +18,7 @@ import com.cocos.library_base.utils.SPUtils;
 import com.cocos.library_base.utils.ToastUtils;
 import com.cocos.library_base.utils.Utils;
 import com.cocos.library_base.utils.singleton.GsonSingleInstance;
+import com.cocos.library_base.utils.singleton.MainHandler;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -55,7 +56,7 @@ public class NodeConnectUtil {
      */
     public static void requestNodeListData(Context context) {
         try {
-
+            SPUtils.putBoolean(context, "loadComplete", false);
             Observable<NodeInfoModel> observable = BaseUrlApi.getApiBaseService().getNodeInfo();
             HttpMethods.toSubscribe(observable, new BaseObserver<NodeInfoModel>() {
                 @Override
@@ -96,18 +97,20 @@ public class NodeConnectUtil {
                                 }, context);
                                 return;
                             } else {
-                                // 之前有选中的节点
-                                init(selectedNodeModel, s -> {
-                                    BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
-                                    if (resultEntity.isSuccess()) {
-                                        SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, selectedNodeModel);
-                                        SPUtils.putString(context, SPKeyGlobal.NET_TYPE, selectedNodeModel.type);
-                                        Log.i("init_node_connect---2", s + ":" + selectedNodeModel.ws);
+                                if (selectedNodeModel.name.equals(dataBean.name)) {
+                                    // 之前有选中的节点
+                                    init(selectedNodeModel, s -> {
+                                        BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(s, BaseResult.class);
+                                        if (resultEntity.isSuccess()) {
+                                            SPUtils.putObject(context, SPKeyGlobal.NODE_WORK_MODEL_SELECTED, selectedNodeModel);
+                                            SPUtils.putString(context, SPKeyGlobal.NET_TYPE, selectedNodeModel.type);
+                                            Log.i("init_node_connect---2", s + ":" + selectedNodeModel.ws);
 
-                                    } else {
-                                        ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
-                                    }
-                                }, context);
+                                        } else {
+                                            ToastUtils.showShort(Utils.getString(R.string.module_mine_node_connect_failed));
+                                        }
+                                    }, context);
+                                }
                             }
                         }
                     }
@@ -154,23 +157,25 @@ public class NodeConnectUtil {
     private static boolean canT = true;
     private static void init(final NodeInfoModel.DataBean dataBean, IBcxCallBack iBcxCallBack, Context context) {
         // 初始化bcx节点连接|
-        Log.d("请求数据处理==","桑少丽");
         List<String> nodeUrls = new ArrayList<>();
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
         nodeUrls.add(dataBean.ws);
-        CocosBcxApiWrapper.getBcxInstance().connect(Utils.getContext(), dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, iBcxCallBack);
-
-        if (canT) {
-            SPUtils.putBoolean(context, "loadComplete", true);
-            EventBus.getDefault().post(new Object());
-            canT = false;
-        }
-        new Handler().postDelayed(new Runnable() {
+        CocosBcxApiWrapper.getBcxInstance().connect(Utils.getContext(), dataBean.chainId, nodeUrls, dataBean.faucetUrl, dataBean.coreAsset, true, new IBcxCallBack() {
             @Override
-            public void run() {
-                canT = true;
+            public void onReceiveValue(String value) {
+                iBcxCallBack.onReceiveValue(value);
+                BaseResult resultEntity = GsonSingleInstance.getGsonInstance().fromJson(value, BaseResult.class);
+                if (canT) {
+                    SPUtils.putBoolean(context, "loadComplete", true);
+                    EventBus.getDefault().post(new Object());
+                    canT = false;
+                    MainHandler.getInstance().postDelayed(() -> canT = true,2000);
+                }
             }
-        },2000);
+        });
+
+
+
     }
 }

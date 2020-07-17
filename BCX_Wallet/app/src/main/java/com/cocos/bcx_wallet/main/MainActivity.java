@@ -20,6 +20,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
 import com.cocos.bcx_sdk.bcx_callback.IBcxCallBack;
+import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.adapter.MainViewPagerAdapter;
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     BaseInvokeModel baseInvokeModel;
     private boolean isFirst = true;
     private long runIntent;
-    private String TAG = "加载数据===";
+    private String TAG = "拉起加载数据===";
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -82,16 +83,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     public void initData() {
+        requested = false;
         //初始化Fragment
         initFragment();
         binding.assetRb.setOnClickListener(this);
         binding.foundRb.setOnClickListener(this);
         binding.mineRb.setOnClickListener(this);
-        boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
-        if (loadComplete) {
-            parseInvokeIntent();
-            SPUtils.putBoolean(this, "loadComplete", false);
-        }
+        initIntent(getIntent());
     }
 
     private void initFragment() {
@@ -164,19 +162,21 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         runIntent = System.currentTimeMillis();
         setIntent(intent);
         initIntent(intent);
-        parseInvokeIntent();
 
-        Log.d("重新获取==", baseInvokeModel != null ? baseInvokeModel.toString() + "" : "sss");
+
     }
+
+    private boolean requested = false;
 
     //数据请求成功
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(Object event) {
-        Log.d("请求数据了===", "sss");
+        requested = true;
         boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
         if (loadComplete) {
-            parseInvokeIntent();
             SPUtils.putBoolean(this, "loadComplete", false);
+            parseInvokeIntent();
+
         }
     }
 
@@ -184,35 +184,30 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-
-        boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
-        if (loadComplete) {
-            parseInvokeIntent();
-            SPUtils.putBoolean(this, "loadComplete", false);
-        }
+        initIntent(intent);
     }
 
     private void initIntent(Intent intent) {
         if (intent == null) return;
-        BaseInvokeModel baseInvokeModel = new BaseInvokeModel();
-        baseInvokeModel.setPackageName(intent.getStringExtra("packageName"));
-        baseInvokeModel.setClassName(intent.getStringExtra("className"));
-        baseInvokeModel.setAppName(intent.getStringExtra("appName"));
-        baseInvokeModel.setAction(intent.getStringExtra("action"));
+        Bundle bundle = intent.getExtras();
+        if (null == bundle) {
+            return;
+        }
+        this.baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
+        boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
+        if (loadComplete) {
+            SPUtils.putBoolean(this, "loadComplete", false);
+            parseInvokeIntent();
+        }
+
+
     }
 
     private void parseInvokeIntent() {
         try {
             Intent intent = getIntent();
-            Bundle bundle = intent.getExtras();
-            if (null == bundle) {
-                return;
-            }
-            baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
 
-            if (null != baseInvokeModel) {
-                Log.d(TAG, "方法===" + baseInvokeModel.toString());
+            if ((null != baseInvokeModel && baseInvokeModel.getAppName() != null) && requested) {
                 String param = baseInvokeModel.getParam();
                 Bundle bundle1 = new Bundle();
                 switch (baseInvokeModel.getAction()) {
@@ -318,8 +313,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                     default:
                         throw new IllegalStateException("Unexpected value: " + baseInvokeModel.getAction());
                 }
-                intent.removeExtra(IntentKeyGlobal.INVOKE_SENDER_INFO);
             }
+            baseInvokeModel = null;
         } catch (Exception e) {
             Log.i("parseInvokeIntent-e", e.getMessage());
         }

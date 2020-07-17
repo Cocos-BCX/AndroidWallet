@@ -87,8 +87,6 @@ public class AccountDao {
      * @return
      */
     public List<String> queryAccountNamesByChainId() {
-        Log.d("是否为null====",CocosBcxApiWrapper.chainId+"");
-        if (CocosBcxApiWrapper.chainId==null) return null;
         Cursor cursor = mDatabase.query(AccountEntry.TABLE_NAME, null, AccountEntry.COLUMN_CHAINID + " = ?", new String[]{CocosBcxApiWrapper.chainId}, null, null, null, null);
 //        String existSql = "select * from "+AccountEntry.TABLE_NAME+" where "+AccountEntry.COLUMN_CHAINID+"=? ";
 //        Cursor cursor = mDatabase.rawQuery(existSql, new String[]{CocosBcxApiWrapper.chainId});

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.cocos.bcx_sdk.bcx_log.LogUtils;
 import com.cocos.bcx_wallet.BR;
 import com.cocos.bcx_wallet.R;
 import com.cocos.bcx_wallet.databinding.ActivityWelcomeBinding;
@@ -14,6 +15,7 @@ import com.cocos.library_base.invokedpages.model.BaseInvokeModel;
 import com.cocos.library_base.base.BaseViewModel;
 import com.cocos.library_base.global.IntentKeyGlobal;
 import com.cocos.library_base.router.RouterActivityPath;
+import com.cocos.library_base.utils.SPUtils;
 
 /**
  * @author ningkang.guo
@@ -34,18 +36,35 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding, BaseVi
     @SuppressLint("CheckResult")
     @Override
     public void initData() {
+
+        initIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        initIntent(intent);
+    }
+
+    private void initIntent(Intent intent) {
         try {
-            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
             BaseInvokeModel baseInvokeModel = new BaseInvokeModel();
-            baseInvokeModel.setPackageName(intent.getStringExtra("packageName"));
-            baseInvokeModel.setClassName(intent.getStringExtra("className"));
-            baseInvokeModel.setAppName(intent.getStringExtra("appName"));
-            baseInvokeModel.setAction(intent.getStringExtra("action"));
+            if (bundle != null) {
+                baseInvokeModel.setPackageName(bundle.getString("packageName"));
+                baseInvokeModel.setClassName(bundle.getString("className"));
+                baseInvokeModel.setAppName(bundle.getString("appName"));
+                baseInvokeModel.setAction(bundle.getString("action"));
+            } else {
+                bundle = new Bundle();
+            }
             Uri uri = intent.getData();
             if (uri != null) {
                 baseInvokeModel.setParam(uri.getQueryParameter("param"));
             }
-            Bundle bundle = new Bundle();
+//            Bundle bundle = new Bundle();
+            SPUtils.putBoolean(this, "loadComplete", true);
             bundle.putSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO, baseInvokeModel);
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).with(bundle).navigation();
             finish();

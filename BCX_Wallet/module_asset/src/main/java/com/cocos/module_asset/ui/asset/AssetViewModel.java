@@ -227,6 +227,7 @@ public class AssetViewModel extends BaseViewModel {
     }
 
     private void get_asset_detail(final AllAssetBalanceModel.DataBean dataBean) {
+        if (dataBean==null) return;
         try {
             CocosBcxApiWrapper.getBcxInstance().lookup_asset_symbols(dataBean.getAsset_id(), new IBcxCallBack() {
                 @Override

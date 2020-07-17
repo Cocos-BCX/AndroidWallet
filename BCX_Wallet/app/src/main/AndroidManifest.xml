@@ -35,7 +35,7 @@
         tools:targetApi="n">
         <activity
             android:name=".launch.WelcomeActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/ThemeSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

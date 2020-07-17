@@ -177,6 +177,7 @@ public class CocosBcxApiWrapper {
         if (null == proxy || null == accountDao || null == cocosBcxApi) {
             init(context);
         }
+        LogUtils.d("拉起 链接=",CocosBcxApiWrapper.chainId+"");
         proxy.execute(new Runnable() {
             @Override
             public void run() {
@@ -331,7 +332,6 @@ public class CocosBcxApiWrapper {
             public void run() {
                 try {
                     List<String> names = accountDao.queryAccountNamesByChainId();
-                    if (names == null) return;
                     StringBuilder stringBuilder = new StringBuilder();
                     if (null != names && names.size() > 0) {
                         for (String name : names) {
