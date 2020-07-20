@@ -177,7 +177,6 @@ public class CocosBcxApiWrapper {
         if (null == proxy || null == accountDao || null == cocosBcxApi) {
             init(context);
         }
-        LogUtils.d("拉起 链接=",CocosBcxApiWrapper.chainId+"");
         proxy.execute(new Runnable() {
             @Override
             public void run() {

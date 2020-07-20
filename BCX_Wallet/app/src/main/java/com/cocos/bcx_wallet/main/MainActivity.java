@@ -203,10 +203,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         if (uri != null) {
             baseInvokeModel.setParam(uri.getQueryParameter("param"));
         }
-        LogUtils.d("拉起==数据",baseInvokeModel.toString());
-//        this.baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
         boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
-        if (isNewIntent) {
+        if (isNewIntent||loadComplete) {
             SPUtils.putBoolean(this, "loadComplete", false);
             parseInvokeIntent();
         }
