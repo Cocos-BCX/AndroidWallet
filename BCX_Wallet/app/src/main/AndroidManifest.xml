@@ -42,16 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="wallet.com"
-                    android:scheme="cocosbcx" />
-            </intent-filter>
         </activity>
 
         <provider
@@ -66,7 +56,18 @@
 
         <activity
             android:name=".main.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="wallet.com"
+                    android:scheme="cocosbcx" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".wxapi.WXEntryActivity"

@@ -3,6 +3,7 @@ package com.cocos.bcx_wallet.main;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
@@ -89,7 +90,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         binding.assetRb.setOnClickListener(this);
         binding.foundRb.setOnClickListener(this);
         binding.mineRb.setOnClickListener(this);
-        initIntent(getIntent());
+        initIntent(getIntent(),false);
     }
 
     private void initFragment() {
@@ -161,7 +162,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         super.onNewIntent(intent);
         runIntent = System.currentTimeMillis();
         setIntent(intent);
-        initIntent(intent);
+        initIntent(intent,true);
 
 
     }
@@ -184,18 +185,28 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
-        initIntent(intent);
     }
 
-    private void initIntent(Intent intent) {
+    private void initIntent(Intent intent,boolean isNewIntent) {
         if (intent == null) return;
         Bundle bundle = intent.getExtras();
-        if (null == bundle) {
-            return;
+        baseInvokeModel = new BaseInvokeModel();
+        if (bundle != null) {
+            baseInvokeModel.setPackageName(bundle.getString("packageName"));
+            baseInvokeModel.setClassName(bundle.getString("className"));
+            baseInvokeModel.setAppName(bundle.getString("appName"));
+            baseInvokeModel.setAction(bundle.getString("action"));
+        } else {
+            bundle = new Bundle();
         }
-        this.baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
+        Uri uri = intent.getData();
+        if (uri != null) {
+            baseInvokeModel.setParam(uri.getQueryParameter("param"));
+        }
+        LogUtils.d("拉起==数据",baseInvokeModel.toString());
+//        this.baseInvokeModel = (BaseInvokeModel) bundle.getSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO);
         boolean loadComplete = SPUtils.getBoolean(this, "loadComplete", false);
-        if (loadComplete) {
+        if (isNewIntent) {
             SPUtils.putBoolean(this, "loadComplete", false);
             parseInvokeIntent();
         }
@@ -322,7 +333,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     private void showAccountNotExistDialog(BaseInvokeModel baseInvokeModel, BaseInfo baseInfo) {
         bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
-        DialogAuthorAccountNotExistBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_author_account_not_exist, null, false);
+         DialogAuthorAccountNotExistBinding binding = DataBindingUtil.inflate(LayoutInflater.from(Utils.getContext()), R.layout.dialog_author_account_not_exist, null, false);
         bottomSheetDialog.setContentView(binding.getRoot());
         // 设置dialog 完全显示
         View parent = (View) binding.getRoot().getParent();

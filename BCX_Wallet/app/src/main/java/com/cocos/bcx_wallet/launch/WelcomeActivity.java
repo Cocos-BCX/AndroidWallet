@@ -49,24 +49,24 @@ public class WelcomeActivity extends BaseActivity<ActivityWelcomeBinding, BaseVi
 
     private void initIntent(Intent intent) {
         try {
-            Bundle bundle = intent.getExtras();
-            BaseInvokeModel baseInvokeModel = new BaseInvokeModel();
-            if (bundle != null) {
-                baseInvokeModel.setPackageName(bundle.getString("packageName"));
-                baseInvokeModel.setClassName(bundle.getString("className"));
-                baseInvokeModel.setAppName(bundle.getString("appName"));
-                baseInvokeModel.setAction(bundle.getString("action"));
-            } else {
-                bundle = new Bundle();
-            }
-            Uri uri = intent.getData();
-            if (uri != null) {
-                baseInvokeModel.setParam(uri.getQueryParameter("param"));
-            }
-//            Bundle bundle = new Bundle();
-            SPUtils.putBoolean(this, "loadComplete", true);
-            bundle.putSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO, baseInvokeModel);
-            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).with(bundle).navigation();
+//            Bundle bundle = intent.getExtras();
+//            BaseInvokeModel baseInvokeModel = new BaseInvokeModel();
+//            if (bundle != null) {
+//                baseInvokeModel.setPackageName(bundle.getString("packageName"));
+//                baseInvokeModel.setClassName(bundle.getString("className"));
+//                baseInvokeModel.setAppName(bundle.getString("appName"));
+//                baseInvokeModel.setAction(bundle.getString("action"));
+//            } else {
+//                bundle = new Bundle();
+//            }
+//            Uri uri = intent.getData();
+//            if (uri != null) {
+//                baseInvokeModel.setParam(uri.getQueryParameter("param"));
+//            }
+////            Bundle bundle = new Bundle();
+//            SPUtils.putBoolean(this, "loadComplete", true);
+//            bundle.putSerializable(IntentKeyGlobal.INVOKE_SENDER_INFO, baseInvokeModel);
+            ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
             finish();
         } catch (Exception e) {
             ARouter.getInstance().build(RouterActivityPath.ACTIVITY_MAIN_PATH).navigation();
