@@ -2076,13 +2076,14 @@ public class CocosBcxApiWrapper {
      * @throws NetworkStatusException
      */
     public void get_account_history(final String accountName, final int nLimit,
+                                    final String endId,
                                     final IBcxCallBack callBack) {
         proxy.execute(new Runnable() {
             @Override
             public void run() {
                 List<operation_history_object> listHistoryObject = null;
                 try {
-                    listHistoryObject = cocosBcxApi.get_account_history(accountName, nLimit);
+                    listHistoryObject = cocosBcxApi.get_account_history(accountName, nLimit,endId);
                     rspText = new ResponseData(OPERATE_SUCCESS, "success", listHistoryObject).toString();
                     callBack.onReceiveValue(rspText);
                 } catch (NetworkStatusException e) {

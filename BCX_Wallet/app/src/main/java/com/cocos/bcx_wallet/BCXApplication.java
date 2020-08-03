@@ -2,6 +2,7 @@ package com.cocos.bcx_wallet;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -14,6 +15,12 @@ import com.cocos.library_base.utils.HttpUtils;
 import com.cocos.library_base.utils.KLog;
 import com.cocos.library_base.utils.multi_language.LocalManageUtil;
 import com.cocos.library_base.utils.node.NodeConnectUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
@@ -24,7 +31,40 @@ import com.umeng.socialize.PlatformConfig;
  */
 public class BCXApplication extends BaseApplication {
 
+    static {//使用static代码段可以防止内存泄漏
 
+        //设置全局默认配置（优先级最低，会被其他设置覆盖）
+        SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
+            @Override
+            public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
+                //开始设置全局的基本参数（可以被下面的DefaultRefreshHeaderCreator覆盖）
+                layout.setEnableAutoLoadMore(false);
+                layout.setEnableOverScrollDrag(true);
+                layout.setEnableOverScrollBounce(true);
+                layout.setEnableLoadMoreWhenContentNotFull(true);
+                layout.setEnableScrollContentWhenRefreshed(true);
+            }
+        });
+
+        //全局设置默认的 Header
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            //开始设置全局的基本参数（这里设置的属性只跟下面的MaterialHeader绑定，其他Header不会生效，能覆盖DefaultRefreshInitializer的属性和Xml设置的属性）
+            layout.setEnableHeaderTranslationContent(true);
+            ClassicsHeader classicsHeader = new ClassicsHeader(context);
+            classicsHeader.setFinishDuration(0);//设置Footer 的 “刷新完成” 显示时间为0
+
+            classicsHeader.setEnableLastTime(false);
+            return classicsHeader;
+        });
+        //设置全局默认的Footer
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
+            ClassicsFooter classicsFooter = new ClassicsFooter(context);
+            classicsFooter.setFinishDuration(0);//设置Footer 的 “加载完成” 显示时间为0
+            classicsFooter.setSpinnerStyle(SpinnerStyle.Translate);
+            classicsFooter.setNoMoreData(false);
+            return classicsFooter;
+        });
+    }
     @Override
     protected void attachBaseContext(Context base) {
         //保存系统选择语言

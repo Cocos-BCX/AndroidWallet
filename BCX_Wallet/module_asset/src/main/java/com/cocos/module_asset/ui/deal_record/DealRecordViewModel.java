@@ -40,6 +40,7 @@ import com.cocos.module_asset.entity.DealRecordModel;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
@@ -137,10 +138,34 @@ public class DealRecordViewModel extends BaseViewModel {
 
     public final BindingRecyclerViewAdapter<DealRecordItemViewModel> adapter = new BindingRecyclerViewAdapter<>();
 
-    public void requestDealRecordList() {
+    public String lastId;
+
+    public LoadListener loadListener;
+
+    public void setLoadListener(LoadListener loadListener) {
+        this.loadListener = loadListener;
+    }
+    private List<DealRecordModel.DealRecordItemModel> mList = new ArrayList<>();
+    public void requestDealRecordList(final LoadType loadType) {
         try {
             showDialog();
-            CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 100, new IBcxCallBack() {
+//
+            String endId = "1.11.0";
+            if (loadType == LoadType.REFRESH) {
+                endId = "1.11.0";
+            } else {
+                StringBuffer stringBuffer = new StringBuffer();
+                stringBuffer.append("1.11.");
+                if (lastId != null) {
+                    String replace = lastId.replace("1.11.", "");
+                    long l = Long.parseLong(replace);
+                    stringBuffer.append(l + 1);
+                } else {
+                    stringBuffer.append(0);
+                }
+                endId = stringBuffer.toString();
+            }
+            CocosBcxApiWrapper.getBcxInstance().get_account_history(accountName.get(), 10, endId, new IBcxCallBack() {
                 @Override
                 public void onReceiveValue(final String value) {
                     MainHandler.getInstance().post(new Runnable() {
@@ -148,15 +173,42 @@ public class DealRecordViewModel extends BaseViewModel {
                         public void run() {
                             Log.i("get_account_history", value);
                             DealRecordModel dealRecordModel = global_config_object.getInstance().getGsonBuilder().create().fromJson(value, DealRecordModel.class);
-                            observableList.clear();
+                            if (loadType == LoadType.REFRESH) {
+                                observableList.clear();
+                                mList.clear();
+                            }
                             if (!dealRecordModel.isSuccess() || dealRecordModel.data.size() <= 0) {
                                 return;
                             }
-                            for (DealRecordModel.DealRecordItemModel recordItemModel : dealRecordModel.getData()) {
+                            List<DealRecordModel.DealRecordItemModel> data = dealRecordModel.getData();
+                            for (DealRecordModel.DealRecordItemModel recordItemModel : data) {
                                 double option = (double) recordItemModel.op.get(0);
                                 if (option == 0 || option == 35 || option == 42) {
                                     DealRecordItemViewModel itemViewModel = new DealRecordItemViewModel(DealRecordViewModel.this, recordItemModel);
-                                    observableList.add(itemViewModel);
+                                    if (!mList.contains(recordItemModel)) {
+                                        observableList.add(itemViewModel);
+                                        mList.add(recordItemModel);
+                                    }
+                                }
+                            }
+                            if (loadType == LoadType.REFRESH) {
+                                if (data.size() == 10) {
+                                    lastId = data.get(9).id;
+                                    if (loadListener != null)
+                                        loadListener.onFinishRefresh(false);
+                                } else {
+                                    if (loadListener != null)
+                                        loadListener.onFinishRefresh(true);
+                                }
+
+                            } else {
+                                if (loadListener != null) {
+                                    if (data.size() < 10) {
+                                        loadListener.onFinishLoad(true);
+                                    } else {
+                                        loadListener.onFinishLoad(false);
+                                        lastId = data.get(9).id;
+                                    }
                                 }
                             }
                             dismissDialog();
@@ -165,9 +217,27 @@ public class DealRecordViewModel extends BaseViewModel {
                 }
             });
         } catch (Exception e) {
+            if (loadType == LoadType.REFRESH) {
+                if (loadListener != null)
+                    loadListener.onFinishRefresh(true);
+
+            } else {
+                loadListener.onFinishLoad(true);
+            }
         }
     }
 
+    public enum LoadType {
+        REFRESH,
+        ONLOAD
+    }
+
+    public interface LoadListener {
+        void onFinishRefresh(boolean isAllData);
+
+        void onFinishLoad(boolean isAllData);
+
+    }
 
     public void requestAssetsListData() {
         try {

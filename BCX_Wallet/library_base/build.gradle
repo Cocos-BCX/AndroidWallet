@@ -125,7 +125,7 @@ dependencies {
 
     // ptr-load-more
     api 'in.srain.cube:ptr-load-more:1.0.6'
-
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
     //sdk imp
     // implenment websocket
 //    api 'com.neovisionaries:nv-websocket-client:2.6'

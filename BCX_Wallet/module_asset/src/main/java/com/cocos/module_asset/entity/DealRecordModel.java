@@ -7,6 +7,7 @@ import com.cocos.library_base.entity.BaseResult;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +32,19 @@ public class DealRecordModel extends BaseResult {
         public List<Object> op;
         public List<Object> result;
         public Drawable drawableImg;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof DealRecordItemModel)) return false;
+            DealRecordItemModel that = (DealRecordItemModel) o;
+            return id.equals(that.id);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id);
+        }
     }
 
     public static class OpBean implements Serializable {

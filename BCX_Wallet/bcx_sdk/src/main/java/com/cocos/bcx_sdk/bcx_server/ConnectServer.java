@@ -669,7 +669,9 @@ public class ConnectServer extends WebSocketListener {
      * @return
      * @throws NetworkStatusException
      */
-    public List<operation_history_object> get_account_history(object_id<account_object> accountId, object_id<operation_history_object> startId, int nLimit) throws NetworkStatusException {
+    public List<operation_history_object> get_account_history(object_id<account_object> accountId,
+                                                              object_id<operation_history_object> startId,
+                                                              int nLimit, String endId) throws NetworkStatusException {
         Call callObject = new Call();
         callObject.id = mnCallId.getAndIncrement();
         callObject.method = "call";
@@ -681,9 +683,8 @@ public class ConnectServer extends WebSocketListener {
         listAccountHistoryParam.add(accountId);
         listAccountHistoryParam.add(startId);
         listAccountHistoryParam.add(nLimit);
-        listAccountHistoryParam.add("1.11.0");
+        listAccountHistoryParam.add(endId);
         callObject.params.add(listAccountHistoryParam);
-
         ReplyObjectProcess<Reply<List<operation_history_object>>> replyObject = new ReplyObjectProcess<>(new TypeToken<Reply<List<operation_history_object>>>() {
         }.getType());
         Reply<List<operation_history_object>> replyAccountHistory = sendForReply(callObject, replyObject);
