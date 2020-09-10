@@ -230,6 +230,7 @@ public class JsWebViewActivity extends BaseActivity<ActivityJsWebviewBindingImpl
                 if (mInjection) {
                     return;
                 }
+                Log.d("加载了==",url);
                 if (url.endsWith(".js") || url.endsWith(".css")) {
                     onCocosJsLocal();
                     mInjection = true;

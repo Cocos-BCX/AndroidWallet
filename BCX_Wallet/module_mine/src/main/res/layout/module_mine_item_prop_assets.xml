@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -25,11 +26,13 @@
         android:paddingRight="@dimen/dp_12"
         android:paddingBottom="@dimen/dp_13"
         binding:onClickCommand="@{viewModel.itemClick}">
-
+<!--  android:src="@{viewModel.nhAssetIcon}"-->
         <ImageView
             android:layout_width="@dimen/dp_44"
             android:layout_height="@dimen/dp_44"
-            android:src="@{viewModel.nhAssetIcon}" />
+            url="@{viewModel.url}"
+            placeholderRes="@{viewModel.nhAssetIcon"
+           />
 
         <RelativeLayout
             android:layout_width="match_parent"

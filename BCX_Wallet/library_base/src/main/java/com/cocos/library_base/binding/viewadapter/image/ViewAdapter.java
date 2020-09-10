@@ -15,14 +15,12 @@ import com.cocos.library_base.utils.Utils;
  */
 public final class ViewAdapter {
     @BindingAdapter(value = {"url", "placeholderRes"}, requireAll = false)
-    public static void setImageUri(ImageView imageView, String url, int placeholderRes) {
+    public static void setImageUri(ImageView imageView, Object url, int placeholderRes) {
         try {
-            if (!TextUtils.isEmpty(url)) {
-                Glide.with(Utils.getContext())
-                        .load(url)
-                        .apply(new RequestOptions().placeholder(placeholderRes))
-                        .into(imageView);
-            }
+            Glide.with(Utils.getContext())
+                    .load(url)
+                    .apply(new RequestOptions().placeholder(placeholderRes))
+                    .into(imageView);
         } catch (Exception e) {
             Log.i("setImageUri--error", e.getMessage());
         }

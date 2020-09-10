@@ -5,6 +5,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 
 import com.cocos.bcx_sdk.bcx_api.CocosBcxApiWrapper;
@@ -65,7 +66,6 @@ public class NHAssetViewModel extends BaseViewModel {
                             }
                             return;
                         }
-
                         if (NHAssetModel.data.size() <= 0 && page > 1) {
                             if (null != ptrFrameLayout) {
                                 ptrFrameLayout.refreshComplete();
@@ -80,6 +80,7 @@ public class NHAssetViewModel extends BaseViewModel {
                             }
                             return;
                         }
+
                         for (com.cocos.module_mine.entity.NHAssetModel.NHAssetModelBean assetModelBean : NHAssetModel.data) {
                             NHAssetItemViewModel itemViewModel = new NHAssetItemViewModel(NHAssetViewModel.this, assetModelBean);
                             observableList.add(itemViewModel);

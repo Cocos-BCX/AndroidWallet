@@ -32,6 +32,8 @@ public class NHAssetModel extends BaseResult {
         public List<Object> child;
         public List<Object> describe_with_contract;
         public List<Object> limit_list;
+
+
     }
 
 }
