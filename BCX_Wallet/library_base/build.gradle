@@ -80,7 +80,8 @@ dependencies {
 
     // module
     api project(':bcx_sdk')
-//    api 'com.cocosbcx.androidsdk:bcx_sdk:1.3.3'
+//    api 'com.github.Cocos-BCX:AndroidSdk:V-2.2.1'
+//    api 'com.cocos.bcx_sdk:AndroidSdk:2.2.2'
     api project(':library_res')
 
     //network

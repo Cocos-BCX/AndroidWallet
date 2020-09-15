@@ -15,7 +15,7 @@ public class NHUserInfoModel {
      * token_id : 1.3.10
      */
 
-    private int liquidity;
+    private long liquidity;
     private String name;
     private String icon;
     private String type;
@@ -23,11 +23,11 @@ public class NHUserInfoModel {
     private int version;
     private String token_id;
 
-    public int getLiquidity() {
+    public long getLiquidity() {
         return liquidity;
     }
 
-    public void setLiquidity(int liquidity) {
+    public void setLiquidity(long liquidity) {
         this.liquidity = liquidity;
     }
 

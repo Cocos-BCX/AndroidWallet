@@ -670,8 +670,8 @@ public class ConnectServer extends WebSocketListener {
      * @throws NetworkStatusException
      */
     public List<operation_history_object> get_account_history(object_id<account_object> accountId,
-                                                              object_id<operation_history_object> startId,
-                                                              int nLimit, String endId) throws NetworkStatusException {
+                                                                object_id<operation_history_object> startId,
+                                                                int nLimit, String endId) throws NetworkStatusException {
         Call callObject = new Call();
         callObject.id = mnCallId.getAndIncrement();
         callObject.method = "call";
@@ -951,7 +951,7 @@ public class ConnectServer extends WebSocketListener {
         nhparams.add(world_view_name_or_ids);
         nhparams.add(pageSize);
         nhparams.add(page);
-        nhparams.add(4);
+        nhparams.add(3);
         callObject.params.add(nhparams);
 
         ReplyObjectProcess<Reply<List<Object>>> replyObject = new ReplyObjectProcess<>(new com.google.gson.reflect.TypeToken<Reply<List<Object>>>() {
