@@ -96,7 +96,7 @@ public class SaleNHAssetActivity extends BaseActivity<ActivitySaleNhassetBinding
             public void onFinish(final String password) {
                 try {
                     Log.i("saleMemo", saleAssetParamsModel.getOrderMemo());
-                    Double aDouble = Double.valueOf(saleAssetParamsModel.getPriceAmount()) * 0.1;
+                    Double aDouble = Double.valueOf(saleAssetParamsModel.getPriceAmount()) * 0;
                     CocosBcxApiWrapper.getBcxInstance().create_nh_asset_order("otcaccount", AccountHelperUtils.getCurrentAccountName(),
                             password, saleAssetParamsModel.getNhAssetId(), aDouble.toString(),
                             "COCOS", saleAssetParamsModel.getOrderMemo(), saleAssetParamsModel.getPriceAmount(),
