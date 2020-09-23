@@ -143,6 +143,6 @@
     <string name="order_manage_text">订单管理</string>
     <string name="module_mine_reset_password_success">重置成功</string>
     <string name="module_mine_node_switching">正在切换</string>
-    <string name="module_mine_hint_money">需要支付10%手续费</string>
+    <string name="module_mine_hint_money">不需要支付手续费</string>
 
 </resources>
